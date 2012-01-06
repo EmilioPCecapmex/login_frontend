@@ -25,6 +25,11 @@ export const Login = () => {
     handleCloseAppsModal();
     }, 100);
     
+   if(localStorage.getItem("jwtToken") !==null)
+     { localStorage.clear();}
+
+    
+    
   }, [])
   
   const navigate = useNavigate();

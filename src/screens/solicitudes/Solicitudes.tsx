@@ -23,6 +23,11 @@ import {
   Checkbox,
   Badge,
   Tooltip,
+  Grid,
+  Hidden,
+  Container,
+  ListItem,
+  ListItemText,
 } from "@mui/material";
 import Swal from "sweetalert2";
 import { Header } from "../../components/header";
@@ -37,7 +42,9 @@ import CircularProgress from '@mui/material/CircularProgress';
 import moment from 'moment';
 import { imprimirSolicitud } from "../Users/Users";
 import { TimerCounter } from "../../components/timer/timer";
-
+import { COLOR } from "../styles/colors";
+import VerSolicitudesModal from "./VerSolicitudesModal";
+import CloseIcon from '@mui/icons-material/Close';
 export const Solicitudes = () => {
   const [solicitudes, setSolicitudes] = useState<Array<ISolicitud>>([]);
 
@@ -55,7 +62,7 @@ export const Solicitudes = () => {
     ApellidoMaterno: "",
     NombreUsuario: "",
     CorreoElectronico: "",
-    Puesto:"",
+    Puesto: "",
     Curp: "",
     Rfc: "",
     Telefono: "",
@@ -80,7 +87,7 @@ export const Solicitudes = () => {
       ApellidoMaterno: "",
       NombreUsuario: "",
       CorreoElectronico: "",
-      Puesto:"",
+      Puesto: "",
       Curp: "",
       Rfc: "",
       Telefono: "",
@@ -96,7 +103,7 @@ export const Solicitudes = () => {
       ApellidoMaterno: false,
       NombreUsuario: false,
       CorreoElectronico: false,
-      Puesto:false,
+      Puesto: false,
       Curp: false,
       Rfc: false,
       Telefono: false,
@@ -107,11 +114,14 @@ export const Solicitudes = () => {
 
   const [apps, setApps] = useState<Array<IApps>>([]);
   const [idApp, setIdApp] = useState("");
-  
+
 
   const [solicitudSeleccionada, setSolicitudSeleccionada] = useState("");
 
   const [openComments, setOpenComments] = useState(false);
+
+  const [openVerSolicitud, setOpenVerSolicitud] = useState(false);
+
   const handleCloseComments = () => {
     setOpenComments(false);
   };
@@ -175,7 +185,7 @@ export const Solicitudes = () => {
 
     // process.env.REACT_APP_APPLICATION_DEV + 
     axios
-      .put(process.env.REACT_APP_APPLICATION_DEV +"/api/solicitud-transaction", {
+      .put(process.env.REACT_APP_APPLICATION_DEV + "/api/solicitud-transaction", {
 
         IdUsuario: localStorage.getItem("IdUsuario"),
         IdSolicitud: detalleSolicitud[0].Id,
@@ -198,7 +208,7 @@ export const Solicitudes = () => {
           }
           else
             setSelectedIndex(-1);
-            filtroXApp(idApp);
+          filtroXApp(idApp);
           getSolicitudes();
 
           if ((estado === "2" || estado === "3") && comentario !== "") {
@@ -291,13 +301,13 @@ export const Solicitudes = () => {
       });
   }
 
-  const [IdSolicitud,setIdSolicitud]=useState("");
+  const [IdSolicitud, setIdSolicitud] = useState("");
 
   const getDatosDocumento = () => {
     axios
-      .get( process.env.REACT_APP_APPLICATION_DEV +"/api/docSolicitudActualUsuario", {
+      .get(process.env.REACT_APP_APPLICATION_DEV + "/api/docSolicitudActualUsuario", {
         params: {
-          IdSolicitud : IdSolicitud
+          IdSolicitud: IdSolicitud
         },
         headers: {
           Authorization: localStorage.getItem("jwtToken") || "",
@@ -306,7 +316,7 @@ export const Solicitudes = () => {
       .then((r) => {
         if (r.status === 200) {
           imprimirSolicitud(r.data.result[0][0]);
-        }else{
+        } else {
           Toast.fire({
             icon: "error",
             title: "Error al imprimir la solicitud!",
@@ -327,12 +337,16 @@ export const Solicitudes = () => {
 
   const [adminPlataforma, setAdminPlataforma] = useState(false);
   const [puedeFirmar, setPuedeFirmar] = useState(false);
-  const [comentCount,setComentCount]=useState(0);
+  const [comentCount, setComentCount] = useState(0);
+  /////////////////////// modal de Ver Solicitudes
+  const [openVerSolicitudesModal, setOpenVerSolicitudesModal] = useState(false);
 
+
+  ///////////////////
   const getComentarios = () => {
     axios({
       method: "get",
-      url: process.env.REACT_APP_APPLICATION_DEV +"/api/comentarios-solicitudes",
+      url: process.env.REACT_APP_APPLICATION_DEV + "/api/comentarios-solicitudes",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",
@@ -388,9 +402,9 @@ export const Solicitudes = () => {
 
       (detalleSolicitud[0].CorreoElectronico === detalleUsuario.CorreoElectronico) ?
         auxiliar.CorreoElectronico = false : auxiliar.CorreoElectronico = true;
-      
+
       (detalleSolicitud[0].Puesto === detalleUsuario.Puesto) ?
-      auxiliar.Puesto = false : auxiliar.Puesto = true;
+        auxiliar.Puesto = false : auxiliar.Puesto = true;
 
       (detalleSolicitud[0].Celular === detalleUsuario.Celular) ?
         auxiliar.Celular = false : auxiliar.Celular = true;
@@ -411,7 +425,7 @@ export const Solicitudes = () => {
     }
     setPuedeFirmar(false);
     setAdminPlataforma(false);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [detalleUsuario])
 
   const checkCambios = () => {
@@ -424,7 +438,7 @@ export const Solicitudes = () => {
         ApellidoPaterno: false,
         ApellidoMaterno: false,
         NombreUsuario: false,
-        Puesto:false,
+        Puesto: false,
         CorreoElectronico: false,
         Curp: false,
         Rfc: false,
@@ -436,20 +450,21 @@ export const Solicitudes = () => {
     }
   }
 
+
   useEffect(() => {
+
     if (selectedIndex >= 0) {
       setSolicitudSeleccionada(solicitudesFiltered[selectedIndex].Id)
       getDetalleSolicitud();
       getComentarios();
     }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIndex]);
-
   useEffect(() => {
     if (detalleSolicitud[0]?.NombreUsuario)
       checkCambios();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [detalleSolicitud[0]]);
 
   const [openDialogImpDoc, setOpenDialogImpDoc] = useState(false);
@@ -475,914 +490,718 @@ export const Solicitudes = () => {
 
   const [comentario, setComentario] = useState("");
 
+
+
+
   return (
-    <Box
-      sx={{
-        height: "100vh",
-        width: "100vw",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
+
+    <>
+
       <Header />
-      <Box sx={{display:"flex",justifyContent:"flex-end"}}>
-        <TimerCounter />
-      </Box>
+      <TimerCounter />
+
       <CommentsDialog open={openComments} close={handleCloseComments} solicitud={solicitudSeleccionada} />
-      <Box
-        sx={{
-          height: "90vh",
-          width: "100vw",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Box
+
+      <Grid container justifyContent="center"  >
+        <Grid item xs={12}
           sx={{
-            height: "95%",
+            height: "100%",
             width: "95%",
-            border: "1px solid #b3afaf",
+            // border: "1px solid #b3afaf",
             borderRadius: 5,
-            backgroundColor: "#E4E4E4",
-            display: "flex",
-          }}
-        >
-          {/* Lateral  filtro y lista de informacion*/}
-          <Box
-            sx={{
-              width: "30%",
-              height: "100%",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Box
-              sx={{
-                width: "95%",
-                height: "15%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <FormControl
-                fullWidth
-                sx={{ bgcolor: "#fff", borderRadius: ".4vw", boxShadow: "15" }}
+            // backgroundColor: "#E4E4E4",
+          }}>
+
+          <Grid container >
+            {/* Lateral  filtro y lista de informacion*/}
+
+
+            <Hidden >
+              <Grid item xs={12} md={4}
+                sx={{ height: "80vh" }}
+                paddingLeft={.4}
+              // paddingTop={2}
               >
-                <InputLabel><Typography sx={{ fontFamily: 'MontserratBold' }}>
-                  Filtro por aplicación
-                </Typography></InputLabel>
-                <Select value={appSelectedIndex} label="Filtar---por---aplicacion" onChange={(c) =>{ filtroXApp(c.target.value); setIdApp(c.target.value);}}>
-                  <MenuItem value={""} onClick={() => setAppSelectedIndex("")}>
-                    TODAS LAS APPS
-                  </MenuItem>
-                  {apps.map((item, x) => {
-                    return (
-                      <MenuItem
-                        key={x}
-                        value={item.Id}
-                        onClick={() => {
-                          setAppSelectedIndex(item.Id);
-                        }}
-                      >
-                        {item.Nombre}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
-            </Box>
-            <Box
-              sx={{
-                width: "95%",
-                height: "79%",
-                display: "flex",
-                alignItems: "center",
-                pb: 2,
-                bgcolor: "#fff",
-                boxShadow: "15",
-                pt: 2,
-                borderRight: "solid 1px",
-                overflow: "auto",
-                borderRadius: ".4vw",
-                borderColor: "#fff",
-                "&::-webkit-scrollbar": {
-                  width: ".3vw",
-                },
-                "&::-webkit-scrollbar-thumb": {
-                  backgroundColor: "rgba(0,0,0,.5)",
-                  outline: "1px solid slategrey",
-                  borderRadius: 10,
-                },
-              }}
-            >
-              <List
-                component="nav"
-                aria-label="main mailbox folders"
-                sx={{ width: "100%", height: "100%", borderRadius: ".4vw" }}
-              >
-                <Divider />
-                {solicitudesFiltered?.map((item, x) => {
-                  if (!((solicitudesFiltered[x]?.tipoSoli.toUpperCase() === "ALTA" && solicitudesFiltered[x].Estatus === 3) || (solicitudesFiltered[x].tipoSoli?.toUpperCase() === "MODIFICACION" && solicitudesFiltered[x].Estatus === 3))) {
-                    return (
-                      <Box key={x}>
-                        <ListItemButton
-                          key={x}
-                          onClick={() => {
-                              itemSelected(x, item.Id);
-                          }}
+
+                <div className="div-Solicitudes" >
+
+                  <Grid container justifyContent="center" paddingBottom={2} paddingTop={1.5}>
+                    <FormControl
+                      sx={{ width: "98%", bgcolor: "#fff", borderRadius: ".4vw", boxShadow: "15" }}
+                    >
+                      <InputLabel><Typography sx={{ fontFamily: 'MontserratBold' }}>
+                        Filtro por aplicación
+                      </Typography></InputLabel>
+                      <Select value={appSelectedIndex} label="Filtar---por---aplicacion" onChange={(c) => { filtroXApp(c.target.value); setIdApp(c.target.value); }}>
+                        <MenuItem value={""} onClick={() => setAppSelectedIndex("")}>
+                          TODAS LAS APPS
+                        </MenuItem>
+                        {apps.map((item, x) => {
+                          return (
+                            <MenuItem
+                              key={x}
+                              value={item.Id}
+                              onClick={() => {
+                                setAppSelectedIndex(item.Id);
+                                setOpenVerSolicitud(true)
+                              }}
+                            >
+                              {item.Nombre}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+
+                  </Grid>
+
+                  <Grid
+                    sx={{
+                      width: "98%",
+                      height: "99%",
+                      alignItems: "center",
+                      pb: 2,
+                      bgcolor: "#fff",
+                      boxShadow: "15",
+                      pt: 2,
+                      borderRight: "solid 1px",
+                      overflow: "scroll ",
+                      borderRadius: "15px",
+                      borderColor: "#fff",
+                      "&::-webkit-scrollbar": {
+                        width: ".3vw",
+                      },
+                      "&::-webkit-scrollbar-thumb": {
+                        backgroundColor: "rgba(0,0,0,.5)",
+                        outline: "1px solid slategrey",
+                        borderRadius: 10,
+                      },
+                    }}
+                  >
+                    <List
+                      component="nav"
+                      aria-label="main mailbox folders"
+                    >
+                      <Divider />
+                      {solicitudesFiltered?.map((item, x) => {
+                        if (!((solicitudesFiltered[x]?.tipoSoli.toUpperCase() === "ALTA" && solicitudesFiltered[x].Estatus === 3) || (solicitudesFiltered[x].tipoSoli?.toUpperCase() === "MODIFICACION" && solicitudesFiltered[x].Estatus === 3))) {
+                          return (
+                            <Grid key={x} >
+                              <ListItemButton
+                                key={x}
+                                onClick={() => {
+                                  itemSelected(x, item.Id);
+                                  setOpenVerSolicitudesModal(true);
+                                }}
+                                sx={{
+
+                                  pl: 2,
+                                  "&.Mui-selected ": {
+                                    backgroundColor: "#c4a57b",
+                                  },
+                                  "&.Mui-selected:hover": {
+                                    backgroundColor: "#cbcbcb",
+                                  },
+                                }}
+                                selected={selectedIndex === x ? true : false}
+                              >
+                                <Grid
+                                  container
+                                  direction="column"
+                                  justifyContent="center"
+                                  alignItems="center"
+                                >
+
+                                  <Grid item container xs={12} >
+                                    <Grid item xs={12} md={6}>
+                                      <Typography className="h6" color="text.primary">
+                                        {"NOMBRE: "}
+                                        <label className="textoNormal">
+                                          {item.NombreUsuario.toUpperCase()}
+                                        </label>
+                                      </Typography>
+
+                                    </Grid>
+
+                                    <Grid item xs={12} md={6}>
+                                      <Typography className="h6" color="text.primary" >
+                                        {"FECHA: "}
+                                        <label className="textoNormal">
+                                          {moment(item.FechaDeCreacion, moment.ISO_8601).format("DD/MM/YYYY HH:mm:SS").toString()}
+                                        </label>
+                                      </Typography>
+                                    </Grid>
+                                  </Grid>
+
+                                  <Grid container item xs={12} md={6}>
+                                    <Typography className="h6" color="text.primary" >
+                                      {"APLICACIÓN: "}
+                                      <label className="textoNormal">
+                                        {item.AppNombre.toUpperCase()}
+                                      </label>
+                                    </Typography>
+                                  </Grid>
+
+
+                                  <Grid container item xs={12} md={6}>
+                                    <Typography className="h6" color="text.primary" >
+                                      {"SOLICITANTE: "}
+                                      <label className="textoNormal">
+                                        {item.NombreSolicitante.toUpperCase()}
+                                      </label>
+                                    </Typography>
+                                  </Grid>
+
+                                  <Grid container item xs={12} md={6}>
+                                    <Typography className="h6" color="text.primary" >
+                                      {"TIPO DE SOLICITUD: "}
+                                      <label className="textoNormal">
+                                        {item?.tipoSoli.toUpperCase()}
+                                      </label>
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+
+                              </ListItemButton>
+                              <Divider />
+                            </Grid>
+                          );
+                        }
+
+                      })}
+                    </List>
+                  </Grid>
+                </div>
+              </Grid>
+
+            </Hidden>
+
+
+
+
+            <Hidden mdUp >
+              <Dialog fullScreen open={openVerSolicitudesModal}>
+
+                <Grid container item xs={12} md={12} paddingBottom={2} alignItems="center" >
+                  <div className="div-VerSolicitudes" >
+                    <Grid item container direction="column" justifyContent="center" alignItems="center" >
+                      {solicitudes.length !== 0 ? (
+                        <Grid paddingLeft={2} container direction="column"
+                          justifyContent="center"
+                          alignItems="center"
                           sx={{
-                            pl: 2,
-                            "&.Mui-selected ": {
-                              backgroundColor: "#c4a57b",
-                            },
-                            "&.Mui-selected:hover": {
-                              backgroundColor: "#cbcbcb",
-                            },
+                            width: "100%",
+                            height: "95%",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            border: "1px solid #b3afaf",
+                            borderRadius: "15px",
+                            boxShadow: "15",
+                            bgcolor: COLOR.blanco
                           }}
-                          selected={selectedIndex === x ? true : false}
+                        >
+
+
+                          <Grid item container     justifyContent="flex-end" >
+
+                            <Hidden smUp>
+                              <Grid item container xs={10} justifyContent="center" >
+                                <IconButton
+                                  onClick={() => {
+                                    let a = selectedIndex;
+                                    a--;
+                                    if (a >= 0) {
+                                      setSelectedIndex(a);
+                                      flowSolicitudes(a);
+                                    }
+                                  }}
+                                  
+                                >
+                                   Ant.  <SkipPreviousIcon fontSize="large" />
+                               
+
+                                </IconButton>
+                                <IconButton
+                                  onClick={() => {
+                                    let a = selectedIndex;
+                                    a = a + 1;
+                                    if (a < solicitudes.length) {
+                                      setSelectedIndex(a);
+                                      flowSolicitudes(a);
+                                    }
+                                  }}
+                                >
+                                  <SkipNextIcon fontSize="large" /> Sig.
+                                </IconButton>
+                              </Grid>
+
+                            </Hidden>
+
+                            <Grid item container  justifyContent="flex-end"  xs={2}><Button
+                             className="cerrar" variant="contained" color="error" onClick={() => { setOpenVerSolicitudesModal(false); }}>
+                              <CloseIcon />
+                            </Button>
+                            </Grid>
+
+                          </Grid>
+                          {selectedIndex < 0 ?
+                            (
+                              <Box
+                                sx={{
+                                  width: "100%",
+                                  height: "100%",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  flexDirection: "column",
+                                }}
+                              >
+                                <InfoTwoToneIcon
+                                  sx={{ width: "50%", height: "50%", opacity: "20%" }}
+                                />
+                                <Typography sx={{ fontFamily: "MontserratSemiBold" }}>
+                                  Sin información
+                                </Typography>
+                                <Typography sx={{ fontFamily: "MontserratSemiBold" }}>
+                                  Seleccione un registro para visualizar la información
+                                </Typography>
+                              </Box>
+                            ) :
+                            (solicitudesFiltered[selectedIndex]?.NombreUsuario === (detalleSolicitud[0].Nombre + " " + detalleSolicitud[0].ApellidoPaterno)) ?
+
+                              <Grid container rowSpacing={3} justifyContent="space-between">
+
+                                <VerSolicitudesModal
+                                  detalleSolicitud={detalleSolicitud}
+                                  comentCount={comentCount}
+                                  onChangeInfo={onChangeInfo}
+                                  detalleUsuario={detalleUsuario}
+                                  solicitudSeleccionada={solicitudSeleccionada} />
+
+                                <Grid item container xs={12} direction="row"
+                                  justifyContent="space-between"
+                                  alignItems="center"   >
+
+
+                                  {/* {solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() === "ALTA" || solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() === "MODIFICACION" ?
+                                    <> */}
+                                  <Grid item container xs={6} sm={4} md={3} justifyContent="center">
+
+                                    <FormControlLabel control={<Checkbox
+                                      disabled={solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "ALTA" && solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "MODIFICACION"}
+
+                                      checked={puedeFirmar} onChange={() => { setPuedeFirmar(!puedeFirmar) }} />} label="Permiso para firmar" />
+                                  </Grid>
+                                  <Grid item container xs={6} sm={4} md={3} justifyContent="center">
+
+                                    <FormControlLabel control={<Checkbox
+                                      disabled={solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "ALTA" && solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "MODIFICACION"}
+
+                                      checked={adminPlataforma} onChange={() => { setAdminPlataforma(!adminPlataforma) }} />} label="Admin. de plataforma" />
+                                  </Grid>
+
+
+                                  <Grid item container xs={12} sm={4} md={3} justifyContent="center">
+                                    <Button
+                                      disabled={solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "ALTA" && solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "MODIFICACION"}
+
+                                      className="Solicitudes-aceptar-usuario" variant="contained" color="info" onClick={() => { setOpenDialogModificar(true); }}>Solicitar modificar</Button>
+                                  </Grid>
+                                  {/* </>
+                                    :
+                                    null} */}
+
+                                  <Grid item container
+                                    paddingTop={1}
+                                    paddingBottom={2}
+                                    direction="row"
+                                    justifyContent="space-evenly"
+                                    alignItems="center">
+
+                                    <Grid item xs={3}>
+
+                                      <Button fullWidth variant="contained" color="primary" onClick={() => { setOpenDialogAceptar(true); }}>Aceptar</Button>
+                                    </Grid>
+                                    <Grid item xs={3}>
+
+                                      <Button fullWidth variant="contained" color="error" onClick={() => { setOpenDialogRechazar(true); }}>Rechazar</Button>
+
+                                    </Grid>
+
+                                    <Hidden smDown>
+                                      <Grid item container xs={12} justifyContent="center" >
+                                        <IconButton
+                                          onClick={() => {
+                                            let a = selectedIndex;
+                                            a--;
+                                            if (a >= 0) {
+                                              setSelectedIndex(a);
+                                              flowSolicitudes(a);
+                                            }
+                                          }}
+                                        >
+                                          <SkipPreviousIcon fontSize="large" />
+                                        </IconButton>
+                                        <IconButton
+                                          onClick={() => {
+                                            let a = selectedIndex;
+                                            a = a + 1;
+                                            if (a < solicitudes.length) {
+                                              setSelectedIndex(a);
+                                              flowSolicitudes(a);
+                                            }
+                                          }}
+                                        >
+                                          <SkipNextIcon fontSize="large" />
+                                        </IconButton>
+                                      </Grid>
+                                    </Hidden>
+                                  </Grid>
+                                </Grid>
+                              </Grid>
+
+                              : <CircularProgress />
+                          }
+                        </Grid>
+
+                      ) : (
+                        <Box
+                          sx={{
+                            // width: "70%",
+                            // height: "100%",
+                            bgcolor: "#ECE8DA",
+                            borderRadius: "15px",
+                            opacity: "80%",
+                            display: "flex",
+                            alignItems: "flex-end",
+                            justifyContent: "center",
+                            flexDirection: "column",
+                            boxShadow: "15",
+
+                          }}
                         >
                           <Box
                             sx={{
+                              // width: "100%",
+                              // height: "80%",
                               display: "flex",
-                              width: "100%",
-                              flexDirection: 'column'
+                              alignItems: "center",
+                              justifyContent: "center",
+                              flexDirection: "column",
+
                             }}
                           >
-
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                              <Box sx={{ display: 'flex', width: '60%', alignItems: 'center' }}>
-                                <Typography
-                                  sx={{
-                                    display: "inline",
-                                    fontFamily: "MontserratSemiBold",
-                                  }}
-                                  color="text.primary"
-                                >
-                                  {"NOMBRE:"}
-                                </Typography>
-                                <Typography
-                                  sx={{
-                                    fontFamily: "MontserratMedium",
-                                    ml: 1,
-                                    fontSize: ".8rem",
-                                  }}
-                                >
-                                  {item.NombreUsuario.toUpperCase()}
-                                </Typography>
-                              </Box>
-
-                              <Box sx={{ display: 'flex', width: '40%', justifyContent: 'flex-end' }}>
-                                <Typography
-                                  sx={{
-                                    display: "inline",
-                                    fontFamily: "MontserratSemiBold",
-                                    fontSize: '.6vw'
-                                  }}
-                                  color="text.primary"
-                                >
-                                  {"Fecha:"}
-                                </Typography>
-                                <Typography
-                                  sx={{
-                                    fontFamily: "MontserratMedium",
-                                    ml: 1,
-                                    fontSize: '.6vw'
-                                  }}
-                                >
-                                  {moment(item.FechaDeCreacion, moment.ISO_8601)
-                                    .format("DD/MM/YYYY HH:mm:SS")
-                                    .toString()}
-                                </Typography>
-                              </Box>
-
-
-                            </Box>
-
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                              <Typography
-                                sx={{
-                                  display: "inline",
-                                  fontFamily: "MontserratSemiBold"
-                                }}
-                                color="text.primary"
-                              >
-                                {"APLICACIÓN:"}
-                              </Typography>
-                              <Typography
-                                sx={{
-                                  fontFamily: "MontserratMedium",
-                                  ml: 1,
-                                  fontSize: ".8rem",
-                                }}
-                              >
-                                {item.AppNombre.toUpperCase()}
-                              </Typography>
-                            </Box>
-
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                              <Typography
-                                sx={{
-                                  display: "inline",
-                                  fontFamily: "MontserratSemiBold",
-                                }}
-                                color="text.primary"
-                              >
-                                {"SOLICITANTE:"}
-                              </Typography>
-                              <Typography
-                                sx={{
-                                  fontFamily: "MontserratMedium",
-                                  ml: 1,
-                                  fontSize: ".8rem",
-                                }}
-                              >
-                                {item.NombreSolicitante.toUpperCase()}
-                              </Typography>
-                            </Box>
-
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                              <Typography
-                                sx={{
-                                  display: "inline",
-                                  fontFamily: "MontserratSemiBold",
-                                }}
-                                color="text.primary"
-                              >
-                                {"TIPO DE SOLICITUD:"}
-                              </Typography>
-                              <Typography
-                                sx={{
-                                  fontFamily: "MontserratMedium",
-                                  ml: 1,
-                                  fontSize: ".8rem",
-                                }}
-                              >
-                                {item?.tipoSoli.toUpperCase()}
-                              </Typography>
-                            </Box>
+                            <InfoTwoToneIcon
+                              sx={{ width: "100%", height: "80%", opacity: "20%" }}
+                            />
+                            <Typography fontFamily="MontserratBold">
+                              Sin información
+                            </Typography>
+                            <Typography fontFamily="MontserratBold">
+                              Seleccione un registro para visualizar la información
+                            </Typography>
                           </Box>
+                        </Box>
 
-                        </ListItemButton>
-                        <Divider />
-                      </Box>
-                    );
-                  }
+                      )}
+                    </Grid>
+                  </div>
+                </Grid>
+                </Dialog>
 
-                })}
-              </List>
-            </Box>
-          </Box>
+            </Hidden>
 
-          {solicitudes.length !== 0 ? (
-            <Box
-              sx={{
-                width: "70%",
-                height: "100%",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Box
-                sx={{
-                  width: "90%",
-                  height: "95%",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  border: "1px solid #b3afaf",
-                  borderRadius: "15px",
-                  boxShadow: "15",
-                }}
-              >
-
-                <Box
-                  sx={{
-                    width: "100%",
-                    height: "100%",
-                    bgcolor: "#fff",
-                    borderRadius: "15px",
-                    opacity: "80%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                    boxShadow: "15",
-                  }}
-                >
-                  {selectedIndex < 0 ?
-                    (
-                      <Box
-                        sx={{
-                          width: "100%",
-                          height: "80%",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          flexDirection: "column",
-                        }}
-                      >
-                        <InfoTwoToneIcon
-                          sx={{ width: "100%", height: "80%", opacity: "20%" }}
-                        />
-                        <Typography sx={{ fontFamily: "MontserratSemiBold" }}>
-                          Sin información
-                        </Typography>
-                        <Typography sx={{ fontFamily: "MontserratSemiBold" }}>
-                          Seleccione un registro para visualizar la información
-                        </Typography>
-                      </Box>
-                    ) :
-                    (solicitudesFiltered[selectedIndex]?.NombreUsuario === (detalleSolicitud[0].Nombre + " " + detalleSolicitud[0].ApellidoPaterno)) ?
-
-                      <Box
+            <Hidden mdDown >
+              <Grid container item xs={12} md={8} paddingBottom={2} justifyContent="center" alignItems="center" >
+                <div className="div-VerSolicitudes" >
+                  <Grid item container direction="column" justifyContent="center" alignItems="center" >
+                    {solicitudes.length !== 0 ? (
+                      <Grid paddingLeft={2} container direction="column"
+                        justifyContent="center"
+                        alignItems="center"
                         sx={{
                           width: "98%",
                           height: "95%",
                           display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
                           flexDirection: "column",
-                          bgcolor: "#fff",
+                          alignItems: "center",
+                          border: "1px solid #b3afaf",
                           borderRadius: "15px",
+                          boxShadow: "15",
+                          bgcolor: COLOR.blanco
                         }}
                       >
 
+                        {selectedIndex < 0 ?
+                          (
+                            <Box
+                              sx={{
+                                width: "100%",
+                                height: "80%",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                flexDirection: "column",
+                              }}
+                            >
+                              <InfoTwoToneIcon
+                                sx={{ width: "50%", height: "50%", opacity: "20%" }}
+                              />
+                              <Typography sx={{ fontFamily: "MontserratSemiBold" }}>
+                                Sin información
+                              </Typography>
+                              <Typography sx={{ fontFamily: "MontserratSemiBold" }}>
+                                Seleccione un registro para visualizar la información
+                              </Typography>
+                            </Box>
+                          ) :
+                          (solicitudesFiltered[selectedIndex]?.NombreUsuario === (detalleSolicitud[0].Nombre + " " + detalleSolicitud[0].ApellidoPaterno)) ?
+
+                            <Grid container paddingLeft={3} paddingTop={3} paddingRight={3} rowSpacing={3} justifyContent="space-between">
+
+                              <VerSolicitudesModal
+                                detalleSolicitud={detalleSolicitud}
+                                comentCount={comentCount}
+                                onChangeInfo={onChangeInfo}
+                                detalleUsuario={detalleUsuario}
+                                solicitudSeleccionada={solicitudSeleccionada} />
+
+                              <Grid item container xs={12} direction="row"
+                                justifyContent="space-between"
+                                alignItems="center"   >
+
+
+                                {/* {solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() === "ALTA" || solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() === "MODIFICACION" ?
+                                  <> */}
+                                <Grid item container xs={6} md={3} justifyContent="center">
+
+                                  <FormControlLabel control={<Checkbox
+                                    disabled={solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "ALTA" && solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "MODIFICACION"}
+
+                                    checked={puedeFirmar} onChange={() => { setPuedeFirmar(!puedeFirmar) }} />} label="Permiso para firmar" />
+                                </Grid>
+                                <Grid item container xs={6} md={3} justifyContent="center">
+
+                                  <FormControlLabel control={<Checkbox
+                                    disabled={solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "ALTA" && solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "MODIFICACION"}
+                                    checked={adminPlataforma} onChange={() => { setAdminPlataforma(!adminPlataforma) }} />} label="Admin. de plataforma" />
+                                </Grid>
+
+
+                                <Grid item container xs={12} md={4} justifyContent="center">
+                                  <Button
+                                    disabled={solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "ALTA" && solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "MODIFICACION"}
+                                    className="Solicitudes-aceptar-usuario" variant="contained" color="info" onClick={() => { setOpenDialogModificar(true); }}>Solicitar modificar</Button>
+                                </Grid>
+                                {/* </>
+                                  :
+                                  null} */}
+
+                                <Grid item container
+                                  direction="row"
+                                  justifyContent="space-evenly"
+                                  alignItems="center">
+                                  <Grid container item xs={12} paddingTop={2} justifyContent="space-evenly">
+                                    <Grid item xs={2}>
+
+                                      <Button fullWidth variant="contained" color="primary" onClick={() => { setOpenDialogAceptar(true); }}>Aceptar</Button>
+                                    </Grid>
+                                    <Grid item xs={2}>
+
+                                      <Button fullWidth variant="contained" color="error" onClick={() => { setOpenDialogRechazar(true); }}>Rechazar</Button>
+
+                                    </Grid>
+                                  </Grid>
+                                  <Grid item container xs={12} paddingTop={2} justifyContent="center">
+
+                                    <IconButton
+                                      onClick={() => {
+                                        let a = selectedIndex;
+                                        a--;
+                                        if (a >= 0) {
+                                          setSelectedIndex(a);
+                                          flowSolicitudes(a);
+                                        }
+                                      }}
+                                    >
+                                      <SkipPreviousIcon fontSize="large" />
+                                    </IconButton>
+                                    <IconButton
+                                      onClick={() => {
+                                        let a = selectedIndex;
+                                        a = a + 1;
+                                        if (a < solicitudes.length) {
+                                          setSelectedIndex(a);
+                                          flowSolicitudes(a);
+                                        }
+                                      }}
+                                    >
+                                      <SkipNextIcon fontSize="large" />
+                                    </IconButton>
+                                  </Grid>
+                                </Grid>
+
+                              </Grid>
+
+                            </Grid>
+
+                            : <CircularProgress />
+                        }
+                      </Grid>
+
+                    ) : (
+                      <Box
+                        sx={{
+                          // width: "70%",
+                          // height: "100%",
+                          bgcolor: "#ECE8DA",
+                          borderRadius: "15px",
+                          opacity: "80%",
+                          display: "flex",
+                          alignItems: "flex-end",
+                          justifyContent: "center",
+                          flexDirection: "column",
+                          boxShadow: "15",
+
+                        }}
+                      >
                         <Box
                           sx={{
-                            width: "98%",
-                            height: "95%",
+                            // width: "100%",
+                            // height: "80%",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
                             flexDirection: "column",
+
                           }}
                         >
-                          <Box
-                            sx={{
-                              width: "90%",
-                              height: "15%",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <TextField
-                              label={
-                                <Typography
-                                  sx={{ fontFamily: "MontserratSemiBold" }}
-                                >
-                                  Aplicación
-                                </Typography>
-                              }
-                              InputLabelProps={{}}
-                              InputProps={{ readOnly: true }}
-                              sx={{
-                                fontFamily: "MontserratSemiBold",
-                                fontSize: "1.5vw",
-                                width: "32.5%", bgcolor: null
-                              }}
-                              value={detalleSolicitud[0]?.NombreApp || ""}
-                              variant="standard"
-                              
-                            />
-                            <TextField
-                              label={
-                                <Typography
-                                  sx={{ fontFamily: "MontserratSemiBold" }}
-                                >
-                                  SOLICITADO POR
-                                </Typography>
-                              }
-                              sx={{
-                                fontFamily: "MontserratSemiBold",
-                                fontSize: "1.5vw",
-                                width: "30%",
-                              }}
-                              value={detalleSolicitud[0]?.NombreSolicitante || ""}
-                              variant="standard"
-                            />
-                            <TextField
-                              label={
-                                <Typography
-                                  sx={{ fontFamily: "MontserratSemiBold" }}
-                                >
-                                  FECHA DE REGISTRO
-                                </Typography>
-                              }
-                              InputProps={{ readOnly: true }}
-                              sx={{
-                                fontFamily: "MontserratSemiBold",
-                                fontSize: "1.5vw",
-                                width: "13.5%",
-                              }}
-                              value={detalleSolicitud[0]?.FechaDeCreacion.split("T")[0]}
-                              variant="standard"
-                            />
-
-                            <Box sx={{ width: "4%" }}>
-                              <Tooltip title="Ver comentarios">
-                                <Badge badgeContent={comentCount} color="primary">
-                                  <IconButton onClick={() => setOpenComments(true)}
-                                    sx={[
-                                      {
-                                        "&:hover": {
-                                          color: "#c4a57b",
-                                        },
-                                      },
-                                    ]}>
-                                    <CommentIcon fontSize="large" />
-                                  </IconButton>
-                                </Badge>
-                              </Tooltip>
-
-                            </Box>
-                          </Box>
-                          <Box
-                            sx={{
-                              width: "90%",
-                              height: "15%",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <TextField
-                              label={
-                                <Typography
-                                  sx={{ fontFamily: "MontserratSemiBold" }}
-                                >
-                                  NOMBRE(S)
-                                </Typography>
-                              }
-                              InputProps={{ readOnly: true }}
-                              sx={{
-                                fontFamily: "MontserratSemiBold",
-                                fontSize: "1.5vw",
-                                width: "30%",
-                                backgroundColor: onChangeInfo.Nombre ? "#fde6a2" : null,
-                              }}
-                              value={detalleSolicitud[0]?.Nombre || ""}
-                              variant="standard"
-                              helperText={onChangeInfo.Nombre ? detalleUsuario.Nombre : null}
-                            />
-
-                            <TextField
-                              label={
-                                <Typography
-                                  sx={{ fontFamily: "MontserratSemiBold" }}
-                                >
-                                  APELLIDO PATERNO
-                                </Typography>
-                              }
-                              InputProps={{ readOnly: true }}
-                              sx={{
-                                fontFamily: "MontserratSemiBold",
-                                fontSize: "1.5vw",
-                                width: "30%",
-                                backgroundColor: onChangeInfo.ApellidoPaterno ? "#fde6a2" : null,
-                              }}
-                              value={detalleSolicitud[0]?.ApellidoPaterno || ""}
-                              variant="standard"
-                              helperText={onChangeInfo.ApellidoPaterno ? detalleUsuario.ApellidoPaterno : null}
-                            />
-
-                            <TextField
-                              label={
-                                <Typography
-                                  sx={{ fontFamily: "MontserratSemiBold" }}
-                                >
-                                  APELLIDO MATERNO
-                                </Typography>
-                              }
-                              InputProps={{ readOnly: true }}
-                              sx={{
-                                fontFamily: "MontserratSemiBold",
-                                fontSize: "1.5vw",
-                                width: "30%",
-                                backgroundColor: onChangeInfo.ApellidoMaterno ? "#fde6a2" : null,
-                              }}
-                              value={detalleSolicitud[0]?.ApellidoMaterno || ""}
-                              variant="standard"
-                              helperText={onChangeInfo.ApellidoMaterno ? detalleUsuario.ApellidoMaterno : null}
-                            />
-                             
-                          </Box>
-                          <Box
-                            sx={{
-                              width: "90%",
-                              height: "15%",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <TextField
-                              label={
-                                <Typography
-                                  sx={{ fontFamily: "MontserratSemiBold" }}
-                                >
-                                  USUARIO
-                                </Typography>
-                              }
-                              InputProps={{ readOnly: true }}
-                              sx={{
-                                fontFamily: "MontserratSemiBold",
-                                fontSize: "1.5vw",
-                                width: "20%",
-                                backgroundColor: onChangeInfo.NombreUsuario ? "#fde6a2" : null,
-                              }}
-                              value={detalleSolicitud[0]?.NombreUsuario || ""}
-                              variant="standard"
-                              helperText={onChangeInfo.NombreUsuario ? detalleUsuario.NombreUsuario : null}
-                            />
-                            <TextField
-                              label={
-                                <Typography
-                                  sx={{ fontFamily: "MontserratSemiBold" }}
-                                >
-                                  CORREO ELECTRÓNICO
-                                </Typography>
-                              }
-                              InputProps={{ readOnly: true }}
-                              sx={{
-                                fontFamily: "MontserratSemiBold",
-                                fontSize: "1.5vw",
-                                width: "24%",
-                                backgroundColor: onChangeInfo.CorreoElectronico ? "#fde6a2" : null,
-                              }}
-                              value={detalleSolicitud[0]?.CorreoElectronico || ""}
-                              variant="standard"
-                              helperText={onChangeInfo.CorreoElectronico ? detalleUsuario.CorreoElectronico : null}
-                            />
-                            <TextField
-                              label={
-                                <Typography
-                                  sx={{ fontFamily: "MontserratSemiBold" }}
-                                >
-                                  CELULAR
-                                </Typography>
-                              }
-                              InputProps={{ readOnly: true }}
-                              sx={{
-                                fontFamily: "MontserratSemiBold",
-                                fontSize: "1.5vw",
-                                width: "22%",
-                                backgroundColor: onChangeInfo.Celular ? "#fde6a2" : null,
-                              }}
-                              value={detalleSolicitud[0]?.Celular || ""}
-                              variant="standard"
-                              helperText={onChangeInfo.Celular ? detalleUsuario.Celular : null}
-                            />
-                            <TextField
-                              label={
-                                <Typography
-                                  sx={{ fontFamily: "MontserratSemiBold" }}
-                                >
-                                  PUESTO
-                                </Typography>
-                              }
-                              InputProps={{ readOnly: true }}
-                              sx={{
-                                fontFamily: "MontserratSemiBold",
-                                fontSize: "1.5vw",
-                                width: "22%",
-                                backgroundColor: onChangeInfo.Puesto ? "#fde6a2" : null,
-                              }}
-                              value={detalleSolicitud[0]?.Puesto || ""}
-                              variant="standard"
-                              helperText={onChangeInfo.Puesto ? detalleUsuario.Puesto : null}
-                            />
-                          </Box>
-                          <Box
-                            sx={{
-                              width: "90%",
-                              height: "15%",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <TextField
-                              label={
-                                <Typography
-                                  sx={{ fontFamily: "MontserratSemiBold" }}
-                                >
-                                  CURP
-                                </Typography>
-                              }
-                              InputProps={{ readOnly: true }}
-                              sx={{
-                                fontFamily: "MontserratSemiBold",
-                                fontSize: "1.5vw",
-                                width: "25%",
-                                backgroundColor: onChangeInfo.Curp ? "#fde6a2" : null,
-                              }}
-                              value={detalleSolicitud[0]?.Curp || ""}
-                              variant="standard"
-                              helperText={onChangeInfo.Curp ? detalleUsuario.Curp : null}
-                            />
-                            <TextField
-                              label={
-                                <Typography
-                                  sx={{ fontFamily: "MontserratSemiBold" }}
-                                >
-                                  RFC
-                                </Typography>
-                              }
-                              InputProps={{ readOnly: true }}
-                              sx={{
-                                fontFamily: "MontserratSemiBold",
-                                fontSize: "1.5vw",
-                                width: "25%",
-                                backgroundColor: onChangeInfo.Rfc ? "#fde6a2" : null,
-                              }}
-                              value={detalleSolicitud[0]?.Rfc || ""}
-                              variant="standard"
-                              helperText={onChangeInfo.Rfc ? detalleUsuario.Rfc : null}
-                            />
-                            <TextField
-                              label={
-                                <Typography
-                                  sx={{ fontFamily: "MontserratSemiBold" }}
-                                >
-                                  TÉLEFONO
-                                </Typography>
-                              }
-                              InputProps={{ readOnly: true }}
-                              sx={{
-                                fontFamily: "MontserratSemiBold",
-                                fontSize: "1.5vw",
-                                width: "25%",
-                                backgroundColor: onChangeInfo.Telefono ? "#fde6a2" : null,
-                              }}
-                              value={detalleSolicitud[0]?.Telefono || ""}
-                              variant="standard"
-                              helperText={onChangeInfo.Telefono ? detalleUsuario.Telefono : null}
-                            />
-                            <TextField
-                              label={
-                                <Typography
-                                  sx={{ fontFamily: "MontserratSemiBold" }}
-                                >
-                                  EXTENSIÓN
-                                </Typography>
-                              }
-                              InputProps={{ readOnly: true }}
-                              sx={{
-                                fontFamily: "MontserratSemiBold",
-                                fontSize: "1.5vw",
-                                width: "15%",
-                                backgroundColor: onChangeInfo.Ext ? "#fde6a2" : null,
-                              }}
-                              value={detalleSolicitud[0]?.Ext || ""}
-                              variant="standard"
-                              helperText={onChangeInfo.Ext ? detalleUsuario.Ext : null}
-                            />
-                          </Box>
-
-                          <Box
-                            sx={{
-                              width: "100%",
-                              height: "30%",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "space-evenly",
-                            }}
-                          >
-                            <TextField
-                              multiline
-                              rows={8}
-                              label={
-                                <Typography
-                                  sx={{ fontFamily: "MontserratSemiBold" }}
-                                >
-                                  INFORMACIÓN ADICIONAL
-                                </Typography>
-                              }
-                              sx={{
-                                fontFamily: "MontserratSemiBold",
-                                fontSize: "1.5vw",
-                                width: "90%",
-                              }}
-                              value={detalleSolicitud[0]?.DatosAdicionales || ""}
-                              variant="filled"
-                            />
-                          </Box>
-                          <Box
-                            sx={{
-                              width: "100%",
-                              height: "10%",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "flex-end", mt: "2vh"
-                            }}
-                          >
-
-                            <Box
-                              sx={{
-                                display: "flex",
-                                width: "80%",
-
-                                justifyContent: "flex-end", mr: "2vw"
-                              }}
-                            >
-                              {solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() === "ALTA" || solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() === "MODIFICACION" ?
-                                <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-evenly", width: "90%" }}>
-                                  <Box sx={{ display: "flex", flexDirection: "row", width: "65%" }}>
-
-                                    <FormControlLabel control={<Checkbox checked={puedeFirmar} onChange={() => { setPuedeFirmar(!puedeFirmar) }} />} label="Permiso para firmar" />
-                                    <FormControlLabel control={<Checkbox checked={adminPlataforma} onChange={() => { setAdminPlataforma(!adminPlataforma) }} />} label="Admin. de plataforma" />
-
-                                  </Box>
-                                  <Box sx={{ display: "flex", flexDirection: "row", width: "35%" }}>
-                                    <Button variant="contained" color="info" sx={{ fontSize: ".7vw" }} onClick={() => { setOpenDialogModificar(true); }}>Solicitar modificar</Button>
-                                  </Box>
-                                </Box>
-                                : null}
-                              <Button variant="contained" color="primary" sx={{ mr: "2vw" }} onClick={() => { setOpenDialogAceptar(true); }}>Aceptar</Button>
-                              <Button variant="contained" color="error" sx={{ mr: "2vw" }} onClick={() => { setOpenDialogRechazar(true); }}>Rechazar</Button>
-                            </Box>
-
-                            <Box
-                              sx={{ display: "flex", width: "10%", justifyContent: "flex-end", mr: "2vw" }}
-                            >
-                              <IconButton
-                                onClick={() => {
-                                  let a = selectedIndex;
-                                  a--;
-                                  if (a >= 0) {
-                                    setSelectedIndex(a);
-                                    flowSolicitudes(a);
-                                  }
-                                }}
-                              >
-                                <SkipPreviousIcon fontSize="large" />
-                              </IconButton>
-                              <IconButton
-                                onClick={() => {
-                                  let a = selectedIndex;
-                                  a = a + 1;
-                                  if (a < solicitudes.length) {
-                                    setSelectedIndex(a);
-                                    flowSolicitudes(a);
-                                  }
-                                }}
-                              >
-                                <SkipNextIcon fontSize="large" />
-                              </IconButton>
-                            </Box>
-
-                          </Box>
+                          <InfoTwoToneIcon
+                            sx={{ width: "100%", height: "80%", opacity: "20%" }}
+                          />
+                          <Typography fontFamily="MontserratBold">
+                            Sin información
+                          </Typography>
+                          <Typography fontFamily="MontserratBold">
+                            Seleccione un registro para visualizar la información
+                          </Typography>
                         </Box>
-                      </Box> : <CircularProgress />
-                  }
-                </Box>
-              </Box>
-            </Box>
-          ) : (
-            <Box
-              sx={{
-                width: "70%",
-                height: "100%",
-                bgcolor: "#ECE8DA",
-                borderRadius: "15px",
-                opacity: "80%",
-                display: "flex",
-                alignItems: "flex-end",
-                justifyContent: "center",
-                flexDirection: "column",
-                boxShadow: "15",
-              }}
-            >
-              <Box
-                sx={{
-                  width: "100%",
-                  height: "80%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexDirection: "column",
-                }}
-              >
-                <InfoTwoToneIcon
-                  sx={{ width: "100%", height: "80%", opacity: "20%" }}
-                />
-                <Typography fontFamily="MontserratBold">
-                  Sin información
-                </Typography>
-                <Typography fontFamily="MontserratBold">
-                  Seleccione un registro para visualizar la información
-                </Typography>
-              </Box>
-            </Box>
-          )}
+                      </Box>
 
+                    )}
+                  </Grid>
+                </div>
+              </Grid>
+            </Hidden>
 
-        </Box>
-      </Box>
+          </Grid>
+        </Grid>
+        {/* </Box> */}
 
-      {/* DIALOG DE OPCION RECHAZAR */}
-      <Dialog
-        open={openDialogRechazar}
-        onClose={handleCloseOpenDialogRechazar}
-      >
-        <DialogTitle >
-          Confirmación
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText >
-            ¿Seguro que desea rechazar la solicitud para {solicitudesFiltered[selectedIndex]?.tipoSoli} de {detalleSolicitud[0]?.Nombre + " " + detalleSolicitud[0]?.ApellidoPaterno}?
-          </DialogContentText>
-          <TextField
-            sx={{ width: "100%" }}
-            label="Agregar comentario"
-            placeholder="Agregue el motivo por el que se rechaza la solicitud"
-            variant="filled"
-            multiline
-            rows={3}
-            onChange={(c) => { setComentario(c.target.value) }}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button variant="contained" color="error" onClick={() => { handleCloseOpenDialogRechazar() }}>Cancelar</Button>
-          <Button disabled={comentario.length >= 10 ? false : true} variant="contained" color="primary" onClick={() => { setIdSolicitud(solicitudSeleccionada);setOpenDialogImpDoc(true); modificarSolicitud("2", solicitudesFiltered[selectedIndex]?.tipoSoli); handleCloseOpenDialogRechazar(); }}>Aceptar</Button>
-        </DialogActions>
-      </Dialog>
+        {/* DIALOG DE OPCION RECHAZAR */}
+        <Dialog
+          open={openDialogRechazar}
+          onClose={handleCloseOpenDialogRechazar}
+        >
+          <DialogTitle >
+            Confirmación
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText >
+              ¿Seguro que desea rechazar la solicitud para {solicitudesFiltered[selectedIndex]?.tipoSoli} de {detalleSolicitud[0]?.Nombre + " " + detalleSolicitud[0]?.ApellidoPaterno}?
+            </DialogContentText>
+            <TextField
+              sx={{ width: "100%" }}
+              label="Agregar comentario"
+              placeholder="Agregue el motivo por el que se rechaza la solicitud"
+              variant="filled"
+              multiline
+              rows={3}
+              onChange={(c) => { setComentario(c.target.value) }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button variant="contained" color="error" onClick={() => { handleCloseOpenDialogRechazar() }}>Cancelar</Button>
+            <Button disabled={comentario.length >= 10 ? false : true} variant="contained" color="primary" onClick={() => { setIdSolicitud(solicitudSeleccionada); setOpenDialogImpDoc(true); modificarSolicitud("2", solicitudesFiltered[selectedIndex]?.tipoSoli); handleCloseOpenDialogRechazar(); }}>Aceptar</Button>
+          </DialogActions>
+        </Dialog>
 
-      {/* DIALOG DE OPCION PEDIR MODIFICACION */}
+        {/* DIALOG DE OPCION PEDIR MODIFICACION */}
 
-      <Dialog
-        open={openDialogModificar}
-        onClose={handleCloseOpenDialogRechazar}
-      >
-        <DialogTitle >
-          Confirmación
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText >
-            ¿Seguro que desea pedir modificacion de la solicitud de {solicitudesFiltered[selectedIndex]?.tipoSoli} de {detalleSolicitud[0]?.Nombre + " " + detalleSolicitud[0]?.ApellidoPaterno}?
-          </DialogContentText>
-          <TextField
-            sx={{ width: "100%" }}
-            label="Agregar comentario"
-            placeholder="Agregue el motivo por el que se solicita modificacion a la solicitud"
-            variant="filled"
-            multiline
-            rows={3}
-            onChange={(c) => { setComentario(c.target.value) }}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button variant="contained" color="error" onClick={() => { handleCloseOpenDialogModificar() }}>Cancelar</Button>
-          <Button disabled={comentario.length >= 10 ? false : true} variant="contained" color="primary" onClick={() => { setIdSolicitud(solicitudSeleccionada);setOpenDialogImpDoc(true); modificarSolicitud("3", solicitudesFiltered[selectedIndex]?.tipoSoli); handleCloseOpenDialogModificar(); }}>Aceptar</Button>
-        </DialogActions>
-      </Dialog>
+        <Dialog
+          open={openDialogModificar}
+          onClose={handleCloseOpenDialogRechazar}
+        >
+          <DialogTitle >
+            Confirmación
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText >
+              ¿Seguro que desea pedir modificacion de la solicitud de {solicitudesFiltered[selectedIndex]?.tipoSoli} de {detalleSolicitud[0]?.Nombre + " " + detalleSolicitud[0]?.ApellidoPaterno}?
+            </DialogContentText>
+            <TextField
+              sx={{ width: "100%" }}
+              label="Agregar comentario"
+              placeholder="Agregue el motivo por el que se solicita modificacion a la solicitud"
+              variant="filled"
+              multiline
+              rows={3}
+              onChange={(c) => { setComentario(c.target.value) }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button variant="contained" color="error" onClick={() => { handleCloseOpenDialogModificar() }}>Cancelar</Button>
+            <Button disabled={comentario.length >= 10 ? false : true} variant="contained" color="primary" onClick={() => { setIdSolicitud(solicitudSeleccionada); setOpenDialogImpDoc(true); modificarSolicitud("3", solicitudesFiltered[selectedIndex]?.tipoSoli); handleCloseOpenDialogModificar(); }}>Aceptar</Button>
+          </DialogActions>
+        </Dialog>
 
-      {/* DIALOG DE OPCION ACEPTAR */}
+        {/* DIALOG DE OPCION ACEPTAR */}
 
-      <Dialog
-        open={openDialogAceptar}
-        onClose={handleCloseOpenDialogAceptar}
-      >
-        <DialogTitle >
-          Confirmación
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText >
-            ¿Seguro que desea aceptar la solicitud de {solicitudesFiltered[selectedIndex]?.tipoSoli} de {detalleSolicitud[0]?.Nombre + " " + detalleSolicitud[0]?.ApellidoPaterno} ?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button variant="contained" color="error" onClick={() => { handleCloseOpenDialogAceptar() }}>Cancelar</Button>
-          <Button variant="contained" color="primary" onClick={() => { setIdSolicitud(solicitudSeleccionada); modificarSolicitud("1", solicitudesFiltered[selectedIndex]?.tipoSoli);setOpenDialogImpDoc(true); handleCloseOpenDialogAceptar(); }}>Aceptar</Button>
-        </DialogActions>
-      </Dialog>
+        <Dialog
+          open={openDialogAceptar}
+          onClose={handleCloseOpenDialogAceptar}
+        >
+          <DialogTitle >
+            Confirmación
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText >
+              ¿Seguro que desea aceptar la solicitud de {solicitudesFiltered[selectedIndex]?.tipoSoli} de {detalleSolicitud[0]?.Nombre + " " + detalleSolicitud[0]?.ApellidoPaterno} ?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button variant="contained" color="error" onClick={() => { handleCloseOpenDialogAceptar() }}>Cancelar</Button>
+            <Button variant="contained" color="primary" onClick={() => { setIdSolicitud(solicitudSeleccionada); modificarSolicitud("1", solicitudesFiltered[selectedIndex]?.tipoSoli); setOpenDialogImpDoc(true); handleCloseOpenDialogAceptar(); }}>Aceptar</Button>
+          </DialogActions>
+        </Dialog>
 
-      {/* DIALOG IMPRIMIR DOCUMENTO */}
-      <Dialog
-        open={openDialogImpDoc}
-        onClose={handleCloseOpenDialogImpDoc}
-      >
-        <DialogTitle >
-          Descargar Documento
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText >
-            ¿Desea descargar la solicitud de {solicitudesFiltered[selectedIndex]?.tipoSoli} de {detalleSolicitud[0]?.Nombre + " " + detalleSolicitud[0]?.ApellidoPaterno}?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button variant="contained" color="error" onClick={() => { handleCloseOpenDialogImpDoc() }}>Cancelar</Button>
-          <Button variant="contained" color="primary" onClick={() => { getDatosDocumento(); handleCloseOpenDialogImpDoc(); }}>Aceptar</Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
+        {/* DIALOG IMPRIMIR DOCUMENTO */}
+        <Dialog
+          open={openDialogImpDoc}
+          onClose={handleCloseOpenDialogImpDoc}
+        >
+          <DialogTitle >
+            Descargar Documento
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText >
+              ¿Desea descargar la solicitud de {solicitudesFiltered[selectedIndex]?.tipoSoli} de {detalleSolicitud[0]?.Nombre + " " + detalleSolicitud[0]?.ApellidoPaterno}?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button variant="contained" color="error" onClick={() => { handleCloseOpenDialogImpDoc() }}>Cancelar</Button>
+            <Button variant="contained" color="primary" onClick={() => { getDatosDocumento(); handleCloseOpenDialogImpDoc(); }}>Aceptar</Button>
+          </DialogActions>
+        </Dialog>
+      </Grid>
+    </>
   );
 };
 
 export default Solicitudes;
+
+
+
+
+
