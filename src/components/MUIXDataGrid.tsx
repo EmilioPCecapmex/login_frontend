@@ -23,7 +23,7 @@ const localeText = {
 
 export default function MUIXDataGrid(props: any) {
 	return (
-		<div style={{ height: "70vh", width: "100%" }}>
+		<div style={{ height: "60vh", width: "100%" }}>
 			<ThemeProvider theme={theme}>
 				<DataGrid
 					localeText={localeText}
@@ -31,6 +31,7 @@ export default function MUIXDataGrid(props: any) {
 					rows={props.rows}
 					rowsPerPageOptions={[10, 25, 50, 100]}
 					pageSize={10}
+					sx={{fontFamily: 'MontserratMedium'}}
 					getRowId={props.id}
 					components={{
 						Toolbar: GridToolbar,

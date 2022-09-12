@@ -15,6 +15,7 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { IdUsuario_LS, JWT_Token } from "../funcs/validation";
 import { Usuario } from "../screens/Users/Users";
 
 export interface EditDialogProps {
@@ -59,7 +60,7 @@ export const EditDialog = (props: EditDialogProps) => {
 				ApellidoPaterno: apellidoPaterno,
 				ApellidoMaterno: apellidoMaterno,
 				EstaActivo: estaActivo ? 1 : 0,
-				IdUsuarioModificador: "afa4c9c3-2eee-11ed-aed0-040300000000",
+				IdUsuarioModificador: IdUsuario_LS,
 			};
 
 			axios({
@@ -67,9 +68,7 @@ export const EditDialog = (props: EditDialogProps) => {
 				url: "http://10.200.4.105:5000/api/user",
 				headers: {
 					"Content-Type": "application/json",
-					Authorization:
-						"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOb21icmVVc3VhcmlvIjoiUlZpbGxhcnJlYWwiLCJJZFVzdWFyaW8iOiIyOTdmNTlhMi0zMDg3LTExZWQtYWVkMC0wNDAzMDAwMDAwMDAiLCJpYXQiOjE2NjI3NjE0NTgsImV4cCI6MTY2Mjc2NDE1OH0.-4k7P-j_7WftiezDAXOIvFsyHMnOZuDC1h_9NVGiEz0",
-				},
+					Authorization: JWT_Token				},
 				data: data,
 			})
 				.then(function (response) {

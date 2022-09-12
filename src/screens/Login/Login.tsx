@@ -15,7 +15,7 @@ import { lstXl, lstLg, lstMd, lstSm, lstXs } from "./style/lst";
 import { useNavigate } from "react-router-dom";
 import AppsModal from "../../components/appsModal";
 import axios from "axios";
-import { sessionValid } from "../../funcs/validation";
+import { IdUsuario_LS, JWT_Token, sessionValid } from "../../funcs/validation";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -128,10 +128,10 @@ setModalType(type);
 
   const checkApps = () => {
     axios.post('http://10.200.4.105:5000/api/user-apps', {
-      IdUsuario: localStorage.getItem("IdUsuario")
+      IdUsuario: IdUsuario_LS
     }, {headers: {
       'Content-Type': 'application/json',
-      'authorization': localStorage.getItem("jwtToken") || ""
+      'authorization': JWT_Token
     }}).then((r) => {
       if(r.status === 200){
         const IdApps = r.data.data;

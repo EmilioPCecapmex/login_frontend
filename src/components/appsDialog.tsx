@@ -14,6 +14,7 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { JWT_Token } from "../funcs/validation";
 import { Usuario } from "../screens/Users/Users";
 
 export interface AppsDialogProps {
@@ -31,9 +32,8 @@ export const AppsDialog = (props: AppsDialogProps) => {
 			url: "http://10.200.4.105:5000/api/apps",
 			headers: {
 				"Content-Type": "application/json",
-				Authorization:
-					"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOb21icmVVc3VhcmlvIjoiUlZpbGxhcnJlYWwiLCJJZFVzdWFyaW8iOiIyOTdmNTlhMi0zMDg3LTExZWQtYWVkMC0wNDAzMDAwMDAwMDAiLCJpYXQiOjE2NjI5OTU4NTgsImV4cCI6MTY2Mjk5ODU1OH0.WLrTKu8MnPMIPl1cSv0qwhxfWOC7kCMgz95fgH-WOtk",
-			},
+				Authorization: JWT_Token
+						},
 		})
 			.then(function (response) {
 				const appsTemp = response.data.data.map((app: any) => {
@@ -63,9 +63,7 @@ export const AppsDialog = (props: AppsDialogProps) => {
 			url: "http://10.200.4.105:5000/api/user-apps",
 			headers: {
 				"Content-Type": "application/json",
-				Authorization:
-					"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOb21icmVVc3VhcmlvIjoiUlZpbGxhcnJlYWwiLCJJZFVzdWFyaW8iOiIyOTdmNTlhMi0zMDg3LTExZWQtYWVkMC0wNDAzMDAwMDAwMDAiLCJpYXQiOjE2NjI5OTU4NTgsImV4cCI6MTY2Mjk5ODU1OH0.WLrTKu8MnPMIPl1cSv0qwhxfWOC7kCMgz95fgH-WOtk",
-			},
+				Authorization: JWT_Token			},
 			data: data,
 		})
 			.then(function (response) {
@@ -114,9 +112,7 @@ export const AppsDialog = (props: AppsDialogProps) => {
 			url: "http://10.200.4.105:5000/api/manage-links",
 			headers: {
 				"Content-Type": "application/json",
-				Authorization:
-					"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOb21icmVVc3VhcmlvIjoiUlZpbGxhcnJlYWwiLCJJZFVzdWFyaW8iOiIyOTdmNTlhMi0zMDg3LTExZWQtYWVkMC0wNDAzMDAwMDAwMDAiLCJpYXQiOjE2NjI5OTU4NTgsImV4cCI6MTY2Mjk5ODU1OH0.WLrTKu8MnPMIPl1cSv0qwhxfWOC7kCMgz95fgH-WOtk",
-			},
+				Authorization: JWT_Token			},
 			data: data,
 		})
 			.then(function (response) {
@@ -141,7 +137,7 @@ export const AppsDialog = (props: AppsDialogProps) => {
 			aria-describedby="edit-dialog-description"
 		>
 			<DialogTitle id="edit-dialog-title">
-				Editar Acceso a Plataformas de Usuario {props.usuario.NombreUsuario}
+				Editar acceso a plataformas: {props.usuario.NombreUsuario}
 				<IconButton
 					aria-label="close"
 					onClick={() => props.handleAppsDialogClose()}

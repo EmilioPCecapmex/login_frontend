@@ -5,6 +5,8 @@ import Modal from "@mui/material/Modal";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { JWT_Token, IdUsuario_LS } from "../funcs/validation";
 
 export default function AppsModal({
   openM,
@@ -32,27 +34,27 @@ export default function AppsModal({
     }
   };
 
+  const navigate = useNavigate();
+
   const closeModal = () => {
     localStorage.clear();
     closeM();
   };
 
-  const [appsList, setAppsList] = useState(apps);
   const [userDetails, setUserDetails] = useState<Usuario>();
 
-  const token: string = localStorage.getItem("jwtToken") || "";
 
   useEffect(() => {
     axios
       .post(
         "http://10.200.4.105:5000/api/user-detail",
         {
-          IdUsuario: localStorage.getItem("IdUsuario"),
+          IdUsuario: IdUsuario_LS,
         },
         {
           headers: {
             "Content-Type": "application/json",
-            authorization: token,
+            'Authorization': JWT_Token,
           },
         }
       )
@@ -126,11 +128,12 @@ export default function AppsModal({
               flexWrap: "wrap",
             }}
           >
-            {Object.values(appsList).map((item) => {
+            {Object.values(apps).map((item) => {
               return (
                 <Button
                   variant="outlined"
                   key={item.IdApp}
+                  onClick={() => navigate(item.Path.toString())}
                   sx={{
                     borderColor: "#62787B",
                     width: "30%",
