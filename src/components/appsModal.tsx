@@ -5,8 +5,6 @@ import Modal from "@mui/material/Modal";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import jwt_decode from "jwt-decode";
-
 
 export default function AppsModal({
   openM,
@@ -37,36 +35,33 @@ export default function AppsModal({
   const closeModal = () => {
     localStorage.clear();
     closeM();
-
-  }
+  };
 
   const [appsList, setAppsList] = useState(apps);
   const [userDetails, setUserDetails] = useState<Usuario>();
 
-
-
-  const token : string = localStorage.getItem("jwtToken") || "";
-
+  const token: string = localStorage.getItem("jwtToken") || "";
 
   useEffect(() => {
-    axios.post('http://10.200.4.105:5000/api/user-detail', {
-      IdUsuario: localStorage.getItem("IdUsuario"),
-    }, {headers: {
-      'Content-Type': 'application/json',
-      'authorization': token
-    }}).then((r) => {
-      if(r.status === 200){
-        setUserDetails(r.data.data)
-      }
-    }).catch((error) => {
-        console.log(error)
-    })
-  }, [])
-
-  console.log(Object.values(appsList).length)
-
-  
-
+    axios
+      .post(
+        "http://10.200.4.105:5000/api/user-detail",
+        {
+          IdUsuario: localStorage.getItem("IdUsuario"),
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: token,
+          },
+        }
+      )
+      .then((r) => {
+        if (r.status === 200) {
+          setUserDetails(r.data.data);
+        }
+      });
+  }, []);
 
   return (
     <Box>
@@ -81,7 +76,7 @@ export default function AppsModal({
             height: "45vh",
             bgcolor: "background.paper",
             boxShadow: 50,
-            p: 4,
+            p: 2,
             borderRadius: 3,
           }}
         >
@@ -95,18 +90,20 @@ export default function AppsModal({
             <UseIcon v={type} />
           </Box>
           <Box sx={{ mt: "3vh" }}>
-          <Typography
+            <Typography
               sx={{
                 textAlign: "center",
                 fontFamily: "MontserratBold",
                 fontSize: "1vw",
                 color: "#808080",
               }}
-            > Bienvenido  {userDetails?.Nombre},
+            >
+              {" "}
+              Bienvenido {userDetails?.Nombre},
             </Typography>
             <Typography
               sx={{
-                mt: '1vh',
+                mt: "1vh",
                 textAlign: "center",
                 fontFamily: "MontserratMedium",
                 fontSize: ".8vw",
@@ -126,18 +123,17 @@ export default function AppsModal({
               justifyContent: "center",
               alignItems: "center",
               flexDirection: "row",
-              flexWrap: "wrap"  
-                      }}
+              flexWrap: "wrap",
+            }}
           >
-            {
-            Object.values(appsList).map((item) => {
+            {Object.values(appsList).map((item) => {
               return (
                 <Button
                   variant="outlined"
                   key={item.IdApp}
                   sx={{
                     borderColor: "#62787B",
-                    width: "20%",
+                    width: "30%",
                     height: "7vh",
                     mt: 1,
                     mr: 1,
@@ -149,9 +145,7 @@ export default function AppsModal({
                   {item.Nombre}
                 </Button>
               );
-            })
-            
-            }
+            })}
           </Box>
 
           <Box
@@ -160,8 +154,8 @@ export default function AppsModal({
               alignItems: "center",
               justifyContent: "center",
               mt: "4vh",
-              mr: '5vw',
-              ml: '5vw'
+              mr: "5vw",
+              ml: "5vw",
             }}
           >
             <Button
@@ -170,7 +164,6 @@ export default function AppsModal({
             >
               Cancelar
             </Button>
-           
           </Box>
         </Box>
       </Modal>
@@ -179,15 +172,15 @@ export default function AppsModal({
 }
 
 export interface Usuario {
-  Id:                   string;
-  Nombre:               string;
-  ApellidoPaterno:      string;
-  ApellidoMaterno:      string;
-  NombreUsuario:        string;
-  CorreoElectronico:    string;
+  Id: string;
+  Nombre: string;
+  ApellidoPaterno: string;
+  ApellidoMaterno: string;
+  NombreUsuario: string;
+  CorreoElectronico: string;
   UltimoInicioDeSesion: string;
-  EstaActivo:           number;
-  CreadoPor:            string;
-  ModificadoPor:        string;
-  Deleted:              number;
+  EstaActivo: number;
+  CreadoPor: string;
+  ModificadoPor: string;
+  Deleted: number;
 }

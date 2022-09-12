@@ -4,6 +4,8 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import WarningIcon from "@mui/icons-material/Warning";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
+
 
 export default function AlertModal({
   openM,
@@ -18,6 +20,12 @@ export default function AlertModal({
 }) {
   const UseIcon = ({ v }: { v: string }) => {
     switch (v) {
+      case "success":
+        return (
+          <DoneAllIcon
+            sx={{ width: "10vw", height: "10vh", color: "#31B214" }}
+          />
+        );
       case "warning":
         return (
           <WarningIcon
