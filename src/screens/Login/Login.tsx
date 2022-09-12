@@ -6,7 +6,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../../assets/logo.svg";
 import AlertModal from "../../components/alertModal";
 import { ls } from "./strings/st";
@@ -14,6 +14,8 @@ import "./style/Fonts.css";
 import { lstXl, lstLg, lstMd, lstSm, lstXs } from "./style/lst";
 import { useNavigate } from "react-router-dom";
 import AppsModal from "../../components/appsModal";
+import axios from "axios";
+import { sessionValid } from "../../funcs/validation";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -41,8 +43,24 @@ export const Login = () => {
   const [userInputTextColor, setUserInputTextColor] = useState("#fff");
 
   const [contrasenaInputColor, setContrasenaInputColor] = useState("#cccccc");
-  const [contrasenaTextInputColor, setContrasenaTextInputColor] =
-    useState("#fff");
+  const [contrasenaTextInputColor, setContrasenaTextInputColor] = useState("#fff");
+
+  const [openModal, setOpenModal] = useState(false);
+  const [openAppsModal, setOpenAppsModal] = useState(false);
+
+  const [appsList, setAppsList] = useState({
+    IdApp: "",
+    Nombre: "",
+    Path: "",
+  });
+
+
+  const [modalType, setModalType] = useState("");
+  const [modalText, setModalText] = useState("");
+  const handleOpenModal = () => setOpenModal(true);
+
+  const handleOpenAppsModal = () => setOpenAppsModal(true);
+  
 
   const onChangeUsuario = (v: string) => {
     setUsuario(v);
@@ -88,44 +106,93 @@ export const Login = () => {
     return yearSt;
   };
 
-  const [openModal, setOpenModal] = useState(false);
-  const [openAppsModal, setOpenAppsModal] = useState(false);
-
-  const [modalType, setModalType] = useState("");
-  const [modalText, setModalText] = useState("");
-  const handleOpenModal = () => setOpenModal(true);
-
-  const handleOpenAppsModal = () => setOpenAppsModal(true);
-
   const handleCloseModal = () => {
     setOpenModal(false);
   };
+
   const handleCloseAppsModal = () => {
     setOpenAppsModal(false);
   };
 
+  const openDialogModal = (type: string, text: string) => {
+    setModalType(type);
+    setModalText(text);
+    handleOpenModal();
+  }
+
+  const openAppModal = (type: string, text: string) => {
+setModalType(type);
+      setModalText(text);
+      handleOpenAppsModal();
+  }
+
+  const checkApps = () => {
+    axios.post('http://10.200.4.105:5000/api/user-apps', {
+      IdUsuario: localStorage.getItem("IdUsuario")
+    }, {headers: {
+      'Content-Type': 'application/json',
+      'authorization': localStorage.getItem("jwtToken") || ""
+    }}).then((r) => {
+      if(r.status === 200){
+        const IdApps = r.data.data;
+        setAppsList(IdApps)
+        openAppModal("success","tu usuario cuenta con acceso a las siguientes plataformas." )
+      }
+    }).catch((error) => {
+      if(error.response.status === 401){
+        openDialogModal("error", error.response.data.msg);
+      }
+    }) 
+  }
+
+  useEffect(() => {
+    if(localStorage.getItem("jwtToken")){
+      sessionValid().then(r => {
+        if(localStorage.getItem("validation") === "true")
+        checkApps()
+       })
+    }  
+  },[])
+
+
+  const validateCredentials = () => {
+    axios.post('http://10.200.4.105:5000/api/login', {
+      NombreUsuario: usuario,
+      Contrasena: contrasena
+    }, {headers: {
+      'Content-Type': 'application/json',
+    }}).then((r) => {
+      if(r.status === 200){
+        localStorage.setItem("IdUsuario", r.data.IdUsuario);
+        localStorage.setItem("jwtToken", r.data.token);
+        setAppsList(r.data.AppIds)
+        openAppModal("success", r.data.AppIds[0].Msg || "tu usuario cuenta con acceso a las siguientes plataformas." )
+      }
+    }).catch((error) => {
+      if(error.response.status === 401){
+        openDialogModal("error", error.response.data.msg);
+      }
+    })
+  }
+
   const signIn = () => {
     if (usuario === "" && contrasena === "") {
-      setModalType("error");
-      setModalText("Ingresa tu nombre de usuario y/o contraseña.");
-      handleOpenModal();
+      openDialogModal("error", "Ingresa tu nombre de usuario y/o contraseña.");
     } else {
-      setModalType("success");
-      setModalText(
-        "Tu usuario cuenta con acceso a las siguientes plataformas, selecciona una para continuar: "
-      );
-      handleOpenAppsModal();
+    validateCredentials()
     }
   };
 
   return (
     <Box sx={st.parentBox}>
-      <AppsModal
+      {openAppsModal ? (<AppsModal
         openM={openAppsModal}
         closeM={handleCloseAppsModal}
         type={modalType}
         text={modalText}
-      />
+        apps={appsList}
+      />) : null}
+      
       <AlertModal
         openM={openModal}
         closeM={handleCloseModal}
