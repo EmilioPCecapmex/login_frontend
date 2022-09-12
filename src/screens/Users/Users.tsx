@@ -96,11 +96,11 @@ export default function Users() {
 		if (changed === true) {
 			Toast.fire({
 				icon: "success",
-				title: "Usuario Actualizado Exitosamente",
+				title: "Plataformas de Usuario Actualizadas Exitosamente",
 			});
 			getAllUsers();
 		}
-		setEditDialogOpen(false);
+		setAppsDialogOpen(false);
 	};
 	const handleAppsBtnClick = (event: any, cellValues: any) => {
 		setAppsDialogUsuario(cellValues.row);
@@ -114,7 +114,7 @@ export default function Users() {
 			headers: {
 				"Content-Type": "application/json",
 				Authorization:
-					"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOb21icmVVc3VhcmlvIjoiUlZpbGxhcnJlYWwiLCJJZFVzdWFyaW8iOiIyOTdmNTlhMi0zMDg3LTExZWQtYWVkMC0wNDAzMDAwMDAwMDAiLCJpYXQiOjE2NjI3NjI0MzcsImV4cCI6MTY2Mjc2NTEzN30.MwYKvfVyVYi9owZ9HJ1GGd25axlLVrx7Yk9qCpuvOl0",
+					"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOb21icmVVc3VhcmlvIjoiUlZpbGxhcnJlYWwiLCJJZFVzdWFyaW8iOiIyOTdmNTlhMi0zMDg3LTExZWQtYWVkMC0wNDAzMDAwMDAwMDAiLCJpYXQiOjE2NjI5OTU4NTgsImV4cCI6MTY2Mjk5ODU1OH0.WLrTKu8MnPMIPl1cSv0qwhxfWOC7kCMgz95fgH-WOtk",
 			},
 		})
 		.then(function (response) {

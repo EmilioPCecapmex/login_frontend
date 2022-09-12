@@ -10,7 +10,6 @@ import {
 	Grid,
 	IconButton,
 	Switch,
-	TextField,
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -18,43 +17,41 @@ import Swal from "sweetalert2";
 import { Usuario } from "../screens/Users/Users";
 
 export interface AppsDialogProps {
-	appsDialogOpen: boolean
-	handleAppsDialogClose: Function
-	usuario: Usuario | any
+	appsDialogOpen: boolean;
+	handleAppsDialogClose: Function;
+	usuario: Usuario | any;
 }
 
 export const AppsDialog = (props: AppsDialogProps) => {
 	const [apps, setApps] = useState([]);
-	const [appsUser, setAppsUser] = useState([]);
 
-	const getAllApps = (appsUserTemp: any) => {
+	const getAllApps = (appsUser: any) => {
 		axios({
 			method: "get",
 			url: "http://10.200.4.105:5000/api/apps",
 			headers: {
 				"Content-Type": "application/json",
 				Authorization:
-					"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOb21icmVVc3VhcmlvIjoiUlZpbGxhcnJlYWwiLCJJZFVzdWFyaW8iOiIyOTdmNTlhMi0zMDg3LTExZWQtYWVkMC0wNDAzMDAwMDAwMDAiLCJpYXQiOjE2NjI3NjI0MzcsImV4cCI6MTY2Mjc2NTEzN30.MwYKvfVyVYi9owZ9HJ1GGd25axlLVrx7Yk9qCpuvOl0",
+					"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOb21icmVVc3VhcmlvIjoiUlZpbGxhcnJlYWwiLCJJZFVzdWFyaW8iOiIyOTdmNTlhMi0zMDg3LTExZWQtYWVkMC0wNDAzMDAwMDAwMDAiLCJpYXQiOjE2NjI5OTU4NTgsImV4cCI6MTY2Mjk5ODU1OH0.WLrTKu8MnPMIPl1cSv0qwhxfWOC7kCMgz95fgH-WOtk",
 			},
 		})
-		.then(function (response) {
-			// console.log(appsUserTemp);
-			// const array1 = ['f18ad0d4-3087-11ed-aed0-040300000000', "fa82e267-3087-11ed-aed0-040300000000"];
-			// console.log(array1.find(element => element === 'f18ad0d4-3087-11ed-aed0-04030000000') !== undefined)
-			const appsTemp = response.data.data.map( (app: any) => {
-				app.active = appsUserTemp.find((el: any) => el === app.Id) !== undefined;
-				return app;
+			.then(function (response) {
+				const appsTemp = response.data.data.map((app: any) => {
+					app.active =
+						appsUser.find((el: any) => el === app.Id) !== undefined;
+					return app;
+				});
+				setApps(appsTemp);
 			})
-			setApps(appsTemp);
-		})
-		.catch(function (error) {
-			Swal.fire({
-				icon: 'error',
-				title: 'Mensaje',
-				text: "(" + error.response.status + ") " + error.response.data.msg,
+			.catch(function (error) {
+				Swal.fire({
+					icon: "error",
+					title: "Mensaje",
+					text:
+						"(" + error.response.status + ") " + error.response.data.msg,
+				});
 			});
-		});
-	}
+	};
 
 	const getAllAppsUser = () => {
 		const data = {
@@ -67,29 +64,73 @@ export const AppsDialog = (props: AppsDialogProps) => {
 			headers: {
 				"Content-Type": "application/json",
 				Authorization:
-					"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOb21icmVVc3VhcmlvIjoiUlZpbGxhcnJlYWwiLCJJZFVzdWFyaW8iOiIyOTdmNTlhMi0zMDg3LTExZWQtYWVkMC0wNDAzMDAwMDAwMDAiLCJpYXQiOjE2NjI3NjI0MzcsImV4cCI6MTY2Mjc2NTEzN30.MwYKvfVyVYi9owZ9HJ1GGd25axlLVrx7Yk9qCpuvOl0",
+					"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOb21icmVVc3VhcmlvIjoiUlZpbGxhcnJlYWwiLCJJZFVzdWFyaW8iOiIyOTdmNTlhMi0zMDg3LTExZWQtYWVkMC0wNDAzMDAwMDAwMDAiLCJpYXQiOjE2NjI5OTU4NTgsImV4cCI6MTY2Mjk5ODU1OH0.WLrTKu8MnPMIPl1cSv0qwhxfWOC7kCMgz95fgH-WOtk",
 			},
-			data: data
+			data: data,
 		})
-		.then(function (response) {
-			const appsUserTemp = response.data.data.map((app: any) => {return app.IdApp});
-			setAppsUser(appsUserTemp);
-			getAllApps(appsUserTemp);
-		})
-		.catch(function (error) {
-			Swal.fire({
-				icon: 'error',
-				title: 'Mensaje',
-				text: "(" + error.response.status + ") " + error.response.data.msg,
+			.then(function (response) {
+				if(response.data.data){
+					const appsUser = response.data.data.map((app: any) => {
+						return app.IdApp;
+					});
+					getAllApps(appsUser);
+				} else
+					getAllApps([]);
+			})
+			.catch(function (error) {
+				Swal.fire({
+					icon: "error",
+					title: "Mensaje",
+					text:
+						"(" + error.response.status + ") " + error.response.data.msg,
+				});
 			});
+	};
+
+	const handleCheck = (active: boolean, id: string) => {
+		const index = apps.findIndex((app: any) => {
+			return app.Id === id;
 		});
-	}
+		let appsTemp: any = apps;
+		appsTemp[index].active = active;
+		setApps(appsTemp);
+	};
 
 	useEffect(() => {
 		getAllAppsUser();
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-	
+
+	const handleUpdateBtn = () => {
+		const data = {
+			IdUsuario: props.usuario.Id,
+			Apps: apps.map((app: any) => {
+				return { IdApp: app.Id, Vincular: app.active ? 1 : 0 };
+			}),
+		};
+		
+		axios({
+			method: "post",
+			url: "http://10.200.4.105:5000/api/manage-links",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization:
+					"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOb21icmVVc3VhcmlvIjoiUlZpbGxhcnJlYWwiLCJJZFVzdWFyaW8iOiIyOTdmNTlhMi0zMDg3LTExZWQtYWVkMC0wNDAzMDAwMDAwMDAiLCJpYXQiOjE2NjI5OTU4NTgsImV4cCI6MTY2Mjk5ODU1OH0.WLrTKu8MnPMIPl1cSv0qwhxfWOC7kCMgz95fgH-WOtk",
+			},
+			data: data,
+		})
+			.then(function (response) {
+				props.handleAppsDialogClose(true);
+			})
+			.catch(function (error) {
+				Swal.fire({
+					icon: 'error',
+					title: 'Mensaje',
+					text: "(" + error.response.status + ") " + error.response.data.msg,
+				});
+			});
+	};
+
 	return (
 		<Dialog
 			open={props.appsDialogOpen}
@@ -116,16 +157,16 @@ export const AppsDialog = (props: AppsDialogProps) => {
 			</DialogTitle>
 			<DialogContent dividers>
 				{apps.map((app: any) => (
-					<Grid item xs={12} md={6}>
+					<Grid item xs={12} md={6} key={app.Id}>
 						<FormGroup>
 							<FormControlLabel
 								control={
 									<Switch
-										id={app.Id}
-										checked={app.active}
-										// onChange={(v) =>
-										// 	setEstaActivo(v.target.checked)
-										// }
+										defaultChecked={app.active}
+										// checked={app.active}
+										onChange={(v) =>
+											handleCheck(v.target.checked, app.Id)
+										}
 									/>
 								}
 								label={app.Nombre}
@@ -135,15 +176,10 @@ export const AppsDialog = (props: AppsDialogProps) => {
 				))}
 			</DialogContent>
 			<DialogActions>
-				<Button
-					color="error"
-					onClick={() => props.handleAppsDialogClose()}
-				>
+				<Button color="error" onClick={() => props.handleAppsDialogClose()}>
 					Cancelar
 				</Button>
-				<Button onClick={() => props.handleAppsDialogClose()}>
-					Actualizar
-				</Button>
+				<Button onClick={() => handleUpdateBtn()}>Actualizar</Button>
 			</DialogActions>
 		</Dialog>
 	);
