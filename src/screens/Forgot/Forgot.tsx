@@ -27,7 +27,6 @@ export const Forgot = () => {
   const isSm = useMediaQuery(theme.breakpoints.up("sm"));
   const isXs = useMediaQuery(theme.breakpoints.up("xs"));
 
-
   if (isXl) st = lstXl;
   else if (isLg) st = lstLg;
   else if (isMd) st = lstMd;
@@ -80,40 +79,43 @@ export const Forgot = () => {
     setOpenModal(false);
   };
 
-
-
   const getPassword = () => {
     if (usuario === "") {
       setModalType("error");
-      setModalText(
-        "Ingresa un nombre de usuario o correo electrónico."
-      );
+      setModalText("Ingresa un nombre de usuario o correo electrónico.");
       handleOpenModal();
-    }else{
-      axios.post('http://10.200.4.105:5000/api/forgot-password', {
-        NombreUsuario: usuario,
-      }, {headers: {
-        'Content-Type': 'application/json'
-      }}).then((r) => {
-        if(r.status === 200){
-          setModalType("success");
-          setModalText(
-            "Se ha generado una nueva contraseña, porfavor revisa tu correo electronico registrado."
-          );
-          handleOpenModal();
-  
-        }
-      }).catch(err => {
-        console.log(err)
-        if (err.response.status === 409){
-          setModalType("error");
-          setModalText("Usuario no existe.");
-          handleOpenModal();
-        }
-      })
+    } else {
+      axios
+        .post(
+          "http://10.200.4.105:5000/api/forgot-password",
+          {
+            NombreUsuario: usuario,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((r) => {
+          if (r.status === 200) {
+            setModalType("success");
+            setModalText(
+              "Se ha generado una nueva contraseña, porfavor revisa tu correo electronico registrado."
+            );
+            handleOpenModal();
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          if (err.response.status === 409) {
+            setModalType("error");
+            setModalText("Usuario no existe.");
+            handleOpenModal();
+          }
+        });
     }
-   
-  }
+  };
 
   return (
     <Box sx={st.parentBox}>
@@ -128,7 +130,7 @@ export const Forgot = () => {
           <Box sx={st.loginBox}>
             <Box sx={st.contentBox}>
               <Box sx={st.imgBox}>
-                <img alt='Logo' src={logo} style={st.imgSize} />
+                <img alt="Logo" src={logo} style={st.imgSize} />
               </Box>
 
               <Box sx={st.loginTextBox}>

@@ -6,7 +6,6 @@ import DoneAllIcon from "@mui/icons-material/DoneAll";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { JWT_Token, IdUsuario_LS } from "../funcs/validation";
 
 export default function AppsModal({
   openM,
@@ -43,18 +42,17 @@ export default function AppsModal({
 
   const [userDetails, setUserDetails] = useState<Usuario>();
 
-
   useEffect(() => {
     axios
       .post(
         "http://10.200.4.105:5000/api/user-detail",
         {
-          IdUsuario: IdUsuario_LS,
+          IdUsuario: localStorage.getItem("IdUsuario") || "",
         },
         {
           headers: {
             "Content-Type": "application/json",
-            'Authorization': JWT_Token,
+            Authorization: localStorage.getItem("jwtToken") || "",
           },
         }
       )
@@ -100,7 +98,6 @@ export default function AppsModal({
                 color: "#808080",
               }}
             >
-              {" "}
               Bienvenido {userDetails?.Nombre},
             </Typography>
             <Typography

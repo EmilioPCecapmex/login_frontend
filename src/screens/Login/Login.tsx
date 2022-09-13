@@ -43,7 +43,8 @@ export const Login = () => {
   const [userInputTextColor, setUserInputTextColor] = useState("#fff");
 
   const [contrasenaInputColor, setContrasenaInputColor] = useState("#cccccc");
-  const [contrasenaTextInputColor, setContrasenaTextInputColor] = useState("#fff");
+  const [contrasenaTextInputColor, setContrasenaTextInputColor] =
+    useState("#fff");
 
   const [openModal, setOpenModal] = useState(false);
   const [openAppsModal, setOpenAppsModal] = useState(false);
@@ -54,13 +55,11 @@ export const Login = () => {
     Path: "",
   });
 
-
   const [modalType, setModalType] = useState("");
   const [modalText, setModalText] = useState("");
   const handleOpenModal = () => setOpenModal(true);
 
   const handleOpenAppsModal = () => setOpenAppsModal(true);
-  
 
   const onChangeUsuario = (v: string) => {
     setUsuario(v);
@@ -118,81 +117,107 @@ export const Login = () => {
     setModalType(type);
     setModalText(text);
     handleOpenModal();
-  }
+  };
 
   const openAppModal = (type: string, text: string) => {
-setModalType(type);
-      setModalText(text);
-      handleOpenAppsModal();
-  }
+    setModalType(type);
+    setModalText(text);
+    handleOpenAppsModal();
+  };
 
   const checkApps = () => {
-    axios.post('http://10.200.4.105:5000/api/user-apps', {
-      IdUsuario: IdUsuario_LS
-    }, {headers: {
-      'Content-Type': 'application/json',
-      'authorization': JWT_Token
-    }}).then((r) => {
-      if(r.status === 200){
-        const IdApps = r.data.data;
-        setAppsList(IdApps)
-        openAppModal("success","tu usuario cuenta con acceso a las siguientes plataformas." )
-      }
-    }).catch((error) => {
-      if(error.response.status === 401){
-        openDialogModal("error", error.response.data.msg);
-      }
-    }) 
-  }
+    axios
+      .post(
+        "http://10.200.4.105:5000/api/user-apps",
+        {
+          IdUsuario: IdUsuario_LS,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: JWT_Token,
+          },
+        }
+      )
+      .then((r) => {
+        if (r.status === 200) {
+          const IdApps = r.data.data;
+          setAppsList(IdApps);
+          openAppModal(
+            "success",
+            "tu usuario cuenta con acceso a las siguientes plataformas."
+          );
+        }
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          openDialogModal("error", error.response.data.msg);
+        }
+      });
+  };
 
   useEffect(() => {
-    if(localStorage.getItem("jwtToken")){
-      sessionValid().then(r => {
-        if(localStorage.getItem("validation") === "true")
-        checkApps()
-       })
-    }  
-  },[])
-
+    if (localStorage.getItem("jwtToken")) {
+      sessionValid().then((r) => {
+        if (localStorage.getItem("validation") === "true") checkApps();
+      });
+    }
+    // eslint-disable-next-line
+  }, []);
 
   const validateCredentials = () => {
-    axios.post('http://10.200.4.105:5000/api/login', {
-      NombreUsuario: usuario,
-      Contrasena: contrasena
-    }, {headers: {
-      'Content-Type': 'application/json',
-    }}).then((r) => {
-      if(r.status === 200){
-        localStorage.setItem("IdUsuario", r.data.IdUsuario);
-        localStorage.setItem("jwtToken", r.data.token);
-        setAppsList(r.data.AppIds)
-        openAppModal("success", r.data.AppIds[0].Msg || "tu usuario cuenta con acceso a las siguientes plataformas." )
-      }
-    }).catch((error) => {
-      if(error.response.status === 401){
-        openDialogModal("error", error.response.data.msg);
-      }
-    })
-  }
+    axios
+      .post(
+        "http://10.200.4.105:5000/api/login",
+        {
+          NombreUsuario: usuario,
+          Contrasena: contrasena,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((r) => {
+        if (r.status === 200) {
+          localStorage.setItem("IdUsuario", r.data.IdUsuario);
+          localStorage.setItem("jwtToken", r.data.token);
+          setAppsList(r.data.AppIds);
+          openAppModal(
+            "success",
+            r.data.AppIds[0].Msg ||
+              "tu usuario cuenta con acceso a las siguientes plataformas."
+          );
+        }
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          openDialogModal("error", error.response.data.msg);
+        }
+      });
+  };
 
   const signIn = () => {
     if (usuario === "" && contrasena === "") {
       openDialogModal("error", "Ingresa tu nombre de usuario y/o contraseña.");
     } else {
-    validateCredentials()
+      validateCredentials();
     }
   };
 
   return (
     <Box sx={st.parentBox}>
-      {openAppsModal ? (<AppsModal
-        openM={openAppsModal}
-        closeM={handleCloseAppsModal}
-        type={modalType}
-        text={modalText}
-        apps={appsList}
-      />) : null}
-      
+      {openAppsModal ? (
+        <AppsModal
+          openM={openAppsModal}
+          closeM={handleCloseAppsModal}
+          type={modalType}
+          text={modalText}
+          apps={appsList}
+        />
+      ) : null}
+
       <AlertModal
         openM={openModal}
         closeM={handleCloseModal}
@@ -204,7 +229,7 @@ setModalType(type);
           <Box sx={st.loginBox}>
             <Box sx={st.contentBox}>
               <Box sx={st.imgBox}>
-                <img alt='Logo' src={logo} style={st.imgSize} />
+                <img alt="Logo" src={logo} style={st.imgSize} />
               </Box>
 
               <Box sx={st.loginTextBox}>

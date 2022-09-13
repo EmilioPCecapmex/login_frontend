@@ -27,7 +27,7 @@ export const E404 = () => {
 
   return (
     <Box sx={st.parentBox}>
-      <img alt='Background' src={e404img} style={st.imgSize} />
+      <img alt="Background" src={e404img} style={st.imgSize} />
       <Box sx={st.contentBox}>
         <Typography sx={st.firstTextStyle}>{els.firstText}</Typography>
         <Typography sx={st.secondTextStyle}>{els.secondText}</Typography>

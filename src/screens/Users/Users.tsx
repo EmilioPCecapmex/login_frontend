@@ -23,7 +23,7 @@ import { NewDialog } from "../../components/newDialog";
 import Swal from "sweetalert2";
 import { AppsDialog } from "../../components/appsDialog";
 import { useNavigate } from "react-router-dom";
-import { JWT_Token, sessionValid } from "../../funcs/validation";
+import { isAdmin, sessionValid } from "../../funcs/validation";
 import logo from "../../assets/logo.svg";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 
@@ -83,7 +83,7 @@ export default function Users() {
     if (changed === true) {
       Toast.fire({
         icon: "success",
-        title: "Usuario actualizado exitosamente",
+        title: "Cambios realizados exitosamente",
       });
       getAllUsers();
     }
@@ -114,6 +114,11 @@ export default function Users() {
 
   useEffect(() => {
     if (localStorage.getItem("jwtToken")) {
+      isAdmin().then((r) => {
+        if (r < 0) {
+          navigate("../");
+        }
+      });
       sessionValid().then((r) => {
         if (localStorage.getItem("validation") === "true") {
         } else {
@@ -123,6 +128,7 @@ export default function Users() {
     } else {
       navigate("../");
     }
+    // eslint-disable-next-line
   }, []);
 
   const getAllUsers = () => {
@@ -131,7 +137,7 @@ export default function Users() {
       url: "http://10.200.4.105:5000/api/users",
       headers: {
         "Content-Type": "application/json",
-        Authorization: JWT_Token,
+        Authorization: localStorage.getItem("jwtToken") || "",
       },
     })
       .then(function (response) {
@@ -154,12 +160,13 @@ export default function Users() {
 
   useEffect(() => {
     getAllUsers();
+    // eslint-disable-next-line
   }, []);
 
   const logoutFnc = () => {
-	localStorage.clear();
-	navigate("../")
-  }
+    localStorage.clear();
+    navigate("../");
+  };
 
   const columns = [
     {
@@ -170,7 +177,7 @@ export default function Users() {
       renderCell: (cellValues: any) => {
         return (
           <Box>
-            <Tooltip title={"Editar usuario " + cellValues.row.NombreUsuario}>
+            <Tooltip title={"Edita - " + cellValues.row.NombreUsuario}>
               <IconButton
                 color="warning"
                 onClick={(event) => {
@@ -180,7 +187,7 @@ export default function Users() {
                 <EditIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title={"Editar acceso a plataformas"}>
+            <Tooltip title={"Edita acceso a plataformas"}>
               <IconButton
                 color="info"
                 onClick={(event) => {
@@ -260,7 +267,7 @@ export default function Users() {
       <Box sx={{ position: "absolute", top: "2vh", right: "2vw" }}>
         <IconButton onClick={() => logoutFnc()}>
           <PowerSettingsNewIcon
-            sx={{ height: "5vh", width: "3vw", color: "#F10000" }}
+            sx={{ height: "5vh", width: "3vw", color: "#7D0000" }}
           />
         </IconButton>
       </Box>
@@ -272,6 +279,7 @@ export default function Users() {
             >
               Usuarios
             </Typography>
+
             <Typography
               sx={{ fontFamily: "MontserratMedium", fontSize: "1vw" }}
             >
@@ -290,6 +298,7 @@ export default function Users() {
                   color: "#000001",
                   fontSize: ".6vw",
                   mb: "1vh",
+                  boxShadow: 4,
                 }}
                 startIcon={<PersonAddIcon />}
               >

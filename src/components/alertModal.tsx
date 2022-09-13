@@ -6,7 +6,6 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import WarningIcon from "@mui/icons-material/Warning";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 
-
 export default function AlertModal({
   openM,
   closeM,
