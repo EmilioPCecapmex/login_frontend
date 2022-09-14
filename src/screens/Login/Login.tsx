@@ -183,6 +183,8 @@ export const Login = () => {
         if (r.status === 200) {
           localStorage.setItem("IdUsuario", r.data.IdUsuario);
           localStorage.setItem("jwtToken", r.data.token);
+          document.cookie = "jwt="+r.data.token;
+          
           setAppsList(r.data.AppIds);
           openAppModal(
             "success",
