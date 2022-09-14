@@ -130,7 +130,7 @@ export default function AppsModal({
                 <Button
                   variant="outlined"
                   key={item.IdApp}
-                  onClick={() => navigate(item.Path.toString())}
+                  onClick={() => window.open(item.Path)}
                   sx={{
                     borderColor: "#62787B",
                     width: "30%",
