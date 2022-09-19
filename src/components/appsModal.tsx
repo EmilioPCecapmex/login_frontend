@@ -130,7 +130,7 @@ export default function AppsModal({
                 <Button
                   variant="outlined"
                   key={item.IdApp}
-                  onClick={() => window.open(item.Path)}
+                  onClick={() => window.open(item.Path+"?jwt="+ localStorage.getItem("jwtToken"))}
                   sx={{
                     borderColor: "#62787B",
                     width: "30%",
