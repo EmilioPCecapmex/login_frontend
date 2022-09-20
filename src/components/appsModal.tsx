@@ -63,6 +63,14 @@ export default function AppsModal({
       });
   }, []);
 
+  const openPage = (t: string) => {
+    if(t !== "./admin"){
+      window.open(t+"?jwt="+ localStorage.getItem("jwtToken"))
+    }else if(t === "./admin"){
+      navigate(t)
+    }
+  }
+
   return (
     <Box>
       <Modal open={openM}>
@@ -130,7 +138,7 @@ export default function AppsModal({
                 <Button
                   variant="outlined"
                   key={item.IdApp}
-                  onClick={() => window.open(item.Path+"?jwt="+ localStorage.getItem("jwtToken"))}
+                  onClick={() => openPage(item.Path)}
                   sx={{
                     borderColor: "#62787B",
                     width: "30%",
