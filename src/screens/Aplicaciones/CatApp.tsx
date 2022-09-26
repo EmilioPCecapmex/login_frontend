@@ -237,7 +237,7 @@ export default function CatApps() {
           {/* este box es la leyenda que se encuentra arriba a la izquierda */}
           <Box sx={{ p: 2 }}>
             <Typography sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw" }}>
-              Catalogo de Aplicaciones
+              Catálogo de Aplicaciones
             </Typography>
             <Typography sx={{ fontFamily: "MontserratMedium", fontSize: "1vw" }}>
               Catálogos de aplicaciones centrales.
