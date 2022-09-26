@@ -26,6 +26,7 @@ import { useNavigate } from "react-router-dom";
 import { isAdmin, sessionValid } from "../../funcs/validation";
 import logo from "../../assets/logo.svg";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+import { Header } from "../../components/header";
 
 const actualYear = () => {
   const year = new Date();
@@ -252,27 +253,20 @@ export default function Users() {
   ];
 
   return (
+    <Box>
+      
+    <Header/>
     <Box
       sx={{
-        height: "100vh",
+        height: "90vh",
         width: "100vw",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
       }}
     >
-      <Box sx={{ position: "absolute", top: "2vh", width: "10vw" }}>
-        <img alt="logo" src={logo} />
-      </Box>
-      <Box sx={{ position: "absolute", top: "2vh", right: "2vw" }}>
-        <IconButton onClick={() => logoutFnc()}>
-          <PowerSettingsNewIcon
-            sx={{ height: "5vh", width: "3vw", color: "#7D0000" }}
-          />
-        </IconButton>
-      </Box>
       <Box>
-        <Card sx={{ mt: 1, height: "80vh", width: "80vw", boxShadow: 10 }}>
+        <Card sx={{ height: "80vh", width: "80vw", boxShadow: 10 }}>
           <Box sx={{ p: 2 }}>
             <Typography
               sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw" }}
@@ -313,11 +307,6 @@ export default function Users() {
           </CardContent>
         </Card>
       </Box>
-      <Box sx={st.footer}>
-        <Box>{actualYear()}</Box>
-        <Box sx={st.footerCenterText}>{ls.footerSecondText}</Box>
-        <Box>{ls.footerThirdText}</Box>
-      </Box>
       {newDialogOpen ? (
         <NewDialog
           newDialogOpen={newDialogOpen}
@@ -339,5 +328,7 @@ export default function Users() {
         />
       ) : null}
     </Box>
+    </Box>
+
   );
 }

@@ -80,8 +80,8 @@ export default function AppsModal({
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: "30vw",
-            height: "45vh",
+            width: "auto",
+            height: "auto",
             bgcolor: "background.paper",
             boxShadow: 50,
             p: 2,
@@ -122,10 +122,10 @@ export default function AppsModal({
           </Box>
 
           <Box
-            sx={{
+            sx={{              
               mt: "2vh",
               width: "100%",
-              height: "15vh",
+              height: "auto",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
