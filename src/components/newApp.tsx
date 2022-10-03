@@ -14,6 +14,12 @@ export const NewDialogApp = (props: NewDialogProps) => {
 	const [path, setPath] = useState("");
 	const [idusuariomodifica, setIDUsuarioModifica] = useState("");
 
+	const handleKeyDown = (event: { key: string; }) => {
+		if (event.key === 'Enter') { 
+			console.log(event.key);
+			handleStoreBtn() 
+		}
+	};	
 
 	const handleStoreBtn = () => {
 		if ((nombre === "") || (path === "")) {
@@ -83,7 +89,6 @@ export const NewDialogApp = (props: NewDialogProps) => {
 					{/* campo de nombre */}
 					<Grid item xs={12} md={6}>
 						<TextField
-							autoFocus
 							margin="dense"
 							id="nombre"
 							label="Nombre"
@@ -93,12 +98,12 @@ export const NewDialogApp = (props: NewDialogProps) => {
 							value={nombre}
 							required
 							onChange={(v) => setNombre(v.target.value)}
+							autoFocus
 						/>
 					</Grid>
 					{/* campo de path */}
 					<Grid item xs={12} md={6}>
 						<TextField
-							autoFocus
 							margin="dense"
 							id="path"
 							label="Path"
@@ -108,6 +113,7 @@ export const NewDialogApp = (props: NewDialogProps) => {
 							value={path}
 							required
 							onChange={(v) => setPath(v.target.value)}
+							onKeyDown={handleKeyDown}
 						/>
 					</Grid>
 					

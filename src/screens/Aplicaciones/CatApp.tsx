@@ -2,7 +2,7 @@ import {Edit as EditIcon,Add as AddIcon,Delete as DeleteIcon,} from "@mui/icons-
 import Swal from "sweetalert2";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import {Box,Breadcrumbs,Button,Card,CardContent,CardHeader,Grid,IconButton,Link,Tooltip,Typography,} from "@mui/material";
+import {Box,Button,Card,CardContent,IconButton,Tooltip,Typography,} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { NewDialogApp } from "../../components/newApp";
 import { EditDialogApp } from "../../components/editApp";
@@ -25,7 +25,7 @@ const Toast = Swal.mixin({
   toast: true,
   position: "top-end",
   showConfirmButton: false,
-  timer: 4000,
+  timer: 2000,
   timerProgressBar: false,
   didOpen: (toast) => {
     toast.addEventListener("mouseenter", Swal.stopTimer);

@@ -84,6 +84,12 @@ export const Login = () => {
     setUserInputTextColor("#666666");
   };
 
+  const handleKeyDown = (event: { key: string; }) => {
+    if (event.key === 'Enter') {
+      signIn()
+    }
+  };	
+  
   const onClickTxtContrasena = () => {
     setContrasenaInputColor("#fff");
     setContrasenaTextInputColor("#666666");
@@ -277,6 +283,7 @@ export const Login = () => {
                     style={{ color: contrasenaTextInputColor }}
                     onClickCapture={() => onClickTxtContrasena()}
                     onBlurCapture={() => verifyContrasena()}
+                    onKeyDown={handleKeyDown}
                   />
                 </Box>
               </Box>

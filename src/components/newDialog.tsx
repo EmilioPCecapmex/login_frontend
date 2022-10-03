@@ -115,7 +115,6 @@ export const NewDialog = (props: NewDialogProps) => {
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              autoFocus
               margin="dense"
               id="nombre"
               label="Nombre(s)"
@@ -129,7 +128,6 @@ export const NewDialog = (props: NewDialogProps) => {
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              autoFocus
               margin="dense"
               id="apellidoPaterno"
               label="Apellido Paterno"
@@ -143,7 +141,6 @@ export const NewDialog = (props: NewDialogProps) => {
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              autoFocus
               margin="dense"
               id="apellidoMaterno"
               label="Apellido Materno"
@@ -157,7 +154,6 @@ export const NewDialog = (props: NewDialogProps) => {
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              autoFocus
               margin="dense"
               id="correo"
               label="Correo Electrónico"
