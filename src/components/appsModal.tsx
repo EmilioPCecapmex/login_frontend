@@ -65,7 +65,7 @@ export default function AppsModal({
 
   const openPage = (t: string) => {
     if(t !== "./admin"){
-      window.open(t+"?jwt="+ localStorage.getItem("jwtToken"))
+      window.open(t+"?jwt="+ localStorage.getItem("jwtToken")+"&rf=" + localStorage.getItem("refreshToken"))
     }else if(t === "./admin"){
       navigate(t)
     }

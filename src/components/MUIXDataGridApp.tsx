@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DataGrid, GridToolbar, esES as gridEsES, GridFilterItem as FiltroGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar, esES as gridEsES, } from "@mui/x-data-grid";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { esES as coreEsES } from "@mui/material/locale";
 
@@ -29,8 +29,7 @@ export default function MUIXDataGridApp(props: any) {
 					localeText={localeText}
 					columns={props.columns}
 					rows={props.rows}
-					rowsPerPageOptions={[10, 25, 50, 100]}
-					pageSize={10}
+					pageSize={8}
 					sx={{fontFamily: 'MontserratMedium'}}
 					getRowId={props.id}
 					components={{

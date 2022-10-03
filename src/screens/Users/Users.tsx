@@ -14,9 +14,7 @@ import {
   Edit as EditIcon,
   PersonAdd as PersonAddIcon,
 } from "@mui/icons-material";
-import { ls } from "./strings/st";
 import MUIXDataGrid from "../../components/MUIXDataGrid";
-import { styles } from "./style/lst";
 import "./style/Fonts.css";
 import { EditDialog } from "../../components/editDialog";
 import { NewDialog } from "../../components/newDialog";
@@ -24,17 +22,7 @@ import Swal from "sweetalert2";
 import { AppsDialog } from "../../components/appsDialog";
 import { useNavigate } from "react-router-dom";
 import { isAdmin, sessionValid } from "../../funcs/validation";
-import logo from "../../assets/logo.svg";
-import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import { Header } from "../../components/header";
-
-const actualYear = () => {
-  const year = new Date();
-  const yearSt = year.getFullYear();
-  return yearSt;
-};
-
-let st = styles;
 
 export interface Usuario {
   Id: string;
@@ -164,11 +152,6 @@ export default function Users() {
     // eslint-disable-next-line
   }, []);
 
-  const logoutFnc = () => {
-    localStorage.clear();
-    navigate("../");
-  };
-
   const columns = [
     {
       field: "acciones",
@@ -254,81 +237,79 @@ export default function Users() {
 
   return (
     <Box>
-      
-    <Header/>
-    <Box
-      sx={{
-        height: "90vh",
-        width: "100vw",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Box>
-        <Card sx={{ height: "80vh", width: "80vw", boxShadow: 10 }}>
-          <Box sx={{ p: 2 }}>
-            <Typography
-              sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw" }}
-            >
-              Usuarios
-            </Typography>
-
-            <Typography
-              sx={{ fontFamily: "MontserratMedium", fontSize: "1vw" }}
-            >
-              Listado de usuarios con acceso a plataformas.
-            </Typography>
-          </Box>
-
-          <CardContent>
-            <Box display="flex" justifyContent="flex-end">
-              <Button
-                variant="text"
-                onClick={(event) => handleNewBtnClick(event)}
-                sx={{
-                  fontFamily: "MontserratBold",
-                  backgroundColor: "#DFA94F",
-                  color: "#000001",
-                  fontSize: ".6vw",
-                  mb: "1vh",
-                  boxShadow: 4,
-                }}
-                startIcon={<PersonAddIcon />}
+      <Header />
+      <Box
+        sx={{
+          height: "90vh",
+          width: "100vw",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Box>
+          <Card sx={{ height: "80vh", width: "80vw", boxShadow: 10 }}>
+            <Box sx={{ p: 2 }}>
+              <Typography
+                sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw" }}
               >
-                Registrar Usuario
-              </Button>
-            </Box>
-            <MUIXDataGrid
-              id={(row: any) => row.Id}
-              columns={columns}
-              rows={rows}
-            />
-          </CardContent>
-        </Card>
-      </Box>
-      {newDialogOpen ? (
-        <NewDialog
-          newDialogOpen={newDialogOpen}
-          handleNewDialogClose={handleNewDialogClose}
-        />
-      ) : null}
-      {editDialogOpen ? (
-        <EditDialog
-          editDialogOpen={editDialogOpen}
-          handleEditDialogClose={handleEditDialogClose}
-          usuario={editDialogUsuario}
-        />
-      ) : null}
-      {appsDialogOpen ? (
-        <AppsDialog
-          appsDialogOpen={appsDialogOpen}
-          handleAppsDialogClose={handleAppsDialogClose}
-          usuario={appsDialogUsuario}
-        />
-      ) : null}
-    </Box>
-    </Box>
+                Usuarios
+              </Typography>
 
+              <Typography
+                sx={{ fontFamily: "MontserratMedium", fontSize: "1vw" }}
+              >
+                Listado de usuarios con acceso a plataformas.
+              </Typography>
+            </Box>
+
+            <CardContent>
+              <Box display="flex" justifyContent="flex-end">
+                <Button
+                  variant="text"
+                  onClick={(event) => handleNewBtnClick(event)}
+                  sx={{
+                    fontFamily: "MontserratBold",
+                    backgroundColor: "#DFA94F",
+                    color: "#000001",
+                    fontSize: ".6vw",
+                    mb: "1vh",
+                    boxShadow: 4,
+                  }}
+                  startIcon={<PersonAddIcon />}
+                >
+                  Registrar Usuario
+                </Button>
+              </Box>
+              <MUIXDataGrid
+                id={(row: any) => row.Id}
+                columns={columns}
+                rows={rows}
+              />
+            </CardContent>
+          </Card>
+        </Box>
+        {newDialogOpen ? (
+          <NewDialog
+            newDialogOpen={newDialogOpen}
+            handleNewDialogClose={handleNewDialogClose}
+          />
+        ) : null}
+        {editDialogOpen ? (
+          <EditDialog
+            editDialogOpen={editDialogOpen}
+            handleEditDialogClose={handleEditDialogClose}
+            usuario={editDialogUsuario}
+          />
+        ) : null}
+        {appsDialogOpen ? (
+          <AppsDialog
+            appsDialogOpen={appsDialogOpen}
+            handleAppsDialogClose={handleAppsDialogClose}
+            usuario={appsDialogUsuario}
+          />
+        ) : null}
+      </Box>
+    </Box>
   );
 }

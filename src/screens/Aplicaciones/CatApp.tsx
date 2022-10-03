@@ -1,9 +1,21 @@
-import {Edit as EditIcon,Add as AddIcon,Delete as DeleteIcon,} from "@mui/icons-material";
+import React, { useEffect, useState } from "react";
+import {
+  Edit as EditIcon,
+  Add as AddIcon,
+  Delete as DeleteIcon,
+} from "@mui/icons-material";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import {Box,Button,Card,CardContent,IconButton,Tooltip,Typography,} from "@mui/material";
-import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  IconButton,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { NewDialogApp } from "../../components/newApp";
 import { EditDialogApp } from "../../components/editApp";
 import MUIXDataGridApp from "../../components/MUIXDataGridApp";
@@ -17,7 +29,7 @@ export interface AppInterface {
   Path: string;
   EstaActivo: number;
   estatusLabel: string;
-//  Deleted: string;
+  //  Deleted: string;
 }
 
 //componente de sweetalert2 para el uso de los mensajes de alertas
@@ -40,8 +52,8 @@ export default function CatApps() {
     // primer columna del grid donde ponemos los botones de editar y eliminar
     {
       field: "acciones",
-      headerName: "",
-      width: 90,
+      headerName: "Acciones",
+      width: 100,
       headerAlign: "center",
       hideable: false,
       renderCell: (cellValues: any) => {
@@ -196,15 +208,10 @@ export default function CatApps() {
       // aqui se recibe lo del endpoint en response
       .then(function (response) {
         const rows = response.data.data.map((row: any) => {
-          const Id = row.Id;
-          const Nombre = row.Nombre;
-          const Path = row.Path;          
-          const EstaActivo = row.EstaActivo;
           const estatusLabel = row.EstaActivo ? "Activo" : "Inactivo";
           const rowTemp = { estatusLabel: estatusLabel, ...row };
           // const Deleted = row.Deleted;
           return rowTemp;
-          
         });
         setRows(rows);
       })
@@ -221,7 +228,7 @@ export default function CatApps() {
   // esto es solo para que se ejecute la rutina de obtieneaplicaciones cuando cargue la pagina
   useEffect(() => {
     getAllApps();
-  }, []);
+  });
 
   return (
     <>
@@ -231,24 +238,48 @@ export default function CatApps() {
         <Header />
       </Box>
       {/* esta configuracion es del box que va a contener el card principal*/}
-      <Box sx={{height: "90vh",width: "100vw",display: "flex",alignItems: "center",justifyContent: "center",}}>
+      <Box
+        sx={{
+          height: "90vh",
+          width: "100vw",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         {/* este componente es la card que se encuentra en el centro en donde vamos a meter todo lo de la pantalla */}
         <Card sx={{ height: "80vh", width: "80vw", boxShadow: 10 }}>
           {/* este box es la leyenda que se encuentra arriba a la izquierda */}
           <Box sx={{ p: 2 }}>
-            <Typography sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw" }}>
-              Catálogo de Aplicaciones
+            <Typography
+              sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw" }}
+            >
+              Aplicaciones
             </Typography>
-            <Typography sx={{ fontFamily: "MontserratMedium", fontSize: "1vw" }}>
+            <Typography
+              sx={{ fontFamily: "MontserratMedium", fontSize: "1vw" }}
+            >
               Catálogos de aplicaciones centrales.
             </Typography>
           </Box>
           {/* aqui es el contenido del card,y ponemos primero un box y estamos dibujando el boton para agregar un nuevo registro */}
-          <CardContent>            
+          <CardContent>
             {/* boton a la derecha para agregar una aplicacion nueva */}
             <Box display="flex" justifyContent="flex-end">
-              <Button variant="contained" onClick={(event) => handleNewBtnClick(event)} sx={{fontFamily: "MontserratBold",fontSize: ".6vw",mb: "1vh",boxShadow: 4,}} startIcon={<AddIcon />}>
-                aplicación
+              <Button
+                variant="text"
+                onClick={(event) => handleNewBtnClick(event)}
+                sx={{
+                  fontFamily: "MontserratBold",
+                  backgroundColor: "#DFA94F",
+                  color: "#000001",
+                  fontSize: ".6vw",
+                  mb: "1vh",
+                  boxShadow: 4,
+                }}
+                startIcon={<AddIcon />}
+              >
+                registrar aplicación
               </Button>
             </Box>
             {/* Grid del listado,aqui se asigna el id unico que tiene que tener cada renglon, asi que asignamos el campo ID que se obtiene del endpoint */}
@@ -273,7 +304,6 @@ export default function CatApps() {
           app={editDialogApp}
         />
       ) : null}
-
     </>
   );
 }

@@ -1,9 +1,14 @@
-import { Box, Button, IconButton, Link } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.svg";
-import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
-import { AccessAlarm, ThreeDRotation } from '@mui/icons-material';
+import LogoutIcon from "@mui/icons-material/Logout";
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -16,29 +21,44 @@ export const Header = () => {
       sx={{
         width: "100vw",
         height: "10vh",
-        backgroundColor: "#ccc",
+        backgroundColor: "#fff",
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-evenly",
-        boxShadow: 10,
+        justifyContent: "flex-end",
+        boxShadow: 1,
       }}
     >
-      <Button onClick={() => navigate("../admin")}>
-        Usuario
-      </Button>
-      <Box sx={{ position: "absolute", top: "2vh", width: "10vw" }}>
+      <Box
+        sx={{ position: "absolute", top: "2vh", left: "5vw", width: "10vw" }}
+      >
         <img alt="logo" src={logo} />
       </Box>
-      <Button onClick={() => navigate("../app")}>
-        Aplicaciones
+
+      <Button onClick={() => navigate("../admin")} sx={{ mr: "5vw" }}>
+        <Typography sx={{ fontFamily: "MontserratMedium", color: "#464141" }}>
+          USUARIOS
+        </Typography>
+      </Button>
+      <Button onClick={() => navigate("../app")} sx={{ mr: "5vw" }}>
+        <Typography sx={{ fontFamily: "MontserratMedium", color: "#464141" }}>
+          APLICACIONES
+        </Typography>
       </Button>
 
-      <Box sx={{ position: "absolute", top: "2vh", right: "2vw" }}>
-        <IconButton onClick={() => logoutFnc()}>
-          <PowerSettingsNewIcon
-            sx={{ height: "5vh", width: "3vw", color: "#7D0000" }}
-          />
-        </IconButton>
+      <Box
+        sx={{
+          position: "absolute",
+          bottom: "2vh",
+          right: "2vw",
+          backgroundColor: "#3c3f42",
+          borderRadius: 100,
+        }}
+      >
+        <Tooltip title="Logout">
+          <IconButton onClick={() => logoutFnc()}>
+            <LogoutIcon sx={{ height: "5vh", width: "3vw", color: "#fff" }} />
+          </IconButton>
+        </Tooltip>
       </Box>
     </Box>
   );
