@@ -28,7 +28,7 @@ export const AppsDialog = (props: AppsDialogProps) => {
   const getAllApps = (appsUser: any) => {
     axios({
       method: "get",
-      url: "http://10.200.4.105:5000/api/apps",
+      url: "http://10.200.4.164:5000/api/apps",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",
@@ -57,7 +57,7 @@ export const AppsDialog = (props: AppsDialogProps) => {
 
     axios({
       method: "post",
-      url: "http://10.200.4.105:5000/api/user-apps",
+      url: "http://10.200.4.164:5000/api/user-apps",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",
@@ -105,7 +105,7 @@ export const AppsDialog = (props: AppsDialogProps) => {
 
     axios({
       method: "post",
-      url: "http://10.200.4.105:5000/api/manage-links",
+      url: "http://10.200.4.164:5000/api/manage-links",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",

@@ -50,7 +50,7 @@ export const NewDialog = (props: NewDialogProps) => {
 
       axios({
         method: "post",
-        url: "http://10.200.4.105:5000/api/sign-up",
+        url: "http://10.200.4.164:5000/api/sign-up",
         headers: {
           "Content-Type": "application/json",
           Authorization: localStorage.getItem("jwtToken") || "",

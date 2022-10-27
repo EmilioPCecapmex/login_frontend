@@ -123,7 +123,7 @@ export default function Users() {
   const getAllUsers = () => {
     axios({
       method: "get",
-      url: "http://10.200.4.105:5000/api/users",
+      url: "http://10.200.4.164:5000/api/users",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",

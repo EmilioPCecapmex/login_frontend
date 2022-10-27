@@ -87,7 +87,7 @@ export const Forgot = () => {
     } else {
       axios
         .post(
-          "http://10.200.4.105:5000/api/forgot-password",
+          "http://10.200.4.164:5000/api/forgot-password",
           {
             NombreUsuario: usuario,
           },

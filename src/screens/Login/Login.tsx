@@ -134,7 +134,7 @@ export const Login = () => {
   const checkApps = () => {
     axios
       .post(
-        "http://10.200.4.105:5000/api/user-apps",
+        "http://10.200.4.164:5000/api/user-apps",
         {
           IdUsuario: IdUsuario_LS,
         },
@@ -174,7 +174,7 @@ export const Login = () => {
   const validateCredentials = () => {
     axios
       .post(
-        "http://10.200.4.105:5000/api/login",
+        "http://10.200.4.164:5000/api/login",
         {
           NombreUsuario: usuario,
           Contrasena: contrasena,

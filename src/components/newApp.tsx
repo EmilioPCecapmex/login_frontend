@@ -46,7 +46,7 @@ export const NewDialogApp = (props: NewDialogProps) => {
       };
       axios({
         method: "post",
-        url: "http://10.200.4.105:5000/api/create-app",
+        url: "http://10.200.4.164:5000/api/create-app",
         headers: {
           "Content-Type": "application/json",
           Authorization: localStorage.getItem("jwtToken") || "",
