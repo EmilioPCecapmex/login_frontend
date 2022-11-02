@@ -198,6 +198,8 @@ export const Login = () => {
             r.data.AppIds[0].Msg ||
               "tu usuario cuenta con acceso a las siguientes plataformas."
           );
+
+          userDetail()
         }
       })
       .catch((error) => {
@@ -205,6 +207,29 @@ export const Login = () => {
           openDialogModal("error", error.response.data.msg);
         }
       });
+  };
+
+  const userDetail = () => {
+    axios
+      .post(
+        "http://10.200.4.105:5000/api/user-detail",
+        {
+          IdUsuario: localStorage.getItem("IdUsuario"),
+        },
+        {
+          headers: {
+            "Authorization": localStorage.getItem("jwtToken") as string,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((r) => {
+        if(r.status === 200){
+          localStorage.setItem("NombreUsuario", r.data.data.Nombre + " "+ r.data.data.ApellidoPaterno)
+        } 
+   
+      })
+   
   };
 
   const signIn = () => {

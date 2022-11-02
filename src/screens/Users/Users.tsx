@@ -8,6 +8,10 @@ import {
   Tooltip,
   Button,
   Typography,
+  TextField,
+  FormGroup,
+  FormControlLabel,
+  Switch,
 } from "@mui/material";
 import {
   AccountTree as AccountTreeIcon,
@@ -47,7 +51,8 @@ export default function Users() {
       toast.addEventListener("mouseleave", Swal.resumeTimer);
     },
   });
-  const [rows, setRows] = useState([]);
+  const [rows, setRows] = useState<Array<IUsuarios>>([]);
+  const [showAllUsers, setShowAllUsers] = useState(false)
 
   const [newDialogOpen, setNewDialogOpen] = useState(false);
   const handleNewDialogOpen = () => setNewDialogOpen(true);
@@ -130,11 +135,17 @@ export default function Users() {
       },
     })
       .then(function (response) {
-        const rows = response.data.data.map((row: any) => {
+        let rows = response.data.data.map((row: any) => {
           const estaActivoLabel = row.EstaActivo ? "Activo" : "Inactivo";
           const rowTemp = { EstaActivoLabel: estaActivoLabel, ...row };
-          return rowTemp;
+          return rowTemp
         });
+
+        if(!showAllUsers){
+          rows = rows?.filter((x: { EstaActivoLabel: string | string[]; }) => x.EstaActivoLabel.includes('Activo'));
+        }
+
+       
         setRows(rows);
       })
       .catch(function (error) {
@@ -150,7 +161,11 @@ export default function Users() {
   useEffect(() => {
     getAllUsers();
     // eslint-disable-next-line
-  }, []);
+  }, [showAllUsers]);
+
+  
+
+
 
   const columns = [
     {
@@ -249,7 +264,9 @@ export default function Users() {
       >
         <Box>
           <Card sx={{ height: "80vh", width: "80vw", boxShadow: 10 }}>
-            <Box sx={{ p: 2 }}>
+            <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+
+              <Box>
               <Typography
                 sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw" }}
               >
@@ -261,6 +278,13 @@ export default function Users() {
               >
                 Listado de usuarios con acceso a plataformas.
               </Typography>
+              </Box>
+
+              <FormGroup>
+              <FormControlLabel control={<Switch onChange={(v) => setShowAllUsers(v.target.checked)}/>} label="Usuarios Inactivos"  />
+              </FormGroup>
+             
+
             </Box>
 
             <CardContent>
@@ -312,4 +336,18 @@ export default function Users() {
       </Box>
     </Box>
   );
+}
+
+
+export interface IUsuarios {
+  EstaActivoLabel:   string;
+  Id:                string;
+  EstaActivo:        number;
+  Nombre:            string;
+  ApellidoPaterno:   string;
+  ApellidoMaterno:   string;
+  NombreUsuario:     string;
+  CorreoElectronico: string;
+  CreadoPor:         string;
+  ModificadoPor:     string;
 }

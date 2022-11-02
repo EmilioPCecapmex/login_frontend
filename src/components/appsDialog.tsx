@@ -162,7 +162,7 @@ export const AppsDialog = (props: AppsDialogProps) => {
               justifyContent="center"
               display="flex"
             >
-              <FormGroup>
+              <FormGroup sx={{ width: '10vw'}}>
                 <FormControlLabel
                   control={
                     <Switch

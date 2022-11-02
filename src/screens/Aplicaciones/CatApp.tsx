@@ -228,7 +228,7 @@ export default function CatApps() {
   // esto es solo para que se ejecute la rutina de obtieneaplicaciones cuando cargue la pagina
   useEffect(() => {
     getAllApps();
-  });
+  },[]);
 
   return (
     <>
