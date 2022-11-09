@@ -5,18 +5,29 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
+  FormHelperText,
   Grid,
   IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
 } from "@mui/material";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { IdUsuario_LS } from "../funcs/validation";
 
 export interface NewDialogProps {
   newDialogOpen: boolean;
   handleNewDialogClose: Function;
+}
+
+export interface IUserTypes {
+  Id:          string;
+  Nombre:      string;
+  Descripcion: string;
 }
 
 export const NewDialog = (props: NewDialogProps) => {
@@ -26,12 +37,51 @@ export const NewDialog = (props: NewDialogProps) => {
   const [apellidoMaterno, setApellidoMaterno] = useState("");
   const [correo, setCorreo] = useState("");
 
+  const [celular, setCelular] = useState(0);
+  const [telefono, setTelefono] = useState(0);
+  const [curp, setCurp] = useState("");
+  const [rfc, setRfc] = useState("");
+
+  const [tipousuario, setTipoUsuario] = useState("");
+
+  const compruebaCelular = (value: number) => {
+    if (value <= 9999999999) {
+      setCelular(value);
+    } else if (value.toString() === "NaN") {
+      setCelular(0);
+    }
+  };
+  const compruebaTelefono = (value: number) => {
+    if (value <= 9999999999) {
+      setTelefono(value);
+    } else if (value.toString() === "NaN") {
+      setTelefono(0);
+    }
+  };
+  const compruebaRfc = (value: string) => {
+    var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (!format.test(value)) {
+      setRfc(value.toUpperCase());
+    }
+  };
+  const compruebaCurp = (value: string) => {
+    var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (!format.test(value)) {
+      setCurp(value.toUpperCase());
+    }
+  };
+
   const handleStoreBtn = () => {
     if (
       nombre === "" ||
       nombreUsuario === "" ||
       apellidoPaterno === "" ||
-      apellidoMaterno === ""
+      apellidoMaterno === "" ||
+      rfc === "" ||
+      curp === "" ||
+      telefono <= 0 ||
+      celular <= 0 ||
+      tipousuario === ""
     ) {
       Swal.fire({
         icon: "error",
@@ -46,8 +96,12 @@ export const NewDialog = (props: NewDialogProps) => {
         NombreUsuario: nombreUsuario,
         CorreoElectronico: correo,
         IdUsuarioModificador: IdUsuario_LS,
+        Rfc: rfc,
+        Curp: curp,
+        Telefono: telefono,
+        Celular: celular,
+        IdTipoUsuario: tipousuario
       };
-
       axios({
         method: "post",
         url: "http://10.200.4.105:5000/api/sign-up",
@@ -69,6 +123,36 @@ export const NewDialog = (props: NewDialogProps) => {
         });
     }
   };
+
+  const [usertypes, setUserTypes] = useState <Array<IUserTypes>>([]) ;
+  const [usertypessel, setUserTypesSel] = useState ("") ;
+  const getAllUserTypes = () => {
+    const data = {
+      IdUsuario: localStorage.getItem("IdUsuario"),
+    };
+    axios({
+      method: "post",
+      url: "http://10.200.4.105:5000/api/user-types",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("jwtToken") || "",
+      },
+      data: data,
+    })
+      .then(function (response) {
+        setUserTypes(response.data.data);
+      })
+      .catch(function (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Mensaje",
+          text: "(" + error.response.status + ") " + error.response.data.msg,
+        });
+      });
+  };
+  useEffect(() => {
+    getAllUserTypes();
+  }, []);
 
   return (
     <Dialog
@@ -110,6 +194,7 @@ export const NewDialog = (props: NewDialogProps) => {
               variant="standard"
               value={nombreUsuario}
               required
+              inputProps={{ minLength: 4 }}
               onChange={(v) => setNombreUsuario(v.target.value)}
             />
           </Grid>
@@ -165,6 +250,81 @@ export const NewDialog = (props: NewDialogProps) => {
               onChange={(v) => setCorreo(v.target.value)}
             />
           </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              margin="dense"
+              id="curp"
+              label="CURP"
+              type="text"
+              fullWidth
+              variant="standard"
+              value={curp}
+              required
+              inputProps={{ maxLength: 18 }}
+              onChange={(v) => compruebaCurp(v.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              margin="dense"
+              id="rfc"
+              label="RFC"
+              type="text"
+              fullWidth
+              variant="standard"
+              value={rfc}
+              required
+              inputProps={{ maxLength: 13 }}
+              onChange={(v) => compruebaRfc(v.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              margin="dense"
+              id="telefono"
+              label="Telefono"
+              value={telefono === 0 ? "" : telefono}
+              fullWidth
+              required
+              variant="standard"
+              onChange={(v) => compruebaTelefono(parseInt(v.target.value))}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              margin="dense"
+              id="celular"
+              label="Celular"
+              value={celular === 0 ? "" : celular}
+              fullWidth
+              required
+              variant="standard"
+              onChange={(v) => compruebaCelular(parseInt(v.target.value))}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <FormControl required variant="standard" fullWidth>
+              <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                Tipo de Usuario
+              </InputLabel>
+              <Select
+                onChange={(v) => setTipoUsuario(v.target.value) }
+                id="tipousuario"
+                value={tipousuario}
+                // onChange={handleChange}
+                sx={{ display: "flex", pt: 1 }}
+              >
+                {usertypes.map((types) => (
+                  <MenuItem
+                    key={types.Id}
+                    value={types.Id}
+                  >
+                    {types.Descripcion}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
         </Grid>
       </DialogContent>
       <DialogActions>
@@ -179,9 +339,13 @@ export const NewDialog = (props: NewDialogProps) => {
           onClick={() => handleStoreBtn()}
           sx={{ fontFamily: "MontserratRegular" }}
         >
-          Actualizar
+          Grabar
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
+
+
+
+

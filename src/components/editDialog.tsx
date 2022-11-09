@@ -5,10 +5,14 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
   FormControlLabel,
   FormGroup,
   Grid,
   IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
   Switch,
   TextField,
   Typography,
@@ -24,14 +28,51 @@ export interface EditDialogProps {
   usuario: Usuario | any;
 }
 
+export interface IUserTypes {
+  Id: string;
+  Nombre: string;
+  Descripcion: string;
+}
+
 export const EditDialog = (props: EditDialogProps) => {
   const [nombre, setNombre] = useState("");
   const [nombreUsuario, setNombreUsuario] = useState("");
   const [apellidoPaterno, setApellidoPaterno] = useState("");
   const [apellidoMaterno, setApellidoMaterno] = useState("");
   const [estaActivo, setEstaActivo] = useState(false);
-
   const [openDelete, setOpenDelete] = useState(false);
+
+  const [celular, setCelular] = useState(0);
+  const [telefono, setTelefono] = useState(0);
+  const [curp, setCurp] = useState("");
+  const [rfc, setRfc] = useState("");
+
+  const compruebaCelular = (value: number) => {
+    if (value <= 9999999999) {
+      setCelular(value);
+    } else if (value.toString() === "NaN") {
+      setCelular(0);
+    }
+  };
+  const compruebaTelefono = (value: number) => {
+    if (value <= 9999999999) {
+      setTelefono(value);
+    } else if (value.toString() === "NaN") {
+      setTelefono(0);
+    }
+  };
+  const compruebaRfc = (value: string) => {
+    var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (!format.test(value)) {
+      setRfc(value.toUpperCase());
+    }
+  };
+  const compruebaCurp = (value: string) => {
+    var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (!format.test(value)) {
+      setCurp(value.toUpperCase());
+    }
+  };
 
   const handleClickOpenDelete = () => {
     setOpenDelete(true);
@@ -109,12 +150,20 @@ export const EditDialog = (props: EditDialogProps) => {
     setApellidoPaterno(props.usuario.ApellidoPaterno);
     setApellidoMaterno(props.usuario.ApellidoMaterno);
     setEstaActivo(props.usuario.EstaActivoLabel === "Activo" ? true : false);
+    setRfc(props.usuario.rfc);
+    setCurp(props.usuario.curp);
+    setTelefono(props.usuario.telefono);
+    setCelular(props.usuario.celular);
   }, [
     props.usuario.Nombre,
     props.usuario.NombreUsuario,
     props.usuario.ApellidoPaterno,
     props.usuario.ApellidoMaterno,
     props.usuario.EstaActivoLabel,
+    props.usuario.rfc,
+    props.usuario.curp,
+    props.usuario.telefono,
+    props.usuario.celular,
   ]);
 
   const handleUpdateBtn = () => {
@@ -155,6 +204,35 @@ export const EditDialog = (props: EditDialogProps) => {
         });
     }
   };
+
+  const [usertypes, setUserTypes] = useState<Array<IUserTypes>>([]);
+  const getAllUserTypes = () => {
+    const data = {
+      IdUsuario: localStorage.getItem("IdUsuario"),
+    };
+    axios({
+      method: "post",
+      url: "http://10.200.4.105:5000/api/user-types",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("jwtToken") || "",
+      },
+      data: data,
+    })
+      .then(function (response) {
+        setUserTypes(response.data.data);
+      })
+      .catch(function (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Mensaje",
+          text: "(" + error.response.status + ") " + error.response.data.msg,
+        });
+      });
+  };
+  useEffect(() => {
+    getAllUserTypes();
+  }, []);
 
   return (
     <Dialog
@@ -224,13 +302,87 @@ export const EditDialog = (props: EditDialogProps) => {
               onChange={(v) => setApellidoMaterno(v.target.value)}
             />
           </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextField
+              margin="dense"
+              id="curp"
+              label="CURP"
+              type="text"
+              fullWidth
+              variant="standard"
+              value={curp}
+              required
+              inputProps={{ maxLength: 18 }}
+              onChange={(v) => compruebaCurp(v.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              margin="dense"
+              id="rfc"
+              label="RFC"
+              type="text"
+              fullWidth
+              variant="standard"
+              value={rfc}
+              required
+              inputProps={{ maxLength: 13 }}
+              onChange={(v) => compruebaRfc(v.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              margin="dense"
+              id="telefono"
+              label="Telefono"
+              value={telefono === 0 ? "" : telefono}
+              fullWidth
+              required
+              variant="standard"
+              onChange={(v) => compruebaTelefono(parseInt(v.target.value))}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              margin="dense"
+              id="celular"
+              label="Celular"
+              value={celular === 0 ? "" : celular}
+              fullWidth
+              required
+              variant="standard"
+              onChange={(v) => compruebaCelular(parseInt(v.target.value))}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <FormControl required variant="standard" fullWidth>
+              <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                Tipo de Usuario
+              </InputLabel>
+
+              <Select
+                id="tipousuario"
+                // value={age}
+                // onChange={handleChange}
+                sx={{ display: "flex", pt: 1 }}
+              >
+                {usertypes.map((types) => (
+                  <MenuItem key={types.Id} value={types.Id}>
+                    {types.Descripcion}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
           <Grid
             item
-            xs={3}
-            md={3}
+            xs={9}
+            md={9}
             sx={{
               alignItems: "center",
-              justifyContent: "center",
+              justifyContent: "flex-end",
               display: "flex",
             }}
           >
@@ -252,7 +404,7 @@ export const EditDialog = (props: EditDialogProps) => {
             md={3}
             sx={{
               alignItems: "center",
-              justifyContent: "center",
+              justifyContent: "flex-end",
               display: "flex",
             }}
           >
