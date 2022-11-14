@@ -87,7 +87,7 @@ export const Forgot = () => {
     } else {
       axios
         .post(
-          "http://10.200.4.192:5000/api/forgot-password",
+          process.env.REACT_APP_APPLICATION_DEV + "/api/forgot-password",
           {
             NombreUsuario: usuario,
           },

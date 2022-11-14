@@ -204,7 +204,7 @@ export default function CatApps() {
       //   IdUsuario: localStorage.getItem('IdUsuario')
       // },
       method: "get",
-      url: "http://10.200.4.192:5000/api/apps",
+      url: process.env.REACT_APP_APPLICATION_DEV + "/api/apps",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",

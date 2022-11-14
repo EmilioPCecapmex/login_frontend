@@ -125,7 +125,7 @@ export const EditDialog = (props: EditDialogProps) => {
   const deleteUser = () => {
     axios({
       method: "delete",
-      url: "http://10.200.4.192:5000/api/user",
+      url: process.env.REACT_APP_APPLICATION_DEV + "/api/user",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",
@@ -195,7 +195,7 @@ export const EditDialog = (props: EditDialogProps) => {
       }
       axios({
         method: "put",
-        url: "http://10.200.4.192:5000/api/user",
+        url: process.env.REACT_APP_APPLICATION_DEV + "/api/user",
         headers: {
           "Content-Type": "application/json",
           Authorization: localStorage.getItem("jwtToken") || "",
@@ -222,7 +222,7 @@ export const EditDialog = (props: EditDialogProps) => {
     };
     axios({
       method: "post",
-      url: "http://10.200.4.192:5000/api/user-types",
+      url: process.env.REACT_APP_APPLICATION_DEV + "/api/user-types",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",

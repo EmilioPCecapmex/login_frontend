@@ -134,7 +134,7 @@ export const Login = () => {
   const checkApps = () => {
     axios
       .post(
-        "http://10.200.4.192:5000/api/user-apps",
+        process.env.REACT_APP_APPLICATION_DEV + "/api/user-apps",
         {
           IdUsuario: localStorage.getItem("IdUsuario"),
         },
@@ -174,7 +174,7 @@ export const Login = () => {
   const validateCredentials = () => {
     axios
       .post(
-        "http://10.200.4.192:5000/api/login",
+        process.env.REACT_APP_APPLICATION_DEV + "/api/login",
         {
           NombreUsuario: usuario,
           Contrasena: contrasena,
@@ -212,7 +212,7 @@ export const Login = () => {
   const userDetail = () => {
     axios
       .post(
-        "http://10.200.4.192:5000/api/user-detail",
+        process.env.REACT_APP_APPLICATION_DEV + "/api/user-detail",
         {
           IdUsuario: localStorage.getItem("IdUsuario"),
         },
@@ -345,6 +345,7 @@ export const Login = () => {
         <Box>{actualYear()}</Box>
         <Box sx={st.footerCenterText}>{ls.footerSecondText}</Box>
         <Box>{ls.footerThirdText}</Box>
+        <Box position={"absolute"} bottom={0} right={0}>v.1.2 </Box>
       </Box>
     </Box>
   );

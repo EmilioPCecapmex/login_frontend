@@ -129,7 +129,7 @@ export default function Users() {
   const getAllUsers = () => {
     axios({
       method: "get",
-      url: "http://10.200.4.192:5000/api/users",
+      url: process.env.REACT_APP_APPLICATION_DEV + "/api/users",
       params: {IdUsuario: localStorage.getItem("IdUsuario")},
       headers: {
         "Content-Type": "application/json",
