@@ -89,13 +89,15 @@ export const NewDialog = (props: NewDialogProps) => {
         text: "Completa todos los campos para continuar",
       });
     } else {
+      // console.log(IdUsuario_LS);
       const data = {
         Nombre: nombre,
         ApellidoPaterno: apellidoPaterno,
         ApellidoMaterno: apellidoMaterno,
         NombreUsuario: nombreUsuario,
         CorreoElectronico: correo,
-        IdUsuarioModificador: IdUsuario_LS,
+        IdUsuarioModificador: localStorage.getItem("IdUsuario"),
+       
         Rfc: rfc,
         Curp: curp,
         Telefono: telefono,
@@ -104,7 +106,7 @@ export const NewDialog = (props: NewDialogProps) => {
       };
       axios({
         method: "post",
-        url: "http://10.200.4.105:5000/api/sign-up",
+        url: "http://10.200.4.192:5000/api/sign-up",
         headers: {
           "Content-Type": "application/json",
           Authorization: localStorage.getItem("jwtToken") || "",
@@ -132,7 +134,7 @@ export const NewDialog = (props: NewDialogProps) => {
     };
     axios({
       method: "post",
-      url: "http://10.200.4.105:5000/api/user-types",
+      url: "http://10.200.4.192:5000/api/user-types",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",
@@ -311,7 +313,6 @@ export const NewDialog = (props: NewDialogProps) => {
                 onChange={(v) => setTipoUsuario(v.target.value) }
                 id="tipousuario"
                 value={tipousuario}
-                // onChange={handleChange}
                 sx={{ display: "flex", pt: 1 }}
               >
                 {usertypes.map((types) => (

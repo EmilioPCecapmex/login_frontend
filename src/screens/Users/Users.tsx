@@ -17,13 +17,26 @@ import { isAdmin, sessionValid } from "../../funcs/validation";
 import { Header } from "../../components/header";
 
 export interface Usuario {
-  Id: string;
-  Nombre: string;
-  ApellidoPaterno: string;
-  ApellidoMaterno: string;
-  EstaActivoLabel: string;
-  NombreUsuario: string;
+  EstaActivoLabel:   string;
+  Id:                string;
+  EstaActivo:        number;
+  Nombre:            string;
+  ApellidoPaterno:   string;
+  ApellidoMaterno:   string;
+  NombreUsuario:     string;
+  CorreoElectronico: string;
+  Curp:              string;
+  Rfc:               string;
+  Telefono:          string;
+  Celular:           string;
+  IdTipoUsuario:     string;
+  CreadoPor:         string;
+  ModificadoPor:     string;
+
 }
+
+
+
 
 export default function Users() {
   const navigate = useNavigate();
@@ -116,7 +129,8 @@ export default function Users() {
   const getAllUsers = () => {
     axios({
       method: "get",
-      url: "http://10.200.4.105:5000/api/users",
+      url: "http://10.200.4.192:5000/api/users",
+      params: {IdUsuario: localStorage.getItem("IdUsuario")},
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",
@@ -132,7 +146,7 @@ export default function Users() {
         if(!showAllUsers){
           rows = rows?.filter((x: { EstaActivoLabel: string | string[]; }) => x.EstaActivoLabel.includes('Activo'));
         }
-
+// console.log(rows);
        
         setRows(rows);
       })

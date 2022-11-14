@@ -166,10 +166,11 @@ export default function CatApps() {
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
+
         const data = { IdApp: cellValues.row.Id };
         axios({
           method: "delete",
-          url: `http://10.200.4.105:5000/api/app`,
+          url: `http://10.200.4.192:5000/api/app`,
           headers: {
             "Content-Type": "application/json",
             Authorization: localStorage.getItem("jwtToken") || "",
@@ -193,13 +194,17 @@ export default function CatApps() {
           });
       }
     });
-    console.log(cellValues.row.Id);
+    // console.log(cellValues.row.Id);
   };
+  
   // aqui es el consumo del endpoint para obtener el listado de app de la base de datos
   const getAllApps = () => {
     axios({
+      // params:{
+      //   IdUsuario: localStorage.getItem('IdUsuario')
+      // },
       method: "get",
-      url: "http://10.200.4.105:5000/api/apps",
+      url: "http://10.200.4.192:5000/api/apps",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",

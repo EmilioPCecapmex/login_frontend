@@ -24,7 +24,7 @@ export const NewDialogApp = (props: NewDialogProps) => {
 
   const handleKeyDown = (event: { key: string }) => {
     if (event.key === "Enter") {
-      console.log(event.key);
+      // console.log(event.key);
       handleStoreBtn();
     }
   };
@@ -46,7 +46,7 @@ export const NewDialogApp = (props: NewDialogProps) => {
       };
       axios({
         method: "post",
-        url: "http://10.200.4.105:5000/api/create-app",
+        url: "http://10.200.4.192:5000/api/create-app",
         headers: {
           "Content-Type": "application/json",
           Authorization: localStorage.getItem("jwtToken") || "",
@@ -58,7 +58,7 @@ export const NewDialogApp = (props: NewDialogProps) => {
           props.handleNewDialogClose(true);
         })
         .catch(function (error) {
-          console.log(error);
+          // console.log(error);
           Swal.fire({
             icon: "error",
             title: "Mensaje",

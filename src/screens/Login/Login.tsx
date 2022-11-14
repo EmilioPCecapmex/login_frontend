@@ -134,9 +134,9 @@ export const Login = () => {
   const checkApps = () => {
     axios
       .post(
-        "http://10.200.4.105:5000/api/user-apps",
+        "http://10.200.4.192:5000/api/user-apps",
         {
-          IdUsuario: IdUsuario_LS,
+          IdUsuario: localStorage.getItem("IdUsuario"),
         },
         {
           headers: {
@@ -174,7 +174,7 @@ export const Login = () => {
   const validateCredentials = () => {
     axios
       .post(
-        "http://10.200.4.105:5000/api/login",
+        "http://10.200.4.192:5000/api/login",
         {
           NombreUsuario: usuario,
           Contrasena: contrasena,
@@ -212,7 +212,7 @@ export const Login = () => {
   const userDetail = () => {
     axios
       .post(
-        "http://10.200.4.105:5000/api/user-detail",
+        "http://10.200.4.192:5000/api/user-detail",
         {
           IdUsuario: localStorage.getItem("IdUsuario"),
         },

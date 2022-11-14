@@ -87,7 +87,7 @@ export const Forgot = () => {
     } else {
       axios
         .post(
-          "http://10.200.4.105:5000/api/forgot-password",
+          "http://10.200.4.192:5000/api/forgot-password",
           {
             NombreUsuario: usuario,
           },
@@ -107,7 +107,7 @@ export const Forgot = () => {
           }
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
           if (err.response.status === 409) {
             setModalType("error");
             setModalText("Usuario no existe.");

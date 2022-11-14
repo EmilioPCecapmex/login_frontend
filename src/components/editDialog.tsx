@@ -47,6 +47,9 @@ export const EditDialog = (props: EditDialogProps) => {
   const [curp, setCurp] = useState("");
   const [rfc, setRfc] = useState("");
 
+
+  const [tipousuario, setTipoUsuario] = useState("");
+
   const compruebaCelular = (value: number) => {
     if (value <= 9999999999) {
       setCelular(value);
@@ -122,13 +125,14 @@ export const EditDialog = (props: EditDialogProps) => {
   const deleteUser = () => {
     axios({
       method: "delete",
-      url: "http://10.200.4.105:5000/api/user",
+      url: "http://10.200.4.192:5000/api/user",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",
       },
       data: {
         IdUsuario: props.usuario.Id,
+        IdUsuarioModificador: localStorage.getItem("IdUsuario"),
       },
     })
       .then(function (response) {
@@ -150,20 +154,22 @@ export const EditDialog = (props: EditDialogProps) => {
     setApellidoPaterno(props.usuario.ApellidoPaterno);
     setApellidoMaterno(props.usuario.ApellidoMaterno);
     setEstaActivo(props.usuario.EstaActivoLabel === "Activo" ? true : false);
-    setRfc(props.usuario.rfc);
-    setCurp(props.usuario.curp);
-    setTelefono(props.usuario.telefono);
-    setCelular(props.usuario.celular);
+    setRfc(props.usuario.Rfc);
+    setCurp(props.usuario.Curp);
+    setTelefono(props.usuario.Telefono);
+    setCelular(props.usuario.Celular);
+    setTipoUsuario(props.usuario.IdTipoUsuario);
   }, [
     props.usuario.Nombre,
     props.usuario.NombreUsuario,
     props.usuario.ApellidoPaterno,
     props.usuario.ApellidoMaterno,
     props.usuario.EstaActivoLabel,
-    props.usuario.rfc,
-    props.usuario.curp,
-    props.usuario.telefono,
-    props.usuario.celular,
+    props.usuario.Rfc,
+    props.usuario.Curp,
+    props.usuario.Telefono,
+    props.usuario.Celular,
+    props.usuario.IdTipoUsuario,
   ]);
 
   const handleUpdateBtn = () => {
@@ -181,11 +187,15 @@ export const EditDialog = (props: EditDialogProps) => {
         ApellidoMaterno: apellidoMaterno,
         EstaActivo: estaActivo ? 1 : 0,
         IdUsuarioModificador: localStorage.getItem("IdUsuario") || "",
-      };
-
+        Rfc: rfc,
+        Curp: curp,
+        Telefono: telefono,
+        Celular: celular,
+        IdTipoUsuario: tipousuario,
+      }
       axios({
         method: "put",
-        url: "http://10.200.4.105:5000/api/user",
+        url: "http://10.200.4.192:5000/api/user",
         headers: {
           "Content-Type": "application/json",
           Authorization: localStorage.getItem("jwtToken") || "",
@@ -212,7 +222,7 @@ export const EditDialog = (props: EditDialogProps) => {
     };
     axios({
       method: "post",
-      url: "http://10.200.4.105:5000/api/user-types",
+      url: "http://10.200.4.192:5000/api/user-types",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",
@@ -364,8 +374,8 @@ export const EditDialog = (props: EditDialogProps) => {
 
               <Select
                 id="tipousuario"
-                // value={age}
-                // onChange={handleChange}
+                value={tipousuario}
+                onChange={(v) => setTipoUsuario(v.target.value) }
                 sx={{ display: "flex", pt: 1 }}
               >
                 {usertypes.map((types) => (

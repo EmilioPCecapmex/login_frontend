@@ -45,7 +45,7 @@ export default function AppsModal({
   useEffect(() => {
     axios
       .post(
-        "http://10.200.4.105:5000/api/user-detail",
+        "http://10.200.4.192:5000/api/user-detail",
         {
           IdUsuario: localStorage.getItem("IdUsuario") || "",
         },
