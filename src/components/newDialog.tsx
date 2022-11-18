@@ -41,8 +41,13 @@ export const NewDialog = (props: NewDialogProps) => {
   const [telefono, setTelefono] = useState(0);
   const [curp, setCurp] = useState("");
   const [rfc, setRfc] = useState("");
-
   const [tipousuario, setTipoUsuario] = useState("");
+
+  const [errorrfc, setErrorRfc] = useState(false);
+  const [errorcurp, setErrorCurp] = useState(false);
+  const [leyendaerrorrfc, setLeyendaErrorRfc] = useState("");
+  const [leyendaerrorcurp, setLeyendaErrorCurp] = useState("");
+
 
   const compruebaCelular = (value: number) => {
     if (value <= 9999999999) {
@@ -63,11 +68,25 @@ export const NewDialog = (props: NewDialogProps) => {
     if (!format.test(value)) {
       setRfc(value.toUpperCase());
     }
+    if (value.length < 12 || value.length > 13) {
+      setErrorRfc(true);
+      setLeyendaErrorRfc("13 caracteres si es persona física, 12 caracteres si es persona moral");
+    }else{
+      setErrorRfc(false);
+      setLeyendaErrorRfc("");
+    }    
   };
   const compruebaCurp = (value: string) => {
     var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     if (!format.test(value)) {
       setCurp(value.toUpperCase());
+    }
+    if (value.length != 18) {
+      setErrorCurp(true);
+      setLeyendaErrorCurp("Longitud de CURP incorrecto, tiene que ser de 18 caracteres");
+    }else{
+      setErrorCurp(false);
+      setLeyendaErrorCurp("");
     }
   };
 
@@ -262,7 +281,9 @@ export const NewDialog = (props: NewDialogProps) => {
               variant="standard"
               value={curp}
               required
-              inputProps={{ maxLength: 18 }}
+              error={errorcurp}
+              helperText={leyendaerrorcurp}
+              inputProps={{ maxLength: 18, minLength: 18 }}
               onChange={(v) => compruebaCurp(v.target.value)}
             />
           </Grid>
@@ -276,7 +297,9 @@ export const NewDialog = (props: NewDialogProps) => {
               variant="standard"
               value={rfc}
               required
-              inputProps={{ maxLength: 13 }}
+              error={errorrfc}
+              helperText={leyendaerrorrfc}
+              inputProps={{ maxLength: 13, minLength: 12 }}
               onChange={(v) => compruebaRfc(v.target.value)}
             />
           </Grid>
