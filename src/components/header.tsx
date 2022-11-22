@@ -95,7 +95,7 @@ export const Header = () => {
         </Tooltip>
 
 
-        <Tooltip title="Login">
+        <Tooltip title="Regresar al login">
           <IconButton onClick={() => loginFnc()}
             sx={[
               {

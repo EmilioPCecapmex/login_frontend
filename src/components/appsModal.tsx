@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
+import Dialog from "@mui/material/Dialog";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -73,21 +73,9 @@ export default function AppsModal({
   }
 
   return (
-    <Box>
-      <Modal open={openM}>
+      <Dialog open={openM} fullWidth maxWidth= "sm" >
         <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "auto",
-            height: "auto",
-            bgcolor: "background.paper",
-            boxShadow: 50,
-            p: 2,
-            borderRadius: 3,
-          }}
+     
         >
           <Box
             sx={{
@@ -175,8 +163,7 @@ export default function AppsModal({
             </Button>
           </Box>
         </Box>
-      </Modal>
-    </Box>
+      </Dialog>
   );
 }
 
@@ -192,4 +179,6 @@ export interface Usuario {
   CreadoPor: string;
   ModificadoPor: string;
   Deleted: number;
+  NombreCreadoPor: string;
+  NombreModificadoPor: string;
 }

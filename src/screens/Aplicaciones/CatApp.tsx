@@ -20,6 +20,7 @@ import { NewDialogApp } from "../../components/newApp";
 import { EditDialogApp } from "../../components/editApp";
 import MUIXDataGridApp from "../../components/MUIXDataGridApp";
 import { Header } from "../../components/header";
+import AppsIcon from '@mui/icons-material/Apps';
 
 // estructura que se va a llenar con la informacion que regresa el endpoint
 // tiene que tener el mismo nombre que regresa el endpoint
@@ -259,12 +260,12 @@ export default function CatApps() {
             <Typography
               sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw" }}
             >
-              Aplicaciones
+              <AppsIcon sx={{width: '3vw', height: '3vw'}}/>
             </Typography>
             <Typography
               sx={{ fontFamily: "MontserratMedium", fontSize: "1vw" }}
             >
-              Catálogos de aplicaciones centrales.
+              Catálogo de aplicaciones registradas.
             </Typography>
           </Box>
           {/* aqui es el contenido del card,y ponemos primero un box y estamos dibujando el boton para agregar un nuevo registro */}

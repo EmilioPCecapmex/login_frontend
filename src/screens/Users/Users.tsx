@@ -15,6 +15,7 @@ import { AppsDialog } from "../../components/appsDialog";
 import { useNavigate } from "react-router-dom";
 import { isAdmin, sessionValid } from "../../funcs/validation";
 import { Header } from "../../components/header";
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
 export interface Usuario {
   EstaActivoLabel:   string;
@@ -32,7 +33,8 @@ export interface Usuario {
   IdTipoUsuario:     string;
   CreadoPor:         string;
   ModificadoPor:     string;
-
+  NombreCreadoPor: string;
+  NombreModificadoPor: string;
 }
 
 
@@ -233,13 +235,13 @@ export default function Users() {
       width: 220,
     },
     {
-      field: "CreadoPor",
+      field: "NombreCreadoPor",
       headerName: "Creado Por",
       width: 150,
       headerAlign: "center",
     },
     {
-      field: "ModificadoPor",
+      field: "NombreModificadoPor",
       headerName: "Modificado Por",
       width: 150,
       headerAlign: "center",
@@ -272,7 +274,7 @@ export default function Users() {
               <Typography
                 sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw" }}
               >
-                Usuarios
+                <PeopleAltIcon sx={{width: '3vw', height: '3vw'}}/>
               </Typography>
 
               <Typography
@@ -283,7 +285,11 @@ export default function Users() {
               </Box>
 
               <FormGroup>
-              <FormControlLabel control={<Switch onChange={(v) => setShowAllUsers(v.target.checked)}/>} label="Usuarios Inactivos"  />
+              <FormControlLabel control={<Switch onChange={(v) => setShowAllUsers(v.target.checked)}/>} label={
+                <Typography sx={{fontFamily: 'MontserratSemiBold'}}>
+                  Usuarios Inactivos
+                </Typography>
+              } />
               </FormGroup>
             </Box>
 

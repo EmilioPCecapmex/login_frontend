@@ -242,6 +242,9 @@ export const Login = () => {
 
   return (
     <Box sx={st.parentBox}>
+      <Box sx={{position: 'absolute', top: 10, left: 10,}}>
+        <Typography sx={{fontFamily: 'MontserratBold',color: '#ccc'}}>{process.env.REACT_APP_APPLICATION_ENVIRONMENT}</Typography>
+      </Box>
       {openAppsModal ? (
         <AppsModal
           openM={openAppsModal}
@@ -291,6 +294,8 @@ export const Login = () => {
                     style={{ color: userInputTextColor }}
                     onClickCapture={() => onClickTxtUsuario()}
                     onBlurCapture={() => verifyUsuario()}
+                    onKeyDown={handleKeyDown}
+
                   />
                 </Box>
               </Box>
