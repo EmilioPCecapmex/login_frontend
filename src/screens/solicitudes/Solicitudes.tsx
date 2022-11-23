@@ -15,7 +15,6 @@ import CommentIcon from '@mui/icons-material/Comment';
 export const Solicitudes = () => {
 
     const [solicitudes, setSolicitudes] = useState<Array<ISolicitud>>([])
-    const [idsolicitudeSelected, setIdsolicitudeSelected] = useState("")
 
     const [solicitudesFiltered, setSolicitudesFiltered] = useState<Array<ISolicitud>>(solicitudes)
 
@@ -119,7 +118,12 @@ export const Solicitudes = () => {
     useEffect(() => {
 
         setSelectedIndex(-1)
-        setSolicitudesFiltered([])
+        let soli
+        solicitudes.map((item,x)=>{
+
+            
+
+        })
 
     }, [appSelectedIndex])
 
