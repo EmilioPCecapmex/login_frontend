@@ -14,353 +14,62 @@ import CommentIcon from '@mui/icons-material/Comment';
 
 export const Solicitudes = () => {
 
-    const [solicitudes, setSolicitudes] = useState<Array<ISolicitud>>([
-        {
-            Id: "1",
-            IdUsuario: "1884124",
-            DatosAdicionales: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Purus viverra accumsan in nisl nisi scelerisque eu ultrices vitae. Non diam phasellus vestibulum lorem sed risus ultricies. Mollis aliquam ut porttitor leo a diam. Odio morbi quis commodo odio. Tincidunt dui ut ornare lectus sit. Risus nullam eget felis eget nunc lobortis mattis aliquam. Mollis nunc sed id semper risus in hendrerit. Mollis aliquam ut porttitor leo a. Eget felis eget nunc lobortis mattis aliquam faucibus.",
-            Estatus: "1",
-            TipoSolicitud: "Sed velit dignissim sodales",
-            CreadoPor: "Ut consequat semper viverra nam libero justo",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-        },
-        {
-            Id: "2",
-            IdUsuario: "1884125",
-            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-            Estatus: "0",
-            TipoSolicitud: "Nunc consequat interdum",
-            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-        },
-        {
-            Id: "3",
-            IdUsuario: "9857463738459585736",
-            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-            Estatus: "0",
-            TipoSolicitud: "Nunc consequat interdum",
-            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-        },
-        {
-            Id: "3",
-            IdUsuario: "687456444958566474",
-            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-            Estatus: "0",
-            TipoSolicitud: "Nunc consequat interdum",
-            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-        },
-        {
-            Id: "3",
-            IdUsuario: "687456444958566474",
-            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-            Estatus: "0",
-            TipoSolicitud: "Nunc consequat interdum",
-            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-        },
-        {
-            Id: "3",
-            IdUsuario: "687456444958566474",
-            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-            Estatus: "0",
-            TipoSolicitud: "Nunc consequat interdum",
-            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-        },
-        {
-            Id: "3",
-            IdUsuario: "687456444958566474",
-            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-            Estatus: "0",
-            TipoSolicitud: "Nunc consequat interdum",
-            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-        },
-        {
-            Id: "3",
-            IdUsuario: "687456444958566474",
-            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-            Estatus: "0",
-            TipoSolicitud: "Nunc consequat interdum",
-            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-        },
-        {
-            Id: "3",
-            IdUsuario: "687456444958566474",
-            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-            Estatus: "0",
-            TipoSolicitud: "Nunc consequat interdum",
-            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-        },
-        {
-            Id: "3",
-            IdUsuario: "687456444958566474",
-            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-            Estatus: "0",
-            TipoSolicitud: "Nunc consequat interdum",
-            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-        },
-        {
-            Id: "3",
-            IdUsuario: "687456444958566474",
-            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-            Estatus: "0",
-            TipoSolicitud: "Nunc consequat interdum",
-            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-        },
-        {
-            Id: "3",
-            IdUsuario: "687456444958566474",
-            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-            Estatus: "0",
-            TipoSolicitud: "Nunc consequat interdum",
-            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-        },
-        {
-            Id: "3",
-            IdUsuario: "687456444958566474",
-            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-            Estatus: "0",
-            TipoSolicitud: "Nunc consequat interdum",
-            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-        },
-        {
-            Id: "3",
-            IdUsuario: "687456444958566474",
-            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-            Estatus: "0",
-            TipoSolicitud: "Nunc consequat interdum",
-            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-        },
-        {
-            Id: "3",
-            IdUsuario: "687456444958566474",
-            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-            Estatus: "0",
-            TipoSolicitud: "Nunc consequat interdum",
-            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "2"
-        },
-        {
-            Id: "3",
-            IdUsuario: "687456444958566474",
-            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-            Estatus: "0",
-            TipoSolicitud: "Nunc consequat interdum",
-            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "3"
-        },
-        {
-            Id: "3",
-            IdUsuario: "687456444958566474",
-            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-            Estatus: "0",
-            TipoSolicitud: "Nunc consequat interdum",
-            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-        },
-        {
-            Id: "3",
-            IdUsuario: "687456444958566474",
-            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-            Estatus: "0",
-            TipoSolicitud: "Nunc consequat interdum",
-            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-        },
-        {
-            Id: "3",
-            IdUsuario: "687456444958566474",
-            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-            Estatus: "0",
-            TipoSolicitud: "Nunc consequat interdum",
-            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-        },
-        {
-            Id: "3",
-            IdUsuario: "687456444958566474",
-            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-            Estatus: "0",
-            TipoSolicitud: "Nunc consequat interdum",
-            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-        },
-        {
-            Id: "3",
-            IdUsuario: "687456444958566474",
-            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-            Estatus: "0",
-            TipoSolicitud: "Nunc consequat interdum",
-            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-        },
-        {
-            Id: "3",
-            IdUsuario: "687456444958566474",
-            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-            Estatus: "0",
-            TipoSolicitud: "Nunc consequat interdum",
-            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "2"
-        },
-        {
-            Id: "3",
-            IdUsuario: "687456444958566474",
-            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-            Estatus: "0",
-            TipoSolicitud: "Nunc consequat interdum",
-            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "2"
-        },
-        {
-            Id: "3",
-            IdUsuario: "687456444958566474",
-            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-            Estatus: "0",
-            TipoSolicitud: "Nunc consequat interdum",
-            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "3"
-        },
-        {
-            Id: "3",
-            IdUsuario: "687456444958566474",
-            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-            Estatus: "0",
-            TipoSolicitud: "Nunc consequat interdum",
-            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-            IdApp: "3"
-        }
-    ])
+    const [solicitudes, setSolicitudes] = useState<Array<ISolicitud>>([])
 
-    const [apps, setApps] = useState<Array<IApps>>([
-        {
-            Id: "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
-            Nombre: "SIEDNL",
-            Estatus: "1",
-            CreadoPor: "XX/XX/XXXX",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "XX/XX/XXXX",
-        },
-        {
-            Id: "2",
-            Nombre: "PBR",
-            Estatus: "1",
-            CreadoPor: "XX/XX/XXXX",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "XX/XX/XXXX",
-        },
-        {
-            Id: "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
-            Nombre: "PBR",
-            Estatus: "1",
-            CreadoPor: "XX/XX/XXXX",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "XX/XX/XXXX",
-        },
-        {
-            Id: "3",
-            Nombre: "SIEDNL",
-            Estatus: "1",
-            CreadoPor: "XX/XX/XXXX",
-            FechaDeCreacion: "XX/XX/XXXX",
-            UltimaModificacion: "XX/XX/XXXX",
-            ModificadoPor: "XX/XX/XXXX",
-        }
-    ])
+    const [solicitudesFiltered, setSolicitudesFiltered] = useState<Array<ISolicitud>>(solicitudes)
+
+    const [apps, setApps] = useState<Array<IApps>>([])
+
+    const getApps = () => {
+        axios
+            .get("http://10.200.4.105:5000/api/apps", {
+                headers: {
+                    Authorization: localStorage.getItem("jwtToken") || "",
+                },
+            })
+            .then((r) => {
+                if (r.status === 200) {
+                    setApps(r.data.data);
+                }
+                else {
+                    console.log(r.data.data);
+                }
+            });
+    };
+
+    const getSolicitudes = () => {
+        axios
+            .get("http://localhost:5000/api/solicitudes", {
+                params: {
+                    IdUsuario: localStorage.getItem("IdUsuario"),
+                },
+                headers: {
+                    Authorization: localStorage.getItem("jwtToken") || "",
+                },
+            })
+            .then((r) => {
+                if (r.status === 200) {
+                    setSolicitudes(r.data.data);
+                    console.log(r.data.data);
+                }
+                else {
+                    console.log(r.data.data);
+                }
+            });
+    };
+
+    useEffect(() => {
+        getApps()
+        getSolicitudes()
+    }, [])
+
 
 
 
     const navigate = useNavigate();
-
+    //registro seleccionado
     const [selectedIndex, setSelectedIndex] = useState(0);
+    //filtrado port aplicacion
     const [appSelectedIndex, setAppSelectedIndex] = useState("");
 
 
@@ -377,9 +86,17 @@ export const Solicitudes = () => {
         },
     });
 
+
+    //cuando se seleciona un filtro, se establece en el primer registro
     useEffect(() => {
+
         setSelectedIndex(0)
+        setSolicitudesFiltered([])
+        console.log("hola");
+
     }, [appSelectedIndex])
+
+
 
     return (
         <Box sx={{
@@ -413,7 +130,7 @@ export const Solicitudes = () => {
                                     label="Filtar por aplicacion"
                                 >
                                     {apps.map((item, x) => {
-                                        return (<MenuItem key={x} value={item.Id} onClick={() => { setAppSelectedIndex(item.Id) }}>{item.Nombre}</MenuItem>)
+                                        return (<MenuItem key={x} value={item.Id} onClick={() => { setAppSelectedIndex(item.Id); }}>{item.Nombre}</MenuItem>)
                                     })}
 
 
@@ -441,11 +158,11 @@ export const Solicitudes = () => {
                                 sx={{ width: "100%", height: "100%", borderRadius: ".4vw", }}
                             >
                                 <Divider />
-                                {solicitudes.map((item, x) => {
+                                {solicitudes?.map((item, x) => {
 
 
                                     return (
-                                        <Box>
+                                        <Box key={x}>
                                             <ListItemButton
                                                 key={x}
                                                 onClick={() => { setSelectedIndex(x); }}
@@ -458,7 +175,7 @@ export const Solicitudes = () => {
                                                         backgroundColor: "#cbcbcb",
                                                     },
                                                 }}
-                                                selected={selectedIndex === x? true : false}
+                                                selected={selectedIndex === x ? true : false}
                                             >
                                                 <ListItemText primary={"Nombre: " + item.IdUsuario}
                                                     secondary={
@@ -508,7 +225,7 @@ export const Solicitudes = () => {
                         </Box>
                     </Box>
 
-                    <Box sx={{ width: "70%", height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+                    {solicitudes.length != 0 ? <Box sx={{ width: "70%", height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
                         <Box sx={{ width: "90%", height: "95%", display: "flex", flexDirection: "column", alignItems: "center", border: "1px solid #b3afaf", borderRadius: "15px", boxShadow: "15" }}>
                             {/* Id: "3",
                             IdUsuario: "687456444958566474",
@@ -523,7 +240,7 @@ export const Solicitudes = () => {
 
                             <Box sx={{ width: "100%", height: "100%", bgcolor: "#ECE8DA", borderRadius: "15px", opacity: "80%", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", boxShadow: "15" }}>
 
-                                {selectedIndex <0 ?
+                                {selectedIndex < 0 ?
                                     <Box sx={{ width: "100%", height: "80%", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
                                         <InfoTwoToneIcon sx={{ width: "100%", height: "80%", opacity: "20%" }} />
                                         <Typography fontFamily="MontserratBold">Sin información</Typography>
@@ -532,9 +249,24 @@ export const Solicitudes = () => {
                                     <Box sx={{ width: "98%", height: "95%", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", bgcolor: "#FBFBFB", borderRadius: "15px" }}>
                                         <Box sx={{ width: "98%", height: "95%", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
                                             <Box sx={{ width: "100%", height: "15%", display: "flex", alignItems: "center", justifyContent: "space-evenly" }}>
-                                                <TextField label="Aplicación" InputProps={{ readOnly: true, }} sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "32.5%" }} value={solicitudes[(selectedIndex)].IdApp} variant="standard" />
-                                                <TextField label="Enviado por" InputProps={{ readOnly: true, }} sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "32.5%" }} value={solicitudes[(selectedIndex)].ModificadoPor} variant="standard" />
-                                                <TextField label="Fecha de registro" InputProps={{ readOnly: true, }} sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "10%" }} value={solicitudes[(selectedIndex)].UltimaModificacion} variant="standard" />
+                                                <TextField
+                                                    label="Aplicación"
+                                                    InputProps={{ readOnly: true, }}
+                                                    sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "32.5%" }}
+                                                    value={solicitudes[(selectedIndex)].IdApp}
+                                                    variant="standard" />
+                                                <TextField
+                                                    label="Enviado por"
+                                                    InputProps={{ readOnly: true, }}
+                                                    sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "32.5%" }}
+                                                    value={solicitudes[(selectedIndex)].ModificadoPor}
+                                                    variant="standard" />
+                                                <TextField
+                                                    label="Fecha de registro"
+                                                    InputProps={{ readOnly: true, }}
+                                                    sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "10%" }}
+                                                    value={solicitudes[(selectedIndex)].UltimaModificacion}
+                                                    variant="standard" />
 
                                                 <Box sx={{ width: "5%" }}>
                                                     <IconButton ><CommentIcon fontSize="large" />
@@ -542,19 +274,64 @@ export const Solicitudes = () => {
 
                                             </Box>
                                             <Box sx={{ width: "100%", height: "15%", display: "flex", alignItems: "center", justifyContent: "space-evenly" }}>
-                                                <TextField label="Nombre(s)" InputProps={{ readOnly: true, }} sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }} value={solicitudes[(selectedIndex)].IdUsuario} variant="standard" />
-                                                <TextField label="Apellido  paterno" InputProps={{ readOnly: true, }} sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }} value={solicitudes[(selectedIndex)].IdUsuario} variant="standard" />
-                                                <TextField label="Apellido Materno" InputProps={{ readOnly: true, }} sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }} value={solicitudes[(selectedIndex)].IdUsuario} variant="standard" />
+                                                <TextField
+                                                    label="Nombre(s)"
+                                                    InputProps={{ readOnly: true, }}
+                                                    sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }}
+                                                    value={solicitudes[(selectedIndex)].IdUsuario} variant="standard" />
+
+                                                <TextField
+                                                    label="Apellido  paterno"
+                                                    InputProps={{ readOnly: true, }}
+                                                    sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }}
+                                                    value={solicitudes[(selectedIndex)].IdUsuario} variant="standard" />
+
+                                                <TextField
+                                                    label="Apellido Materno"
+                                                    InputProps={{ readOnly: true, }}
+                                                    sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }}
+                                                    value={solicitudes[(selectedIndex)].IdUsuario}
+                                                    variant="standard" />
                                             </Box>
                                             <Box sx={{ width: "100%", height: "15%", display: "flex", alignItems: "center", justifyContent: "space-evenly" }}>
-                                                <TextField label="Usuario " InputProps={{ readOnly: true, }} sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }} value={solicitudes[(selectedIndex)].IdUsuario} variant="standard" />
-                                                <TextField label="Correo electrónico " InputProps={{ readOnly: true, }} sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }} value={solicitudes[(selectedIndex)].IdUsuario} variant="standard" />
-                                                <TextField label="Celular" InputProps={{ readOnly: true, }} sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }} value={solicitudes[(selectedIndex)].IdUsuario} variant="standard" />
+                                                <TextField 
+                                                label="Usuario " 
+                                                InputProps={{ readOnly: true, }} 
+                                                sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }} 
+                                                value={solicitudes[(selectedIndex)].IdUsuario} 
+                                                variant="standard" />
+                                                <TextField 
+                                                label="Correo electrónico " 
+                                                InputProps={{ readOnly: true, }} 
+                                                sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }} 
+                                                value={solicitudes[(selectedIndex)].IdUsuario} 
+                                                variant="standard" />
+                                                <TextField 
+                                                label="Celular" 
+                                                InputProps={{ readOnly: true, }} 
+                                                sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }} 
+                                                value={solicitudes[(selectedIndex)].IdUsuario} 
+                                                variant="standard" />
                                             </Box>
                                             <Box sx={{ width: "100%", height: "15%", display: "flex", alignItems: "center", justifyContent: "space-evenly" }}>
-                                                <TextField label="Curp " InputProps={{ readOnly: true, }} sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }} value={solicitudes[(selectedIndex)].IdUsuario} variant="standard" />
-                                                <TextField label="RFC " InputProps={{ readOnly: true, }} sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }} value={solicitudes[(selectedIndex)].IdUsuario} variant="standard" />
-                                                <TextField label="Teléfono" InputProps={{ readOnly: true, }} sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }} value={solicitudes[(selectedIndex)].IdUsuario} variant="standard" />
+                                                <TextField 
+                                                label="Curp " 
+                                                InputProps={{ readOnly: true, }} 
+                                                sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }} 
+                                                value={solicitudes[(selectedIndex)].IdUsuario} 
+                                                variant="standard" />
+                                                <TextField 
+                                                label="RFC " 
+                                                InputProps={{ readOnly: true, }} 
+                                                sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }} 
+                                                value={solicitudes[(selectedIndex)].IdUsuario} 
+                                                variant="standard" />
+                                                <TextField 
+                                                label="Teléfono" 
+                                                InputProps={{ readOnly: true, }} 
+                                                sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }} 
+                                                value={solicitudes[(selectedIndex)].IdUsuario} 
+                                                variant="standard" />
                                             </Box>
 
                                             <Box sx={{ width: "100%", height: "30%", display: "flex", alignItems: "center", justifyContent: "space-evenly" }}>
@@ -568,28 +345,28 @@ export const Solicitudes = () => {
                                             </Box>
                                             <Box sx={{ width: "100%", height: "10%", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
                                                 <Box sx={{ display: "flex", width: "10%", mr: "8vw" }}>
-                                                    <IconButton 
-                                                    onClick={()=>{
-                                                        let a=(selectedIndex)
-                                                        a--;
-                                                        if(a>=0)
-                                                        setSelectedIndex(a)
-                                                    }}
+                                                    <IconButton
+                                                        onClick={() => {
+                                                            let a = (selectedIndex)
+                                                            a--;
+                                                            if (a >= 0)
+                                                                setSelectedIndex(a)
+                                                        }}
                                                     ><SkipPreviousIcon fontSize="large" /></IconButton>
-                                                    <IconButton 
-                                                    onClick={()=>{
-                                                        let a=(selectedIndex)
-                                                        a=a+1;
-                                                        if(a<solicitudes.length)
-                                                        setSelectedIndex(a)
-                                                    }}
+                                                    <IconButton
+                                                        onClick={() => {
+                                                            let a = (selectedIndex)
+                                                            a = a + 1;
+                                                            if (a < solicitudes.length)
+                                                                setSelectedIndex(a)
+                                                        }}
                                                     ><SkipNextIcon fontSize="large" /></IconButton>
                                                 </Box>
-                                                <Box sx={{display:"flex",width:"30%",justifyContent:"space-evenly"}}>
-                                                    <Button  variant="contained" color="error">Rechazar</Button>
-                                                    <Button  variant="contained" color="success">Aceptar</Button>
+                                                <Box sx={{ display: "flex", width: "30%", justifyContent: "space-evenly" }}>
+                                                    <Button variant="contained" color="error">Rechazar</Button>
+                                                    <Button variant="contained" color="success">Aceptar</Button>
                                                 </Box>
-                                                
+
 
                                             </Box>
                                         </Box>
@@ -601,7 +378,16 @@ export const Solicitudes = () => {
                             </Box>
 
                         </Box>
-                    </Box>
+                    </Box> :
+                        <Box sx={{ width: "70%", height: "100%", bgcolor: "#ECE8DA", borderRadius: "15px", opacity: "80%", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", boxShadow: "15" }}>
+                            <Box sx={{ width: "100%", height: "80%", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
+                                <InfoTwoToneIcon sx={{ width: "100%", height: "80%", opacity: "20%" }} />
+                                <Typography fontFamily="MontserratBold">Sin información</Typography>
+                                <Typography fontFamily="MontserratBold">Seleccione un registro para visualizar la información</Typography>
+                            </Box>
+                        </Box>
+
+                    }
 
 
 
