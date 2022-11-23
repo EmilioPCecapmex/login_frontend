@@ -1,5 +1,6 @@
 import { Close as CloseIcon } from "@mui/icons-material";
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -39,10 +40,16 @@ export const NewDialog = (props: NewDialogProps) => {
 
   const [celular, setCelular] = useState(0);
   const [telefono, setTelefono] = useState(0);
+  const [ext, setExt] = useState(0);
   const [curp, setCurp] = useState("");
   const [rfc, setRfc] = useState("");
-
   const [tipousuario, setTipoUsuario] = useState("");
+
+  const [errorrfc, setErrorRfc] = useState(false);
+  const [errorcurp, setErrorCurp] = useState(false);
+  const [leyendaerrorrfc, setLeyendaErrorRfc] = useState("");
+  const [leyendaerrorcurp, setLeyendaErrorCurp] = useState("");
+
 
   const compruebaCelular = (value: number) => {
     if (value <= 9999999999) {
@@ -58,16 +65,39 @@ export const NewDialog = (props: NewDialogProps) => {
       setTelefono(0);
     }
   };
+
+  const compruebaExt = (value: number) => {
+    if (value <= 9999) {
+      setExt(value);
+    } else if (value.toString() === "NaN") {
+      setExt(0);
+    }
+  };
+
   const compruebaRfc = (value: string) => {
     var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     if (!format.test(value)) {
       setRfc(value.toUpperCase());
     }
+    if (value.length < 12 || value.length > 13) {
+      setErrorRfc(true);
+      setLeyendaErrorRfc("13 caracteres si es persona física, 12 caracteres si es persona moral");
+    }else{
+      setErrorRfc(false);
+      setLeyendaErrorRfc("");
+    }    
   };
   const compruebaCurp = (value: string) => {
     var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     if (!format.test(value)) {
       setCurp(value.toUpperCase());
+    }
+    if (value.length != 18) {
+      setErrorCurp(true);
+      setLeyendaErrorCurp("Longitud de CURP incorrecto, tiene que ser de 18 caracteres");
+    }else{
+      setErrorCurp(false);
+      setLeyendaErrorCurp("");
     }
   };
 
@@ -80,6 +110,7 @@ export const NewDialog = (props: NewDialogProps) => {
       rfc === "" ||
       curp === "" ||
       telefono <= 0 ||
+      ext <= 0 ||
       celular <= 0 ||
       tipousuario === ""
     ) {
@@ -96,11 +127,11 @@ export const NewDialog = (props: NewDialogProps) => {
         ApellidoMaterno: apellidoMaterno,
         NombreUsuario: nombreUsuario,
         CorreoElectronico: correo,
-        IdUsuarioModificador: localStorage.getItem("IdUsuario"),
-       
+        IdUsuarioModificador: localStorage.getItem("IdUsuario"),       
         Rfc: rfc,
         Curp: curp,
         Telefono: telefono,
+        Ext: ext,
         Celular: celular,
         IdTipoUsuario: tipousuario
       };
@@ -262,7 +293,9 @@ export const NewDialog = (props: NewDialogProps) => {
               variant="standard"
               value={curp}
               required
-              inputProps={{ maxLength: 18 }}
+              error={errorcurp}
+              helperText={leyendaerrorcurp}
+              inputProps={{ maxLength: 18, minLength: 18 }}
               onChange={(v) => compruebaCurp(v.target.value)}
             />
           </Grid>
@@ -276,21 +309,31 @@ export const NewDialog = (props: NewDialogProps) => {
               variant="standard"
               value={rfc}
               required
-              inputProps={{ maxLength: 13 }}
+              error={errorrfc}
+              helperText={leyendaerrorrfc}
+              inputProps={{ maxLength: 13, minLength: 12 }}
               onChange={(v) => compruebaRfc(v.target.value)}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
+            sx={{  mr:6 }}
               margin="dense"
               id="telefono"
               label="Telefono"
-              value={telefono === 0 ? "" : telefono}
-              fullWidth
+              value={telefono === 0 ? "" : telefono}              
               required
               variant="standard"
               onChange={(v) => compruebaTelefono(parseInt(v.target.value))}
             />
+            <TextField               
+              margin="dense"
+              id="ext"
+              label="Ext"
+              value={ext === 0 ? "" : ext}
+              variant="standard"
+              onChange={(v) => compruebaExt(parseInt(v.target.value))}
+            />            
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
