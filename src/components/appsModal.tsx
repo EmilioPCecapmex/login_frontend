@@ -168,7 +168,8 @@ export default function AppsModal({
             }}
           >
             <Button
-              sx={{ color: "#000", fontFamily: "MontserratMedium" }}
+            color="error"
+              sx={{ fontFamily: "MontserratMedium" }}
               onClick={() => closeModal()}
             >
               Cancelar

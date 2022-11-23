@@ -4,7 +4,7 @@ import { Box, Card, CardContent, IconButton, Tooltip, Button, Typography, TextFi
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../../components/header";
-import { ISolicitud } from "./ISolicitud";
+import { IDetalleSolicitud, ISolicitud } from "./ISolicitud";
 import { IApps } from "./IApps";
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
@@ -15,10 +15,16 @@ import CommentIcon from '@mui/icons-material/Comment';
 export const Solicitudes = () => {
 
     const [solicitudes, setSolicitudes] = useState<Array<ISolicitud>>([])
+    const [idsolicitudeSelected, setIdsolicitudeSelected] = useState("")
 
     const [solicitudesFiltered, setSolicitudesFiltered] = useState<Array<ISolicitud>>(solicitudes)
 
+    const [detalleSolicitud, setDetalleSolicitud] = useState<Array<IDetalleSolicitud>>([])
+
+
     const [apps, setApps] = useState<Array<IApps>>([])
+
+    const [solicitudSeleccionada, setSolicitudSeleccionada] = useState("")
 
     const getApps = () => {
         axios
@@ -30,9 +36,6 @@ export const Solicitudes = () => {
             .then((r) => {
                 if (r.status === 200) {
                     setApps(r.data.data);
-                }
-                else {
-                    console.log(r.data.data);
                 }
             });
     };
@@ -50,13 +53,29 @@ export const Solicitudes = () => {
             .then((r) => {
                 if (r.status === 200) {
                     setSolicitudes(r.data.data);
-                    console.log(r.data.data);
-                }
-                else {
-                    console.log(r.data.data);
                 }
             });
     };
+
+    const getDetalleSolicitud = () => {
+        axios
+            .get("http://localhost:5000/api/detalleSol", {
+                params: {
+                    IdUsuario: localStorage.getItem("IdUsuario"),
+                    IdSolicitud: solicitudSeleccionada,
+
+                },
+                headers: {
+                    Authorization: localStorage.getItem("jwtToken") || "",
+                },
+            })
+            .then((r) => {
+                if (r.status === 200) {
+                    setDetalleSolicitud(r.data.data)
+                }
+            });
+    };
+
 
     useEffect(() => {
         getApps()
@@ -68,7 +87,7 @@ export const Solicitudes = () => {
 
     const navigate = useNavigate();
     //registro seleccionado
-    const [selectedIndex, setSelectedIndex] = useState(0);
+    const [selectedIndex, setSelectedIndex] = useState(-1);
     //filtrado port aplicacion
     const [appSelectedIndex, setAppSelectedIndex] = useState("");
 
@@ -86,15 +105,33 @@ export const Solicitudes = () => {
         },
     });
 
+    const itemSelected=(x:number,id:string)=>{
+        setSelectedIndex(x);
+        setSolicitudSeleccionada(id);
+    }
+
+    const flowSolicitudes=(x:number)=>{
+        setSolicitudSeleccionada(solicitudes[x].Id);
+    }
+
 
     //cuando se seleciona un filtro, se establece en el primer registro
     useEffect(() => {
 
-        setSelectedIndex(0)
+        setSelectedIndex(-1)
         setSolicitudesFiltered([])
-        console.log("hola");
 
     }, [appSelectedIndex])
+
+    useEffect(() => {
+        getDetalleSolicitud()
+
+    }, [selectedIndex])
+
+    // useEffect(() => {
+    //     flowSolicitudes()
+
+    // }, [selectedIndex])
 
 
 
@@ -111,19 +148,21 @@ export const Solicitudes = () => {
                 width: "100vw",
                 display: "flex",
                 justifyContent: "center",
-                alignItems: "center"
+                alignItems: "center",
             }}>
                 <Box sx={{
                     height: "95%",
                     width: "95%",
                     border: "1px solid #b3afaf",
+                    borderRadius: 5,
+                    backgroundColor: '#E4E4E4',
                     display: "flex",
 
                 }}>
                     {/* Lateral  filtro y lista de informacion*/}
                     <Box sx={{ width: "30%", height: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
                         <Box sx={{ width: "95%", height: "15%", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                            <FormControl fullWidth sx={{ bgcolor: "#ECE8DA", borderRadius: ".4vw", boxShadow: "15" }}>
+                            <FormControl fullWidth sx={{ bgcolor: "#fff", borderRadius: ".4vw", boxShadow: "15" }}>
                                 <InputLabel>Filtar por aplicacion</InputLabel>
                                 <Select
                                     value={appSelectedIndex}
@@ -139,12 +178,12 @@ export const Solicitudes = () => {
 
                         </Box>
                         <Box sx={{
-                            width: "95%", height: "79%", display: "flex", alignItems: "center", pb: 2, bgcolor: "#ECE8DA", boxShadow: "15",
+                            width: "95%", height: "79%", display: "flex", alignItems: "center", pb: 2, bgcolor: "#fff", boxShadow: "15",
                             pt: 2,
                             borderRight: "solid 1px",
                             overflow: "auto",
                             borderRadius: ".4vw",
-                            borderColor: "#BCBCBC",
+                            borderColor: "#fff",
                             "&::-webkit-scrollbar": {
                                 width: ".3vw",
                             },
@@ -165,7 +204,14 @@ export const Solicitudes = () => {
                                         <Box key={x}>
                                             <ListItemButton
                                                 key={x}
-                                                onClick={() => { setSelectedIndex(x); }}
+                                                onClick={() => {
+                                                    {
+                                                        itemSelected(x,item.Id)
+                                                        // setSelectedIndex(x);
+                                                        // setSolicitudSeleccionada(item.Id);
+                                                        
+                                                    }
+                                                }}
                                                 sx={{
                                                     pl: 2,
                                                     "&.Mui-selected ": {
@@ -177,38 +223,59 @@ export const Solicitudes = () => {
                                                 }}
                                                 selected={selectedIndex === x ? true : false}
                                             >
-                                                <ListItemText primary={"Nombre: " + item.IdUsuario}
+                                                <ListItemText
                                                     secondary={
                                                         <Fragment>
-                                                            <Typography
-                                                                sx={{ display: 'inline' }}
-                                                                component="span"
-                                                                variant="body2"
-                                                                color="text.primary"
-                                                            >
-                                                                {"Aplicacion: " + item.IdApp}
-                                                            </Typography><br />
+
+                                                            <Box sx={{ display: 'flex', width: '100%', alignItems: 'center' }}>
+                                                                <Typography
+                                                                    sx={{ display: 'inline', fontFamily: 'MontserratSemiBold' }}
+                                                                    color="text.primary"
+                                                                >
+                                                                    {"NOMBRE:"}
+                                                                </Typography>
+                                                                <Typography sx={{ fontFamily: 'MontserratMedium', ml: 1, fontSize: '.9rem' }}>
+                                                                    {item.NombreUsuario.toUpperCase()}
+                                                                </Typography>
+                                                            </Box>
 
 
-                                                            <Typography
-                                                                sx={{ display: 'inline' }}
-                                                                component="span"
-                                                                variant="body2"
-                                                                color="text.primary"
-                                                            >
-                                                                {"Registrado por: " + item.ModificadoPor}
-                                                            </Typography>
-                                                            <br />
+                                                            <Box sx={{ display: 'flex', width: '100%', alignItems: 'center' }}>
+                                                                <Typography
+                                                                    sx={{ display: 'inline', fontFamily: 'MontserratSemiBold' }}
+                                                                    color="text.primary"
+                                                                >
+                                                                    {"APLICACIÓN:"}
+                                                                </Typography>
+                                                                <Typography sx={{ fontFamily: 'MontserratMedium', ml: 1, fontSize: '.9rem' }}>
+                                                                    {item.AppNombre.toUpperCase()}
+                                                                </Typography>
+                                                            </Box>
 
-                                                            <Typography
-                                                                sx={{ display: 'inline' }}
-                                                                component="span"
-                                                                variant="body2"
-                                                                color="text.primary"
-                                                            >
-                                                                {"Tipo de solicitud: " + item.TipoSolicitud}
-                                                            </Typography>
 
+                                                            <Box sx={{ display: 'flex', width: '100%', alignItems: 'center' }}>
+                                                                <Typography
+                                                                    sx={{ display: 'inline', fontFamily: 'MontserratSemiBold' }}
+                                                                    color="text.primary"
+                                                                >
+                                                                    {"SOLICITANTE:"}
+                                                                </Typography>
+                                                                <Typography sx={{ fontFamily: 'MontserratMedium', ml: 1, fontSize: '.9rem' }}>
+                                                                    {item.NombreSolicitante.toUpperCase()}
+                                                                </Typography>
+                                                            </Box>
+
+                                                            <Box sx={{ display: 'flex', width: '100%', alignItems: 'center' }}>
+                                                                <Typography
+                                                                    sx={{ display: 'inline', fontFamily: 'MontserratSemiBold' }}
+                                                                    color="text.primary"
+                                                                >
+                                                                    {"TIPO DE SOLICITUD:"}
+                                                                </Typography>
+                                                                <Typography sx={{ fontFamily: 'MontserratMedium', ml: 1, fontSize: '.9rem' }}>
+                                                                    {item.TipoSolicitud.toUpperCase()}
+                                                                </Typography>
+                                                            </Box>
                                                         </Fragment>
 
                                                     }
@@ -238,109 +305,115 @@ export const Solicitudes = () => {
                             ModificadoPor: "Ut consequat semper viverra nam libero justo",
                             IdApp: "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY" */}
 
-                            <Box sx={{ width: "100%", height: "100%", bgcolor: "#ECE8DA", borderRadius: "15px", opacity: "80%", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", boxShadow: "15" }}>
+                            <Box sx={{ width: "100%", height: "100%", bgcolor: "#fff", borderRadius: "15px", opacity: "80%", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", boxShadow: "15" }}>
 
                                 {selectedIndex < 0 ?
                                     <Box sx={{ width: "100%", height: "80%", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
                                         <InfoTwoToneIcon sx={{ width: "100%", height: "80%", opacity: "20%" }} />
-                                        <Typography fontFamily="MontserratBold">Sin información</Typography>
-                                        <Typography fontFamily="MontserratBold">Seleccione un registro para visualizar la información</Typography>
+                                        <Typography sx={{fontFamily: 'MontserratSemiBold'}}>Sin información</Typography>
+                                        <Typography sx={{fontFamily: 'MontserratSemiBold'}}>Seleccione un registro para visualizar la información</Typography>
                                     </Box> :
-                                    <Box sx={{ width: "98%", height: "95%", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", bgcolor: "#FBFBFB", borderRadius: "15px" }}>
+                                    <Box sx={{ width: "98%", height: "95%", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", bgcolor: "#fff", borderRadius: "15px" }}>
                                         <Box sx={{ width: "98%", height: "95%", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
                                             <Box sx={{ width: "100%", height: "15%", display: "flex", alignItems: "center", justifyContent: "space-evenly" }}>
                                                 <TextField
-                                                    label="Aplicación"
+                                                    label={<Typography sx={{ fontFamily: 'MontserratSemiBold',}}>Aplicación</Typography>}
+                                                    InputLabelProps={{}}
                                                     InputProps={{ readOnly: true, }}
-                                                    sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "32.5%" }}
-                                                    value={solicitudes[(selectedIndex)].IdApp}
+                                                    sx={{ fontSize: "1.5vw", width: "32.5%" }}
+                                                    value={detalleSolicitud[0]?.NombreApp || ''}
                                                     variant="standard" />
                                                 <TextField
-                                                    label="Enviado por"
-                                                    InputProps={{ readOnly: true, }}
-                                                    sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "32.5%" }}
-                                                    value={solicitudes[(selectedIndex)].ModificadoPor}
+                                                    label={<Typography sx={{ fontFamily: 'MontserratSemiBold',}}>SOLICITADO POR</Typography>}
+                                                    sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "30%" }}
+                                                    value={detalleSolicitud[0]?.NombreSolicitante || ''}
                                                     variant="standard" />
                                                 <TextField
-                                                    label="Fecha de registro"
+                                                    label={<Typography sx={{ fontFamily: 'MontserratSemiBold',}}>FECHA DE REGISTRO</Typography>}
                                                     InputProps={{ readOnly: true, }}
-                                                    sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "10%" }}
-                                                    value={solicitudes[(selectedIndex)].UltimaModificacion}
+                                                    sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "13.5%" }}
+                                                    value={detalleSolicitud[0]?.FechaDeCreacion.split("T")[0] || ''}
                                                     variant="standard" />
 
-                                                <Box sx={{ width: "5%" }}>
+                                                <Box sx={{ width: "4%" }}>
                                                     <IconButton ><CommentIcon fontSize="large" />
                                                     </IconButton></Box>
 
                                             </Box>
                                             <Box sx={{ width: "100%", height: "15%", display: "flex", alignItems: "center", justifyContent: "space-evenly" }}>
                                                 <TextField
-                                                    label="Nombre(s)"
+                                                    label={<Typography sx={{ fontFamily: 'MontserratSemiBold',}}>NOMBRE(S)</Typography>}
                                                     InputProps={{ readOnly: true, }}
                                                     sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }}
-                                                    value={solicitudes[(selectedIndex)].IdUsuario} variant="standard" />
+                                                    value={detalleSolicitud[0]?.Nombre || ''} variant="standard" />
 
                                                 <TextField
-                                                    label="Apellido  paterno"
+                                                    label={<Typography sx={{ fontFamily: 'MontserratSemiBold',}}>APELLIDO PATERNO</Typography>}
                                                     InputProps={{ readOnly: true, }}
                                                     sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }}
-                                                    value={solicitudes[(selectedIndex)].IdUsuario} variant="standard" />
+                                                    value={detalleSolicitud[0]?.ApellidoPaterno || ''} variant="standard" />
 
                                                 <TextField
-                                                    label="Apellido Materno"
+                                                    label={<Typography sx={{ fontFamily: 'MontserratSemiBold',}}>APELLIDO MATERNO</Typography>}
                                                     InputProps={{ readOnly: true, }}
                                                     sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }}
-                                                    value={solicitudes[(selectedIndex)].IdUsuario}
+                                                    value={detalleSolicitud[0]?.ApellidoMaterno || ''}
                                                     variant="standard" />
                                             </Box>
                                             <Box sx={{ width: "100%", height: "15%", display: "flex", alignItems: "center", justifyContent: "space-evenly" }}>
-                                                <TextField 
-                                                label="Usuario " 
-                                                InputProps={{ readOnly: true, }} 
-                                                sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }} 
-                                                value={solicitudes[(selectedIndex)].IdUsuario} 
-                                                variant="standard" />
-                                                <TextField 
-                                                label="Correo electrónico " 
-                                                InputProps={{ readOnly: true, }} 
-                                                sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }} 
-                                                value={solicitudes[(selectedIndex)].IdUsuario} 
-                                                variant="standard" />
-                                                <TextField 
-                                                label="Celular" 
-                                                InputProps={{ readOnly: true, }} 
-                                                sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }} 
-                                                value={solicitudes[(selectedIndex)].IdUsuario} 
-                                                variant="standard" />
+                                                <TextField
+                                                    label={<Typography sx={{ fontFamily: 'MontserratSemiBold',}}>USUARIO</Typography>}
+                                                    InputProps={{ readOnly: true, }}
+                                                    sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }}
+                                                    value={detalleSolicitud[0]?.NombreUsuario || ''}
+                                                    variant="standard" />
+                                                <TextField
+                                                    label={<Typography sx={{ fontFamily: 'MontserratSemiBold',}}>CORREO ELECTRÓNICO</Typography>}
+                                                    InputProps={{ readOnly: true, }}
+                                                    sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }}
+                                                    value={detalleSolicitud[0]?.CorreoElectronico || ''}
+                                                    variant="standard" />
+                                                <TextField
+                                                    label={<Typography sx={{ fontFamily: 'MontserratSemiBold',}}>CELULAR</Typography>}
+                                                    InputProps={{ readOnly: true, }}
+                                                    sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }}
+                                                    value={detalleSolicitud[0]?.Celular || ''}
+                                                    variant="standard" />
                                             </Box>
                                             <Box sx={{ width: "100%", height: "15%", display: "flex", alignItems: "center", justifyContent: "space-evenly" }}>
-                                                <TextField 
-                                                label="Curp " 
-                                                InputProps={{ readOnly: true, }} 
-                                                sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }} 
-                                                value={solicitudes[(selectedIndex)].IdUsuario} 
-                                                variant="standard" />
-                                                <TextField 
-                                                label="RFC " 
-                                                InputProps={{ readOnly: true, }} 
-                                                sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }} 
-                                                value={solicitudes[(selectedIndex)].IdUsuario} 
-                                                variant="standard" />
-                                                <TextField 
-                                                label="Teléfono" 
-                                                InputProps={{ readOnly: true, }} 
-                                                sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }} 
-                                                value={solicitudes[(selectedIndex)].IdUsuario} 
-                                                variant="standard" />
+                                                <TextField
+                                                    label={<Typography sx={{ fontFamily: 'MontserratSemiBold',}}>CURP</Typography>}
+                                                    InputProps={{ readOnly: true, }}
+                                                    sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }}
+                                                    value={detalleSolicitud[0]?.Curp || ''}
+                                                    variant="standard" />
+                                                <TextField
+                                                    label={<Typography sx={{ fontFamily: 'MontserratSemiBold',}}>RFC</Typography>}
+                                                    InputProps={{ readOnly: true, }}
+                                                    sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "25%" }}
+                                                    value={detalleSolicitud[0]?.Rfc || ''}
+                                                    variant="standard" />
+                                                <TextField
+                                                    label={<Typography sx={{ fontFamily: 'MontserratSemiBold',}}>TÉLEFONO</Typography>}
+                                                    InputProps={{ readOnly: true, }}
+                                                    sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "15%" }}
+                                                    value={detalleSolicitud[0]?.Telefono || ''}
+                                                    variant="standard" />
+                                                <TextField
+                                                    label={<Typography sx={{ fontFamily: 'MontserratSemiBold',}}>EXTENSIÓN</Typography>}
+                                                    InputProps={{ readOnly: true, }}
+                                                    sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "10%" }}
+                                                    value={detalleSolicitud[0]?.Ext || ''}
+                                                    variant="standard" />
                                             </Box>
 
                                             <Box sx={{ width: "100%", height: "30%", display: "flex", alignItems: "center", justifyContent: "space-evenly" }}>
                                                 <TextField
                                                     multiline
                                                     rows={8}
-                                                    label="Información adicional "
+                                                    label={<Typography sx={{ fontFamily: 'MontserratSemiBold',}}>INFORMACIÓN ADICIONAL</Typography>}
                                                     sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw", width: "90%" }}
-                                                    value={solicitudes[(selectedIndex)].IdUsuario}
+                                                    value={detalleSolicitud[0]?.DatosAdicionales || ''}
                                                     variant="filled" />
                                             </Box>
                                             <Box sx={{ width: "100%", height: "10%", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
@@ -349,22 +422,29 @@ export const Solicitudes = () => {
                                                         onClick={() => {
                                                             let a = (selectedIndex)
                                                             a--;
-                                                            if (a >= 0)
+                                                            if (a >= 0){
                                                                 setSelectedIndex(a)
+                                                                flowSolicitudes(a)
+                                                            }
+                                                                
                                                         }}
                                                     ><SkipPreviousIcon fontSize="large" /></IconButton>
                                                     <IconButton
                                                         onClick={() => {
                                                             let a = (selectedIndex)
                                                             a = a + 1;
-                                                            if (a < solicitudes.length)
+                                                            if (a < solicitudes.length){
                                                                 setSelectedIndex(a)
+                                                                flowSolicitudes(a)
+                                                                
+                                                            }
+                                                                
                                                         }}
                                                     ><SkipNextIcon fontSize="large" /></IconButton>
                                                 </Box>
                                                 <Box sx={{ display: "flex", width: "30%", justifyContent: "space-evenly" }}>
                                                     <Button variant="contained" color="error">Rechazar</Button>
-                                                    <Button variant="contained" color="success">Aceptar</Button>
+                                                    <Button variant="contained" color="primary">Aceptar</Button>
                                                 </Box>
 
 
