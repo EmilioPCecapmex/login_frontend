@@ -135,9 +135,10 @@ export const NewDialog = (props: NewDialogProps) => {
         Celular: celular,
         IdTipoUsuario: tipousuario
       };
+
       axios({
         method: "post",
-        url: process.env.REACT_APP_APPLICATION_DEV + "/api/sign-up",
+        url: "http://localhost:5000/api/sign-up",
         headers: {
           "Content-Type": "application/json",
           Authorization: localStorage.getItem("jwtToken") || "",

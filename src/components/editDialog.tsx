@@ -227,7 +227,7 @@ export const EditDialog = (props: EditDialogProps) => {
       }
       axios({
         method: "put",
-        url: process.env.REACT_APP_APPLICATION_DEV + "/api/user",
+        url: "http://localhost:5000/api/user",
         headers: {
           "Content-Type": "application/json",
           Authorization: localStorage.getItem("jwtToken") || "",
