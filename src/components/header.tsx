@@ -12,9 +12,9 @@ import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import UndoIcon from '@mui/icons-material/Undo';
-import EmailIcon from '@mui/icons-material/Email';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import AppsIcon from '@mui/icons-material/Apps';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -59,7 +59,7 @@ export const Header = () => {
                   },
                 },
               ]}>
-              <EmailIcon />
+              <NotificationsIcon />
             </IconButton>
           </Badge>
         </Tooltip>

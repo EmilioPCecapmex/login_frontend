@@ -1,9 +1,8 @@
 export interface IApps{
-    Id: string;
-    Nombre: string;
-    Estatus: string;
-    CreadoPor: string;
-    FechaDeCreacion: string;
-    UltimaModificacion: string;
-    ModificadoPor: string;
+    "Respuesta":string;
+   "Id":string;
+   "Nombre":string;
+   "Path":string;
+   "EstaActivo":string;
+   "Deleted":string;
 }

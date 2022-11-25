@@ -44,6 +44,7 @@ export const EditDialog = (props: EditDialogProps) => {
 
   const [celular, setCelular] = useState(0);
   const [telefono, setTelefono] = useState(0);
+  const [ext, setExt] = useState(0);
   const [curp, setCurp] = useState("");
   const [rfc, setRfc] = useState("");
   const [tipousuario, setTipoUsuario] = useState("");
@@ -67,6 +68,17 @@ export const EditDialog = (props: EditDialogProps) => {
       setTelefono(0);
     }
   };
+
+  const compruebaExt = (value: number) => {
+    if (value <= 9999) {
+      setExt(value);
+    } else if (value.toString() === "NaN") {
+      setExt(0);
+    }
+  };  
+
+
+
   const compruebaRfc = (value: string) => {
     var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     if (!format.test(value)) {
@@ -174,6 +186,7 @@ export const EditDialog = (props: EditDialogProps) => {
     setRfc(props.usuario.Rfc);
     setCurp(props.usuario.Curp);
     setTelefono(props.usuario.Telefono);
+    setExt(props.usuario.Ext);
     setCelular(props.usuario.Celular);
     setTipoUsuario(props.usuario.IdTipoUsuario);
   }, [
@@ -185,6 +198,7 @@ export const EditDialog = (props: EditDialogProps) => {
     props.usuario.Rfc,
     props.usuario.Curp,
     props.usuario.Telefono,
+    props.usuario.Ext,
     props.usuario.Celular,
     props.usuario.IdTipoUsuario,
   ]);
@@ -207,12 +221,13 @@ export const EditDialog = (props: EditDialogProps) => {
         Rfc: rfc,
         Curp: curp,
         Telefono: telefono,
+        Ext: ext,
         Celular: celular,
         IdTipoUsuario: tipousuario,
       }
       axios({
         method: "put",
-        url: process.env.REACT_APP_APPLICATION_DEV + "/api/user",
+        url: "http://localhost:5000/api/user",
         headers: {
           "Content-Type": "application/json",
           Authorization: localStorage.getItem("jwtToken") || "",
@@ -364,15 +379,23 @@ export const EditDialog = (props: EditDialogProps) => {
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
+            sx={{  mr:6 }}
               margin="dense"
               id="telefono"
               label="Telefono"
-              value={telefono === 0 ? "" : telefono}
-              fullWidth
+              value={telefono === 0 ? "" : telefono}              
               required
               variant="standard"
               onChange={(v) => compruebaTelefono(parseInt(v.target.value))}
             />
+            <TextField               
+              margin="dense"
+              id="ext"
+              label="Ext"
+              value={ext === 0 ? "" : ext}
+              variant="standard"
+              onChange={(v) => compruebaExt(parseInt(v.target.value))}
+            />            
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
