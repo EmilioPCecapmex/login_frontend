@@ -14,6 +14,7 @@ export interface ISolicitud{
         ModificadoPor:      string;
         IdApp:              string;
         AppNombre:             string;
+        tipoSoli: string;
       
 }
 

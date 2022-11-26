@@ -7,14 +7,15 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import UndoIcon from '@mui/icons-material/Undo';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import AppsIcon from '@mui/icons-material/Apps';
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import axios from "axios";
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -26,6 +27,31 @@ export const Header = () => {
   const loginFnc = () => {
     navigate("../");
   };
+
+  const [solCount, setSolCount] = useState(0)
+
+  const getSolicitudes = () => {
+    axios
+      .get("http://10.200.4.200:5000/api/solicitudes", {
+        params: {
+          IdUsuario: localStorage.getItem("IdUsuario"),
+        },
+        headers: {
+          Authorization: localStorage.getItem("jwtToken") || "",
+        },
+      })
+      .then((r) => {
+        if (r.status === 200) {
+          setSolCount(r.data.data.length)
+        }
+      });
+  };
+
+  useEffect(() => {
+getSolicitudes()
+  },[])
+
+
   return (
     <Box
       sx={{
@@ -50,7 +76,7 @@ export const Header = () => {
 
 
         <Tooltip title="Solicitudes">
-          <Badge badgeContent={4} color="primary">
+          <Badge badgeContent={solCount} color="primary">
             <IconButton onClick={() => navigate("../solicitudes")}
               sx={[
                 {
@@ -59,7 +85,7 @@ export const Header = () => {
                   },
                 },
               ]}>
-              <NotificationsIcon />
+              <PostAddIcon />
             </IconButton>
           </Badge>
         </Tooltip>
