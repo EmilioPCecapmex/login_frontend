@@ -122,7 +122,7 @@ export default function AppsModal({
               flexWrap: "wrap",
             }}
           >
-            {Object.values(apps).map((item) => {
+            {Object.values(apps)?.map((item) => {
               return (
                 <Button
                   variant="outlined"

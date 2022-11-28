@@ -22,9 +22,6 @@ export const Header = () => {
     navigate("../");
   };
 
-  const loginFnc = () => {
-    navigate("../");
-  };
 
   const [solCount, setSolCount] = useState(0)
 
@@ -119,19 +116,6 @@ getSolicitudes()
         </Tooltip>
 
 
-        <Tooltip title="Regresar al login">
-          <IconButton onClick={() => loginFnc()}
-            sx={[
-              {
-                "&:hover": {
-                  color: "#c4a57b",
-                },
-              },
-            ]}
-          >
-            <UndoIcon />
-          </IconButton>
-        </Tooltip>
 
         <Tooltip title="Logout">
           <IconButton onClick={() => logoutFnc()}

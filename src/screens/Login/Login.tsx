@@ -168,7 +168,6 @@ export const Login = () => {
         if (localStorage.getItem("validation") === "true") checkApps();
       });
     }
-    // eslint-disable-next-line
   }, []);
 
   const validateCredentials = () => {
