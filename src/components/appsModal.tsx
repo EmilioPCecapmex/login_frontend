@@ -63,9 +63,9 @@ export default function AppsModal({
       });
   }, []);
 
-  const openPage = (t: string) => {
+  const openPage = (t: string, idapp: string) => {
     if(t !== "./admin"){
-      window.location.assign(t+"?jwt="+ localStorage.getItem("jwtToken")+"&rf=" + localStorage.getItem("refreshToken"))
+      window.location.assign(t+"?jwt="+ localStorage.getItem("jwtToken")+"&rf=" + localStorage.getItem("refreshToken")+"&IdApp=" + idapp)
 
     }else if(t === "./admin"){
       navigate(t)
@@ -127,7 +127,10 @@ export default function AppsModal({
                 <Button
                   variant="outlined"
                   key={item.IdApp}
-                  onClick={() => openPage(item.Path)}
+                  onClick={() => {
+                    console.log(item)
+                    openPage(item.Path, item.IdApp)
+                  }}
                   sx={{
                     borderColor: "#62787B",
                     width: "30%",
