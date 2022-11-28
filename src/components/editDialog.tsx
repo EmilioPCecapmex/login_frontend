@@ -97,7 +97,7 @@ export const EditDialog = (props: EditDialogProps) => {
     if (!format.test(value)) {
       setCurp(value.toUpperCase());
     }
-    if (value.length != 18) {
+    if (value.length !== 18) {
       setErrorCurp(true);
       setLeyendaErrorCurp("Longitud de CURP incorrecto, tiene que ser de 18 caracteres");
     }else{

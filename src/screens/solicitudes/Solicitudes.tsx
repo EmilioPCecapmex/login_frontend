@@ -417,7 +417,7 @@ export const Solicitudes = () => {
             </Box>
           </Box>
 
-          {solicitudes.length != 0 ? (
+          {solicitudes.length !== 0 ? (
             <Box
               sx={{
                 width: "70%",
