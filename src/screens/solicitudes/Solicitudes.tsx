@@ -80,8 +80,6 @@ export const Solicitudes = () => {
             });
     };
 
-
-
     const getSolicitudes = () => {
         axios
             .get("http://localhost:5000/api/solicitudes", {
@@ -353,16 +351,6 @@ export const Solicitudes = () => {
 
                     {solicitudes.length != 0 ? <Box sx={{ width: "70%", height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
                         <Box sx={{ width: "90%", height: "95%", display: "flex", flexDirection: "column", alignItems: "center", border: "1px solid #b3afaf", borderRadius: "15px", boxShadow: "15" }}>
-                            {/* Id: "3",
-                            IdUsuario: "687456444958566474",
-                            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-                            Estatus: "0",
-                            TipoSolicitud: "Nunc consequat interdum",
-                            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-                            FechaDeCreacion: "XX/XX/XXXX",
-                            UltimaModificacion: "XX/XX/XXXX",
-                            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-                            IdApp: "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY" */}
 
                             <Box sx={{ width: "100%", height: "100%", bgcolor: "#fff", borderRadius: "15px", opacity: "80%", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", boxShadow: "15" }}>
 
