@@ -32,7 +32,7 @@ export const Header = () => {
 
   const getSolicitudes = () => {
     axios
-      .get("http://10.200.4.200:5000/api/solicitudes", {
+      .get("http://10.200.4.105:5000/api/solicitudes", {
         params: {
           IdUsuario: localStorage.getItem("IdUsuario"),
         },

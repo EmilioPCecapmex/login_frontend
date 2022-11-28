@@ -42,7 +42,7 @@ export const CommentsDialog = ({
   const getComentarios = () => {
     axios({
       method: "get",
-      url: "http://10.200.4.200:5000/api/comentarios-solicitudes",
+      url: "http://10.200.4.105:5000/api/comentarios-solicitudes",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",
