@@ -15,7 +15,7 @@ import { lstXl, lstLg, lstMd, lstSm, lstXs } from "./style/lst";
 import { useNavigate } from "react-router-dom";
 import AppsModal from "../../components/appsModal";
 import axios from "axios";
-import { IdUsuario_LS, JWT_Token, sessionValid } from "../../funcs/validation";
+import { JWT_Token, sessionValid } from "../../funcs/validation";
 
 export const Login = () => {
   const navigate = useNavigate();

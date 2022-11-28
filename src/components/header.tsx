@@ -1,13 +1,11 @@
 import {
-  Avatar,
   Badge,
   Box,
-  Button,
   IconButton,
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';

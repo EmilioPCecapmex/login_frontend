@@ -1,17 +1,6 @@
-import { Close as CloseIcon } from "@mui/icons-material";
 import {
   Box,
-  Button,
   Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  FormControlLabel,
-  FormGroup,
-  Grid,
-  IconButton,
-  Paper,
-  Switch,
   Table,
   TableBody,
   TableCell,
@@ -23,8 +12,6 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { rows } from "../screens/Users/TempData";
-import { Usuario } from "../screens/Users/Users";
 import moment from 'moment'
 
 export const CommentsDialog = ({

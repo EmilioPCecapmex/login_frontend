@@ -1,20 +1,13 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import {
   Box,
-  Card,
-  CardContent,
   IconButton,
-  Tooltip,
   Button,
   Typography,
   TextField,
-  FormGroup,
-  FormControlLabel,
-  Switch,
   List,
   ListItemButton,
-  ListItemText,
   Divider,
   FormControl,
   InputLabel,
@@ -32,7 +25,6 @@ import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import CommentIcon from "@mui/icons-material/Comment";
 import { CommentsDialog } from "../../components/commentsDialog";
 import moment from 'moment';
-import React from "react";
 
 export const Solicitudes = () => {
   const [solicitudes, setSolicitudes] = useState<Array<ISolicitud>>([]);
@@ -116,7 +108,6 @@ export const Solicitudes = () => {
     getSolicitudes();
   }, []);
 
-  const navigate = useNavigate();
   //registro seleccionado
   const [selectedIndex, setSelectedIndex] = useState(-1);
   //filtrado port aplicacion

@@ -1,13 +1,11 @@
 import { Close as CloseIcon } from "@mui/icons-material";
 import {
-  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   FormControl,
-  FormHelperText,
   Grid,
   IconButton,
   InputLabel,
@@ -18,7 +16,6 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { IdUsuario_LS } from "../funcs/validation";
 
 export interface NewDialogProps {
   newDialogOpen: boolean;

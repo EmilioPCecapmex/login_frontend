@@ -1,7 +1,6 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import WarningIcon from "@mui/icons-material/Warning";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
