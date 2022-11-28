@@ -31,7 +31,8 @@ import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import CommentIcon from "@mui/icons-material/Comment";
 import { CommentsDialog } from "../../components/commentsDialog";
-import moment from 'moment'
+import moment from 'moment';
+import React from "react";
 
 export const Solicitudes = () => {
   const [solicitudes, setSolicitudes] = useState<Array<ISolicitud>>([]);
@@ -286,10 +287,10 @@ export const Solicitudes = () => {
                                   width: "100%",
                                   flexDirection: 'column'
                                 }}
-                              >
+                              > 
 
                                 <Box sx={{display: 'flex', alignItems: 'center'}}>
-                               <Box sx={{display: 'flex', width: '60%'}}>
+                               <Box sx={{display: 'flex', width: '60%',  alignItems: 'center'}}>
                                          <Typography
                                   sx={{
                                     display: "inline",
@@ -303,7 +304,7 @@ export const Solicitudes = () => {
                                   sx={{
                                     fontFamily: "MontserratMedium",
                                     ml: 1,
-                                    fontSize: ".9rem",
+                                    fontSize: ".8rem",
                                   }}
                                 >
                                   {item.NombreUsuario.toUpperCase()}
@@ -337,7 +338,7 @@ export const Solicitudes = () => {
                               
                                 </Box>
                                 
-                                <Box sx={{display: 'flex'}}>
+                                <Box sx={{display: 'flex', alignItems: 'center'}}>
                                   <Typography
                                   sx={{
                                     display: "inline",
@@ -351,14 +352,14 @@ export const Solicitudes = () => {
                                   sx={{
                                     fontFamily: "MontserratMedium",
                                     ml: 1,
-                                    fontSize: ".9rem",
+                                                                        fontSize: ".8rem",
                                   }}
                                 >
                                   {item.AppNombre.toUpperCase()}
                                 </Typography>
                                </Box>
 
-                               <Box sx={{display: 'flex'}}>
+                               <Box sx={{display: 'flex', alignItems: 'center'}}>
                                  <Typography
                                   sx={{
                                     display: "inline",
@@ -372,14 +373,14 @@ export const Solicitudes = () => {
                                   sx={{
                                     fontFamily: "MontserratMedium",
                                     ml: 1,
-                                    fontSize: ".9rem",
+                                                                        fontSize: ".8rem",
                                   }}
                                 >
                                   {item.NombreSolicitante.toUpperCase()}
                                 </Typography>
                                </Box>
 
-                               <Box sx={{display: 'flex'}}>
+                               <Box sx={{display: 'flex', alignItems: 'center'}}>
                                    <Typography
                                   sx={{
                                     display: "inline",
@@ -393,7 +394,7 @@ export const Solicitudes = () => {
                                   sx={{
                                     fontFamily: "MontserratMedium",
                                     ml: 1,
-                                    fontSize: ".9rem",
+                                                                        fontSize: ".8rem",
                                   }}
                                 >
                                   {item.tipoSoli.toUpperCase()}
