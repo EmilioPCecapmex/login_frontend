@@ -42,7 +42,7 @@ export const Solicitudes = () => {
 
     const aprobarSolicitud = () => {
         axios
-            .put("http://localhost:5000/api/aprobar-solicitud", {
+            .put("http://10.200.4.192:5000/api/aprobar-solicitud", {
 
                 IdUsuario: localStorage.getItem("IdUsuario"),
                 IdSolicitud: detalleSolicitud[0].Id,
@@ -62,7 +62,7 @@ export const Solicitudes = () => {
 
     const rechazarSolicitud = () => {
         axios
-            .put("http://localhost:5000/api/aprobar-solicitud", {
+            .put("http://10.200.4.192:5000/api/aprobar-solicitud", {
 
                 IdUsuario: localStorage.getItem("IdUsuario"),
                 IdSolicitud: detalleSolicitud[0].Id,
@@ -82,7 +82,7 @@ export const Solicitudes = () => {
 
     const getSolicitudes = () => {
         axios
-            .get("http://localhost:5000/api/solicitudes", {
+            .get("http://10.200.4.192:5000/api/solicitudes", {
                 params: {
                     IdUsuario: localStorage.getItem("IdUsuario"),
                 },
@@ -99,7 +99,7 @@ export const Solicitudes = () => {
 
     const getDetalleSolicitud = () => {
         axios
-            .get("http://localhost:5000/api/detalleSol", {
+            .get("http://10.200.4.192:5000/api/detalleSol", {
                 params: {
                     IdUsuario: localStorage.getItem("IdUsuario"),
                     IdSolicitud: solicitudSeleccionada,
@@ -528,7 +528,7 @@ export const Solicitudes = () => {
                 onClose={handleCloseOpenDialogRechazar}
             >
                 <DialogTitle >
-                    "Confirmación"
+                    Confirmación
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText >
@@ -546,11 +546,11 @@ export const Solicitudes = () => {
                 onClose={handleCloseOpenDialogAceptar}
             >
                 <DialogTitle >
-                    "Confirmación"
+                    Confirmación
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText >
-                        ¿Seguro que desea rechazar el registro de {detalleSolicitud[0]?.Nombre + " "+detalleSolicitud[0]?.ApellidoPaterno} a la aplicacion {detalleSolicitud[0]?.NombreApp}?
+                        ¿Seguro que desea aceptar el registro de {detalleSolicitud[0]?.Nombre + " "+detalleSolicitud[0]?.ApellidoPaterno} a la aplicacion {detalleSolicitud[0]?.NombreApp}?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
