@@ -13,6 +13,11 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from "@mui/material";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
@@ -55,17 +60,84 @@ export const Solicitudes = () => {
 
   const getApps = () => {
     axios
-      .get("http://10.200.4.105:5000/api/apps", {
-        headers: {
-          Authorization: localStorage.getItem("jwtToken") || "",
+        .get("http://10.200.4.105:5000/api/apps", {
+            headers: {
+                Authorization: localStorage.getItem("jwtToken") || "",
+            },
+        })
+        .then((r) => {
+            if (r.status === 200) {
+                setApps(r.data.data);
+            }
+        });
+};
+
+
+const aprobarSolicitud = () => {
+    axios
+        .put("http://10.200.4.192:5000/api/aprobar-solicitud", {
+
+            IdUsuario: localStorage.getItem("IdUsuario"),
+            IdSolicitud: detalleSolicitud[0].Id,
+            Estado: "1"
         },
-      })
-      .then((r) => {
-        if (r.status === 200) {
-          setApps(r.data.data);
-        }
-      });
-  };
+            {
+                headers: {
+                    Authorization: localStorage.getItem("jwtToken") || "",
+                },
+            })
+        .then((r) => {
+            if (r.status === 200) {
+                getSolicitudes();
+            }
+        });
+};
+
+const rechazarSolicitud = () => {
+    axios
+        .put("http://10.200.4.192:5000/api/aprobar-solicitud", {
+
+            IdUsuario: localStorage.getItem("IdUsuario"),
+            IdSolicitud: detalleSolicitud[0].Id,
+            Estado: "2"
+        },
+            {
+                headers: {
+                    Authorization: localStorage.getItem("jwtToken") || "",
+                },
+            })
+        .then((r) => {
+            if (r.status === 200) {
+                getSolicitudes();
+            }
+        });
+};
+
+
+
+useEffect(() => {
+    getApps()
+    getSolicitudes()
+}, [])
+
+
+
+
+const navigate = useNavigate();
+
+
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 5000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  })
 
   const getSolicitudes = () => {
     axios
@@ -113,17 +185,6 @@ export const Solicitudes = () => {
   //filtrado port aplicacion
   const [appSelectedIndex, setAppSelectedIndex] = useState("");
 
-  const Toast = Swal.mixin({
-    toast: true,
-    position: "top-end",
-    showConfirmButton: false,
-    timer: 5000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener("mouseenter", Swal.stopTimer);
-      toast.addEventListener("mouseleave", Swal.resumeTimer);
-    },
-  });
 
   const itemSelected = (x: number, id: string) => {
     setSelectedIndex(x);
@@ -142,6 +203,29 @@ export const Solicitudes = () => {
   useEffect(() => {
     getDetalleSolicitud();
   }, [selectedIndex]);
+
+  
+  const accionesSolicitud = (x: string) => {
+    setSelectedIndex(-1);
+    if (x === "aceptar")
+        aprobarSolicitud();
+    else
+        rechazarSolicitud();
+
+
+}
+
+
+  const [openDialogRechazar, setOpenDialogRechazar] = useState(false);
+  const [openDialogAceptar, setOpenDialogAceptar] = useState(false);
+
+  const handleCloseOpenDialogRechazar = () => {
+      setOpenDialogRechazar(false);
+    };
+
+    const handleCloseOpenDialogAceptar = () => {
+      setOpenDialogAceptar(false);
+    };
 
   return (
     <Box
@@ -845,12 +929,8 @@ export const Solicitudes = () => {
                               justifyContent: "space-evenly",
                             }}
                           >
-                            <Button variant="contained" color="error">
-                              Rechazar
-                            </Button>
-                            <Button variant="contained" color="primary">
-                              Aceptar
-                            </Button>
+                             <Button variant="contained" color="error" onClick={() => {setOpenDialogRechazar(true); }}>Rechazar</Button>
+                                                    <Button variant="contained" color="primary" onClick={() => { setOpenDialogAceptar(true); }}>Aceptar</Button>
                           </Box>
                         </Box>
                       </Box>
@@ -896,8 +976,46 @@ export const Solicitudes = () => {
               </Box>
             </Box>
           )}
+
+
         </Box>
       </Box>
+
+      <Dialog
+                open={openDialogRechazar}
+                onClose={handleCloseOpenDialogRechazar}
+            >
+                <DialogTitle >
+                    Confirmación
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText >
+                        ¿Seguro que desea rechazar el registro de {detalleSolicitud[0]?.Nombre + " "+detalleSolicitud[0]?.ApellidoPaterno} a la aplicacion {detalleSolicitud[0]?.NombreApp}?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button variant="contained" color="warning" onClick={()=>{handleCloseOpenDialogRechazar()}}>Rechazar</Button>
+                    <Button  variant="contained" color="primary" onClick={()=>{accionesSolicitud("rechazar");handleCloseOpenDialogRechazar();}}>Aceptar</Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog
+                open={openDialogAceptar}
+                onClose={handleCloseOpenDialogAceptar}
+            >
+                <DialogTitle >
+                    Confirmación
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText >
+                        ¿Seguro que desea aceptar el registro de {detalleSolicitud[0]?.Nombre + " "+detalleSolicitud[0]?.ApellidoPaterno} a la aplicacion {detalleSolicitud[0]?.NombreApp}?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button variant="contained" color="warning" onClick={()=>{handleCloseOpenDialogAceptar()}}>Rechazar</Button>
+                    <Button  variant="contained" color="primary" onClick={()=>{accionesSolicitud("aceptar");handleCloseOpenDialogAceptar()}}>Aceptar</Button>
+                </DialogActions>
+            </Dialog>
     </Box>
   );
 };
