@@ -75,7 +75,7 @@ export const Solicitudes = () => {
 
 const aprobarSolicitud = () => {
     axios
-        .put("http://10.200.4.192:5000/api/aprobar-solicitud", {
+        .put("http://10.200.4.105:5000/api/aprobar-solicitud", {
 
             IdUsuario: localStorage.getItem("IdUsuario"),
             IdSolicitud: detalleSolicitud[0].Id,
@@ -95,7 +95,7 @@ const aprobarSolicitud = () => {
 
 const rechazarSolicitud = () => {
     axios
-        .put("http://10.200.4.192:5000/api/aprobar-solicitud", {
+        .put("http://10.200.4.105:5000/api/aprobar-solicitud", {
 
             IdUsuario: localStorage.getItem("IdUsuario"),
             IdSolicitud: detalleSolicitud[0].Id,
