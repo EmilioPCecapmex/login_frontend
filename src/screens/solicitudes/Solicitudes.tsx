@@ -60,7 +60,7 @@ export const Solicitudes = () => {
 
   const getApps = () => {
     axios
-        .get("http://10.200.4.105:5000/api/apps", {
+        .get(process.env.REACT_APP_APPLICATION_DEV + "/api/apps", {
             headers: {
                 Authorization: localStorage.getItem("jwtToken") || "",
             },
@@ -75,7 +75,7 @@ export const Solicitudes = () => {
 
 const aprobarSolicitud = () => {
     axios
-        .put("http://10.200.4.105:5000/api/aprobar-solicitud", {
+        .put(process.env.REACT_APP_APPLICATION_DEV + "/api/aprobar-solicitud", {
 
             IdUsuario: localStorage.getItem("IdUsuario"),
             IdSolicitud: detalleSolicitud[0].Id,
@@ -95,7 +95,7 @@ const aprobarSolicitud = () => {
 
 const rechazarSolicitud = () => {
     axios
-        .put("http://10.200.4.105:5000/api/aprobar-solicitud", {
+        .put(process.env.REACT_APP_APPLICATION_DEV + "/api/aprobar-solicitud", {
 
             IdUsuario: localStorage.getItem("IdUsuario"),
             IdSolicitud: detalleSolicitud[0].Id,
@@ -141,7 +141,7 @@ const Toast = Swal.mixin({
 
   const getSolicitudes = () => {
     axios
-      .get("http://10.200.4.105:5000/api/solicitudes", {
+      .get(process.env.REACT_APP_APPLICATION_DEV + "/api/solicitudes", {
         params: {
           IdUsuario: localStorage.getItem("IdUsuario"),
         },
@@ -159,7 +159,7 @@ const Toast = Swal.mixin({
 
   const getDetalleSolicitud = () => {
     axios
-      .get("http://10.200.4.105:5000/api/detalleSol", {
+      .get(process.env.REACT_APP_APPLICATION_DEV + "/api/detalleSol", {
         params: {
           IdUsuario: localStorage.getItem("IdUsuario"),
           IdSolicitud: solicitudSeleccionada,
