@@ -28,7 +28,8 @@ export const AppsDialog = (props: AppsDialogProps) => {
   const getAllApps = (appsUser: any) => {
     axios({
       method: "get",
-      url: "http://10.200.4.164:5000/api/apps",
+      url: process.env.REACT_APP_APPLICATION_DEV + "/api/apps",
+      params: {IdUsuario: localStorage.getItem("IdUsuario")},
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",
@@ -57,7 +58,7 @@ export const AppsDialog = (props: AppsDialogProps) => {
 
     axios({
       method: "post",
-      url: "http://10.200.4.164:5000/api/user-apps",
+      url: process.env.REACT_APP_APPLICATION_DEV + "/api/user-apps",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",
@@ -98,6 +99,7 @@ export const AppsDialog = (props: AppsDialogProps) => {
   const handleUpdateBtn = () => {
     const data = {
       IdUsuario: props.usuario.Id,
+      IdUsuarioModificador: localStorage.getItem("IdUsuario"),
       Apps: apps.map((app: any) => {
         return { IdApp: app.Id, Vincular: app.active ? 1 : 0 };
       }),
@@ -105,7 +107,7 @@ export const AppsDialog = (props: AppsDialogProps) => {
 
     axios({
       method: "post",
-      url: "http://10.200.4.164:5000/api/manage-links",
+      url: process.env.REACT_APP_APPLICATION_DEV + "/api/manage-links",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",
@@ -162,7 +164,7 @@ export const AppsDialog = (props: AppsDialogProps) => {
               justifyContent="center"
               display="flex"
             >
-              <FormGroup>
+              <FormGroup sx={{ width: '10vw'}}>
                 <FormControlLabel
                   control={
                     <Switch

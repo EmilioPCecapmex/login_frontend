@@ -1,14 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import {
-  Box,
-  Card,
-  CardContent,
-  IconButton,
-  Tooltip,
-  Button,
-  Typography,
-} from "@mui/material";
+import {Box,Card,CardContent,IconButton,Tooltip,Button,Typography,FormGroup,FormControlLabel,Switch,} from "@mui/material";
 import {
   AccountTree as AccountTreeIcon,
   Edit as EditIcon,
@@ -23,15 +15,30 @@ import { AppsDialog } from "../../components/appsDialog";
 import { useNavigate } from "react-router-dom";
 import { isAdmin, sessionValid } from "../../funcs/validation";
 import { Header } from "../../components/header";
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
 export interface Usuario {
-  Id: string;
-  Nombre: string;
-  ApellidoPaterno: string;
-  ApellidoMaterno: string;
-  EstaActivoLabel: string;
-  NombreUsuario: string;
+  EstaActivoLabel:   string;
+  Id:                string;
+  EstaActivo:        number;
+  Nombre:            string;
+  ApellidoPaterno:   string;
+  ApellidoMaterno:   string;
+  NombreUsuario:     string;
+  CorreoElectronico: string;
+  Curp:              string;
+  Rfc:               string;
+  Telefono:          string;
+  Celular:           string;
+  IdTipoUsuario:     string;
+  CreadoPor:         string;
+  ModificadoPor:     string;
+  NombreCreadoPor: string;
+  NombreModificadoPor: string;
 }
+
+
+
 
 export default function Users() {
   const navigate = useNavigate();
@@ -47,7 +54,8 @@ export default function Users() {
       toast.addEventListener("mouseleave", Swal.resumeTimer);
     },
   });
-  const [rows, setRows] = useState([]);
+  const [rows, setRows] = useState<Array<IUsuarios>>([]);
+  const [showAllUsers, setShowAllUsers] = useState(false)
 
   const [newDialogOpen, setNewDialogOpen] = useState(false);
   const handleNewDialogOpen = () => setNewDialogOpen(true);
@@ -123,18 +131,25 @@ export default function Users() {
   const getAllUsers = () => {
     axios({
       method: "get",
-      url: "http://10.200.4.164:5000/api/users",
+      url: process.env.REACT_APP_APPLICATION_DEV + "/api/users",
+      params: {IdUsuario: localStorage.getItem("IdUsuario")},
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",
       },
     })
       .then(function (response) {
-        const rows = response.data.data.map((row: any) => {
+        let rows = response.data.data.map((row: any) => {
           const estaActivoLabel = row.EstaActivo ? "Activo" : "Inactivo";
           const rowTemp = { EstaActivoLabel: estaActivoLabel, ...row };
-          return rowTemp;
+          return rowTemp
         });
+
+        if(!showAllUsers){
+          rows = rows?.filter((x: { EstaActivoLabel: string | string[]; }) => x.EstaActivoLabel.includes('Activo'));
+        }
+// console.log(rows);
+       
         setRows(rows);
       })
       .catch(function (error) {
@@ -150,7 +165,11 @@ export default function Users() {
   useEffect(() => {
     getAllUsers();
     // eslint-disable-next-line
-  }, []);
+  }, [showAllUsers]);
+
+  
+
+
 
   const columns = [
     {
@@ -216,13 +235,13 @@ export default function Users() {
       width: 220,
     },
     {
-      field: "CreadoPor",
+      field: "NombreCreadoPor",
       headerName: "Creado Por",
       width: 150,
       headerAlign: "center",
     },
     {
-      field: "ModificadoPor",
+      field: "NombreModificadoPor",
       headerName: "Modificado Por",
       width: 150,
       headerAlign: "center",
@@ -249,11 +268,13 @@ export default function Users() {
       >
         <Box>
           <Card sx={{ height: "80vh", width: "80vw", boxShadow: 10 }}>
-            <Box sx={{ p: 2 }}>
+            <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+
+              <Box>
               <Typography
                 sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw" }}
               >
-                Usuarios
+                <PeopleAltIcon sx={{width: '3vw', height: '3vw'}}/>
               </Typography>
 
               <Typography
@@ -261,6 +282,15 @@ export default function Users() {
               >
                 Listado de usuarios con acceso a plataformas.
               </Typography>
+              </Box>
+
+              <FormGroup>
+              <FormControlLabel control={<Switch onChange={(v) => setShowAllUsers(v.target.checked)}/>} label={
+                <Typography sx={{fontFamily: 'MontserratSemiBold'}}>
+                  Usuarios Inactivos
+                </Typography>
+              } />
+              </FormGroup>
             </Box>
 
             <CardContent>
@@ -312,4 +342,18 @@ export default function Users() {
       </Box>
     </Box>
   );
+}
+
+
+export interface IUsuarios {
+  EstaActivoLabel:   string;
+  Id:                string;
+  EstaActivo:        number;
+  Nombre:            string;
+  ApellidoPaterno:   string;
+  ApellidoMaterno:   string;
+  NombreUsuario:     string;
+  CorreoElectronico: string;
+  CreadoPor:         string;
+  ModificadoPor:     string;
 }

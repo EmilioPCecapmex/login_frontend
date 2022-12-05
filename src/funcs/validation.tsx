@@ -7,7 +7,7 @@ export const IdUsuario_LS: string = localStorage.getItem("IdUsuario") || "";
 export const sessionValid = () => {
   return axios
     .post(
-      "http://10.200.4.164:5000/api/verify",
+      process.env.REACT_APP_APPLICATION_DEV + "/api/verify",
       {},
       {
         headers: {
@@ -31,7 +31,7 @@ export const sessionValid = () => {
 export const isAdmin = () => {
   return axios
     .post(
-      "http://10.200.4.164:5000/api/user-apps",
+      process.env.REACT_APP_APPLICATION_DEV + "/api/user-apps",
       {
         IdUsuario: localStorage.getItem("IdUsuario") || "",
       },

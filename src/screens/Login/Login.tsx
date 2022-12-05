@@ -15,7 +15,7 @@ import { lstXl, lstLg, lstMd, lstSm, lstXs } from "./style/lst";
 import { useNavigate } from "react-router-dom";
 import AppsModal from "../../components/appsModal";
 import axios from "axios";
-import { IdUsuario_LS, JWT_Token, sessionValid } from "../../funcs/validation";
+import { JWT_Token, sessionValid } from "../../funcs/validation";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -134,9 +134,9 @@ export const Login = () => {
   const checkApps = () => {
     axios
       .post(
-        "http://10.200.4.164:5000/api/user-apps",
+        process.env.REACT_APP_APPLICATION_DEV + "/api/user-apps",
         {
-          IdUsuario: IdUsuario_LS,
+          IdUsuario: localStorage.getItem("IdUsuario"),
         },
         {
           headers: {
@@ -168,13 +168,12 @@ export const Login = () => {
         if (localStorage.getItem("validation") === "true") checkApps();
       });
     }
-    // eslint-disable-next-line
   }, []);
 
   const validateCredentials = () => {
     axios
       .post(
-        "http://10.200.4.164:5000/api/login",
+        process.env.REACT_APP_APPLICATION_DEV + "/api/login",
         {
           NombreUsuario: usuario,
           Contrasena: contrasena,
@@ -198,6 +197,8 @@ export const Login = () => {
             r.data.AppIds[0].Msg ||
               "tu usuario cuenta con acceso a las siguientes plataformas."
           );
+
+          userDetail()
         }
       })
       .catch((error) => {
@@ -205,6 +206,29 @@ export const Login = () => {
           openDialogModal("error", error.response.data.msg);
         }
       });
+  };
+
+  const userDetail = () => {
+    axios
+      .post(
+        process.env.REACT_APP_APPLICATION_DEV + "/api/user-detail",
+        {
+          IdUsuario: localStorage.getItem("IdUsuario"),
+        },
+        {
+          headers: {
+            "Authorization": localStorage.getItem("jwtToken") as string,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((r) => {
+        if(r.status === 200){
+          localStorage.setItem("NombreUsuario", r.data.data.Nombre + " "+ r.data.data.ApellidoPaterno)
+        } 
+   
+      })
+   
   };
 
   const signIn = () => {
@@ -217,6 +241,9 @@ export const Login = () => {
 
   return (
     <Box sx={st.parentBox}>
+      <Box sx={{position: 'absolute', top: 10, left: 10,}}>
+        <Typography sx={{fontFamily: 'MontserratBold',color: '#ccc'}}>{process.env.REACT_APP_APPLICATION_ENVIRONMENT}</Typography>
+      </Box>
       {openAppsModal ? (
         <AppsModal
           openM={openAppsModal}
@@ -266,6 +293,8 @@ export const Login = () => {
                     style={{ color: userInputTextColor }}
                     onClickCapture={() => onClickTxtUsuario()}
                     onBlurCapture={() => verifyUsuario()}
+                    onKeyDown={handleKeyDown}
+
                   />
                 </Box>
               </Box>
@@ -320,6 +349,7 @@ export const Login = () => {
         <Box>{actualYear()}</Box>
         <Box sx={st.footerCenterText}>{ls.footerSecondText}</Box>
         <Box>{ls.footerThirdText}</Box>
+        <Box position={"absolute"} bottom={0} right={0}> v.{process.env.REACT_APP_APPLICATION_VERSION}</Box>
       </Box>
     </Box>
   );

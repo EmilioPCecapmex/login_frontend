@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
+import Dialog from "@mui/material/Dialog";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -45,7 +45,7 @@ export default function AppsModal({
   useEffect(() => {
     axios
       .post(
-        "http://10.200.4.164:5000/api/user-detail",
+        process.env.REACT_APP_APPLICATION_DEV + "/api/user-detail",
         {
           IdUsuario: localStorage.getItem("IdUsuario") || "",
         },
@@ -63,30 +63,19 @@ export default function AppsModal({
       });
   }, []);
 
-  const openPage = (t: string) => {
+  const openPage = (t: string, idapp: string) => {
     if(t !== "./admin"){
-      window.open(t+"?jwt="+ localStorage.getItem("jwtToken")+"&rf=" + localStorage.getItem("refreshToken"))
+      window.location.assign(t+"?jwt="+ localStorage.getItem("jwtToken")+"&rf=" + localStorage.getItem("refreshToken")+"&IdApp=" + idapp)
+
     }else if(t === "./admin"){
       navigate(t)
     }
   }
 
   return (
-    <Box>
-      <Modal open={openM}>
+      <Dialog open={openM} fullWidth maxWidth= "sm" >
         <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "auto",
-            height: "auto",
-            bgcolor: "background.paper",
-            boxShadow: 50,
-            p: 2,
-            borderRadius: 3,
-          }}
+     
         >
           <Box
             sx={{
@@ -133,12 +122,15 @@ export default function AppsModal({
               flexWrap: "wrap",
             }}
           >
-            {Object.values(apps).map((item) => {
+            {Object.values(apps)?.map((item) => {
               return (
                 <Button
                   variant="outlined"
                   key={item.IdApp}
-                  onClick={() => openPage(item.Path)}
+                  onClick={() => {
+                    console.log(item)
+                    openPage(item.Path, item.IdApp)
+                  }}
                   sx={{
                     borderColor: "#62787B",
                     width: "30%",
@@ -167,15 +159,15 @@ export default function AppsModal({
             }}
           >
             <Button
-              sx={{ color: "#000", fontFamily: "MontserratMedium" }}
+            color="error"
+              sx={{ fontFamily: "MontserratMedium" }}
               onClick={() => closeModal()}
             >
               Cancelar
             </Button>
           </Box>
         </Box>
-      </Modal>
-    </Box>
+      </Dialog>
   );
 }
 
@@ -191,4 +183,6 @@ export interface Usuario {
   CreadoPor: string;
   ModificadoPor: string;
   Deleted: number;
+  NombreCreadoPor: string;
+  NombreModificadoPor: string;
 }

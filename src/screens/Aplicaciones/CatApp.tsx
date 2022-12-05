@@ -20,6 +20,7 @@ import { NewDialogApp } from "../../components/newApp";
 import { EditDialogApp } from "../../components/editApp";
 import MUIXDataGridApp from "../../components/MUIXDataGridApp";
 import { Header } from "../../components/header";
+import AppsIcon from '@mui/icons-material/Apps';
 
 // estructura que se va a llenar con la informacion que regresa el endpoint
 // tiene que tener el mismo nombre que regresa el endpoint
@@ -166,6 +167,7 @@ export default function CatApps() {
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
+
         const data = { IdApp: cellValues.row.Id };
         axios({
           method: "delete",
@@ -193,13 +195,17 @@ export default function CatApps() {
           });
       }
     });
-    console.log(cellValues.row.Id);
+    // console.log(cellValues.row.Id);
   };
+  
   // aqui es el consumo del endpoint para obtener el listado de app de la base de datos
   const getAllApps = () => {
     axios({
+      // params:{
+      //   IdUsuario: localStorage.getItem('IdUsuario')
+      // },
       method: "get",
-      url: "http://10.200.4.164:5000/api/apps",
+      url: process.env.REACT_APP_APPLICATION_DEV + "/api/apps",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",
@@ -228,7 +234,7 @@ export default function CatApps() {
   // esto es solo para que se ejecute la rutina de obtieneaplicaciones cuando cargue la pagina
   useEffect(() => {
     getAllApps();
-  });
+  },[]);
 
   return (
     <>
@@ -254,12 +260,12 @@ export default function CatApps() {
             <Typography
               sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw" }}
             >
-              Aplicaciones
+              <AppsIcon sx={{width: '3vw', height: '3vw'}}/>
             </Typography>
             <Typography
               sx={{ fontFamily: "MontserratMedium", fontSize: "1vw" }}
             >
-              Catálogos de aplicaciones centrales.
+              Catálogo de aplicaciones registradas.
             </Typography>
           </Box>
           {/* aqui es el contenido del card,y ponemos primero un box y estamos dibujando el boton para agregar un nuevo registro */}
