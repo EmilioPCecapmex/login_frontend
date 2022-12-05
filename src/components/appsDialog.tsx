@@ -99,6 +99,7 @@ export const AppsDialog = (props: AppsDialogProps) => {
   const handleUpdateBtn = () => {
     const data = {
       IdUsuario: props.usuario.Id,
+      IdUsuarioModificador: localStorage.getItem("IdUsuario"),
       Apps: apps.map((app: any) => {
         return { IdApp: app.Id, Vincular: app.active ? 1 : 0 };
       }),

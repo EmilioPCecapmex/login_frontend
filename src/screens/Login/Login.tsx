@@ -349,7 +349,7 @@ export const Login = () => {
         <Box>{actualYear()}</Box>
         <Box sx={st.footerCenterText}>{ls.footerSecondText}</Box>
         <Box>{ls.footerThirdText}</Box>
-        <Box position={"absolute"} bottom={0} right={0}>v.1.2 </Box>
+        <Box position={"absolute"} bottom={0} right={0}> v.{process.env.REACT_APP_APPLICATION_VERSION}</Box>
       </Box>
     </Box>
   );
