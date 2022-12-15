@@ -50,98 +50,109 @@ export const Solicitudes = () => {
     setOpenComments(false);
   };
 
-  const filtroXApp = (x:string) => {
-    if(x === ""){
-        setSolicitudesFiltered(solicitudes)
-    }else{
-        setSolicitudesFiltered(solicitudes.filter((item) => item.IdApp === x))
+  const filtroXApp = (x: string) => {
+    if (x === "") {
+      setSolicitudesFiltered(solicitudes)
+    } else {
+      setSolicitudesFiltered(solicitudes.filter((item) => item.IdApp === x))
     }
   }
 
   const getApps = () => {
     axios
-        .get("http://10.200.4.105:5000/api/apps", {
-            headers: {
-                Authorization: localStorage.getItem("jwtToken") || "",
-            },
+      .get("http://10.200.4.200:5000/api/apps", {
+        headers: {
+          Authorization: localStorage.getItem("jwtToken") || "",
+        },
+      })
+      .then((r) => {
+        if (r.status === 200) {
+          setApps(r.data.data);
+        }
+      });
+  };
+
+  const createComentarios = () => {
+    axios
+      .post(
+        "http://10.200.4.200:5000/api/create-comentario",
+        {
+          CreadoPor: localStorage.getItem("IdUsuario"),
+          IdSolicitud: detalleSolicitud[0].Id,
+          Comentario: comentario
+        },
+        {
+          headers: {
+            Authorization: localStorage.getItem("jwtToken") || "",
+          },
+        }
+      )
+      .then((r) => {
+        if (r.status === 201) {
+          
+          
+          Toast.fire({
+              icon: "success",
+              title: "¡Registro exitoso!",
+            });
+            
+        }
+      })
+      .catch((r) => {
+        if (r.response.status === 409) {
+          
+        }
+      });
+  }
+
+  const modificarSolicitud = (estado : string, tipoSoli:string) => {
+    
+    axios
+      .put("http://10.200.4.200:5000/api/solicitud-transaction", {
+
+        IdUsuario: localStorage.getItem("IdUsuario"),
+        IdSolicitud: detalleSolicitud[0].Id,
+        Estado: estado,
+        TipoSoli:tipoSoli,
+      },
+        {
+          headers: {
+            Authorization: localStorage.getItem("jwtToken") || "",
+          },
         })
-        .then((r) => {
-            if (r.status === 200) {
-                setApps(r.data.data);
-            }
-        });
-};
+      .then((r) => {
+        if (r.status === 200) {
+          getSolicitudes();
 
+          if(estado==="2" || estado==="3"){
+            createComentarios()
+          }
+        }
+      });
+  };
 
-const aprobarSolicitud = () => {
-    axios
-        .put("http://10.200.4.105:5000/api/aprobar-solicitud", {
-
-            IdUsuario: localStorage.getItem("IdUsuario"),
-            IdSolicitud: detalleSolicitud[0].Id,
-            Estado: "1"
-        },
-            {
-                headers: {
-                    Authorization: localStorage.getItem("jwtToken") || "",
-                },
-            })
-        .then((r) => {
-            if (r.status === 200) {
-                getSolicitudes();
-            }
-        });
-};
-
-const rechazarSolicitud = () => {
-    axios
-        .put("http://10.200.4.105:5000/api/aprobar-solicitud", {
-
-            IdUsuario: localStorage.getItem("IdUsuario"),
-            IdSolicitud: detalleSolicitud[0].Id,
-            Estado: "2"
-        },
-            {
-                headers: {
-                    Authorization: localStorage.getItem("jwtToken") || "",
-                },
-            })
-        .then((r) => {
-            if (r.status === 200) {
-                getSolicitudes();
-            }
-        });
-};
-
-
-
-useEffect(() => {
+  useEffect(() => {
     getApps()
     getSolicitudes()
-}, [])
+  }, [])
 
+  const navigate = useNavigate();
 
-
-
-const navigate = useNavigate();
-
-
-
-const Toast = Swal.mixin({
+  const Toast = Swal.mixin({
     toast: true,
     position: "top-end",
     showConfirmButton: false,
     timer: 5000,
     timerProgressBar: true,
     didOpen: (toast) => {
-        toast.addEventListener("mouseenter", Swal.stopTimer);
-        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
     },
   })
 
   const getSolicitudes = () => {
     axios
-      .get("http://10.200.4.105:5000/api/solicitudes", {
+      .get("http://10.200.4.200:5000/api/solicitudes", {
         params: {
           IdUsuario: localStorage.getItem("IdUsuario"),
         },
@@ -159,7 +170,7 @@ const Toast = Swal.mixin({
 
   const getDetalleSolicitud = () => {
     axios
-      .get("http://10.200.4.105:5000/api/detalleSol", {
+      .get("http://10.200.4.200:5000/api/detalleSol", {
         params: {
           IdUsuario: localStorage.getItem("IdUsuario"),
           IdSolicitud: solicitudSeleccionada,
@@ -204,28 +215,23 @@ const Toast = Swal.mixin({
     getDetalleSolicitud();
   }, [selectedIndex]);
 
-  
-  const accionesSolicitud = (x: string) => {
-    setSelectedIndex(-1);
-    if (x === "aceptar")
-        aprobarSolicitud();
-    else
-        rechazarSolicitud();
-
-
-}
-
-
+  const [openDialogModificar, setOpenDialogModificar] = useState(false);
   const [openDialogRechazar, setOpenDialogRechazar] = useState(false);
   const [openDialogAceptar, setOpenDialogAceptar] = useState(false);
 
-  const handleCloseOpenDialogRechazar = () => {
-      setOpenDialogRechazar(false);
-    };
+  const handleCloseOpenDialogModificar= () => {
+    setOpenDialogModificar(false);
+  };
 
-    const handleCloseOpenDialogAceptar = () => {
-      setOpenDialogAceptar(false);
-    };
+  const handleCloseOpenDialogRechazar = () => {
+    setOpenDialogRechazar(false);
+  };
+
+  const handleCloseOpenDialogAceptar = () => {
+    setOpenDialogAceptar(false);
+  };
+
+  const [comentario, setComentario] = useState("");
 
   return (
     <Box
@@ -237,7 +243,7 @@ const Toast = Swal.mixin({
       }}
     >
       <Header />
-      <CommentsDialog open={openComments} close={handleCloseComments} solicitud={solicitudSeleccionada}/>
+      <CommentsDialog open={openComments} close={handleCloseComments} solicitud={solicitudSeleccionada} />
       <Box
         sx={{
           height: "90vh",
@@ -280,13 +286,13 @@ const Toast = Swal.mixin({
                 fullWidth
                 sx={{ bgcolor: "#fff", borderRadius: ".4vw", boxShadow: "15" }}
               >
-                <InputLabel><Typography sx={{fontFamily: 'MontserratBold'}}>
-                Filtro por aplicación
-                    </Typography></InputLabel>
+                <InputLabel><Typography sx={{ fontFamily: 'MontserratBold' }}>
+                  Filtro por aplicación
+                </Typography></InputLabel>
                 <Select value={appSelectedIndex} label="Filtar---por---aplicacion" onChange={(c) => filtroXApp(c.target.value)}>
-                    <MenuItem value={""} onClick={() => setAppSelectedIndex("")}>
+                  <MenuItem value={""} onClick={() => setAppSelectedIndex("")}>
                     TODAS LAS APPS
-                    </MenuItem>
+                  </MenuItem>
                   {apps.map((item, x) => {
                     return (
                       <MenuItem
@@ -334,7 +340,8 @@ const Toast = Swal.mixin({
               >
                 <Divider />
                 {solicitudesFiltered?.map((item, x) => {
-                  return (
+                  if(!((solicitudesFiltered[x].tipoSoli.toUpperCase()==="ALTA" && solicitudesFiltered[x].Estatus===3)||(solicitudesFiltered[x].tipoSoli.toUpperCase()==="MODIFICACION" && solicitudesFiltered[x].Estatus===3)) ){
+                    return (
                     <Box key={x}>
                       <ListItemButton
                         key={x}
@@ -356,137 +363,139 @@ const Toast = Swal.mixin({
                         }}
                         selected={selectedIndex === x ? true : false}
                       >
-                              <Box
+                        <Box
+                          sx={{
+                            display: "flex",
+                            width: "100%",
+                            flexDirection: 'column'
+                          }}
+                        >
+
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Box sx={{ display: 'flex', width: '60%', alignItems: 'center' }}>
+                              <Typography
                                 sx={{
-                                  display: "flex",
-                                  width: "100%",
-                                  flexDirection: 'column'
+                                  display: "inline",
+                                  fontFamily: "MontserratSemiBold",
                                 }}
-                              > 
+                                color="text.primary"
+                              >
+                                {"NOMBRE:"}
+                              </Typography>
+                              <Typography
+                                sx={{
+                                  fontFamily: "MontserratMedium",
+                                  ml: 1,
+                                  fontSize: ".8rem",
+                                }}
+                              >
+                                {item.NombreUsuario.toUpperCase()}
+                              </Typography>
+                            </Box>
 
-                                <Box sx={{display: 'flex', alignItems: 'center'}}>
-                               <Box sx={{display: 'flex', width: '60%',  alignItems: 'center'}}>
-                                         <Typography
-                                  sx={{
-                                    display: "inline",
-                                    fontFamily: "MontserratSemiBold",
-                                  }}
-                                  color="text.primary"
-                                >
-                                  {"NOMBRE:"}
-                                </Typography>
-                                <Typography
-                                  sx={{
-                                    fontFamily: "MontserratMedium",
-                                    ml: 1,
-                                    fontSize: ".8rem",
-                                  }}
-                                >
-                                  {item.NombreUsuario.toUpperCase()}
-                                </Typography>
-                                    </Box>
-                               
-                               <Box sx={{display: 'flex', width:'40%', justifyContent: 'flex-end'}}>
-                                  <Typography
-                                  sx={{
-                                    display: "inline",
-                                    fontFamily: "MontserratSemiBold",
-                                    fontSize: '.6vw'
-                                  }}
-                                  color="text.primary"
-                                >
-                                  {"Fecha:"}
-                                </Typography>
-                                <Typography
-                                  sx={{
-                                    fontFamily: "MontserratMedium",
-                                    ml: 1,
-                                    fontSize: '.6vw'
-                                  }}
-                                >
-                                   {moment(item.FechaDeCreacion, moment.ISO_8601)
-                              .format("DD/MM/YYYY HH:mm:SS")
-                              .toString()}
-                                </Typography>
-                               </Box>
+                            <Box sx={{ display: 'flex', width: '40%', justifyContent: 'flex-end' }}>
+                              <Typography
+                                sx={{
+                                  display: "inline",
+                                  fontFamily: "MontserratSemiBold",
+                                  fontSize: '.6vw'
+                                }}
+                                color="text.primary"
+                              >
+                                {"Fecha:"}
+                              </Typography>
+                              <Typography
+                                sx={{
+                                  fontFamily: "MontserratMedium",
+                                  ml: 1,
+                                  fontSize: '.6vw'
+                                }}
+                              >
+                                {moment(item.FechaDeCreacion, moment.ISO_8601)
+                                  .format("DD/MM/YYYY HH:mm:SS")
+                                  .toString()}
+                              </Typography>
+                            </Box>
 
-                              
-                                </Box>
-                                
-                                <Box sx={{display: 'flex', alignItems: 'center'}}>
-                                  <Typography
-                                  sx={{
-                                    display: "inline",
-                                    fontFamily: "MontserratSemiBold",
-                                  }}
-                                  color="text.primary"
-                                >
-                                  {"APLICACIÓN:"}
-                                </Typography>
-                                <Typography
-                                  sx={{
-                                    fontFamily: "MontserratMedium",
-                                    ml: 1,
-                                                                        fontSize: ".8rem",
-                                  }}
-                                >
-                                  {item.AppNombre.toUpperCase()}
-                                </Typography>
-                               </Box>
 
-                               <Box sx={{display: 'flex', alignItems: 'center'}}>
-                                 <Typography
-                                  sx={{
-                                    display: "inline",
-                                    fontFamily: "MontserratSemiBold",
-                                  }}
-                                  color="text.primary"
-                                >
-                                  {"SOLICITANTE:"}
-                                </Typography>
-                                <Typography
-                                  sx={{
-                                    fontFamily: "MontserratMedium",
-                                    ml: 1,
-                                                                        fontSize: ".8rem",
-                                  }}
-                                >
-                                  {item.NombreSolicitante.toUpperCase()}
-                                </Typography>
-                               </Box>
+                          </Box>
 
-                               <Box sx={{display: 'flex', alignItems: 'center'}}>
-                                   <Typography
-                                  sx={{
-                                    display: "inline",
-                                    fontFamily: "MontserratSemiBold",
-                                  }}
-                                  color="text.primary"
-                                >
-                                  {"TIPO DE SOLICITUD:"}
-                                </Typography>
-                                <Typography
-                                  sx={{
-                                    fontFamily: "MontserratMedium",
-                                    ml: 1,
-                                                                        fontSize: ".8rem",
-                                  }}
-                                >
-                                  {item.tipoSoli.toUpperCase()}
-                                </Typography>
-                               </Box>
-                           
-                              
-                             
-                               
-                              
-                             
-                              </Box>
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Typography
+                              sx={{
+                                display: "inline",
+                                fontFamily: "MontserratSemiBold",
+                              }}
+                              color="text.primary"
+                            >
+                              {"APLICACIÓN:"}
+                            </Typography>
+                            <Typography
+                              sx={{
+                                fontFamily: "MontserratMedium",
+                                ml: 1,
+                                fontSize: ".8rem",
+                              }}
+                            >
+                              {item.AppNombre.toUpperCase()}
+                            </Typography>
+                          </Box>
+
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Typography
+                              sx={{
+                                display: "inline",
+                                fontFamily: "MontserratSemiBold",
+                              }}
+                              color="text.primary"
+                            >
+                              {"SOLICITANTE:"}
+                            </Typography>
+                            <Typography
+                              sx={{
+                                fontFamily: "MontserratMedium",
+                                ml: 1,
+                                fontSize: ".8rem",
+                              }}
+                            >
+                              {item.NombreSolicitante.toUpperCase()}
+                            </Typography>
+                          </Box>
+
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Typography
+                              sx={{
+                                display: "inline",
+                                fontFamily: "MontserratSemiBold",
+                              }}
+                              color="text.primary"
+                            >
+                              {"TIPO DE SOLICITUD:"}
+                            </Typography>
+                            <Typography
+                              sx={{
+                                fontFamily: "MontserratMedium",
+                                ml: 1,
+                                fontSize: ".8rem",
+                              }}
+                            >
+                              {item.tipoSoli.toUpperCase()}
+                            </Typography>
+                          </Box>
+
+
+
+
+
+
+                        </Box>
 
                       </ListItemButton>
                       <Divider />
                     </Box>
                   );
+                  }
+                  
                 })}
               </List>
             </Box>
@@ -642,8 +651,8 @@ const Toast = Swal.mixin({
                               width: "13.5%",
                             }}
                             value={moment(detalleSolicitud[0]?.FechaDeCreacion, moment.ISO_8601)
-                                    .format("DD/MM/YYYY HH:mm:SS")
-                                    .toString()
+                              .format("DD/MM/YYYY HH:mm:SS")
+                              .toString()
                             }
                             variant="standard"
                           />
@@ -929,8 +938,11 @@ const Toast = Swal.mixin({
                               justifyContent: "space-evenly",
                             }}
                           >
-                             <Button variant="contained" color="error" onClick={() => {setOpenDialogRechazar(true); }}>Rechazar</Button>
-                                                    <Button variant="contained" color="primary" onClick={() => { setOpenDialogAceptar(true); }}>Aceptar</Button>
+                            {solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() === "ALTA" || solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() === "MODIFICACION" ? 
+                            <Button variant="contained" color="info" onClick={() => { setOpenDialogModificar(true); }}>Solicitar modificar</Button> : null}
+                            <Button variant="contained" color="primary" onClick={() => { setOpenDialogAceptar(true); }}>Aceptar</Button>
+                            <Button variant="contained" color="error" onClick={() => { setOpenDialogRechazar(true); }}>Rechazar</Button>
+
                           </Box>
                         </Box>
                       </Box>
@@ -982,40 +994,79 @@ const Toast = Swal.mixin({
       </Box>
 
       <Dialog
-                open={openDialogRechazar}
-                onClose={handleCloseOpenDialogRechazar}
-            >
-                <DialogTitle >
-                    Confirmación
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText >
-                        ¿Seguro que desea rechazar el registro de {detalleSolicitud[0]?.Nombre + " "+detalleSolicitud[0]?.ApellidoPaterno} a la aplicacion {detalleSolicitud[0]?.NombreApp}?
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button variant="contained" color="warning" onClick={()=>{handleCloseOpenDialogRechazar()}}>Rechazar</Button>
-                    <Button  variant="contained" color="primary" onClick={()=>{accionesSolicitud("rechazar");handleCloseOpenDialogRechazar();}}>Aceptar</Button>
-                </DialogActions>
-            </Dialog>
+        open={openDialogRechazar}
+        onClose={handleCloseOpenDialogRechazar}
+      >
+        <DialogTitle >
+          Confirmación 
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText >
+            ¿Seguro que desea rechazar la solicitud de {detalleSolicitud[0]?.Nombre + " " + detalleSolicitud[0]?.ApellidoPaterno}?
+          </DialogContentText>
+          <TextField  
+        sx={{width:"100%"}}
+        label="Agregar comentario"
+        placeholder="Agregue el motivo por el que se rechaza la solicitud"
+        variant="filled"
+        multiline
+        rows={3}
+        onChange={(c)=>{setComentario(c.target.value) }}
+        />
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" color="error" onClick={() => { handleCloseOpenDialogRechazar() }}>Cancelar</Button>
+          <Button disabled={comentario.length>=10 ? false: true} variant="contained" color="primary" onClick={() => { modificarSolicitud("2",solicitudesFiltered[selectedIndex].tipoSoli); handleCloseOpenDialogRechazar(); }}>Aceptar</Button>
+        </DialogActions>
+      </Dialog>
 
-            <Dialog
-                open={openDialogAceptar}
-                onClose={handleCloseOpenDialogAceptar}
-            >
-                <DialogTitle >
-                    Confirmación
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText >
-                        ¿Seguro que desea aceptar el registro de {detalleSolicitud[0]?.Nombre + " "+detalleSolicitud[0]?.ApellidoPaterno} a la aplicacion {detalleSolicitud[0]?.NombreApp}?
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button variant="contained" color="warning" onClick={()=>{handleCloseOpenDialogAceptar()}}>Rechazar</Button>
-                    <Button  variant="contained" color="primary" onClick={()=>{accionesSolicitud("aceptar");handleCloseOpenDialogAceptar()}}>Aceptar</Button>
-                </DialogActions>
-            </Dialog>
+
+      <Dialog
+        open={openDialogModificar}
+        onClose={handleCloseOpenDialogRechazar}
+      >
+        <DialogTitle >
+          Confirmación
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText >
+            ¿Seguro que desea pedir modificacion del registro de {detalleSolicitud[0]?.Nombre + " " + detalleSolicitud[0]?.ApellidoPaterno} a la aplicacion {detalleSolicitud[0]?.NombreApp}?
+          </DialogContentText>
+          <TextField  
+        sx={{width:"100%"}}
+        label="Agregar comentario"
+        placeholder="Agregue el motivo por el que se solicita modificacion a la solicitud"
+        variant="filled"
+        multiline
+        rows={3}
+        onChange={(c)=>{setComentario(c.target.value) }}
+        />
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" color="error" onClick={() => { handleCloseOpenDialogModificar() }}>Cancelar</Button>
+          <Button disabled={comentario.length>=10 ? false: true} variant="contained" color="primary" onClick={() => { modificarSolicitud("3",solicitudesFiltered[selectedIndex].tipoSoli); handleCloseOpenDialogRechazar(); }}>Aceptar</Button>
+        </DialogActions>
+      </Dialog>
+
+
+
+      <Dialog
+        open={openDialogAceptar}
+        onClose={handleCloseOpenDialogAceptar}
+      >
+        <DialogTitle >
+          Confirmación
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText >
+            ¿Seguro que desea aceptar el registro de {detalleSolicitud[0]?.Nombre + " " + detalleSolicitud[0]?.ApellidoPaterno} a la aplicacion {detalleSolicitud[0]?.NombreApp}?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" color="error" onClick={() => { handleCloseOpenDialogAceptar() }}>Cancelar</Button>
+          <Button variant="contained" color="primary" onClick={() => { modificarSolicitud("1",solicitudesFiltered[selectedIndex].tipoSoli); handleCloseOpenDialogAceptar() }}>Aceptar</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
