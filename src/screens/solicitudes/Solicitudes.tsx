@@ -66,7 +66,6 @@ export const Solicitudes = () => {
     },
   ]);
 
-<<<<<<< HEAD
   const [detalleUsuario, setDetalleUsuario] = useState({
     Id: "",
     Nombre: "",
@@ -141,22 +140,6 @@ export const Solicitudes = () => {
 
     setOnChangeInfo({ ...auxiliar });
   }, [detalleUsuario]);
-=======
-  const [onChangeInfo, setOnChangeInfo] = useState
-    ({
-      Nombre: false,
-      ApellidoPaterno: false,
-      ApellidoMaterno: false,
-      NombreUsuario: false,
-      CorreoElectronico: false,
-      Curp: false,
-      Rfc: false,
-      Telefono: false,
-      Ext: false,
-      Celular: false,
-    });
-  
->>>>>>> 6eea2558cbd94dd87f9b282724825f4da75c18f2
 
   const [apps, setApps] = useState<Array<IApps>>([]);
 
@@ -385,16 +368,11 @@ export const Solicitudes = () => {
   }, [detalleUsuario])
 
   const checkCambios = () => {
-<<<<<<< HEAD
     if (
       solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() ===
       "MODIFICACION"
     )
       getDetalleUsuario();
-=======
-    if (solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() === "MODIFICACION")
-        getDetalleUsuario();
->>>>>>> 6eea2558cbd94dd87f9b282724825f4da75c18f2
     else {
       setOnChangeInfo({
         Nombre: false,
@@ -438,7 +416,6 @@ export const Solicitudes = () => {
 
   const [comentario, setComentario] = useState("");
 
-<<<<<<< HEAD
   return (
     <Box
       sx={{
@@ -454,51 +431,6 @@ export const Solicitudes = () => {
         close={handleCloseComments}
         solicitud={solicitudSeleccionada}
       />
-=======
-      (detalleSolicitud[0].Rfc === detalleUsuario.Rfc) || (solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() != "MODIFICACION") ?
-        auxiliar.Rfc = false : auxiliar.Rfc = true;
-
-      (detalleSolicitud[0].Telefono === detalleUsuario.Telefono) || (solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() != "MODIFICACION") ?
-        auxiliar.Telefono = false : auxiliar.Telefono = true;
-
-      (detalleSolicitud[0].Ext === detalleUsuario.Ext) || (solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() != "MODIFICACION") ?
-        auxiliar.Ext = false : auxiliar.Ext = true;
-
-      setOnChangeInfo(auxiliar);
-
-      console.log(onChangeInfo);
-    }}
-
-    useEffect(() => {
-      getDetalleSolicitud();
-    }, [selectedIndex]);
-
-    useEffect(() => {
-      
-      checkCambios();
-
-    }, [detalleSolicitud[0].CorreoElectronico ]);
-
-    const [openDialogModificar, setOpenDialogModificar] = useState(false);
-    const [openDialogRechazar, setOpenDialogRechazar] = useState(false);
-    const [openDialogAceptar, setOpenDialogAceptar] = useState(false);
-
-    const handleCloseOpenDialogModificar = () => {
-      setOpenDialogModificar(false);
-    };
-
-    const handleCloseOpenDialogRechazar = () => {
-      setOpenDialogRechazar(false);
-    };
-
-    const handleCloseOpenDialogAceptar = () => {
-      setOpenDialogAceptar(false);
-    };
-
-    const [comentario, setComentario] = useState("");
-
-    return (
->>>>>>> 6eea2558cbd94dd87f9b282724825f4da75c18f2
       <Box
         sx={{
           height: "90vh",
