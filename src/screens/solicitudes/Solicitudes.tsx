@@ -92,47 +92,8 @@ export const Solicitudes = () => {
       Telefono: false,
       Ext: false,
       Celular: false,
-      IdTipoUsuario: false,
     });
-
-  useEffect(() => {
-    console.log(detalleUsuario);
-    let auxiliar = onChangeInfo;
-
-    (detalleSolicitud[0].Nombre === detalleUsuario.Nombre) ?
-      auxiliar.Nombre = false : auxiliar.Nombre = true;
-
-    (detalleSolicitud[0].ApellidoPaterno === detalleUsuario.ApellidoPaterno) ?
-      auxiliar.ApellidoPaterno = false : auxiliar.ApellidoPaterno = true;
-
-    (detalleSolicitud[0].ApellidoMaterno === detalleUsuario.ApellidoMaterno) ?
-      auxiliar.ApellidoMaterno = false : auxiliar.ApellidoMaterno = true;
-
-    (detalleSolicitud[0].NombreUsuario === detalleUsuario.NombreUsuario) ?
-      auxiliar.NombreUsuario = false : auxiliar.NombreUsuario = true;
-
-    (detalleSolicitud[0].CorreoElectronico === detalleUsuario.CorreoElectronico) ?
-      auxiliar.CorreoElectronico = false : auxiliar.CorreoElectronico = true;
-
-    (detalleSolicitud[0].Celular === detalleUsuario.Celular) ?
-      auxiliar.Celular = false : auxiliar.Celular = true;
-
-    (detalleSolicitud[0].Curp === detalleUsuario.Curp) ?
-      auxiliar.Curp = false : auxiliar.Curp = true;
-
-    (detalleSolicitud[0].Rfc === detalleUsuario.Rfc) ?
-      auxiliar.Rfc = false : auxiliar.Rfc = true;
-
-    (detalleSolicitud[0].Telefono === detalleUsuario.Telefono) ?
-      auxiliar.Telefono = false : auxiliar.Telefono = true;
-
-    (detalleSolicitud[0].Ext === detalleUsuario.Ext) ?
-      auxiliar.Ext = false : auxiliar.Ext = true;
-
-    setOnChangeInfo(auxiliar)
-    console.log(onChangeInfo);
-
-  }, [detalleUsuario])
+  
 
   const [apps, setApps] = useState<Array<IApps>>([]);
 
@@ -329,9 +290,48 @@ export const Solicitudes = () => {
     setSelectedIndex(-1);
   }, [appSelectedIndex]);
 
+  useEffect(() => {
+    
+    let auxiliar = onChangeInfo;
+
+    (detalleSolicitud[0].Nombre === detalleUsuario.Nombre) ?
+      auxiliar.Nombre = false : auxiliar.Nombre = true;
+
+    (detalleSolicitud[0].ApellidoPaterno === detalleUsuario.ApellidoPaterno) ?
+      auxiliar.ApellidoPaterno = false : auxiliar.ApellidoPaterno = true;
+
+    (detalleSolicitud[0].ApellidoMaterno === detalleUsuario.ApellidoMaterno) ?
+      auxiliar.ApellidoMaterno = false : auxiliar.ApellidoMaterno = true;
+
+    (detalleSolicitud[0].NombreUsuario === detalleUsuario.NombreUsuario) ?
+      auxiliar.NombreUsuario = false : auxiliar.NombreUsuario = true;
+
+    (detalleSolicitud[0].CorreoElectronico === detalleUsuario.CorreoElectronico) ?
+      auxiliar.CorreoElectronico = false : auxiliar.CorreoElectronico = true;
+
+    (detalleSolicitud[0].Celular === detalleUsuario.Celular) ?
+      auxiliar.Celular = false : auxiliar.Celular = true;
+
+    (detalleSolicitud[0].Curp === detalleUsuario.Curp) ?
+      auxiliar.Curp = false : auxiliar.Curp = true;
+
+    (detalleSolicitud[0].Rfc === detalleUsuario.Rfc) ?
+      auxiliar.Rfc = false : auxiliar.Rfc = true;
+
+    (detalleSolicitud[0].Telefono === detalleUsuario.Telefono) ?
+      auxiliar.Telefono = false : auxiliar.Telefono = true;
+
+    (detalleSolicitud[0].Ext === detalleUsuario.Ext) ?
+      auxiliar.Ext = false : auxiliar.Ext = true;
+
+    setOnChangeInfo(auxiliar)
+    console.log(onChangeInfo);
+
+  }, [detalleUsuario])
+
   const checkCambios = () => {
     if (solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() === "MODIFICACION")
-      getDetalleUsuario();
+        getDetalleUsuario();
     else {
       let auxiliar = onChangeInfo;
 
@@ -365,7 +365,9 @@ export const Solicitudes = () => {
       (detalleSolicitud[0].Ext === detalleUsuario.Ext) || (solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() != "MODIFICACION") ?
         auxiliar.Ext = false : auxiliar.Ext = true;
 
-      setOnChangeInfo(auxiliar)
+      setOnChangeInfo(auxiliar);
+
+      console.log(onChangeInfo);
     }}
 
     useEffect(() => {
@@ -373,7 +375,7 @@ export const Solicitudes = () => {
     }, [selectedIndex]);
 
     useEffect(() => {
-      console.log(onChangeInfo);
+      
       checkCambios();
 
     }, [detalleSolicitud[0].CorreoElectronico ]);
