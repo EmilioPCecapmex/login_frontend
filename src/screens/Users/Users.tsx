@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { isAdmin, sessionValid } from "../../funcs/validation";
 import { Header } from "../../components/header";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 export interface Usuario {
   EstaActivoLabel:   string;
@@ -36,9 +37,6 @@ export interface Usuario {
   NombreCreadoPor: string;
   NombreModificadoPor: string;
 }
-
-
-
 
 export default function Users() {
   const navigate = useNavigate();
@@ -180,6 +178,17 @@ export default function Users() {
       renderCell: (cellValues: any) => {
         return (
           <Box>
+            <Tooltip title={"Descargar Solicitud"}>
+              <IconButton
+                color="info"
+                onClick={(event) => {
+                  handleAppsBtnClick(event, cellValues);
+                }}
+              >
+                <FileDownloadIcon  />
+              </IconButton>
+            </Tooltip>
+
             <Tooltip title={"Edita - " + cellValues.row.NombreUsuario}>
               <IconButton
                 color="warning"
@@ -190,7 +199,8 @@ export default function Users() {
                 <EditIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title={"Edita acceso a plataformas"}>
+
+            {/* <Tooltip title={"Edita acceso a plataformas"}>
               <IconButton
                 color="info"
                 onClick={(event) => {
@@ -199,7 +209,8 @@ export default function Users() {
               >
                 <AccountTreeIcon />
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
+            
           </Box>
         );
       },

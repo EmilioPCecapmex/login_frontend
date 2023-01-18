@@ -22,7 +22,7 @@ const localeText = {
 };
 
 export default function MUIXDataGrid(props: any) {
-  const [pageSize, setPageSize] = React.useState(10);
+  const [pageSize, setPageSize] = React.useState(8);
 
   const changePageSize = (v: number) => {
     setPageSize(v);

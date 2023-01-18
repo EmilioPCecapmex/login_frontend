@@ -288,7 +288,7 @@ export const Solicitudes = () => {
 
   useEffect(() => {
     if (selectedIndex - 1 >= 0) {
-      setSolicitudSeleccionada(solicitudesFiltered[selectedIndex-1].Id)
+      setSolicitudSeleccionada(solicitudesFiltered[selectedIndex - 1].Id)
       setSelectedIndex(selectedIndex - 1);
     }
     else
@@ -809,10 +809,7 @@ export const Solicitudes = () => {
                               fontSize: "1.5vw",
                               width: "13.5%",
                             }}
-                            value={moment(detalleSolicitud[0]?.FechaDeCreacion, moment.ISO_8601)
-                              .format("DD/MM/YYYY HH:mm:SS")
-                              .toString()
-                            }
+                            value={detalleSolicitud[0]?.FechaDeCreacion.split("T")[0]}
                             variant="standard"
                           />
 
@@ -1069,11 +1066,25 @@ export const Solicitudes = () => {
                             height: "10%",
                             display: "flex",
                             alignItems: "center",
-                            justifyContent: "flex-end",
+                            justifyContent: "flex-end",mt:"2vh"
                           }}
                         >
+                          
                           <Box
-                            sx={{ display: "flex", width: "10%", mr: "8vw" }}
+                            sx={{
+                              display: "flex",
+                              width: "60%",
+                              justifyContent: "flex-end",mr:"2vw"
+                            }}
+                          >
+                            {solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() === "ALTA" || solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() === "MODIFICACION" ?
+                            <Button variant="contained" color="info" sx={{mr:"2vw"}} onClick={() => { setOpenDialogModificar(true); }}>Solicitar modificar</Button> : null}
+                            <Button variant="contained" color="primary" sx={{mr:"2vw"}} onClick={() => { setOpenDialogAceptar(true); }}>Aceptar</Button>
+                            <Button variant="contained" color="error" sx={{mr:"2vw"}} onClick={() => { setOpenDialogRechazar(true); }}>Rechazar</Button>
+                          </Box>
+                          
+                          <Box
+                            sx={{ display: "flex", width: "10%",justifyContent:"flex-end",mr:"2vw"}}
                           >
                             <IconButton
                               onClick={() => {
@@ -1100,26 +1111,9 @@ export const Solicitudes = () => {
                               <SkipNextIcon fontSize="large" />
                             </IconButton>
                           </Box>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              width: "40%",
-                              justifyContent: "space-evenly",
-                            }}
-                          >
-                            {solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() === "ALTA" || solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() === "MODIFICACION" ?
-                              <Button variant="contained" color="info" onClick={() => { setOpenDialogModificar(true); }}>Solicitar modificar</Button> : null}
-                            <Button variant="contained" color="primary" onClick={() => { setOpenDialogAceptar(true); }}>Aceptar</Button>
-                            <Button variant="contained" color="error" onClick={() => { setOpenDialogRechazar(true); }}>Rechazar</Button>
-
-                          </Box>
+                          
                         </Box>
                       </Box>
-
-
-
-
-
                     </Box>
                   }
                 </Box>
