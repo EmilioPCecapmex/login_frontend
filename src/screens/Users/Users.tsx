@@ -89,6 +89,97 @@ export default function Users() {
     handleEditDialogOpen();
   };
 
+  
+  const imprimirSolicitud  = (datos: any) => {
+    axios
+      .post(
+        "http://192.168.137.233:90/solicitud",
+        {  
+          datos,
+      },
+        {
+          headers: {
+            Authorization: localStorage.getItem("jwtToken") || "",
+          },
+        }
+      )
+      .then((r) => {
+        console.log(r);
+        
+        if (r.status === 201) {
+
+
+          Toast.fire({
+            icon: "success",
+            title: "¡Registro exitoso!",
+          });
+          console.log(r);
+          
+        }
+      })
+      .catch((r) => {
+        console.log("Error");
+        if (r.response.status === 409) {
+         console.log("Error");
+         
+        }
+      });
+  }
+
+  // const getPdf = (datos: any) => {
+
+  //   axios
+  //     .post(  "http://192.168.137.233:90/solicitud",{
+
+  //     },
+  //     {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //         Authorization: localStorage.getItem("jwtToken") || "",
+  //       },
+  //       responseType: "arraybuffer",
+  //     })
+  //     .then((r) => {
+  //       const a = window.URL || window.webkitURL;
+
+  //       const url = a.createObjectURL(
+  //         new Blob([r.data], { type: "application/pdf" })
+  //       );
+
+  //       let link = document.createElement("a");
+
+  //       link.setAttribute("download", `${rfc}-${fecha}.pdf`);
+  //       link.setAttribute("href", url);
+  //       document.body.appendChild(link);
+  //       link.click();
+  //       setLoadingA(false);
+  //     })
+  //     .catch((err) => {
+  //       setLoadingA(false);
+  //       setSendToken("Token incorrecto o expirado, intentelo de nuevo");
+  //       setErr(true);
+  //     });
+  // };
+
+  const getDatosDocumento=(nombreUsuario: any)=>{
+    axios
+    .get(process.env.REACT_APP_APPLICATION_DEV + "/api/docSolicitudUsuario", {
+        params: {
+          NombreUsuario: nombreUsuario
+        },
+        headers: {
+            Authorization: localStorage.getItem("jwtToken") || "",
+        },
+    })
+    .then((r) => {
+        if (r.status === 200) {
+            console.log(r.data.result[0][0]);
+            imprimirSolicitud(r.data.result[0][0]);
+            
+        }
+    });
+  }
+
   const [appsDialogOpen, setAppsDialogOpen] = useState(false);
   const [appsDialogUsuario, setAppsDialogUsuario] = useState<Usuario>();
   const handleAppsDialogOpen = () => setAppsDialogOpen(true);
@@ -178,11 +269,13 @@ export default function Users() {
       renderCell: (cellValues: any) => {
         return (
           <Box>
-            <Tooltip title={"Descargar Solicitud"}>
+            <Tooltip title={"Descargar solicitud - "+ cellValues.row.NombreUsuario}>
               <IconButton
                 color="info"
                 onClick={(event) => {
-                  handleAppsBtnClick(event, cellValues);
+                  getDatosDocumento(cellValues.row.NombreUsuario);
+                  //imprimirDocumento(event, cellValues);
+                  // handleAppsBtnClick(event, cellValues);
                 }}
               >
                 <FileDownloadIcon  />
@@ -200,7 +293,7 @@ export default function Users() {
               </IconButton>
             </Tooltip>
 
-            {/* <Tooltip title={"Edita acceso a plataformas"}>
+            <Tooltip title={"Edita acceso a plataformas"}>
               <IconButton
                 color="info"
                 onClick={(event) => {
@@ -209,7 +302,7 @@ export default function Users() {
               >
                 <AccountTreeIcon />
               </IconButton>
-            </Tooltip> */}
+            </Tooltip>
             
           </Box>
         );

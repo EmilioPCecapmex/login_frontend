@@ -114,7 +114,7 @@ export const Solicitudes = () => {
 
   const getApps = () => {
     axios
-      .get("http://10.200.4.200:5000/api/apps", {
+      .get(process.env.REACT_APP_APPLICATION_DEV + "/api/apps", {
         headers: {
           Authorization: localStorage.getItem("jwtToken") || "",
         },
@@ -129,7 +129,7 @@ export const Solicitudes = () => {
   const createComentarios = () => {
     axios
       .post(
-        "http://10.200.4.200:5000/api/create-comentario",
+        process.env.REACT_APP_APPLICATION_DEV + "/api/create-comentario",
         {
           CreadoPor: localStorage.getItem("IdUsuario"),
           IdSolicitud: detalleSolicitud[0].Id,
@@ -162,7 +162,7 @@ export const Solicitudes = () => {
   const modificarSolicitud = (estado: string, tipoSoli: string) => {
 
     axios
-      .put("http://10.200.4.200:5000/api/solicitud-transaction", {
+      .put(process.env.REACT_APP_APPLICATION_DEV + "/api/solicitud-transaction", {
 
         IdUsuario: localStorage.getItem("IdUsuario"),
         IdSolicitud: detalleSolicitud[0].Id,
@@ -199,7 +199,7 @@ export const Solicitudes = () => {
 
   const getSolicitudes = () => {
     axios
-      .get("http://10.200.4.200:5000/api/solicitudes", {
+      .get(process.env.REACT_APP_APPLICATION_DEV + "/api/solicitudes", {
         params: {
           IdUsuario: localStorage.getItem("IdUsuario"),
         },
@@ -217,7 +217,7 @@ export const Solicitudes = () => {
 
   const getDetalleSolicitud = () => {
     axios
-      .get("http://10.200.4.200:5000/api/detalleSol", {
+      .get(process.env.REACT_APP_APPLICATION_DEV + "/api/detalleSol", {
         params: {
           IdUsuario: localStorage.getItem("IdUsuario"),
           IdSolicitud: solicitudSeleccionada,
@@ -236,7 +236,7 @@ export const Solicitudes = () => {
   const getDetalleUsuario = () => {
     axios
       .post(
-        "http://10.200.4.200:5000/api/user-detail",
+        process.env.REACT_APP_APPLICATION_DEV + "/api/user-detail",
         {
           IdUsuario: detalleSolicitud[0].CorreoElectronico,
         },
