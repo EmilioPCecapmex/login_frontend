@@ -104,7 +104,7 @@ export default function Users() {
         }
       )
       .then((r) => {
-        console.log(r);
+        //console.log(r);
         
         if (r.status === 201) {
 
@@ -113,14 +113,14 @@ export default function Users() {
             icon: "success",
             title: "¡Registro exitoso!",
           });
-          console.log(r);
+          //console.log(r);
           
         }
       })
       .catch((r) => {
-        console.log("Error");
+        //console.log("Error");
         if (r.response.status === 409) {
-         console.log("Error");
+        // console.log("Error");
          
         }
       });
@@ -173,7 +173,7 @@ export default function Users() {
     })
     .then((r) => {
         if (r.status === 200) {
-            console.log(r.data.result[0][0]);
+            //console.log(r.data.result[0][0]);
             imprimirSolicitud(r.data.result[0][0]);
             
         }

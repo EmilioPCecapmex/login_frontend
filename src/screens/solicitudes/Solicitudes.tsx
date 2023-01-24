@@ -314,8 +314,6 @@ export const Solicitudes = () => {
       });
   };
 
- 
-
 
   const itemSelected = (x: number, id: string) => {
     setSelectedIndex(x);
@@ -376,7 +374,7 @@ export const Solicitudes = () => {
         auxiliar.Ext = false : auxiliar.Ext = true;
 
       setOnChangeInfo({ ...auxiliar })
-      console.log("123");
+ 
     }
     setPuedeFirmar(false);
     setAdminPlataforma(false);
@@ -400,7 +398,6 @@ export const Solicitudes = () => {
         Celular: false,
       });
 
-      console.log("234");
     }
   }
 
