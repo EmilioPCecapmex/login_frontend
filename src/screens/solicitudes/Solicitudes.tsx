@@ -32,6 +32,7 @@ import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import CommentIcon from "@mui/icons-material/Comment";
 import { CommentsDialog } from "../../components/commentsDialog";
+import CircularProgress from '@mui/material/CircularProgress';
 import moment from 'moment';
 
 export const Solicitudes = () => {
@@ -376,6 +377,8 @@ export const Solicitudes = () => {
     if (selectedIndex >= 0) {
       setSolicitudSeleccionada(solicitudesFiltered[selectedIndex].Id)
       getDetalleSolicitud();
+     
+      
     }
 
   }, [selectedIndex]);
@@ -740,6 +743,8 @@ export const Solicitudes = () => {
                         </Typography>
                       </Box>
                     ) :
+                    (solicitudesFiltered[selectedIndex].NombreUsuario===(detalleSolicitud[0].Nombre+" "+detalleSolicitud[0].ApellidoPaterno))?
+                    
                     <Box
                       sx={{
                         width: "98%",
@@ -748,11 +753,11 @@ export const Solicitudes = () => {
                         alignItems: "center",
                         justifyContent: "center",
                         flexDirection: "column",
-                        bgcolor: "#fff",
+                        bgcolor:"#fff",
                         borderRadius: "15px",
                       }}
                     >
-
+                      
                       <Box
                         sx={{
                           width: "98%",
@@ -1137,7 +1142,7 @@ export const Solicitudes = () => {
 
                         </Box>
                       </Box>
-                    </Box>
+                    </Box>:<CircularProgress />
                   }
                 </Box>
               </Box>
