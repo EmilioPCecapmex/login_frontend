@@ -18,6 +18,9 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  FormControlLabel,
+  Switch,
+  Checkbox,
 } from "@mui/material";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
@@ -161,13 +164,17 @@ export const Solicitudes = () => {
 
   const modificarSolicitud = (estado: string, tipoSoli: string) => {
 
+    // process.env.REACT_APP_APPLICATION_DEV + 
     axios
-      .put(process.env.REACT_APP_APPLICATION_DEV + "/api/solicitud-transaction", {
+      .put("http://10.200.4.200:5000/api/solicitud-transaction", {
 
         IdUsuario: localStorage.getItem("IdUsuario"),
         IdSolicitud: detalleSolicitud[0].Id,
         Estado: estado,
         TipoSoli: tipoSoli,
+        AdminPlataforma: adminPlataforma?1:0,
+        PermisoFirma:puedeFirmar?1:0,
+        
       },
         {
           headers: {
@@ -275,6 +282,8 @@ export const Solicitudes = () => {
   //filtrado port aplicacion
   const [appSelectedIndex, setAppSelectedIndex] = useState("");
 
+  const [adminPlataforma, setAdminPlataforma] = useState(false);
+  const [puedeFirmar, setPuedeFirmar] = useState(false);
 
   const itemSelected = (x: number, id: string) => {
     setSelectedIndex(x);
@@ -337,6 +346,8 @@ export const Solicitudes = () => {
       setOnChangeInfo({ ...auxiliar })
       console.log("123");
     }
+    setPuedeFirmar(false);
+    setAdminPlataforma(false);
   }, [detalleUsuario])
 
   const checkCambios = () => {
@@ -1066,25 +1077,37 @@ export const Solicitudes = () => {
                             height: "10%",
                             display: "flex",
                             alignItems: "center",
-                            justifyContent: "flex-end",mt:"2vh"
+                            justifyContent: "flex-end", mt: "2vh"
                           }}
                         >
-                          
+
                           <Box
                             sx={{
                               display: "flex",
-                              width: "60%",
-                              justifyContent: "flex-end",mr:"2vw"
+                              width: "80%",
+                              
+                              justifyContent: "flex-end", mr: "2vw"
                             }}
                           >
                             {solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() === "ALTA" || solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() === "MODIFICACION" ?
-                            <Button variant="contained" color="info" sx={{mr:"2vw"}} onClick={() => { setOpenDialogModificar(true); }}>Solicitar modificar</Button> : null}
-                            <Button variant="contained" color="primary" sx={{mr:"2vw"}} onClick={() => { setOpenDialogAceptar(true); }}>Aceptar</Button>
-                            <Button variant="contained" color="error" sx={{mr:"2vw"}} onClick={() => { setOpenDialogRechazar(true); }}>Rechazar</Button>
+                              <Box sx={{ display:"flex",flexDirection:"row", justifyContent:"space-evenly", width:"90%"}}>
+                                <Box sx={{ display:"flex",flexDirection:"row", width:"65%"}}>
+                                  
+                                  <FormControlLabel control={<Checkbox checked={puedeFirmar } onChange={()=>{setPuedeFirmar(!puedeFirmar)}} />} label="Permiso para firmar" />
+                                  <FormControlLabel control={<Checkbox checked={adminPlataforma} onChange={()=>{setAdminPlataforma(!adminPlataforma)}} />} label="Admin. de plataforma" />
+                                  
+                                </Box>
+                                <Box sx={{ display:"flex",flexDirection:"row", width:"35%"}}>
+                                  <Button variant="contained" color="info" sx={{fontSize:".7vw" }} onClick={() => { setOpenDialogModificar(true); }}>Solicitar modificar</Button>
+                                </Box>
+                              </Box>
+                              : null}
+                            <Button variant="contained" color="primary" sx={{ mr: "2vw" }} onClick={() => { setOpenDialogAceptar(true); }}>Aceptar</Button>
+                            <Button variant="contained" color="error" sx={{ mr: "2vw" }} onClick={() => { setOpenDialogRechazar(true); }}>Rechazar</Button>
                           </Box>
-                          
+
                           <Box
-                            sx={{ display: "flex", width: "10%",justifyContent:"flex-end",mr:"2vw"}}
+                            sx={{ display: "flex", width: "10%", justifyContent: "flex-end", mr: "2vw" }}
                           >
                             <IconButton
                               onClick={() => {
@@ -1111,7 +1134,7 @@ export const Solicitudes = () => {
                               <SkipNextIcon fontSize="large" />
                             </IconButton>
                           </Box>
-                          
+
                         </Box>
                       </Box>
                     </Box>
