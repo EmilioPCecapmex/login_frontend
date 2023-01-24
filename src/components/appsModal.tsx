@@ -128,7 +128,7 @@ export default function AppsModal({
                   variant="outlined"
                   key={item.IdApp}
                   onClick={() => {
-                    console.log(item)
+                   // console.log(item)
                     openPage(item.Path, item.IdApp)
                   }}
                   sx={{
