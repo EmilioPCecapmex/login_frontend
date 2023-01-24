@@ -169,7 +169,7 @@ export const Solicitudes = () => {
 
     // process.env.REACT_APP_APPLICATION_DEV + 
     axios
-      .put(process.env.REACT_APP_APPLICATION_DEV +"/api/solicitud-transaction", {
+      .put(process.env.REACT_APP_APPLICATION_DEV + "/api/solicitud-transaction", {
 
         IdUsuario: localStorage.getItem("IdUsuario"),
         IdSolicitud: detalleSolicitud[0].Id,
@@ -820,6 +820,7 @@ export const Solicitudes = () => {
                               }}
                               value={detalleSolicitud[0]?.NombreApp || ""}
                               variant="standard"
+                              
                             />
                             <TextField
                               label={
@@ -899,6 +900,7 @@ export const Solicitudes = () => {
                               }}
                               value={detalleSolicitud[0]?.Nombre || ""}
                               variant="standard"
+                              helperText={onChangeInfo.Nombre ? detalleUsuario.Nombre : null}
                             />
 
                             <TextField
@@ -918,6 +920,7 @@ export const Solicitudes = () => {
                               }}
                               value={detalleSolicitud[0]?.ApellidoPaterno || ""}
                               variant="standard"
+                              helperText={onChangeInfo.ApellidoPaterno ? detalleUsuario.ApellidoPaterno : null}
                             />
 
                             <TextField
@@ -937,6 +940,7 @@ export const Solicitudes = () => {
                               }}
                               value={detalleSolicitud[0]?.ApellidoMaterno || ""}
                               variant="standard"
+                              helperText={onChangeInfo.ApellidoMaterno ? detalleUsuario.ApellidoMaterno : null}
                             />
                           </Box>
                           <Box
@@ -965,6 +969,7 @@ export const Solicitudes = () => {
                               }}
                               value={detalleSolicitud[0]?.NombreUsuario || ""}
                               variant="standard"
+                              helperText={onChangeInfo.NombreUsuario ? detalleUsuario.NombreUsuario : null}
                             />
                             <TextField
                               label={
@@ -983,6 +988,7 @@ export const Solicitudes = () => {
                               }}
                               value={detalleSolicitud[0]?.CorreoElectronico || ""}
                               variant="standard"
+                              helperText={onChangeInfo.CorreoElectronico ? detalleUsuario.CorreoElectronico : null}
                             />
                             <TextField
                               label={
@@ -1001,6 +1007,7 @@ export const Solicitudes = () => {
                               }}
                               value={detalleSolicitud[0]?.Celular || ""}
                               variant="standard"
+                              helperText={onChangeInfo.Celular ? detalleUsuario.Celular : null}
                             />
                           </Box>
                           <Box
@@ -1029,6 +1036,7 @@ export const Solicitudes = () => {
                               }}
                               value={detalleSolicitud[0]?.Curp || ""}
                               variant="standard"
+                              helperText={onChangeInfo.Curp ? detalleUsuario.Curp : null}
                             />
                             <TextField
                               label={
@@ -1047,6 +1055,7 @@ export const Solicitudes = () => {
                               }}
                               value={detalleSolicitud[0]?.Rfc || ""}
                               variant="standard"
+                              helperText={onChangeInfo.Rfc ? detalleUsuario.Rfc : null}
                             />
                             <TextField
                               label={
@@ -1065,6 +1074,7 @@ export const Solicitudes = () => {
                               }}
                               value={detalleSolicitud[0]?.Telefono || ""}
                               variant="standard"
+                              helperText={onChangeInfo.Telefono ? detalleUsuario.Telefono : null}
                             />
                             <TextField
                               label={
@@ -1083,6 +1093,7 @@ export const Solicitudes = () => {
                               }}
                               value={detalleSolicitud[0]?.Ext || ""}
                               variant="standard"
+                              helperText={onChangeInfo.Ext ? detalleUsuario.Ext : null}
                             />
                           </Box>
 
