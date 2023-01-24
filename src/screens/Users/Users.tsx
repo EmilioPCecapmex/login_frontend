@@ -148,7 +148,6 @@ export default function Users() {
         if(!showAllUsers){
           rows = rows?.filter((x: { EstaActivoLabel: string | string[]; }) => x.EstaActivoLabel.includes('Activo'));
         }
-// console.log(rows);
        
         setRows(rows);
       })

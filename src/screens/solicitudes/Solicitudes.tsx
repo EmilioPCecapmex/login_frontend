@@ -335,7 +335,6 @@ export const Solicitudes = () => {
         auxiliar.Ext = false : auxiliar.Ext = true;
 
       setOnChangeInfo({ ...auxiliar })
-      console.log("123");
     }
   }, [detalleUsuario])
 
@@ -357,7 +356,6 @@ export const Solicitudes = () => {
         Celular: false,
       });
 
-      console.log("234");
     }
   }
 

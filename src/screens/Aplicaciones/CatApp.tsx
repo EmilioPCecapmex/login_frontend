@@ -195,7 +195,6 @@ export default function CatApps() {
           });
       }
     });
-    // console.log(cellValues.row.Id);
   };
   
   // aqui es el consumo del endpoint para obtener el listado de app de la base de datos

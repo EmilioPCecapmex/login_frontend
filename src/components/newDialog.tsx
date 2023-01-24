@@ -117,7 +117,6 @@ export const NewDialog = (props: NewDialogProps) => {
         text: "Completa todos los campos para continuar",
       });
     } else {
-      // console.log(IdUsuario_LS);
       const data = {
         Nombre: nombre,
         ApellidoPaterno: apellidoPaterno,

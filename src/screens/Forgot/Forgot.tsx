@@ -107,7 +107,6 @@ export const Forgot = () => {
           }
         })
         .catch((err) => {
-          // console.log(err);
           if (err.response.status === 409) {
             setModalType("error");
             setModalText("Usuario no existe.");
