@@ -263,7 +263,7 @@ export default function Users() {
     {
       field: "acciones",
       headerName: "Acciones",
-      width: 100,
+      width: 150,
       headerAlign: "center",
       renderCell: (cellValues: any) => {
         return (
@@ -310,32 +310,32 @@ export default function Users() {
     {
       field: "Nombre",
       headerName: "Nombre",
-      width: 180,
+      width: 150,
       hideable: false,
       headerAlign: "center",
     },
     {
       field: "ApellidoPaterno",
       headerName: "Apellido Paterno",
-      width: 180,
+      width: 130,
       headerAlign: "center",
     },
     {
       field: "ApellidoMaterno",
       headerName: "Apellido Materno",
-      width: 180,
+      width: 140,
       headerAlign: "center",
     },
     {
       field: "NombreUsuario",
       headerName: "Nombre Usuario",
-      width: 180,
+      width: 130,
       headerAlign: "center",
     },
     {
       field: "CorreoElectronico",
       headerName: "Correo Electrónico",
-      width: 220,
+      width: 300,
     },
     {
       field: "NombreCreadoPor",
