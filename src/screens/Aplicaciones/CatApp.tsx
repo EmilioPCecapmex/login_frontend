@@ -171,7 +171,7 @@ export default function CatApps() {
         const data = { IdApp: cellValues.row.Id };
         axios({
           method: "delete",
-          url: `http://10.200.4.164:5000/api/app`,
+          url: process.env.REACT_APP_APPLICATION_DEV +`/api/app`,
           headers: {
             "Content-Type": "application/json",
             Authorization: localStorage.getItem("jwtToken") || "",
@@ -195,7 +195,6 @@ export default function CatApps() {
           });
       }
     });
-    // console.log(cellValues.row.Id);
   };
   
   // aqui es el consumo del endpoint para obtener el listado de app de la base de datos

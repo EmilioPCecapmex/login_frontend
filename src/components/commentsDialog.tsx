@@ -29,7 +29,7 @@ export const CommentsDialog = ({
   const getComentarios = () => {
     axios({
       method: "get",
-      url: process.env.REACT_APP_APPLICATION_DEV + "/api/comentarios-solicitudes",
+      url: process.env.REACT_APP_APPLICATION_DEV +"/api/comentarios-solicitudes",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",

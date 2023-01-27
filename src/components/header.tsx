@@ -27,7 +27,7 @@ export const Header = () => {
 
   const getSolicitudes = () => {
     axios
-      .get(process.env.REACT_APP_APPLICATION_DEV + "/api/solicitudes", {
+      .get(process.env.REACT_APP_APPLICATION_DEV +"/api/solicitudes", {
         params: {
           IdUsuario: localStorage.getItem("IdUsuario"),
         },

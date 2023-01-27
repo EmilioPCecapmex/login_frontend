@@ -24,7 +24,6 @@ export const NewDialogApp = (props: NewDialogProps) => {
 
   const handleKeyDown = (event: { key: string }) => {
     if (event.key === "Enter") {
-      // console.log(event.key);
       handleStoreBtn();
     }
   };
@@ -58,7 +57,6 @@ export const NewDialogApp = (props: NewDialogProps) => {
           props.handleNewDialogClose(true);
         })
         .catch(function (error) {
-          // console.log(error);
           Swal.fire({
             icon: "error",
             title: "Mensaje",

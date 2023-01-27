@@ -6,6 +6,7 @@ import { Login } from "./screens/Login/Login";
 import Solicitudes from "./screens/solicitudes/Solicitudes";
 import Users from "./screens/Users/Users";
 import "./Fonts.css";
+import { Documentos } from "./screens/ValidadorDE/Documentos";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="solicitudes" element={<Solicitudes />} />
           <Route path="*" element={<E404 />} />
           <Route path="app" element={<CatApps />} />
+          <Route path="validador" element={<Documentos />} />
         </Routes>
       </Router>
     </>
