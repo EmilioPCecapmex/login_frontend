@@ -36,6 +36,7 @@ import CommentIcon from "@mui/icons-material/Comment";
 import { CommentsDialog } from "../../components/commentsDialog";
 import CircularProgress from '@mui/material/CircularProgress';
 import moment from 'moment';
+import { imprimirSolicitud } from "../Users/Users";
 
 export const Solicitudes = () => {
   const [solicitudes, setSolicitudes] = useState<Array<ISolicitud>>([]);
@@ -102,6 +103,8 @@ export const Solicitudes = () => {
 
 
   const [apps, setApps] = useState<Array<IApps>>([]);
+  const [idApp, setIdApp] = useState("");
+  
 
   const [solicitudSeleccionada, setSolicitudSeleccionada] = useState("");
 
@@ -169,7 +172,7 @@ export const Solicitudes = () => {
 
     // process.env.REACT_APP_APPLICATION_DEV + 
     axios
-      .put(process.env.REACT_APP_APPLICATION_DEV + "/api/solicitud-transaction", {
+      .put(process.env.REACT_APP_APPLICATION_DEV +"/api/solicitud-transaction", {
 
         IdUsuario: localStorage.getItem("IdUsuario"),
         IdSolicitud: detalleSolicitud[0].Id,
@@ -275,6 +278,25 @@ export const Solicitudes = () => {
       });
   }
 
+  const [IdSolicitud,setIdSolicitud]=useState("");
+
+  const getDatosDocumento = () => {
+    axios
+      .get( process.env.REACT_APP_APPLICATION_DEV +"/api/docSolicitudActualUsuario", {
+        params: {
+          IdSolicitud : IdSolicitud
+        },
+        headers: {
+          Authorization: localStorage.getItem("jwtToken") || "",
+        },
+      })
+      .then((r) => {
+        if (r.status === 200) {
+          imprimirSolicitud(r.data.result[0][0]);
+        }
+      });
+  }
+
   useEffect(() => {
     getApps();
     getSolicitudes();
@@ -332,6 +354,7 @@ export const Solicitudes = () => {
     }
     else
       setSelectedIndex(-1);
+      filtroXApp(idApp);
   }, [solicitudes]);
 
   //cuando se seleciona un filtro, se establece en el primer registro
@@ -352,7 +375,7 @@ export const Solicitudes = () => {
       (detalleSolicitud[0].ApellidoMaterno === detalleUsuario.ApellidoMaterno) ?
         auxiliar.ApellidoMaterno = false : auxiliar.ApellidoMaterno = true;
 
-      (detalleSolicitud[0].NombreUsuario === detalleUsuario.NombreUsuario) ?
+      (detalleSolicitud[0]?.NombreUsuario === detalleUsuario?.NombreUsuario) ?
         auxiliar.NombreUsuario = false : auxiliar.NombreUsuario = true;
 
       (detalleSolicitud[0].CorreoElectronico === detalleUsuario.CorreoElectronico) ?
@@ -410,13 +433,18 @@ export const Solicitudes = () => {
   }, [selectedIndex]);
 
   useEffect(() => {
-    if (detalleSolicitud[0].NombreUsuario)
+    if (detalleSolicitud[0]?.NombreUsuario)
       checkCambios();
   }, [detalleSolicitud[0]]);
 
+  const [openDialogImpDoc, setOpenDialogImpDoc] = useState(false);
   const [openDialogModificar, setOpenDialogModificar] = useState(false);
   const [openDialogRechazar, setOpenDialogRechazar] = useState(false);
   const [openDialogAceptar, setOpenDialogAceptar] = useState(false);
+
+  const handleCloseOpenDialogImpDoc = () => {
+    setOpenDialogImpDoc(false);
+  };
 
   const handleCloseOpenDialogModificar = () => {
     setOpenDialogModificar(false);
@@ -488,7 +516,7 @@ export const Solicitudes = () => {
                 <InputLabel><Typography sx={{ fontFamily: 'MontserratBold' }}>
                   Filtro por aplicación
                 </Typography></InputLabel>
-                <Select value={appSelectedIndex} label="Filtar---por---aplicacion" onChange={(c) => filtroXApp(c.target.value)}>
+                <Select value={appSelectedIndex} label="Filtar---por---aplicacion" onChange={(c) =>{ filtroXApp(c.target.value); setIdApp(c.target.value);}}>
                   <MenuItem value={""} onClick={() => setAppSelectedIndex("")}>
                     TODAS LAS APPS
                   </MenuItem>
@@ -679,12 +707,6 @@ export const Solicitudes = () => {
                                 {item?.tipoSoli.toUpperCase()}
                               </Typography>
                             </Box>
-
-
-
-
-
-
                           </Box>
 
                         </ListItemButton>
@@ -721,16 +743,6 @@ export const Solicitudes = () => {
                   boxShadow: "15",
                 }}
               >
-                {/* Id: "3",
-                            IdUsuario: "687456444958566474",
-                            DatosAdicionales: "Ut consequat semper viverra nam libero justo. Magna sit amet purus gravida quis blandit. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Morbi enim nunc faucibus a pellentesque sit amet. Nibh nisl condimentum id venenatis. Mauris vitae ultricies leo integer malesuada nunc vel risus. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Adipiscing elit pellentesque habitant morbi tristique. Magna etiam tempor orci eu lobortis. Fames ac turpis egestas sed tempus. Volutpat lacus laoreet non curabitur gravida. Augue eget arcu dictum varius duis at consectetur. Nunc consequat interdum varius sit amet mattis",
-                            Estatus: "0",
-                            TipoSolicitud: "Nunc consequat interdum",
-                            CreadoPor: "Proin fermentum leo vel orci porta non. Eu ultrices vitae auct",
-                            FechaDeCreacion: "XX/XX/XXXX",
-                            UltimaModificacion: "XX/XX/XXXX",
-                            ModificadoPor: "Ut consequat semper viverra nam libero justo",
-                            IdApp: "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY" */}
 
                 <Box
                   sx={{
@@ -769,7 +781,7 @@ export const Solicitudes = () => {
                         </Typography>
                       </Box>
                     ) :
-                    (solicitudesFiltered[selectedIndex].NombreUsuario === (detalleSolicitud[0].Nombre + " " + detalleSolicitud[0].ApellidoPaterno)) ?
+                    (solicitudesFiltered[selectedIndex]?.NombreUsuario === (detalleSolicitud[0].Nombre + " " + detalleSolicitud[0].ApellidoPaterno)) ?
 
                       <Box
                         sx={{
@@ -1237,6 +1249,7 @@ export const Solicitudes = () => {
 
         </Box>
       </Box>
+
       {/* DIALOG DE OPCION RECHAZAR */}
       <Dialog
         open={openDialogRechazar}
@@ -1261,7 +1274,7 @@ export const Solicitudes = () => {
         </DialogContent>
         <DialogActions>
           <Button variant="contained" color="error" onClick={() => { handleCloseOpenDialogRechazar() }}>Cancelar</Button>
-          <Button disabled={comentario.length >= 10 ? false : true} variant="contained" color="primary" onClick={() => { modificarSolicitud("2", solicitudesFiltered[selectedIndex]?.tipoSoli); handleCloseOpenDialogRechazar(); }}>Aceptar</Button>
+          <Button disabled={comentario.length >= 10 ? false : true} variant="contained" color="primary" onClick={() => { setIdSolicitud(solicitudSeleccionada);setOpenDialogImpDoc(true); modificarSolicitud("2", solicitudesFiltered[selectedIndex]?.tipoSoli); handleCloseOpenDialogRechazar(); }}>Aceptar</Button>
         </DialogActions>
       </Dialog>
 
@@ -1290,7 +1303,7 @@ export const Solicitudes = () => {
         </DialogContent>
         <DialogActions>
           <Button variant="contained" color="error" onClick={() => { handleCloseOpenDialogModificar() }}>Cancelar</Button>
-          <Button disabled={comentario.length >= 10 ? false : true} variant="contained" color="primary" onClick={() => { modificarSolicitud("3", solicitudesFiltered[selectedIndex]?.tipoSoli); handleCloseOpenDialogModificar(); }}>Aceptar</Button>
+          <Button disabled={comentario.length >= 10 ? false : true} variant="contained" color="primary" onClick={() => { setIdSolicitud(solicitudSeleccionada);setOpenDialogImpDoc(true); modificarSolicitud("3", solicitudesFiltered[selectedIndex]?.tipoSoli); handleCloseOpenDialogModificar(); }}>Aceptar</Button>
         </DialogActions>
       </Dialog>
 
@@ -1310,7 +1323,26 @@ export const Solicitudes = () => {
         </DialogContent>
         <DialogActions>
           <Button variant="contained" color="error" onClick={() => { handleCloseOpenDialogAceptar() }}>Cancelar</Button>
-          <Button variant="contained" color="primary" onClick={() => { modificarSolicitud("1", solicitudesFiltered[selectedIndex]?.tipoSoli); handleCloseOpenDialogAceptar(); }}>Aceptar</Button>
+          <Button variant="contained" color="primary" onClick={() => { setIdSolicitud(solicitudSeleccionada); modificarSolicitud("1", solicitudesFiltered[selectedIndex]?.tipoSoli);setOpenDialogImpDoc(true); handleCloseOpenDialogAceptar(); }}>Aceptar</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* DIALOG IMPRIMIR DOCUMENTO */}
+      <Dialog
+        open={openDialogImpDoc}
+        onClose={handleCloseOpenDialogImpDoc}
+      >
+        <DialogTitle >
+          Descargar Documento
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText >
+            ¿Desea descargar la solicitud de {solicitudesFiltered[selectedIndex]?.tipoSoli} de {detalleSolicitud[0]?.Nombre + " " + detalleSolicitud[0]?.ApellidoPaterno}?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" color="error" onClick={() => { handleCloseOpenDialogImpDoc() }}>Cancelar</Button>
+          <Button variant="contained" color="primary" onClick={() => { getDatosDocumento(); handleCloseOpenDialogImpDoc(); }}>Aceptar</Button>
         </DialogActions>
       </Dialog>
     </Box>

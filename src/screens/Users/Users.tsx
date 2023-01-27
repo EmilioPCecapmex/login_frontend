@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import {Box,Card,CardContent,IconButton,Tooltip,Button,Typography,FormGroup,FormControlLabel,Switch,} from "@mui/material";
+import { Box, Card, CardContent, IconButton, Tooltip, Button, Typography, FormGroup, FormControlLabel, Switch, } from "@mui/material";
 import {
   AccountTree as AccountTreeIcon,
   Edit as EditIcon,
@@ -19,21 +19,21 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 export interface Usuario {
-  EstaActivoLabel:   string;
-  Id:                string;
-  EstaActivo:        number;
-  Nombre:            string;
-  ApellidoPaterno:   string;
-  ApellidoMaterno:   string;
-  NombreUsuario:     string;
+  EstaActivoLabel: string;
+  Id: string;
+  EstaActivo: number;
+  Nombre: string;
+  ApellidoPaterno: string;
+  ApellidoMaterno: string;
+  NombreUsuario: string;
   CorreoElectronico: string;
-  Curp:              string;
-  Rfc:               string;
-  Telefono:          string;
-  Celular:           string;
-  IdTipoUsuario:     string;
-  CreadoPor:         string;
-  ModificadoPor:     string;
+  Curp: string;
+  Rfc: string;
+  Telefono: string;
+  Celular: string;
+  IdTipoUsuario: string;
+  CreadoPor: string;
+  ModificadoPor: string;
   NombreCreadoPor: string;
   NombreModificadoPor: string;
 }
@@ -90,94 +90,24 @@ export default function Users() {
   };
 
   
-  const imprimirSolicitud  = (datos: any) => {
+
+
+
+  const getDatosDocumento = (nombreUsuario: any) => {
     axios
-      .post(
-        "http://192.168.137.233:90/solicitud",
-        {  
-          datos,
-      },
-        {
-          headers: {
-            Authorization: localStorage.getItem("jwtToken") || "",
-          },
-        }
-      )
-      .then((r) => {
-        //console.log(r);
-        
-        if (r.status === 201) {
-
-
-          Toast.fire({
-            icon: "success",
-            title: "¡Registro exitoso!",
-          });
-          //console.log(r);
-          
-        }
-      })
-      .catch((r) => {
-        //console.log("Error");
-        if (r.response.status === 409) {
-        // console.log("Error");
-         
-        }
-      });
-  }
-
-  // const getPdf = (datos: any) => {
-
-  //   axios
-  //     .post(  "http://192.168.137.233:90/solicitud",{
-
-  //     },
-  //     {
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //         Authorization: localStorage.getItem("jwtToken") || "",
-  //       },
-  //       responseType: "arraybuffer",
-  //     })
-  //     .then((r) => {
-  //       const a = window.URL || window.webkitURL;
-
-  //       const url = a.createObjectURL(
-  //         new Blob([r.data], { type: "application/pdf" })
-  //       );
-
-  //       let link = document.createElement("a");
-
-  //       link.setAttribute("download", `${rfc}-${fecha}.pdf`);
-  //       link.setAttribute("href", url);
-  //       document.body.appendChild(link);
-  //       link.click();
-  //       setLoadingA(false);
-  //     })
-  //     .catch((err) => {
-  //       setLoadingA(false);
-  //       setSendToken("Token incorrecto o expirado, intentelo de nuevo");
-  //       setErr(true);
-  //     });
-  // };
-
-  const getDatosDocumento=(nombreUsuario: any)=>{
-    axios
-    .get(process.env.REACT_APP_APPLICATION_DEV + "/api/docSolicitudUsuario", {
+      .get(process.env.REACT_APP_APPLICATION_DEV + "/api/docSolicitudUsuario", {
         params: {
           NombreUsuario: nombreUsuario
         },
         headers: {
-            Authorization: localStorage.getItem("jwtToken") || "",
+          Authorization: localStorage.getItem("jwtToken") || "",
         },
-    })
-    .then((r) => {
+      })
+      .then((r) => {
         if (r.status === 200) {
-            //console.log(r.data.result[0][0]);
-            imprimirSolicitud(r.data.result[0][0]);
-            
+          imprimirSolicitud(r.data.result[0][0]);
         }
-    });
+      });
   }
 
   const [appsDialogOpen, setAppsDialogOpen] = useState(false);
@@ -221,7 +151,7 @@ export default function Users() {
     axios({
       method: "get",
       url: process.env.REACT_APP_APPLICATION_DEV + "/api/users",
-      params: {IdUsuario: localStorage.getItem("IdUsuario")},
+      params: { IdUsuario: localStorage.getItem("IdUsuario") },
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",
@@ -234,10 +164,10 @@ export default function Users() {
           return rowTemp
         });
 
-        if(!showAllUsers){
+        if (!showAllUsers) {
           rows = rows?.filter((x: { EstaActivoLabel: string | string[]; }) => x.EstaActivoLabel.includes('Activo'));
         }
-       
+
         setRows(rows);
       })
       .catch(function (error) {
@@ -255,7 +185,7 @@ export default function Users() {
     // eslint-disable-next-line
   }, [showAllUsers]);
 
-  
+
 
 
 
@@ -268,7 +198,7 @@ export default function Users() {
       renderCell: (cellValues: any) => {
         return (
           <Box>
-            <Tooltip title={"Descargar solicitud - "+ cellValues.row.NombreUsuario}>
+            <Tooltip title={"Descargar solicitud - " + cellValues.row.NombreUsuario}>
               <IconButton
                 color="info"
                 onClick={(event) => {
@@ -277,7 +207,7 @@ export default function Users() {
                   // handleAppsBtnClick(event, cellValues);
                 }}
               >
-                <FileDownloadIcon  />
+                <FileDownloadIcon />
               </IconButton>
             </Tooltip>
 
@@ -302,7 +232,7 @@ export default function Users() {
                 <AccountTreeIcon />
               </IconButton>
             </Tooltip>
-            
+
           </Box>
         );
       },
@@ -374,25 +304,25 @@ export default function Users() {
             <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 
               <Box>
-              <Typography
-                sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw" }}
-              >
-                <PeopleAltIcon sx={{width: '3vw', height: '3vw'}}/>
-              </Typography>
+                <Typography
+                  sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw" }}
+                >
+                  <PeopleAltIcon sx={{ width: '3vw', height: '3vw' }} />
+                </Typography>
 
-              <Typography
-                sx={{ fontFamily: "MontserratMedium", fontSize: "1vw" }}
-              >
-                Listado de usuarios con acceso a plataformas.
-              </Typography>
+                <Typography
+                  sx={{ fontFamily: "MontserratMedium", fontSize: "1vw" }}
+                >
+                  Listado de usuarios con acceso a plataformas.
+                </Typography>
               </Box>
 
               <FormGroup>
-              <FormControlLabel control={<Switch onChange={(v) => setShowAllUsers(v.target.checked)}/>} label={
-                <Typography sx={{fontFamily: 'MontserratSemiBold'}}>
-                  Usuarios Inactivos
-                </Typography>
-              } />
+                <FormControlLabel control={<Switch onChange={(v) => setShowAllUsers(v.target.checked)} />} label={
+                  <Typography sx={{ fontFamily: 'MontserratSemiBold' }}>
+                    Usuarios Inactivos
+                  </Typography>
+                } />
               </FormGroup>
             </Box>
 
@@ -449,14 +379,64 @@ export default function Users() {
 
 
 export interface IUsuarios {
-  EstaActivoLabel:   string;
-  Id:                string;
-  EstaActivo:        number;
-  Nombre:            string;
-  ApellidoPaterno:   string;
-  ApellidoMaterno:   string;
-  NombreUsuario:     string;
+  EstaActivoLabel: string;
+  Id: string;
+  EstaActivo: number;
+  Nombre: string;
+  ApellidoPaterno: string;
+  ApellidoMaterno: string;
+  NombreUsuario: string;
   CorreoElectronico: string;
-  CreadoPor:         string;
-  ModificadoPor:     string;
+  CreadoPor: string;
+  ModificadoPor: string;
+}
+
+export const imprimirSolicitud = (datos: any) => {
+
+
+  const objeto = ({
+    "Fecha": datos?.Fecha,
+    "TipoDeMovimiento": datos?.TipoDeMovimiento,
+    "Nombre": datos?.Nombre,
+    "ApellidoPaterno": datos?.ApellidoPaterno,
+    "ApellidoMaterno": datos?.ApellidoMaterno,
+    "NombreUsuario": datos?.NombreUsuario,
+    "Correo": datos?.Correo,
+    "CURP": datos?.CURP,
+    "RFC": datos?.RFC,
+    "Telefono": datos?.Telefono,
+    "Extension": datos?.Extension,
+    "Celular": datos?.Celular,
+    "Tipo": datos?.TpoUsuario,
+    "Plataforma": datos?.AccesoApp
+  })
+  let dataArray = new FormData();
+  dataArray.append("data", JSON.stringify(objeto))
+  axios
+    .post(
+      process.env.REACT_APP_APPLICATION_GENERASOLICITUD + "/api/generasolicitud", dataArray,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        responseType: "arraybuffer",
+      }
+    )
+    .then((r) => {
+      const a = window.URL || window.webkitURL;
+
+      const url = a.createObjectURL(
+        new Blob([r.data], { type: "application/pdf" })
+      );
+
+      let link = document.createElement("a");
+
+      link.setAttribute("download", `Solicitud ${datos?.TipoDeMovimiento}-${datos?.NombreUsuario}.pdf`);
+      link.setAttribute("href", url);
+      document.body.appendChild(link);
+      link.click();
+    })
+    .catch((r) => {
+      console.log("Error");
+    });
 }

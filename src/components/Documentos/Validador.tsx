@@ -37,7 +37,7 @@ export const Validador = ({ id }: { id: string }) => {
     dataArray.append("id", id);
 
     axios
-      .post("http://10.210.0.27/api/obtenerdoc", dataArray, {
+      .post(process.env.REACT_APP_APPLICATION_FIRMA + "/api/obtenerdoc", dataArray, {
         headers: {
           Authorization: localStorage.getItem("jwtToken") || "",
         },
@@ -63,7 +63,7 @@ export const Validador = ({ id }: { id: string }) => {
     dataArray.append("phrase", password);
 
     axios
-      .post("http://10.210.0.27/api/getfpdf", dataArray, {
+      .post(process.env.REACT_APP_APPLICATION_FIRMA + "/api/getfpdf", dataArray, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: localStorage.getItem("jwtToken") || "",
