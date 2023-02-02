@@ -42,6 +42,7 @@ export const NewDialog = (props: NewDialogProps) => {
   const [rfc, setRfc] = useState("");
   const [tipousuario, setTipoUsuario] = useState("");
 
+  const [errorEmail, setErrorEmail] = useState(false);
   const [errorrfc, setErrorRfc] = useState(false);
   const [errorcurp, setErrorCurp] = useState(false);
   const [leyendaerrorrfc, setLeyendaErrorRfc] = useState("");
@@ -84,6 +85,37 @@ export const NewDialog = (props: NewDialogProps) => {
       setLeyendaErrorRfc("");
     }    
   };
+
+  const compruebaNombreUsuario=(value: string)=>{
+    var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (!format.test(value)) {
+      setNombreUsuario(value);
+    }
+  }
+  const compruebaNombre=(value: string)=>{
+    var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (!format.test(value)) {
+      setNombre(value);
+    }
+  }
+
+  const compruebaAPaterno=(value: string)=>{
+    var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (!format.test(value)) {
+      setApellidoPaterno(value);
+    }
+  }
+  const compruebaAMaterno=(value: string)=>{
+    var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (!format.test(value)) {
+      setApellidoMaterno(value);
+    }
+  }
+
+  function isValidEmail() { 
+    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(correo); 
+  }
+
   const compruebaCurp = (value: string) => {
     var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     if (!format.test(value)) {
@@ -99,6 +131,7 @@ export const NewDialog = (props: NewDialogProps) => {
   };
 
   const handleStoreBtn = () => {
+    setErrorEmail(false);
     if (
       nombre === "" ||
       nombreUsuario === "" ||
@@ -225,7 +258,7 @@ export const NewDialog = (props: NewDialogProps) => {
               value={nombreUsuario}
               required
               inputProps={{ minLength: 4 }}
-              onChange={(v) => setNombreUsuario(v.target.value)}
+              onChange={(v) => compruebaNombreUsuario(v.target.value)}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -238,7 +271,7 @@ export const NewDialog = (props: NewDialogProps) => {
               variant="standard"
               value={nombre}
               required
-              onChange={(v) => setNombre(v.target.value)}
+              onChange={(v) => compruebaNombre(v.target.value)}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -251,7 +284,7 @@ export const NewDialog = (props: NewDialogProps) => {
               variant="standard"
               value={apellidoPaterno}
               required
-              onChange={(v) => setApellidoPaterno(v.target.value)}
+              onChange={(v) => compruebaAPaterno(v.target.value)}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -264,7 +297,7 @@ export const NewDialog = (props: NewDialogProps) => {
               variant="standard"
               value={apellidoMaterno}
               required
-              onChange={(v) => setApellidoMaterno(v.target.value)}
+              onChange={(v) => compruebaAMaterno(v.target.value)}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -278,6 +311,8 @@ export const NewDialog = (props: NewDialogProps) => {
               value={correo}
               required
               onChange={(v) => setCorreo(v.target.value)}
+              error={errorEmail}
+              helperText={errorEmail?"Formato de correo invalido":null}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -312,7 +347,7 @@ export const NewDialog = (props: NewDialogProps) => {
               onChange={(v) => compruebaRfc(v.target.value)}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} lg={3}>
             <TextField
             sx={{  mr:6 }}
               margin="dense"
@@ -377,10 +412,10 @@ export const NewDialog = (props: NewDialogProps) => {
           Cancelar
         </Button>
         <Button
-          onClick={() => handleStoreBtn()}
+          onClick={() => isValidEmail()?handleStoreBtn():setErrorEmail(true)}
           sx={{ fontFamily: "MontserratRegular" }}
         >
-          Grabar
+          Crear Usuario
         </Button>
       </DialogActions>
     </Dialog>

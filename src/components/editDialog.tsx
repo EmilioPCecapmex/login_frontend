@@ -52,7 +52,28 @@ export const EditDialog = (props: EditDialogProps) => {
   const [errorrfc, setErrorRfc] = useState(false);
   const [errorcurp, setErrorCurp] = useState(false);
   const [leyendaerrorrfc, setLeyendaErrorRfc] = useState("");
-  const [leyendaerrorcurp, setLeyendaErrorCurp] = useState("");  
+  const [leyendaerrorcurp, setLeyendaErrorCurp] = useState(""); 
+  
+  const compruebaNombre=(value: string)=>{
+    var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (!format.test(value)) {
+      setNombre(value);
+    }
+  }
+
+  const compruebaAPaterno=(value: string)=>{
+    var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (!format.test(value)) {
+      setApellidoPaterno(value);
+    }
+  }
+  const compruebaAMaterno=(value: string)=>{
+    var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (!format.test(value)) {
+      setApellidoMaterno(value);
+    }
+  }
+
 
   const compruebaCelular = (value: number) => {
     if (value <= 9999999999) {
@@ -248,6 +269,7 @@ export const EditDialog = (props: EditDialogProps) => {
   };
 
   const [usertypes, setUserTypes] = useState<Array<IUserTypes>>([]);
+
   const getAllUserTypes = () => {
     const data = {
       IdUsuario: localStorage.getItem("IdUsuario"),
@@ -315,7 +337,7 @@ export const EditDialog = (props: EditDialogProps) => {
               fullWidth
               variant="standard"
               value={nombre}
-              onChange={(v) => setNombre(v.target.value)}
+              onChange={(v) => compruebaNombre(v.target.value)}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -328,7 +350,7 @@ export const EditDialog = (props: EditDialogProps) => {
               fullWidth
               variant="standard"
               value={apellidoPaterno}
-              onChange={(v) => setApellidoPaterno(v.target.value)}
+              onChange={(v) => compruebaAPaterno(v.target.value)}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -341,7 +363,7 @@ export const EditDialog = (props: EditDialogProps) => {
               fullWidth
               variant="standard"
               value={apellidoMaterno}
-              onChange={(v) => setApellidoMaterno(v.target.value)}
+              onChange={(v) => compruebaAMaterno(v.target.value)}
             />
           </Grid>
 
