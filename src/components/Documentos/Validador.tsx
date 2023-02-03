@@ -2,15 +2,9 @@ import {
   Box,
   TextField,
   Typography,
-  Button,
-  InputAdornment,
-  OutlinedInput,
-  IconButton,
 } from "@mui/material";
 import { useEffect, useState, useLayoutEffect } from "react";
 import axios from "axios";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { DialogDescarga } from "./Descarga";
 
 export const Validador = ({ id }: { id: string }) => {
@@ -32,7 +26,7 @@ export const Validador = ({ id }: { id: string }) => {
 
   const [ccp, setCcp] = useState([]);
 
-  const getDoc = () => {
+  useLayoutEffect(() => {
     let dataArray = new FormData();
     dataArray.append("id", id);
 
@@ -47,45 +41,41 @@ export const Validador = ({ id }: { id: string }) => {
         setDest(JSON.parse(r.data[0].Destinatario));
         setCcp(r.data[0].Ccp.split(","));
       });
-  };
-
-  useLayoutEffect(() => {
-    getDoc();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     console.log(doc);
   }, [doc]);
 
-  const getPdf = (id: string, password: string, rfc: string, fecha: string) => {
-    let dataArray = new FormData();
-    dataArray.append("id", id);
-    dataArray.append("phrase", password);
+  // const getPdf = (id: string, password: string, rfc: string, fecha: string) => {
+  //   let dataArray = new FormData();
+  //   dataArray.append("id", id);
+  //   dataArray.append("phrase", password);
 
-    axios
-      .post("http://10.210.0.27/api/getfpdf", dataArray, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: localStorage.getItem("jwtToken") || "",
-        },
-        responseType: "arraybuffer",
-      })
-      .then((r) => {
-        const a = window.URL || window.webkitURL;
+  //   axios
+  //     .post("http://10.210.0.27/api/getfpdf", dataArray, {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //         Authorization: localStorage.getItem("jwtToken") || "",
+  //       },
+  //       responseType: "arraybuffer",
+  //     })
+  //     .then((r) => {
+  //       const a = window.URL || window.webkitURL;
 
-        const url = a.createObjectURL(
-          new Blob([r.data], { type: "application/pdf" })
-        );
+  //       const url = a.createObjectURL(
+  //         new Blob([r.data], { type: "application/pdf" })
+  //       );
 
-        let link = document.createElement("a");
+  //       let link = document.createElement("a");
 
-        link.setAttribute("download", `${rfc}-${fecha}.pdf`);
-        link.setAttribute("href", url);
-        document.body.appendChild(link);
-        link.click();
-      })
-      .catch((err) => {});
-  };
+  //       link.setAttribute("download", `${rfc}-${fecha}.pdf`);
+  //       link.setAttribute("href", url);
+  //       document.body.appendChild(link);
+  //       link.click();
+  //     })
+  //     .catch((err) => {});
+  // };
 
   return (
     <Box

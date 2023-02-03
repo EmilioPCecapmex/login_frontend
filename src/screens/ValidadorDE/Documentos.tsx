@@ -4,7 +4,6 @@ import { Validador } from "../../components/Documentos/Validador";
 export const Documentos = () => {
   const params = new URLSearchParams(window.location.search);
   const Id = params.get("Id") || "";
-
   
   return (
     <Box
