@@ -98,11 +98,11 @@ export const TimerCounter = () => {
         color: "#B70000",
       }}
     >
-      {rest > 0
+      {/* {rest > 0
         ? Math.floor(rest / 1000 / 60).toString() +
           ":" +
           Math.floor((rest / 1000) % 60).toString()
-        : "0:0"}
+        : "0:0"} */}
     </Box>
   );
 };

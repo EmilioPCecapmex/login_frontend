@@ -56,8 +56,8 @@ export const continueSession = () => {
 };
 
 export const logout = () => {
-  // localStorage.clear();
-  window.location.assign("http://10.200.4.200:3000/");
+  localStorage.clear();
+  window.location.assign(process.env.REACT_APP_APPLICATION_FRONT|| "");
 };
 
 export const isAdmin = () => {
