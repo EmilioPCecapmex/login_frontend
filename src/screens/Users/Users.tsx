@@ -211,7 +211,7 @@ export default function Users() {
               </IconButton>
             </Tooltip>
 
-            <Tooltip title={"Edita - " + cellValues.row.NombreUsuario}>
+            <Tooltip title={"Editar - " + cellValues.row.NombreUsuario}>
               <IconButton
                 color="warning"
                 onClick={(event) => {
@@ -222,7 +222,7 @@ export default function Users() {
               </IconButton>
             </Tooltip>
 
-            <Tooltip title={"Edita acceso a plataformas"}>
+            <Tooltip title={"Editar acceso a plataformas"}>
               <IconButton
                 color="info"
                 onClick={(event) => {
