@@ -1,14 +1,18 @@
 import {
+  Badge,
   Box,
-  Button,
   IconButton,
   Tooltip,
   Typography,
 } from "@mui/material";
-import React from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.svg";
-import LogoutIcon from "@mui/icons-material/Logout";
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
+import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
+import AppsIcon from '@mui/icons-material/Apps';
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import axios from "axios";
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -16,6 +20,32 @@ export const Header = () => {
     localStorage.clear();
     navigate("../");
   };
+
+
+  const [solCount, setSolCount] = useState(0)
+
+  const getSolicitudes = () => {
+    axios
+      .get(process.env.REACT_APP_APPLICATION_DEV +"/api/solicitudes", {
+        params: {
+          IdUsuario: localStorage.getItem("IdUsuario"),
+        },
+        headers: {
+          Authorization: localStorage.getItem("jwtToken") || "",
+        },
+      })
+      .then((r) => {
+        if (r.status === 200) {
+          setSolCount(r.data.data.length)
+        }
+      });
+  };
+
+  useEffect(() => {
+getSolicitudes()
+  },[])
+
+
   return (
     <Box
       sx={{
@@ -24,42 +54,83 @@ export const Header = () => {
         backgroundColor: "#fff",
         display: "flex",
         alignItems: "center",
-        justifyContent: "flex-end",
+        justifyContent: "space-around",
         boxShadow: 1,
       }}
     >
+      <Typography sx={{ fontFamily: 'MontserratSemiBold', fontSize: '1vw' }}> {localStorage.getItem("NombreUsuario")} </Typography>
+      
       <Box
-        sx={{ position: "absolute", top: "2vh", left: "5vw", width: "10vw" }}
+        sx={{ width: "50vw", display: 'flex', alignItems: 'center', justifyContent: 'center' }}
       >
-        <img alt="logo" src={logo} />
+        <img alt="logo" src={logo} style={{ width: "10vw" }} />
       </Box>
 
-      <Button onClick={() => navigate("../admin")} sx={{ mr: "5vw" }}>
-        <Typography sx={{ fontFamily: "MontserratMedium", color: "#464141" }}>
-          USUARIOS
-        </Typography>
-      </Button>
-      <Button onClick={() => navigate("../app")} sx={{ mr: "5vw" }}>
-        <Typography sx={{ fontFamily: "MontserratMedium", color: "#464141" }}>
-          APLICACIONES
-        </Typography>
-      </Button>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 
-      <Box
-        sx={{
-          position: "absolute",
-          bottom: "2vh",
-          right: "2vw",
-          backgroundColor: "#3c3f42",
-          borderRadius: 100,
-        }}
-      >
-        <Tooltip title="Logout">
-          <IconButton onClick={() => logoutFnc()}>
-            <LogoutIcon sx={{ height: "5vh", width: "3vw", color: "#fff" }} />
+
+        <Tooltip title="Solicitudes">
+          <Badge badgeContent={solCount} color="primary">
+            <IconButton onClick={() => navigate("../solicitudes")}
+              sx={[
+                {
+                  "&:hover": {
+                    color: "#c4a57b",
+                  },
+                },
+              ]}>
+              <PostAddIcon />
+            </IconButton>
+          </Badge>
+        </Tooltip>
+
+
+
+        <Tooltip title="Usuarios">
+          <IconButton onClick={() => navigate("../admin")}
+            sx={[
+              {
+                "&:hover": {
+                  color: "#c4a57b",
+                },
+              },
+            ]}>
+            <PeopleOutlineIcon />
           </IconButton>
         </Tooltip>
+
+
+
+        <Tooltip title="Aplicaciones">
+          <IconButton onClick={() => navigate("../app")}
+            sx={[
+              {
+                "&:hover": {
+                  color: "#c4a57b",
+                },
+              },
+            ]}>
+            <AppsIcon />
+          </IconButton>
+        </Tooltip>
+
+
+
+        <Tooltip title="Logout">
+          <IconButton onClick={() => logoutFnc()}
+            sx={[
+              {
+                "&:hover": {
+                  color: "#c4a57b",
+                },
+              },
+            ]}
+          >
+            <PowerSettingsNewIcon />
+          </IconButton>
+        </Tooltip>
+
       </Box>
-    </Box>
+    </Box >
   );
 };

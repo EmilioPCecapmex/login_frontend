@@ -22,6 +22,11 @@ const localeText = {
 };
 
 export default function MUIXDataGrid(props: any) {
+  const [pageSize, setPageSize] = React.useState(8);
+
+  const changePageSize = (v: number) => {
+    setPageSize(v);
+  };
   return (
     <div style={{ height: "60vh", width: "100%" }}>
       <ThemeProvider theme={theme}>
@@ -29,9 +34,14 @@ export default function MUIXDataGrid(props: any) {
           localeText={localeText}
           columns={props.columns}
           rows={props.rows}
-          pageSize={8}
+          pageSize={pageSize}
+          rowsPerPageOptions={[10, 25, 50, 100]}
+          onPageSizeChange={(v) => changePageSize(v)}
+        
           sx={{
             fontFamily: "MontserratMedium",
+          
+          
           }}
           getRowId={props.id}
           components={{

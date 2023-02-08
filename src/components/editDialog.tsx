@@ -5,10 +5,14 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
   FormControlLabel,
   FormGroup,
   Grid,
   IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
   Switch,
   TextField,
   Typography,
@@ -24,14 +28,105 @@ export interface EditDialogProps {
   usuario: Usuario | any;
 }
 
+export interface IUserTypes {
+  Id: string;
+  Nombre: string;
+  Descripcion: string;
+}
+
 export const EditDialog = (props: EditDialogProps) => {
   const [nombre, setNombre] = useState("");
   const [nombreUsuario, setNombreUsuario] = useState("");
   const [apellidoPaterno, setApellidoPaterno] = useState("");
   const [apellidoMaterno, setApellidoMaterno] = useState("");
   const [estaActivo, setEstaActivo] = useState(false);
-
+  const [puedeFirmar, setPuedeFirmar] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
+
+  const [celular, setCelular] = useState(0);
+  const [telefono, setTelefono] = useState(0);
+  const [ext, setExt] = useState(0);
+  const [curp, setCurp] = useState("");
+  const [rfc, setRfc] = useState("");
+  const [tipousuario, setTipoUsuario] = useState("");
+
+  const [errorrfc, setErrorRfc] = useState(false);
+  const [errorcurp, setErrorCurp] = useState(false);
+  const [leyendaerrorrfc, setLeyendaErrorRfc] = useState("");
+  const [leyendaerrorcurp, setLeyendaErrorCurp] = useState(""); 
+  
+  const compruebaNombre=(value: string)=>{
+    var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (!format.test(value)) {
+      setNombre(value);
+    }
+  }
+
+  const compruebaAPaterno=(value: string)=>{
+    var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (!format.test(value)) {
+      setApellidoPaterno(value);
+    }
+  }
+  const compruebaAMaterno=(value: string)=>{
+    var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (!format.test(value)) {
+      setApellidoMaterno(value);
+    }
+  }
+
+
+  const compruebaCelular = (value: number) => {
+    if (value <= 9999999999) {
+      setCelular(value);
+    } else if (value.toString() === "NaN") {
+      setCelular(0);
+    }
+  };
+  const compruebaTelefono = (value: number) => {
+    if (value <= 9999999999) {
+      setTelefono(value);
+    } else if (value.toString() === "NaN") {
+      setTelefono(0);
+    }
+  };
+
+  const compruebaExt = (value: number) => {
+    if (value <= 9999) {
+      setExt(value);
+    } else if (value.toString() === "NaN") {
+      setExt(0);
+    }
+  };  
+
+
+
+  const compruebaRfc = (value: string) => {
+    var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (!format.test(value)) {
+      setRfc(value.toUpperCase());
+    }
+    if (value.length < 12 || value.length > 13) {
+      setErrorRfc(true);
+      setLeyendaErrorRfc("13 caracteres si es persona física, 12 caracteres si es persona moral");
+    }else{
+      setErrorRfc(false);
+      setLeyendaErrorRfc("");
+    }    
+  };
+  const compruebaCurp = (value: string) => {
+    var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (!format.test(value)) {
+      setCurp(value.toUpperCase());
+    }
+    if (value.length !== 18) {
+      setErrorCurp(true);
+      setLeyendaErrorCurp("Longitud de CURP incorrecto, tiene que ser de 18 caracteres");
+    }else{
+      setErrorCurp(false);
+      setLeyendaErrorCurp("");
+    }
+  };
 
   const handleClickOpenDelete = () => {
     setOpenDelete(true);
@@ -81,13 +176,14 @@ export const EditDialog = (props: EditDialogProps) => {
   const deleteUser = () => {
     axios({
       method: "delete",
-      url: "http://10.200.4.164:5000/api/user",
+      url: process.env.REACT_APP_APPLICATION_DEV + "/api/user",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",
       },
       data: {
         IdUsuario: props.usuario.Id,
+        IdUsuarioModificador: localStorage.getItem("IdUsuario"),
       },
     })
       .then(function (response) {
@@ -109,12 +205,26 @@ export const EditDialog = (props: EditDialogProps) => {
     setApellidoPaterno(props.usuario.ApellidoPaterno);
     setApellidoMaterno(props.usuario.ApellidoMaterno);
     setEstaActivo(props.usuario.EstaActivoLabel === "Activo" ? true : false);
+    setRfc(props.usuario.Rfc);
+    setCurp(props.usuario.Curp);
+    setTelefono(props.usuario.Telefono);
+    setExt(props.usuario.Ext);
+    setCelular(props.usuario.Celular);
+    setTipoUsuario(props.usuario.IdTipoUsuario);
+    setPuedeFirmar(props.usuario.PuedeFirmar === 0 ?false:true);
   }, [
     props.usuario.Nombre,
     props.usuario.NombreUsuario,
     props.usuario.ApellidoPaterno,
     props.usuario.ApellidoMaterno,
     props.usuario.EstaActivoLabel,
+    props.usuario.Rfc,
+    props.usuario.Curp,
+    props.usuario.Telefono,
+    props.usuario.Ext,
+    props.usuario.Celular,
+    props.usuario.IdTipoUsuario,
+    props.usuario.PuedeFirmar,
   ]);
 
   const handleUpdateBtn = () => {
@@ -132,11 +242,17 @@ export const EditDialog = (props: EditDialogProps) => {
         ApellidoMaterno: apellidoMaterno,
         EstaActivo: estaActivo ? 1 : 0,
         IdUsuarioModificador: localStorage.getItem("IdUsuario") || "",
-      };
-
+        Rfc: rfc,
+        Curp: curp,
+        Telefono: telefono,
+        Ext: ext,
+        Celular: celular,
+        IdTipoUsuario: tipousuario,
+        puedefirmar: puedeFirmar ? 1 : 0,
+      }
       axios({
         method: "put",
-        url: "http://10.200.4.164:5000/api/user",
+        url: process.env.REACT_APP_APPLICATION_DEV +"/api/user",
         headers: {
           "Content-Type": "application/json",
           Authorization: localStorage.getItem("jwtToken") || "",
@@ -155,6 +271,36 @@ export const EditDialog = (props: EditDialogProps) => {
         });
     }
   };
+
+  const [usertypes, setUserTypes] = useState<Array<IUserTypes>>([]);
+
+  const getAllUserTypes = () => {
+    const data = {
+      IdUsuario: localStorage.getItem("IdUsuario"),
+    };
+    axios({
+      method: "post",
+      url: process.env.REACT_APP_APPLICATION_DEV + "/api/user-types",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("jwtToken") || "",
+      },
+      data: data,
+    })
+      .then(function (response) {
+        setUserTypes(response.data.data);
+      })
+      .catch(function (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Mensaje",
+          text: "(" + error.response.status + ") " + error.response.data.msg,
+        });
+      });
+  };
+  useEffect(() => {
+    getAllUserTypes();
+  }, []);
 
   return (
     <Dialog
@@ -195,7 +341,7 @@ export const EditDialog = (props: EditDialogProps) => {
               fullWidth
               variant="standard"
               value={nombre}
-              onChange={(v) => setNombre(v.target.value)}
+              onChange={(v) => compruebaNombre(v.target.value)}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -208,7 +354,7 @@ export const EditDialog = (props: EditDialogProps) => {
               fullWidth
               variant="standard"
               value={apellidoPaterno}
-              onChange={(v) => setApellidoPaterno(v.target.value)}
+              onChange={(v) => compruebaAPaterno(v.target.value)}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -221,16 +367,103 @@ export const EditDialog = (props: EditDialogProps) => {
               fullWidth
               variant="standard"
               value={apellidoMaterno}
-              onChange={(v) => setApellidoMaterno(v.target.value)}
+              onChange={(v) => compruebaAMaterno(v.target.value)}
             />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextField
+              margin="dense"
+              id="curp"
+              label="CURP"
+              type="text"
+              fullWidth
+              variant="standard"
+              value={curp}
+              required
+              error={errorcurp}
+              helperText={leyendaerrorcurp}              
+              inputProps={{ maxLength: 18 }}
+              onChange={(v) => compruebaCurp(v.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              margin="dense"
+              id="rfc"
+              label="RFC"
+              type="text"
+              fullWidth
+              variant="standard"
+              value={rfc}
+              required
+              error={errorrfc}
+              helperText={leyendaerrorrfc}              
+              inputProps={{ maxLength: 13 }}
+              onChange={(v) => compruebaRfc(v.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} md={6} sx={{ display: "flex", flexDirection: "row" }}>
+            <TextField
+            sx={{  mr:6 }}
+              margin="dense"
+              id="telefono"
+              label="Telefono"
+              value={telefono === 0 ? "" : telefono}              
+              required
+              variant="standard"
+              onChange={(v) => compruebaTelefono(parseInt(v.target.value))}
+            />
+            <TextField               
+              margin="dense"
+              id="ext"
+              label="Ext"
+              value={ext === 0 ? "" : ext}
+              variant="standard"
+              onChange={(v) => compruebaExt(parseInt(v.target.value))}
+            />            
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextField
+              margin="dense"
+              id="celular"
+              label="Celular"
+              value={celular === 0 ? "" : celular}
+              fullWidth
+              required
+              variant="standard"
+              onChange={(v) => compruebaCelular(parseInt(v.target.value))}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <FormControl required variant="standard" fullWidth>
+              <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                Tipo de Usuario
+              </InputLabel>
+
+              <Select
+                id="tipousuario"
+                value={tipousuario}
+                onChange={(v) => setTipoUsuario(v.target.value) }
+                sx={{ display: "flex", pt: 1 }}
+              >
+                {usertypes.map((types) => (
+                  <MenuItem key={types.Id} value={types.Id}>
+                    {types.Descripcion}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
           <Grid
             item
-            xs={3}
-            md={3}
+            xs={9}
+            md={9}
             sx={{
               alignItems: "center",
-              justifyContent: "center",
+              justifyContent: "flex-end",
               display: "flex",
             }}
           >
@@ -252,23 +485,34 @@ export const EditDialog = (props: EditDialogProps) => {
             md={3}
             sx={{
               alignItems: "center",
-              justifyContent: "center",
+              justifyContent: "flex-end",
               display: "flex",
             }}
           >
-            <Button
-              variant="contained"
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={puedeFirmar}
+                    onChange={(v) => setPuedeFirmar(v.target.checked)}
+                  />
+                }
+                label={puedeFirmar ? "Puede firmar" : "No puede firmar"}
+              />
+            </FormGroup>
+            
+          </Grid>
+        </Grid>
+      </DialogContent>
+      <DialogActions>
+      <Button
+              
               color="error"
-              size="small"
               sx={{ fontFamily: "MontserratRegular" }}
               onClick={() => handleClickOpenDelete()}
             >
               Eliminar Usuario
             </Button>
-          </Grid>
-        </Grid>
-      </DialogContent>
-      <DialogActions>
         <Button
           color="error"
           onClick={() => props.handleEditDialogClose()}

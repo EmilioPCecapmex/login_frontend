@@ -59,7 +59,7 @@ export const EditDialogApp = (props: EditDialogProps) => {
       };
       axios({
         method: "put",
-        url: `http://10.200.4.164:5000/api/app`,
+        url: process.env.REACT_APP_APPLICATION_DEV + `/api/app`,
         headers: {
           "Content-Type": "application/json",
           Authorization: localStorage.getItem("jwtToken") || "",
@@ -71,7 +71,6 @@ export const EditDialogApp = (props: EditDialogProps) => {
           props.handleEditDialogClose(true);
         })
         .catch(function (error) {
-          console.log(error);
           Swal.fire({
             icon: "error",
             title: "Mensaje",

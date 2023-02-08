@@ -1,6 +1,6 @@
 export const ls = {
-  signIn: "INICIA SESIÓN",
-  secondaryText: "Ingresa tus datos de acceso:",
+  signIn: "TESORERÍA VIRTUAL",
+  secondaryText: "Ingresa tus datos de acceso para iniciar sesión:",
   placeholderUser: "Nombre de usuario o correo electrónico",
   placeholderPass: "Contraseña",
   btnText: "Ingresar",
