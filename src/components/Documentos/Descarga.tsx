@@ -134,8 +134,20 @@ export const DialogDescarga = ({
                   "&:hover": {
                     color: "orange",
                   },
-                  width: "1.2vw",
-                  height: "1.2vw",
+                  width: {
+                    xs: 30,
+                    sm: 30,
+                    md: "10",
+                    lg: "10",
+                    xl: "10",
+                  },
+                  height: {
+                    xs: 30,
+                    sm: 30,
+                    md: "10",
+                    lg: "10",
+                    xl: "10",
+                  },
                 },
               ]}
             />
