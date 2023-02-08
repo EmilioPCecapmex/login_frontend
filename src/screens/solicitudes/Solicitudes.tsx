@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import { useEffect, useState } from "react";
 import axios from "axios";
 import {
@@ -190,7 +191,7 @@ export const Solicitudes = () => {
         if (r.status === 200) {
           getSolicitudes();
 
-          if ((estado === "2" || estado === "3") && comentario != "") {
+          if ((estado === "2" || estado === "3") && comentario !== "") {
             createComentarios()
           }
         }
@@ -354,6 +355,7 @@ export const Solicitudes = () => {
     else
       setSelectedIndex(-1);
       filtroXApp(idApp);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [solicitudes]);
 
   //cuando se seleciona un filtro, se establece en el primer registro
@@ -362,6 +364,7 @@ export const Solicitudes = () => {
   }, [appSelectedIndex]);
 
   useEffect(() => {
+    // eslint-disable-next-line eqeqeq
     if (detalleUsuario.CorreoElectronico != "") {
       let auxiliar = onChangeInfo;
 
@@ -399,6 +402,7 @@ export const Solicitudes = () => {
     }
     setPuedeFirmar(false);
     setAdminPlataforma(false);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [detalleUsuario])
 
   const checkCambios = () => {
@@ -429,11 +433,13 @@ export const Solicitudes = () => {
       getComentarios();
     }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIndex]);
 
   useEffect(() => {
     if (detalleSolicitud[0]?.NombreUsuario)
       checkCambios();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [detalleSolicitud[0]]);
 
   const [openDialogImpDoc, setOpenDialogImpDoc] = useState(false);
@@ -575,9 +581,7 @@ export const Solicitudes = () => {
                         <ListItemButton
                           key={x}
                           onClick={() => {
-                            {
                               itemSelected(x, item.Id);
-                            }
                           }}
                           sx={{
                             pl: 2,
