@@ -9,12 +9,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
-import UndoIcon from '@mui/icons-material/Undo';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import AppsIcon from '@mui/icons-material/Apps';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import axios from "axios";
-import { TimerCounter } from "./timer/timer";
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -61,7 +59,7 @@ getSolicitudes()
       }}
     >
       <Typography sx={{ fontFamily: 'MontserratSemiBold', fontSize: '1vw' }}> {localStorage.getItem("NombreUsuario")} </Typography>
-      <TimerCounter />
+      
       <Box
         sx={{ width: "50vw", display: 'flex', alignItems: 'center', justifyContent: 'center' }}
       >

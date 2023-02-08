@@ -21,6 +21,7 @@ import { EditDialogApp } from "../../components/editApp";
 import MUIXDataGridApp from "../../components/MUIXDataGridApp";
 import { Header } from "../../components/header";
 import AppsIcon from '@mui/icons-material/Apps';
+import { TimerCounter } from "../../components/timer/timer";
 
 // estructura que se va a llenar con la informacion que regresa el endpoint
 // tiene que tener el mismo nombre que regresa el endpoint
@@ -95,7 +96,7 @@ export default function CatApps() {
     // Tercer columna donde se mostrara el path
     {
       field: "Path",
-      headerName: "Path",
+      headerName: "Ruta",
       width: 350,
       hideable: false,
       headerAlign: "center",
@@ -242,10 +243,14 @@ export default function CatApps() {
       <Box>
         <Header />
       </Box>
+      <Box sx={{display:"flex",justifyContent:"flex-end"}}>
+        <TimerCounter />
+      </Box>
+      
       {/* esta configuracion es del box que va a contener el card principal*/}
       <Box
         sx={{
-          height: "90vh",
+          height: "87vh",// aqui va 90vh
           width: "100vw",
           display: "flex",
           alignItems: "center",
@@ -309,6 +314,7 @@ export default function CatApps() {
           app={editDialogApp}
         />
       ) : null}
+      
     </>
   );
 }

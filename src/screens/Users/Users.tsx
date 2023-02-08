@@ -17,6 +17,7 @@ import { isAdmin, sessionValid } from "../../funcs/validation";
 import { Header } from "../../components/header";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import { TimerCounter } from "../../components/timer/timer";
 
 export interface Usuario {
   EstaActivoLabel: string;
@@ -36,6 +37,7 @@ export interface Usuario {
   ModificadoPor: string;
   NombreCreadoPor: string;
   NombreModificadoPor: string;
+  PuedeFirmar:number;
 }
 
 export default function Users() {
@@ -290,9 +292,12 @@ export default function Users() {
   return (
     <Box>
       <Header />
+      <Box sx={{display:"flex",justifyContent:"flex-end"}}>
+        <TimerCounter />
+      </Box>
       <Box
         sx={{
-          height: "90vh",
+          height: "87vh",
           width: "100vw",
           display: "flex",
           alignItems: "center",

@@ -6,11 +6,14 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
+  FormControlLabel,
+  FormGroup,
   Grid,
   IconButton,
   InputLabel,
   MenuItem,
   Select,
+  Switch,
   TextField,
 } from "@mui/material";
 import axios from "axios";
@@ -23,8 +26,8 @@ export interface NewDialogProps {
 }
 
 export interface IUserTypes {
-  Id:          string;
-  Nombre:      string;
+  Id: string;
+  Nombre: string;
   Descripcion: string;
 }
 
@@ -41,6 +44,7 @@ export const NewDialog = (props: NewDialogProps) => {
   const [curp, setCurp] = useState("");
   const [rfc, setRfc] = useState("");
   const [tipousuario, setTipoUsuario] = useState("");
+  const [puedeFirmar, setPuedeFirmar] = useState(false);
 
   const [errorEmail, setErrorEmail] = useState(false);
   const [errorrfc, setErrorRfc] = useState(false);
@@ -80,40 +84,40 @@ export const NewDialog = (props: NewDialogProps) => {
     if (value.length < 12 || value.length > 13) {
       setErrorRfc(true);
       setLeyendaErrorRfc("13 caracteres si es persona física, 12 caracteres si es persona moral");
-    }else{
+    } else {
       setErrorRfc(false);
       setLeyendaErrorRfc("");
-    }    
+    }
   };
 
-  const compruebaNombreUsuario=(value: string)=>{
+  const compruebaNombreUsuario = (value: string) => {
     var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     if (!format.test(value)) {
       setNombreUsuario(value);
     }
   }
-  const compruebaNombre=(value: string)=>{
+  const compruebaNombre = (value: string) => {
     var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     if (!format.test(value)) {
       setNombre(value);
     }
   }
 
-  const compruebaAPaterno=(value: string)=>{
+  const compruebaAPaterno = (value: string) => {
     var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     if (!format.test(value)) {
       setApellidoPaterno(value);
     }
   }
-  const compruebaAMaterno=(value: string)=>{
+  const compruebaAMaterno = (value: string) => {
     var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     if (!format.test(value)) {
       setApellidoMaterno(value);
     }
   }
 
-  function isValidEmail() { 
-    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(correo); 
+  function isValidEmail() {
+    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(correo);
   }
 
   const compruebaCurp = (value: string) => {
@@ -124,7 +128,7 @@ export const NewDialog = (props: NewDialogProps) => {
     if (value.length !== 18) {
       setErrorCurp(true);
       setLeyendaErrorCurp("Longitud de CURP incorrecto, tiene que ser de 18 caracteres");
-    }else{
+    } else {
       setErrorCurp(false);
       setLeyendaErrorCurp("");
     }
@@ -156,18 +160,19 @@ export const NewDialog = (props: NewDialogProps) => {
         ApellidoMaterno: apellidoMaterno,
         NombreUsuario: nombreUsuario,
         CorreoElectronico: correo,
-        IdUsuarioModificador: localStorage.getItem("IdUsuario"),       
+        IdUsuarioModificador: localStorage.getItem("IdUsuario"),
         Rfc: rfc,
         Curp: curp,
         Telefono: telefono,
         Ext: ext,
         Celular: celular,
-        IdTipoUsuario: tipousuario
+        IdTipoUsuario: tipousuario,
+        PuedeFirmar: puedeFirmar ? 1 : 0,
       };
 
       axios({
         method: "post",
-        url: process.env.REACT_APP_APPLICATION_DEV +"/api/sign-up",
+        url: process.env.REACT_APP_APPLICATION_DEV + "/api/sign-up",
         headers: {
           "Content-Type": "application/json",
           Authorization: localStorage.getItem("jwtToken") || "",
@@ -187,8 +192,8 @@ export const NewDialog = (props: NewDialogProps) => {
     }
   };
 
-  const [usertypes, setUserTypes] = useState <Array<IUserTypes>>([]) ;
-  const [usertypessel, setUserTypesSel] = useState ("") ;
+  const [usertypes, setUserTypes] = useState<Array<IUserTypes>>([]);
+  const [usertypessel, setUserTypesSel] = useState("");
   const getAllUserTypes = () => {
     const data = {
       IdUsuario: localStorage.getItem("IdUsuario"),
@@ -312,7 +317,7 @@ export const NewDialog = (props: NewDialogProps) => {
               required
               onChange={(v) => setCorreo(v.target.value)}
               error={errorEmail}
-              helperText={errorEmail?"Formato de correo invalido":null}
+              helperText={errorEmail ? "Formato de correo invalido" : null}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -347,45 +352,13 @@ export const NewDialog = (props: NewDialogProps) => {
               onChange={(v) => compruebaRfc(v.target.value)}
             />
           </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <TextField
-            sx={{  mr:6 }}
-              margin="dense"
-              id="telefono"
-              label="Telefono"
-              value={telefono === 0 ? "" : telefono}              
-              required
-              variant="standard"
-              onChange={(v) => compruebaTelefono(parseInt(v.target.value))}
-            />
-            <TextField               
-              margin="dense"
-              id="ext"
-              label="Ext"
-              value={ext === 0 ? "" : ext}
-              variant="standard"
-              onChange={(v) => compruebaExt(parseInt(v.target.value))}
-            />            
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField
-              margin="dense"
-              id="celular"
-              label="Celular"
-              value={celular === 0 ? "" : celular}
-              fullWidth
-              required
-              variant="standard"
-              onChange={(v) => compruebaCelular(parseInt(v.target.value))}
-            />
-          </Grid>
           <Grid item xs={12} md={6}>
             <FormControl required variant="standard" fullWidth>
               <InputLabel variant="standard" htmlFor="uncontrolled-native">
                 Tipo de Usuario
               </InputLabel>
               <Select
-                onChange={(v) => setTipoUsuario(v.target.value) }
+                onChange={(v) => setTipoUsuario(v.target.value)}
                 id="tipousuario"
                 value={tipousuario}
                 sx={{ display: "flex", pt: 1 }}
@@ -401,6 +374,50 @@ export const NewDialog = (props: NewDialogProps) => {
               </Select>
             </FormControl>
           </Grid>
+          <Grid item xs={12} md={6} sx={{ display: "flex", flexDirection: "row" }}>
+            <TextField
+              sx={{ mr: 6 }}
+              margin="dense"
+              id="telefono"
+              label="Telefono"
+              value={telefono === 0 ? "" : telefono}
+              required
+              variant="standard"
+              onChange={(v) => compruebaTelefono(parseInt(v.target.value))}
+            />
+            <TextField
+              margin="dense"
+              id="ext"
+              label="Ext"
+              value={ext === 0 ? "" : ext}
+              variant="standard"
+              onChange={(v) => compruebaExt(parseInt(v.target.value))}
+            />
+          </Grid>
+          <Grid item xs={12} md={6} sx={{ display: "flex", flexDirection: "row" }}>
+            <TextField
+            sx={{ mr: 4 }}
+              margin="dense"
+              id="celular"
+              label="Celular"
+              value={celular === 0 ? "" : celular}
+              required
+              variant="standard"
+              onChange={(v) => compruebaCelular(parseInt(v.target.value))}
+            />
+            <FormGroup sx={{display:"flex",justifyContent:"center"}}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={puedeFirmar}
+                    onChange={(v) => setPuedeFirmar(v.target.checked)}
+                  />
+                }
+                label={puedeFirmar ? "Puede firmar" : "No puede firmar"}
+              />
+            </FormGroup>
+          </Grid>
+          
         </Grid>
       </DialogContent>
       <DialogActions>
@@ -412,7 +429,7 @@ export const NewDialog = (props: NewDialogProps) => {
           Cancelar
         </Button>
         <Button
-          onClick={() => isValidEmail()?handleStoreBtn():setErrorEmail(true)}
+          onClick={() => isValidEmail() ? handleStoreBtn() : setErrorEmail(true)}
           sx={{ fontFamily: "MontserratRegular" }}
         >
           Crear Usuario

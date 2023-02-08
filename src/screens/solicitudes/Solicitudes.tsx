@@ -19,13 +19,11 @@ import {
   DialogContentText,
   DialogTitle,
   FormControlLabel,
-  Switch,
   Checkbox,
   Badge,
   Tooltip,
 } from "@mui/material";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
 import { Header } from "../../components/header";
 import { IDetalleSolicitud, ISolicitud } from "./ISolicitud";
 import { IApps } from "./IApps";
@@ -37,6 +35,7 @@ import { CommentsDialog } from "../../components/commentsDialog";
 import CircularProgress from '@mui/material/CircularProgress';
 import moment from 'moment';
 import { imprimirSolicitud } from "../Users/Users";
+import { TimerCounter } from "../../components/timer/timer";
 
 export const Solicitudes = () => {
   const [solicitudes, setSolicitudes] = useState<Array<ISolicitud>>([]);
@@ -470,6 +469,9 @@ export const Solicitudes = () => {
       }}
     >
       <Header />
+      <Box sx={{display:"flex",justifyContent:"flex-end"}}>
+        <TimerCounter />
+      </Box>
       <CommentsDialog open={openComments} close={handleCloseComments} solicitud={solicitudSeleccionada} />
       <Box
         sx={{
