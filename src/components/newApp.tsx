@@ -114,7 +114,7 @@ export const NewDialogApp = (props: NewDialogProps) => {
             <TextField
               margin="dense"
               id="path"
-              label="Path"
+              label="Ruta"
               type="text"
               fullWidth
               variant="standard"

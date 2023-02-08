@@ -42,7 +42,7 @@ export const DialogDescarga = ({
     dataArray.append("IdPathDoc", id);
 
     axios
-      .post("http://10.210.0.27/api/generarphrase", dataArray, {
+      .post(process.env.REACT_APP_APPLICATION_FIRMA + "/api/generarphrase", dataArray, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: localStorage.getItem("jwtToken") || "",
@@ -67,7 +67,7 @@ export const DialogDescarga = ({
     dataArray.append("phrase", password);
 
     axios
-      .post("http://10.210.0.27/api/getfpdf", dataArray, {
+      .post(process.env.REACT_APP_APPLICATION_FIRMA + "/api/getfpdf", dataArray, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: localStorage.getItem("jwtToken") || "",

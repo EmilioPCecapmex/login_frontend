@@ -40,6 +40,7 @@ export const EditDialog = (props: EditDialogProps) => {
   const [apellidoPaterno, setApellidoPaterno] = useState("");
   const [apellidoMaterno, setApellidoMaterno] = useState("");
   const [estaActivo, setEstaActivo] = useState(false);
+  const [puedeFirmar, setPuedeFirmar] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
 
   const [celular, setCelular] = useState(0);
@@ -52,7 +53,28 @@ export const EditDialog = (props: EditDialogProps) => {
   const [errorrfc, setErrorRfc] = useState(false);
   const [errorcurp, setErrorCurp] = useState(false);
   const [leyendaerrorrfc, setLeyendaErrorRfc] = useState("");
-  const [leyendaerrorcurp, setLeyendaErrorCurp] = useState("");  
+  const [leyendaerrorcurp, setLeyendaErrorCurp] = useState(""); 
+  
+  const compruebaNombre=(value: string)=>{
+    var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (!format.test(value)) {
+      setNombre(value);
+    }
+  }
+
+  const compruebaAPaterno=(value: string)=>{
+    var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (!format.test(value)) {
+      setApellidoPaterno(value);
+    }
+  }
+  const compruebaAMaterno=(value: string)=>{
+    var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (!format.test(value)) {
+      setApellidoMaterno(value);
+    }
+  }
+
 
   const compruebaCelular = (value: number) => {
     if (value <= 9999999999) {
@@ -189,6 +211,7 @@ export const EditDialog = (props: EditDialogProps) => {
     setExt(props.usuario.Ext);
     setCelular(props.usuario.Celular);
     setTipoUsuario(props.usuario.IdTipoUsuario);
+    setPuedeFirmar(props.usuario.PuedeFirmar === 0 ?false:true);
   }, [
     props.usuario.Nombre,
     props.usuario.NombreUsuario,
@@ -201,6 +224,7 @@ export const EditDialog = (props: EditDialogProps) => {
     props.usuario.Ext,
     props.usuario.Celular,
     props.usuario.IdTipoUsuario,
+    props.usuario.PuedeFirmar,
   ]);
 
   const handleUpdateBtn = () => {
@@ -224,6 +248,7 @@ export const EditDialog = (props: EditDialogProps) => {
         Ext: ext,
         Celular: celular,
         IdTipoUsuario: tipousuario,
+        puedefirmar: puedeFirmar ? 1 : 0,
       }
       axios({
         method: "put",
@@ -248,6 +273,7 @@ export const EditDialog = (props: EditDialogProps) => {
   };
 
   const [usertypes, setUserTypes] = useState<Array<IUserTypes>>([]);
+
   const getAllUserTypes = () => {
     const data = {
       IdUsuario: localStorage.getItem("IdUsuario"),
@@ -315,7 +341,7 @@ export const EditDialog = (props: EditDialogProps) => {
               fullWidth
               variant="standard"
               value={nombre}
-              onChange={(v) => setNombre(v.target.value)}
+              onChange={(v) => compruebaNombre(v.target.value)}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -328,7 +354,7 @@ export const EditDialog = (props: EditDialogProps) => {
               fullWidth
               variant="standard"
               value={apellidoPaterno}
-              onChange={(v) => setApellidoPaterno(v.target.value)}
+              onChange={(v) => compruebaAPaterno(v.target.value)}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -341,7 +367,7 @@ export const EditDialog = (props: EditDialogProps) => {
               fullWidth
               variant="standard"
               value={apellidoMaterno}
-              onChange={(v) => setApellidoMaterno(v.target.value)}
+              onChange={(v) => compruebaAMaterno(v.target.value)}
             />
           </Grid>
 
@@ -377,7 +403,7 @@ export const EditDialog = (props: EditDialogProps) => {
               onChange={(v) => compruebaRfc(v.target.value)}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} sx={{ display: "flex", flexDirection: "row" }}>
             <TextField
             sx={{  mr:6 }}
               margin="dense"
@@ -397,6 +423,7 @@ export const EditDialog = (props: EditDialogProps) => {
               onChange={(v) => compruebaExt(parseInt(v.target.value))}
             />            
           </Grid>
+
           <Grid item xs={12} md={6}>
             <TextField
               margin="dense"
@@ -462,19 +489,30 @@ export const EditDialog = (props: EditDialogProps) => {
               display: "flex",
             }}
           >
-            <Button
-              variant="contained"
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={puedeFirmar}
+                    onChange={(v) => setPuedeFirmar(v.target.checked)}
+                  />
+                }
+                label={puedeFirmar ? "Puede firmar" : "No puede firmar"}
+              />
+            </FormGroup>
+            
+          </Grid>
+        </Grid>
+      </DialogContent>
+      <DialogActions>
+      <Button
+              
               color="error"
-              size="small"
               sx={{ fontFamily: "MontserratRegular" }}
               onClick={() => handleClickOpenDelete()}
             >
               Eliminar Usuario
             </Button>
-          </Grid>
-        </Grid>
-      </DialogContent>
-      <DialogActions>
         <Button
           color="error"
           onClick={() => props.handleEditDialogClose()}
