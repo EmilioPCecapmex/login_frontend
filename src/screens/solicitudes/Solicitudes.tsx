@@ -224,6 +224,7 @@ export const Solicitudes = () => {
         if (r.status === 200) {
           setSolicitudes(r.data.data);
           setSolicitudesFiltered(r.data.data)
+          // setTimeout(getSolicitudes,5000)
         }
       });
   };
@@ -293,6 +294,11 @@ export const Solicitudes = () => {
       .then((r) => {
         if (r.status === 200) {
           imprimirSolicitud(r.data.result[0][0]);
+        }else{
+          Toast.fire({
+            icon: "error",
+            title: "Error al imprimir la solicitud!",
+          });
         }
       });
   }

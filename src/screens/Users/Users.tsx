@@ -19,6 +19,7 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { TimerCounter } from "../../components/timer/timer";
 
+
 export interface Usuario {
   EstaActivoLabel: string;
   Id: string;
@@ -105,9 +106,14 @@ export default function Users() {
           Authorization: localStorage.getItem("jwtToken") || "",
         },
       })
-      .then((r) => {
-        if (r.status === 200) {
+      .then((r) => {        
+        if (r.status === 200 && r.data.result[0].length!==0) {
           imprimirSolicitud(r.data.result[0][0]);
+        }else{
+          Toast.fire({
+            icon: "error",
+            title: "No se encontro solicitud!",
+          });
         }
       });
   }
