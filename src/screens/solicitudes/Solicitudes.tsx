@@ -55,6 +55,7 @@ export const Solicitudes = () => {
     ApellidoMaterno: "",
     NombreUsuario: "",
     CorreoElectronico: "",
+    Puesto:"",
     Curp: "",
     Rfc: "",
     Telefono: "",
@@ -79,6 +80,7 @@ export const Solicitudes = () => {
       ApellidoMaterno: "",
       NombreUsuario: "",
       CorreoElectronico: "",
+      Puesto:"",
       Curp: "",
       Rfc: "",
       Telefono: "",
@@ -94,6 +96,7 @@ export const Solicitudes = () => {
       ApellidoMaterno: false,
       NombreUsuario: false,
       CorreoElectronico: false,
+      Puesto:false,
       Curp: false,
       Rfc: false,
       Telefono: false,
@@ -189,6 +192,13 @@ export const Solicitudes = () => {
         })
       .then((r) => {
         if (r.status === 200) {
+          if (selectedIndex - 1 >= 0) {
+            setSolicitudSeleccionada(solicitudesFiltered[selectedIndex - 1].Id)
+            setSelectedIndex(selectedIndex - 1);
+          }
+          else
+            setSelectedIndex(-1);
+            filtroXApp(idApp);
           getSolicitudes();
 
           if ((estado === "2" || estado === "3") && comentario !== "") {
@@ -224,6 +234,9 @@ export const Solicitudes = () => {
         if (r.status === 200) {
           setSolicitudes(r.data.data);
           setSolicitudesFiltered(r.data.data)
+          setTimeout(() => {
+            getSolicitudes();
+          }, 60000);
         }
       });
   };
@@ -346,18 +359,6 @@ export const Solicitudes = () => {
     setSolicitudSeleccionada(solicitudes[x].Id);
   };
 
-
-  useEffect(() => {
-    if (selectedIndex - 1 >= 0) {
-      setSolicitudSeleccionada(solicitudesFiltered[selectedIndex - 1].Id)
-      setSelectedIndex(selectedIndex - 1);
-    }
-    else
-      setSelectedIndex(-1);
-      filtroXApp(idApp);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [solicitudes]);
-
   //cuando se seleciona un filtro, se establece en el primer registro
   useEffect(() => {
     setSelectedIndex(-1);
@@ -382,6 +383,9 @@ export const Solicitudes = () => {
 
       (detalleSolicitud[0].CorreoElectronico === detalleUsuario.CorreoElectronico) ?
         auxiliar.CorreoElectronico = false : auxiliar.CorreoElectronico = true;
+      
+      (detalleSolicitud[0].Puesto === detalleUsuario.Puesto) ?
+      auxiliar.Puesto = false : auxiliar.Puesto = true;
 
       (detalleSolicitud[0].Celular === detalleUsuario.Celular) ?
         auxiliar.Celular = false : auxiliar.Celular = true;
@@ -415,6 +419,7 @@ export const Solicitudes = () => {
         ApellidoPaterno: false,
         ApellidoMaterno: false,
         NombreUsuario: false,
+        Puesto:false,
         CorreoElectronico: false,
         Curp: false,
         Rfc: false,
@@ -814,11 +819,11 @@ export const Solicitudes = () => {
                         >
                           <Box
                             sx={{
-                              width: "100%",
+                              width: "90%",
                               height: "15%",
                               display: "flex",
                               alignItems: "center",
-                              justifyContent: "space-evenly",
+                              justifyContent: "space-between",
                             }}
                           >
                             <TextField
@@ -894,11 +899,11 @@ export const Solicitudes = () => {
                           </Box>
                           <Box
                             sx={{
-                              width: "100%",
+                              width: "90%",
                               height: "15%",
                               display: "flex",
                               alignItems: "center",
-                              justifyContent: "space-evenly",
+                              justifyContent: "space-between",
                             }}
                           >
                             <TextField
@@ -913,7 +918,7 @@ export const Solicitudes = () => {
                               sx={{
                                 fontFamily: "MontserratSemiBold",
                                 fontSize: "1.5vw",
-                                width: "25%",
+                                width: "30%",
                                 backgroundColor: onChangeInfo.Nombre ? "#fde6a2" : null,
                               }}
                               value={detalleSolicitud[0]?.Nombre || ""}
@@ -933,7 +938,7 @@ export const Solicitudes = () => {
                               sx={{
                                 fontFamily: "MontserratSemiBold",
                                 fontSize: "1.5vw",
-                                width: "25%",
+                                width: "30%",
                                 backgroundColor: onChangeInfo.ApellidoPaterno ? "#fde6a2" : null,
                               }}
                               value={detalleSolicitud[0]?.ApellidoPaterno || ""}
@@ -953,21 +958,22 @@ export const Solicitudes = () => {
                               sx={{
                                 fontFamily: "MontserratSemiBold",
                                 fontSize: "1.5vw",
-                                width: "25%",
+                                width: "30%",
                                 backgroundColor: onChangeInfo.ApellidoMaterno ? "#fde6a2" : null,
                               }}
                               value={detalleSolicitud[0]?.ApellidoMaterno || ""}
                               variant="standard"
                               helperText={onChangeInfo.ApellidoMaterno ? detalleUsuario.ApellidoMaterno : null}
                             />
+                             
                           </Box>
                           <Box
                             sx={{
-                              width: "100%",
+                              width: "90%",
                               height: "15%",
                               display: "flex",
                               alignItems: "center",
-                              justifyContent: "space-evenly",
+                              justifyContent: "space-between",
                             }}
                           >
                             <TextField
@@ -982,7 +988,7 @@ export const Solicitudes = () => {
                               sx={{
                                 fontFamily: "MontserratSemiBold",
                                 fontSize: "1.5vw",
-                                width: "25%",
+                                width: "20%",
                                 backgroundColor: onChangeInfo.NombreUsuario ? "#fde6a2" : null,
                               }}
                               value={detalleSolicitud[0]?.NombreUsuario || ""}
@@ -1001,7 +1007,7 @@ export const Solicitudes = () => {
                               sx={{
                                 fontFamily: "MontserratSemiBold",
                                 fontSize: "1.5vw",
-                                width: "25%",
+                                width: "24%",
                                 backgroundColor: onChangeInfo.CorreoElectronico ? "#fde6a2" : null,
                               }}
                               value={detalleSolicitud[0]?.CorreoElectronico || ""}
@@ -1020,21 +1026,40 @@ export const Solicitudes = () => {
                               sx={{
                                 fontFamily: "MontserratSemiBold",
                                 fontSize: "1.5vw",
-                                width: "25%",
+                                width: "22%",
                                 backgroundColor: onChangeInfo.Celular ? "#fde6a2" : null,
                               }}
                               value={detalleSolicitud[0]?.Celular || ""}
                               variant="standard"
                               helperText={onChangeInfo.Celular ? detalleUsuario.Celular : null}
                             />
+                            <TextField
+                              label={
+                                <Typography
+                                  sx={{ fontFamily: "MontserratSemiBold" }}
+                                >
+                                  PUESTO
+                                </Typography>
+                              }
+                              InputProps={{ readOnly: true }}
+                              sx={{
+                                fontFamily: "MontserratSemiBold",
+                                fontSize: "1.5vw",
+                                width: "22%",
+                                backgroundColor: onChangeInfo.Puesto ? "#fde6a2" : null,
+                              }}
+                              value={detalleSolicitud[0]?.Puesto || ""}
+                              variant="standard"
+                              helperText={onChangeInfo.Puesto ? detalleUsuario.Puesto : null}
+                            />
                           </Box>
                           <Box
                             sx={{
-                              width: "100%",
+                              width: "90%",
                               height: "15%",
                               display: "flex",
                               alignItems: "center",
-                              justifyContent: "space-evenly",
+                              justifyContent: "space-between",
                             }}
                           >
                             <TextField
@@ -1087,7 +1112,7 @@ export const Solicitudes = () => {
                               sx={{
                                 fontFamily: "MontserratSemiBold",
                                 fontSize: "1.5vw",
-                                width: "15%",
+                                width: "25%",
                                 backgroundColor: onChangeInfo.Telefono ? "#fde6a2" : null,
                               }}
                               value={detalleSolicitud[0]?.Telefono || ""}
@@ -1106,7 +1131,7 @@ export const Solicitudes = () => {
                               sx={{
                                 fontFamily: "MontserratSemiBold",
                                 fontSize: "1.5vw",
-                                width: "10%",
+                                width: "15%",
                                 backgroundColor: onChangeInfo.Ext ? "#fde6a2" : null,
                               }}
                               value={detalleSolicitud[0]?.Ext || ""}

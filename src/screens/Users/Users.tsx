@@ -171,6 +171,10 @@ export default function Users() {
         }
 
         setRows(rows);
+        setTimeout(() => {
+          getAllUsers();
+        }, 60000);
+        
       })
       .catch(function (error) {
         Swal.fire({
@@ -185,6 +189,7 @@ export default function Users() {
   useEffect(() => {
     getAllUsers();
     // eslint-disable-next-line
+    
   }, [showAllUsers]);
 
 

@@ -37,6 +37,7 @@ export const NewDialog = (props: NewDialogProps) => {
   const [apellidoPaterno, setApellidoPaterno] = useState("");
   const [apellidoMaterno, setApellidoMaterno] = useState("");
   const [correo, setCorreo] = useState("");
+  const [puesto, setPuesto] = useState("");
 
   const [celular, setCelular] = useState(0);
   const [telefono, setTelefono] = useState(0);
@@ -120,6 +121,13 @@ export const NewDialog = (props: NewDialogProps) => {
     return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(correo);
   }
 
+  const compruebaPuesto = (value: string) => {
+    var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (!format.test(value)) {
+      setPuesto(value);
+    }
+  }
+
   const compruebaCurp = (value: string) => {
     var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     if (!format.test(value)) {
@@ -160,6 +168,7 @@ export const NewDialog = (props: NewDialogProps) => {
         ApellidoMaterno: apellidoMaterno,
         NombreUsuario: nombreUsuario,
         CorreoElectronico: correo,
+        Puesto:puesto,
         IdUsuarioModificador: localStorage.getItem("IdUsuario"),
         Rfc: rfc,
         Curp: curp,
@@ -305,7 +314,7 @@ export const NewDialog = (props: NewDialogProps) => {
               onChange={(v) => compruebaAMaterno(v.target.value)}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={4}>
             <TextField
               margin="dense"
               id="correo"
@@ -320,7 +329,7 @@ export const NewDialog = (props: NewDialogProps) => {
               helperText={errorEmail ? "Formato de correo invalido" : null}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={4}>
             <TextField
               margin="dense"
               id="curp"
@@ -336,7 +345,7 @@ export const NewDialog = (props: NewDialogProps) => {
               onChange={(v) => compruebaCurp(v.target.value)}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={4}>
             <TextField
               margin="dense"
               id="rfc"
@@ -350,6 +359,19 @@ export const NewDialog = (props: NewDialogProps) => {
               helperText={leyendaerrorrfc}
               inputProps={{ maxLength: 13, minLength: 12 }}
               onChange={(v) => compruebaRfc(v.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              margin="dense"
+              id="puesto"
+              label="Puesto"
+              type="text"
+              fullWidth
+              variant="standard"
+              value={puesto}
+              required
+              onChange={(v) => compruebaPuesto(v.target.value)}
             />
           </Grid>
           <Grid item xs={12} md={6}>
