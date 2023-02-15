@@ -28,6 +28,7 @@ export interface IDetalleSolicitud {
         ApellidoMaterno:   string;
         NombreUsuario:     string;
         CorreoElectronico: string;
+        Puesto:string;
         Curp:              string;
         Rfc:               string;
         Telefono:          string;

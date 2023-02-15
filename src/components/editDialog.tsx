@@ -39,6 +39,7 @@ export const EditDialog = (props: EditDialogProps) => {
   const [nombreUsuario, setNombreUsuario] = useState("");
   const [apellidoPaterno, setApellidoPaterno] = useState("");
   const [apellidoMaterno, setApellidoMaterno] = useState("");
+  const [puesto, setPuesto] = useState("");
   const [estaActivo, setEstaActivo] = useState(false);
   const [puedeFirmar, setPuedeFirmar] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -72,6 +73,12 @@ export const EditDialog = (props: EditDialogProps) => {
     var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     if (!format.test(value)) {
       setApellidoMaterno(value);
+    }
+  }
+  const compruebaPuesto=(value: string)=>{
+    var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (!format.test(value)) {
+      setPuesto(value);
     }
   }
 
@@ -204,6 +211,7 @@ export const EditDialog = (props: EditDialogProps) => {
     setNombreUsuario(props.usuario.NombreUsuario);
     setApellidoPaterno(props.usuario.ApellidoPaterno);
     setApellidoMaterno(props.usuario.ApellidoMaterno);
+    setPuesto(props.usuario.Puesto)
     setEstaActivo(props.usuario.EstaActivoLabel === "Activo" ? true : false);
     setRfc(props.usuario.Rfc);
     setCurp(props.usuario.Curp);
@@ -240,6 +248,7 @@ export const EditDialog = (props: EditDialogProps) => {
         Nombre: nombre,
         ApellidoPaterno: apellidoPaterno,
         ApellidoMaterno: apellidoMaterno,
+        Puesto:puesto,
         EstaActivo: estaActivo ? 1 : 0,
         IdUsuarioModificador: localStorage.getItem("IdUsuario") || "",
         Rfc: rfc,
@@ -424,18 +433,7 @@ export const EditDialog = (props: EditDialogProps) => {
             />            
           </Grid>
 
-          <Grid item xs={12} md={6}>
-            <TextField
-              margin="dense"
-              id="celular"
-              label="Celular"
-              value={celular === 0 ? "" : celular}
-              fullWidth
-              required
-              variant="standard"
-              onChange={(v) => compruebaCelular(parseInt(v.target.value))}
-            />
-          </Grid>
+         
 
           <Grid item xs={12} md={6}>
             <FormControl required variant="standard" fullWidth>
@@ -456,6 +454,30 @@ export const EditDialog = (props: EditDialogProps) => {
                 ))}
               </Select>
             </FormControl>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <TextField
+              margin="dense"
+              id="celular"
+              label="Celular"
+              value={celular === 0 ? "" : celular}
+              fullWidth
+              required
+              variant="standard"
+              onChange={(v) => compruebaCelular(parseInt(v.target.value))}
+            />
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <TextField
+              margin="dense"
+              id="puesto"
+              label="Puesto"
+              value={puesto}
+              fullWidth
+              required
+              variant="standard"
+              onChange={(v) => compruebaPuesto(v.target.value)}
+            />
           </Grid>
           <Grid
             item
