@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
-import UndoIcon from '@mui/icons-material/Undo';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import AppsIcon from '@mui/icons-material/Apps';
 import PostAddIcon from '@mui/icons-material/PostAdd';
@@ -60,7 +59,7 @@ getSolicitudes()
       }}
     >
       <Typography sx={{ fontFamily: 'MontserratSemiBold', fontSize: '1vw' }}> {localStorage.getItem("NombreUsuario")} </Typography>
-
+      
       <Box
         sx={{ width: "50vw", display: 'flex', alignItems: 'center', justifyContent: 'center' }}
       >

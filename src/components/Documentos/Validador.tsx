@@ -27,7 +27,7 @@ export const Validador = ({ id }: { id: string }) => {
     dataArray.append("id", id);
 
     axios
-      .post("http://10.200.4.105:8081/api/obtenerdoc", dataArray, {
+      .post(process.env.REACT_APP_APPLICATION_FIRMA + "/api/obtenerdoc", dataArray, {
         headers: {
           Authorization: localStorage.getItem("jwtToken") || "",
         },
