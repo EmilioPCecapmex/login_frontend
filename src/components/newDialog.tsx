@@ -314,6 +314,42 @@ export const NewDialog = (props: NewDialogProps) => {
               onChange={(v) => compruebaAMaterno(v.target.value)}
             />
           </Grid>
+          
+          <Grid item xs={12} md={6}>
+            <TextField
+              margin="dense"
+              id="puesto"
+              label="Puesto"
+              type="text"
+              fullWidth
+              variant="standard"
+              value={puesto}
+              required
+              onChange={(v) => compruebaPuesto(v.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <FormControl required variant="standard" fullWidth>
+              <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                Tipo de Usuario
+              </InputLabel>
+              <Select
+                onChange={(v) => setTipoUsuario(v.target.value)}
+                id="tipousuario"
+                value={tipousuario}
+                sx={{ display: "flex", pt: 1 }}
+              >
+                {usertypes.map((types) => (
+                  <MenuItem
+                    key={types.Id}
+                    value={types.Id}
+                  >
+                    {types.Descripcion}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
           <Grid item xs={12} md={4}>
             <TextField
               margin="dense"
@@ -360,41 +396,6 @@ export const NewDialog = (props: NewDialogProps) => {
               inputProps={{ maxLength: 13, minLength: 12 }}
               onChange={(v) => compruebaRfc(v.target.value)}
             />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField
-              margin="dense"
-              id="puesto"
-              label="Puesto"
-              type="text"
-              fullWidth
-              variant="standard"
-              value={puesto}
-              required
-              onChange={(v) => compruebaPuesto(v.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <FormControl required variant="standard" fullWidth>
-              <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                Tipo de Usuario
-              </InputLabel>
-              <Select
-                onChange={(v) => setTipoUsuario(v.target.value)}
-                id="tipousuario"
-                value={tipousuario}
-                sx={{ display: "flex", pt: 1 }}
-              >
-                {usertypes.map((types) => (
-                  <MenuItem
-                    key={types.Id}
-                    value={types.Id}
-                  >
-                    {types.Descripcion}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
           </Grid>
           <Grid item xs={12} md={6} sx={{ display: "flex", flexDirection: "row" }}>
             <TextField
