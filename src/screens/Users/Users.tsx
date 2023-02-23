@@ -235,7 +235,7 @@ export default function Users() {
               </IconButton>
             </Tooltip>
 
-            <Tooltip title={"Editar acceso a plataformas"}>
+            <Tooltip title={"Visualizar acceso a plataformas"}>
               <IconButton
                 color="info"
                 onClick={(event) => {

@@ -156,6 +156,7 @@ export const AppsDialog = (props: AppsDialogProps) => {
       <DialogContent dividers>
         <Grid container direction={"row"}>
           {apps.map((app: any) => (
+            app.active?
             <Grid
               item
               xs={6}
@@ -168,15 +169,16 @@ export const AppsDialog = (props: AppsDialogProps) => {
                 <FormControlLabel
                   control={
                     <Switch
+                      
                       defaultChecked={app.active}
-                      // checked={app.active}
-                      onChange={(v) => handleCheck(v.target.checked, app.Id)}
+                      checked={app.active}
+                      // onChange={(v) => handleCheck(v.target.checked, app.Id)}
                     />
                   }
                   label={app.Nombre}
                 />
               </FormGroup>
-            </Grid>
+            </Grid>:null
           ))}
         </Grid>
       </DialogContent>
@@ -186,14 +188,14 @@ export const AppsDialog = (props: AppsDialogProps) => {
           onClick={() => props.handleAppsDialogClose()}
           sx={{ fontFamily: "MontserratRegular" }}
         >
-          Cancelar
+          Cerrar
         </Button>
-        <Button
+        {/* <Button
           onClick={() => handleUpdateBtn()}
           sx={{ fontFamily: "MontserratRegular" }}
         >
           Actualizar
-        </Button>
+        </Button> */}
       </DialogActions>
     </Dialog>
   );

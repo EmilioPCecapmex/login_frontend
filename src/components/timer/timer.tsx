@@ -85,24 +85,24 @@ export const TimerCounter = () => {
     });
   };
 
-  return (//  null
-    <Box
-      sx={{
-        fontFamily: "MontserratMedium",
-        fontSize: ".8vw",
-        width: "20vw",
-        height: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        color: "#B70000",
-      }}
-    >
-      La sesión finaliza en: {rest > 0
-        ? Math.floor(rest / 1000 / 60).toString() +
-          ":" +
-          Math.floor((rest / 1000) % 60).toString()
-        : "0:0"} minutos
-    </Box>
+  return ( null
+    // <Box
+    //   sx={{
+    //     fontFamily: "MontserratMedium",
+    //     fontSize: ".8vw",
+    //     width: "20vw",
+    //     height: "100%",
+    //     display: "flex",
+    //     alignItems: "center",
+    //     justifyContent: "center",
+    //     color: "#B70000",
+    //   }}
+    // >
+    //   La sesión finaliza en: {rest > 0
+    //     ? Math.floor(rest / 1000 / 60).toString() +
+    //       ":" +
+    //       Math.floor((rest / 1000) % 60).toString()
+    //     : "0:0"} minutos
+    // </Box>
   );
 };
