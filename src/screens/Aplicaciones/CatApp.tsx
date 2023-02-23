@@ -37,7 +37,7 @@ export interface AppInterface {
 //componente de sweetalert2 para el uso de los mensajes de alertas
 const Toast = Swal.mixin({
   toast: true,
-  position: "top-end",
+  position: "bottom-end",
   showConfirmButton: false,
   timer: 2000,
   timerProgressBar: false,
