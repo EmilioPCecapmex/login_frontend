@@ -46,7 +46,7 @@ export default function Users() {
 
   const Toast = Swal.mixin({
     toast: true,
-    position: "top-end",
+    position: "bottom-end",
     showConfirmButton: false,
     timer: 5000,
     timerProgressBar: true,
@@ -177,6 +177,10 @@ export default function Users() {
         }
 
         setRows(rows);
+        setTimeout(() => {
+          getAllUsers();
+        }, 60000);
+        
       })
       .catch(function (error) {
         Swal.fire({
@@ -191,6 +195,7 @@ export default function Users() {
   useEffect(() => {
     getAllUsers();
     // eslint-disable-next-line
+    
   }, [showAllUsers]);
 
 
@@ -277,19 +282,19 @@ export default function Users() {
     },
     {
       field: "NombreCreadoPor",
-      headerName: "Creado Por",
+      headerName: "Creador",
       width: 150,
       headerAlign: "center",
     },
     {
       field: "NombreModificadoPor",
-      headerName: "Modificado Por",
+      headerName: "Actualizado Por",
       width: 150,
       headerAlign: "center",
     },
     {
       field: "EstaActivoLabel",
-      headerName: "Esta Activo",
+      headerName: "Estatus",
       width: 110,
       headerAlign: "center",
     },
@@ -359,6 +364,7 @@ export default function Users() {
                 id={(row: any) => row.Id}
                 columns={columns}
                 rows={rows}
+               
               />
             </CardContent>
           </Card>
