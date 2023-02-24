@@ -18,6 +18,12 @@ import axios from "axios";
 import { JWT_Token, sessionValid } from "../../funcs/validation";
 
 export const Login = () => {
+
+  useEffect(() => {
+    localStorage.clear();
+    handleCloseAppsModal();
+  }, [])
+  
   const navigate = useNavigate();
   const theme = useTheme();
   let st = lstXl;
@@ -238,6 +244,8 @@ export const Login = () => {
       validateCredentials();
     }
   };
+
+  
 
   return (
     <Box sx={st.parentBox}>
