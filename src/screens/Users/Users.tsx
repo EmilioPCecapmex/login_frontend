@@ -425,7 +425,9 @@ export const imprimirSolicitud = (datos: any) => {
     "Extension": datos?.Extension,
     "Celular": datos?.Celular,
     "Tipo": datos?.TpoUsuario,
-    "Plataforma": datos?.AccesoApp
+    "Plataforma": datos?.AccesoApp,
+    "Puesto":datos?.Puesto,
+    "Estado":datos?.Estatus===0?"PENDIENTE":datos?.Estatus===1?"ACEPTADA":datos?.Estatus===2?"RECHAZADA":datos?.Estatus===3?"SE SOLICITO MODIFICACIÓN":"SE DESCONOCE",
   })
   let dataArray = new FormData();
   dataArray.append("data", JSON.stringify(objeto))
