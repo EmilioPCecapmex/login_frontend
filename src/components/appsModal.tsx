@@ -72,7 +72,6 @@ export default function AppsModal({
       navigate(t)
     }
   }
-
   return (
       <Dialog open={openM} fullWidth maxWidth= "sm" >
         <Box

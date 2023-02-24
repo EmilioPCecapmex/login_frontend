@@ -238,6 +238,10 @@ export const Login = () => {
       validateCredentials();
     }
   };
+  
+  useEffect(() => {
+    localStorage.clear();
+  }, [])
 
   return (
     <Box sx={st.parentBox}>
