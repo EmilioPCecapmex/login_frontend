@@ -20,8 +20,11 @@ import { JWT_Token, sessionValid } from "../../funcs/validation";
 export const Login = () => {
 
   useEffect(() => {
+    setTimeout(() => {
     localStorage.clear();
     handleCloseAppsModal();
+    }, 100);
+    
   }, [])
   
   const navigate = useNavigate();
