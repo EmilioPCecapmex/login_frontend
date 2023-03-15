@@ -25,7 +25,9 @@ export const Login = () => {
     handleCloseAppsModal();
     }, 100);
     
-    localStorage.getItem("jwtToken")?localStorage.clear:null;
+   if(localStorage.getItem("jwtToken") !==null)
+     { localStorage.clear();}
+
     console.log(localStorage.getItem("jwtToken"));
     console.log("actualizado");
     
