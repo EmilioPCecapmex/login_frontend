@@ -303,7 +303,7 @@ export const Login = () => {
                 >
                   <Input
                     disableUnderline
-                    value={'usuario: '+ usuario}
+                    value={'usuario: '}
                     placeholder={ls.placeholderUser}
                     onChange={(v) => onChangeUsuario(v.target.value)}
                     id="usrPlaceholder"
