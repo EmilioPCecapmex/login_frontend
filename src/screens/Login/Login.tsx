@@ -26,6 +26,10 @@ export const Login = () => {
     }, 100);
     
     localStorage.getItem("jwtToken")?localStorage.clear:null;
+    console.log(localStorage.getItem("jwtToken"));
+    console.log("actualizado");
+    
+    
   }, [])
   
   const navigate = useNavigate();
