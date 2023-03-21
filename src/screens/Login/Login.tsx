@@ -18,6 +18,22 @@ import axios from "axios";
 import { JWT_Token, sessionValid } from "../../funcs/validation";
 
 export const Login = () => {
+
+  useEffect(() => {
+    setTimeout(() => {
+    localStorage.clear();
+    handleCloseAppsModal();
+    }, 100);
+    
+   if(localStorage.getItem("jwtToken") !==null)
+     { localStorage.clear();}
+
+    console.log(localStorage.getItem("jwtToken"));
+    console.log("actualizado");
+    
+    
+  }, [])
+  
   const navigate = useNavigate();
   const theme = useTheme();
   let st = lstXl;
@@ -238,6 +254,8 @@ export const Login = () => {
       validateCredentials();
     }
   };
+
+  
 
   return (
     <Box sx={st.parentBox}>

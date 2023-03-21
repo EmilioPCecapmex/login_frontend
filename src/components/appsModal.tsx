@@ -64,15 +64,16 @@ export default function AppsModal({
   }, []);
 
   const openPage = (t: string, idapp: string) => {
-      closeM();
+    closeM();
     if(t !== "./admin"){
       window.location.assign(t+"?jwt="+ localStorage.getItem("jwtToken")+"&rf=" + localStorage.getItem("refreshToken")+"&IdApp=" + idapp)
+      localStorage.clear();
 
     }else if(t === "./admin"){
-      navigate(t)
+      navigate(t);
+      
     }
   }
-
   return (
       <Dialog open={openM} fullWidth maxWidth= "sm" >
         <Box
