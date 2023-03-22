@@ -28,8 +28,6 @@ export const Login = () => {
    if(localStorage.getItem("jwtToken") !==null)
      { localStorage.clear();}
 
-    console.log(localStorage.getItem("jwtToken"));
-    console.log("actualizado");
     
     
   }, [])
