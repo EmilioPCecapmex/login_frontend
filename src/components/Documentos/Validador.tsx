@@ -3,7 +3,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useState, useLayoutEffect } from "react";
+import {useState, useLayoutEffect } from "react";
 import axios from "axios";
 import { DialogDescarga } from "./Descarga";
 
@@ -43,39 +43,7 @@ export const Validador = ({ id }: { id: string }) => {
       });
   }, [id]);
 
-  useEffect(() => {
-    console.log(doc);
-  }, [doc]);
-
-  // const getPdf = (id: string, password: string, rfc: string, fecha: string) => {
-  //   let dataArray = new FormData();
-  //   dataArray.append("id", id);
-  //   dataArray.append("phrase", password);
-
-  //   axios
-  //     .post("http://10.210.0.27/api/getfpdf", dataArray, {
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //         Authorization: localStorage.getItem("jwtToken") || "",
-  //       },
-  //       responseType: "arraybuffer",
-  //     })
-  //     .then((r) => {
-  //       const a = window.URL || window.webkitURL;
-
-  //       const url = a.createObjectURL(
-  //         new Blob([r.data], { type: "application/pdf" })
-  //       );
-
-  //       let link = document.createElement("a");
-
-  //       link.setAttribute("download", `${rfc}-${fecha}.pdf`);
-  //       link.setAttribute("href", url);
-  //       document.body.appendChild(link);
-  //       link.click();
-  //     })
-  //     .catch((err) => {});
-  // };
+ 
 
   return (
     <Box
