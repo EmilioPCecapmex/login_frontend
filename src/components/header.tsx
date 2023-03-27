@@ -1,6 +1,8 @@
 import {
   Badge,
   Box,
+  Grid,
+  Hidden,
   IconButton,
   Tooltip,
   Typography,
@@ -13,6 +15,7 @@ import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import AppsIcon from '@mui/icons-material/Apps';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import axios from "axios";
+import { COLOR } from "../screens/styles/colors";
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -26,7 +29,7 @@ export const Header = () => {
 
   const getSolicitudes = () => {
     axios
-      .get(process.env.REACT_APP_APPLICATION_DEV +"/api/solicitudes", {
+      .get(process.env.REACT_APP_APPLICATION_DEV + "/api/solicitudes", {
         params: {
           IdUsuario: localStorage.getItem("IdUsuario"),
         },
@@ -42,95 +45,65 @@ export const Header = () => {
   };
 
   useEffect(() => {
-  getSolicitudes()
-  },[])
+    getSolicitudes()
+  }, [])
 
 
   return (
-    <Box
-      sx={{
-        width: "100vw",
-        height: "10vh",
-        backgroundColor: "#fff",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-around",
-        boxShadow: 1,
+    <div className="box">
+      <Grid container item xs={12} 
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+      sx={{ height: "110px",
+           border: "1px solid #b3afaf"
       }}
-    >
-      <Typography sx={{ fontFamily: 'MontserratSemiBold', fontSize: '1vw' }}> {localStorage.getItem("NombreUsuario")} </Typography>
-      
-      <Box
-        sx={{ width: "50vw", display: 'flex', alignItems: 'center', justifyContent: 'center' }}
       >
-        <img alt="logo" src={logo} style={{ width: "10vw" }} />
-      </Box>
 
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-
-
-        <Tooltip title="Solicitudes">
-          <Badge badgeContent={solCount} color="primary">
-            <IconButton onClick={() => navigate("../solicitudes")}
-              sx={[
-                {
-                  "&:hover": {
-                    color: "#c4a57b",
-                  },
-                },
-              ]}>
-              <PostAddIcon />
-            </IconButton>
-          </Badge>
-        </Tooltip>
-
-
-
-        <Tooltip title="Usuarios">
-          <IconButton onClick={() => navigate("../admin")}
-            sx={[
-              {
-                "&:hover": {
-                  color: "#c4a57b",
-                },
-              },
-            ]}>
-            <PeopleOutlineIcon />
-          </IconButton>
-        </Tooltip>
-
-
-
-        <Tooltip title="Aplicaciones">
-          <IconButton onClick={() => navigate("../app")}
-            sx={[
-              {
-                "&:hover": {
-                  color: "#c4a57b",
-                },
-              },
-            ]}>
-            <AppsIcon />
-          </IconButton>
-        </Tooltip>
-
-
-
-        <Tooltip title="Logout">
-          <IconButton onClick={() => logoutFnc()}
-            sx={[
-              {
-                "&:hover": {
-                  color: "#c4a57b",
-                },
-              },
-            ]}
+        <Grid item xs={6} md={4} >
+          <Typography paddingLeft={3} variant="h5" > {localStorage.getItem("NombreUsuario")} </Typography>
+        </Grid>
+        <Hidden mdDown>
+          <Grid container item xs={3} md={4}
+            justifyContent="center"
           >
-            <PowerSettingsNewIcon />
-          </IconButton>
-        </Tooltip>
+            <img alt="logo" src={logo} style={{ height: "110px" }} />
+          </Grid>
+        </Hidden>
+        <Grid paddingRight={3} item container xs={6} md={4} justifyContent="flex-end" alignItems="center"
+         sx={{
+        height: "50px",
+      }}>
 
-      </Box>
-    </Box >
+          <Tooltip title="Solicitudes">
+            <Badge badgeContent={solCount} color="primary">
+              <IconButton className="iconos-header" onClick={() => navigate("../solicitudes")}>
+                <PostAddIcon />
+              </IconButton>
+            </Badge>
+          </Tooltip>
+
+          <Tooltip title="Usuarios">
+            <IconButton className="iconos-header" onClick={() => navigate("../admin")}>
+              <PeopleOutlineIcon />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title="Aplicaciones">
+            <IconButton className="iconos-header" onClick={() => navigate("../app")}>
+              <AppsIcon />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title="Logout">
+            <IconButton className="iconos-header" onClick={() => logoutFnc()}>
+              <PowerSettingsNewIcon />
+            </IconButton>
+          </Tooltip>
+
+        </Grid>
+
+      </Grid >
+    </div>
   );
 };

@@ -93,7 +93,7 @@ export default function AppsModal({
               sx={{
                 textAlign: "center",
                 fontFamily: "MontserratBold",
-                fontSize: "1vw",
+                fontSize: "25px",
                 color: "#808080",
               }}
             >
@@ -104,7 +104,7 @@ export default function AppsModal({
                 mt: "1vh",
                 textAlign: "center",
                 fontFamily: "MontserratMedium",
-                fontSize: ".8vw",
+                fontSize: "20px",
                 color: "#808080",
               }}
             >

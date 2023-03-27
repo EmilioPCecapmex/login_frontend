@@ -271,8 +271,9 @@ export const NewDialog = (props: NewDialogProps) => {
               variant="standard"
               value={nombreUsuario}
               required
+              error={!nombreUsuario || (nombreUsuario.length<5)}
               inputProps={{ minLength: 4 }}
-              onChange={(v) => compruebaNombreUsuario(v.target.value)}
+              onChange={(v) => setNombreUsuario((v.target.value).trim() )}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -285,7 +286,8 @@ export const NewDialog = (props: NewDialogProps) => {
               variant="standard"
               value={nombre}
               required
-              onChange={(v) => compruebaNombre(v.target.value)}
+              error={!nombre}
+              onChange={(v) => setNombre(v.target.value)}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -452,6 +454,12 @@ export const NewDialog = (props: NewDialogProps) => {
           Cancelar
         </Button>
         <Button
+         disabled={
+          !nombreUsuario
+          || (nombreUsuario.length<5)
+          || !nombre
+        }
+
           onClick={() => isValidEmail() ? handleStoreBtn() : setErrorEmail(true)}
           sx={{ fontFamily: "MontserratRegular" }}
         >
