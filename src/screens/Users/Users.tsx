@@ -18,7 +18,6 @@ import { Header } from "../../components/header";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { TimerCounter } from "../../components/timer/timer";
-import { COLOR } from "../styles/colors";
 
 
 export interface Usuario {
@@ -195,8 +194,6 @@ export default function Users() {
 
   useEffect(() => {
     getAllUsers();
-    // eslint-disable-next-line
-
   }, [showAllUsers]);
 
 
