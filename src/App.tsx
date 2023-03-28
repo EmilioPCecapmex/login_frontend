@@ -1,4 +1,5 @@
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
+import "./Globals.css"
 import CatApps from "./screens/Aplicaciones/CatApp";
 import { E404 } from "./screens/Errors/E404";
 import { Forgot } from "./screens/Forgot/Forgot";
