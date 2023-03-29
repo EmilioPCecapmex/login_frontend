@@ -17,7 +17,6 @@ import { useNavigate } from "react-router-dom";
 import AppsModal from "../../components/appsModal";
 import axios from "axios";
 import { JWT_Token, sessionValid } from "../../funcs/validation";
-import { COLOR } from "../styles/colors";
 
 export const Login = () => {
 
