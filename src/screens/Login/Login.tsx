@@ -396,7 +396,7 @@ export const Login = () => {
           </Grid>
    
           <Box sx={{ position: 'absolute', right: 5, bottom: 5, }}>
-            <Typography sx={{ fontFamily: 'MontserratBold', color: '#808080' }}> v.{process.env.REACT_APP_APPLICATION_VERSION}</Typography>
+            <Typography sx={{ fontFamily: 'MontserratBold', fontSize:"10px", color: '#808080' }}> v.{process.env.REACT_APP_APPLICATION_VERSION}</Typography>
           </Box>
         </Grid>
       </div>
