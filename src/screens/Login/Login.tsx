@@ -286,11 +286,20 @@ export const Login = () => {
                 <Grid container
                 // sx={st.contentBox}
                 >
-                  <Grid container item xs={12} justifyContent="center" alignItems="flex-end"
+                  <Grid container item xs={12} justifyContent="center" alignItems="flex-end"  
+                  // sx={{backgroundColor:COLOR.verde}}
+
                   //  sx={st.imgBox}
                   >
-                    <img alt="Logo" src={logo}
-                    // style={st.imgSize} 
+                    <img alt="Logo" src={logo} 
+                    // style={st.imgSize}
+                    style={{
+                      objectFit: "scale-down",
+                      width: "100%",
+                      height: "100%",
+                      // borderRadius: '50%',
+                    }} 
+
                     />
                   </Grid>
 

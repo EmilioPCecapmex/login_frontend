@@ -31,8 +31,8 @@ img {
   height: 200px;
   cursor: pointer;
   object-fit: "scale-down";
-  border-radius: 40px 40px 40px 40px;
-  border-radius: 40px;
+  /* border-radius: 40px 40px 40px 40px; */
+  /* border-radius: 40px; */
 
 }
 
@@ -240,7 +240,6 @@ div.div-VerSolicitudes{
       background-color: #f3f6f9;
       font-family:"MontserratSemiBold2";
       color: #808080;
-
       justify-content: center;
 
     }
