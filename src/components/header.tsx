@@ -67,7 +67,13 @@ export const Header = () => {
           <Grid container item xs={3} md={4}
             justifyContent="center"
           >
-            <img alt="logo" src={logo} style={{ height: "110px" }} />
+            <img alt="logo" src={logo}      
+            style={{
+                      objectFit: "scale-down",
+                      width: "60%",
+                      height: "100%",
+                      // borderRadius: '50%',
+                    }}  />
           </Grid>
         </Hidden>
         <Grid paddingRight={3} item container xs={6} md={4} justifyContent="flex-end" alignItems="center"
