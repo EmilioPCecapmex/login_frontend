@@ -20,6 +20,9 @@ export const TimerCounter = () => {
       "sessionT",
       (session.getTime() - actualDate.getTime()).toString()
     );
+    if ((rest<=0)) {
+      logout();
+    }
   }, 1000);
 
   useEffect(() => {
@@ -85,7 +88,8 @@ export const TimerCounter = () => {
     });
   };
 
-  return ( null
+  return ( 
+    null
     // <Box
     //   sx={{
     //     fontFamily: "MontserratMedium",
