@@ -105,7 +105,7 @@ export default function AppsModal({
         </Grid>
         <Grid container item xs={12} sx={{ bgcolor: "#EEEEEE" }} paddingTop={1} paddingBottom={5}>
           <Box sx={{ flexGrow: 1 }}>
-            <Grid container paddingTop={3} spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+            <Grid container paddingTop={3} spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} justifyContent={"space-evenly"}>
 
               {Object.values(apps)?.map((item) => {
                 return (
