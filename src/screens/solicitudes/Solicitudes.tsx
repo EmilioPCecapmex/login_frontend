@@ -739,7 +739,7 @@ export const Solicitudes = () => {
                             </Hidden>
 
                             <Grid item container  justifyContent="flex-end"  xs={2}><Button
-                             className="cerrar" variant="contained" color="error" onClick={() => { setOpenVerSolicitudesModal(false); }}>
+                             className="cancelar" variant="contained" color="error" onClick={() => { setOpenVerSolicitudesModal(false); }}>
                               <CloseIcon />
                             </Button>
                             </Grid>
@@ -757,13 +757,13 @@ export const Solicitudes = () => {
                                   flexDirection: "column",
                                 }}
                               >
-                                <InfoTwoToneIcon
-                                  sx={{ width: "50%", height: "50%", opacity: "20%" }}
+                                <InfoTwoToneIcon    color="primary"
+                                sx={{ width: "50%", height: "50%", opacity: "20%" }}
                                 />
-                                <Typography sx={{ fontFamily: "MontserratSemiBold" }}>
+                                <Typography color="primary"  sx={{ fontFamily: "MontserratSemiBold" }}>
                                   Sin información
                                 </Typography>
-                                <Typography sx={{ fontFamily: "MontserratSemiBold" }}>
+                                <Typography color="primary" sx={{ fontFamily: "MontserratSemiBold" }}>
                                   Seleccione un registro para visualizar la información
                                 </Typography>
                               </Box>
@@ -806,7 +806,7 @@ export const Solicitudes = () => {
                                     <Button
                                       disabled={solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "ALTA" && solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "MODIFICACION"}
 
-                                      className="Solicitudes-aceptar-usuario" variant="contained" color="info" onClick={() => { setOpenDialogModificar(true); }}>Solicitar modificar</Button>
+                                      className="aceptar" color="primary" variant="contained" onClick={() => { setOpenDialogModificar(true); }}>Solicitar modificar</Button>
                                   </Grid>
                                   {/* </>
                                     :
@@ -821,11 +821,11 @@ export const Solicitudes = () => {
 
                                     <Grid item xs={3}>
 
-                                      <Button fullWidth variant="contained" color="primary" onClick={() => { setOpenDialogAceptar(true); }}>Aceptar</Button>
+                                      <Button fullWidth className="aceptar" variant="contained" color="primary" onClick={() => { setOpenDialogAceptar(true); }}>Aceptar</Button>
                                     </Grid>
                                     <Grid item xs={3}>
 
-                                      <Button fullWidth variant="contained" color="error" onClick={() => { setOpenDialogRechazar(true); }}>Rechazar</Button>
+                                      <Button fullWidth className="cancelar" variant="contained" color="error" onClick={() => { setOpenDialogRechazar(true); }}>Rechazar</Button>
 
                                     </Grid>
 
@@ -893,12 +893,13 @@ export const Solicitudes = () => {
                             }}
                           >
                             <InfoTwoToneIcon
+                  color="primary"
                               sx={{ width: "100%", height: "80%", opacity: "20%" }}
                             />
-                            <Typography fontFamily="MontserratBold">
+                            <Typography color="primary" fontFamily="MontserratBold">
                               Sin información
                             </Typography>
-                            <Typography fontFamily="MontserratBold">
+                            <Typography color="primary" fontFamily="MontserratBold">
                               Seleccione un registro para visualizar la información
                             </Typography>
                           </Box>
@@ -946,12 +947,13 @@ export const Solicitudes = () => {
                               }}
                             >
                               <InfoTwoToneIcon
+                            color="primary"
                                 sx={{ width: "50%", height: "50%", opacity: "20%" }}
                               />
-                              <Typography sx={{ fontFamily: "MontserratSemiBold" }}>
+                              <Typography color="primary" sx={{ fontFamily: "MontserratSemiBold" }}>
                                 Sin información
                               </Typography>
-                              <Typography sx={{ fontFamily: "MontserratSemiBold" }}>
+                              <Typography color="primary" sx={{ fontFamily: "MontserratSemiBold" }}>
                                 Seleccione un registro para visualizar la información
                               </Typography>
                             </Box>
@@ -992,7 +994,7 @@ export const Solicitudes = () => {
                                 <Grid item container xs={12} md={4} justifyContent="center">
                                   <Button
                                     disabled={solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "ALTA" && solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "MODIFICACION"}
-                                    className="Solicitudes-aceptar-usuario" variant="contained" color="info" onClick={() => { setOpenDialogModificar(true); }}>Solicitar modificar</Button>
+                                    className="aceptar" variant="contained"  onClick={() => { setOpenDialogModificar(true); }}>Solicitar modificar</Button>
                                 </Grid>
                                 {/* </>
                                   :
@@ -1005,11 +1007,11 @@ export const Solicitudes = () => {
                                   <Grid container item xs={12} paddingTop={2} justifyContent="space-evenly">
                                     <Grid item xs={2}>
 
-                                      <Button fullWidth variant="contained" color="primary" onClick={() => { setOpenDialogAceptar(true); }}>Aceptar</Button>
+                                      <Button className="aceptar" fullWidth variant="contained" onClick={() => { setOpenDialogAceptar(true); }}>Aceptar</Button>
                                     </Grid>
                                     <Grid item xs={2}>
 
-                                      <Button fullWidth variant="contained" color="error" onClick={() => { setOpenDialogRechazar(true); }}>Rechazar</Button>
+                                      <Button className="Solicitudes-cancelar-usuario" fullWidth variant="contained" onClick={() => { setOpenDialogRechazar(true); }}>Rechazar</Button>
 
                                     </Grid>
                                   </Grid>
@@ -1078,12 +1080,13 @@ export const Solicitudes = () => {
                           }}
                         >
                           <InfoTwoToneIcon
+                    color="primary"
                             sx={{ width: "100%", height: "80%", opacity: "20%" }}
                           />
-                          <Typography fontFamily="MontserratBold">
+                          <Typography color="primary" fontFamily="MontserratBold">
                             Sin información
                           </Typography>
-                          <Typography fontFamily="MontserratBold">
+                          <Typography color="primary" fontFamily="MontserratBold">
                             Seleccione un registro para visualizar la información
                           </Typography>
                         </Box>
@@ -1151,8 +1154,8 @@ export const Solicitudes = () => {
             />
           </DialogContent>
           <DialogActions>
-            <Button variant="contained" color="error" onClick={() => { handleCloseOpenDialogModificar() }}>Cancelar</Button>
-            <Button disabled={comentario.length >= 10 ? false : true} variant="contained" color="primary" onClick={() => { setIdSolicitud(solicitudSeleccionada); setOpenDialogImpDoc(true); modificarSolicitud("3", solicitudesFiltered[selectedIndex]?.tipoSoli); handleCloseOpenDialogModificar(); }}>Aceptar</Button>
+            <Button className="cancelar" variant="contained" color="error" onClick={() => { handleCloseOpenDialogModificar() }}>Cancelar</Button>
+            <Button className="aceptar" disabled={comentario.length >= 10 ? false : true} variant="contained" color="primary" onClick={() => { setIdSolicitud(solicitudSeleccionada); setOpenDialogImpDoc(true); modificarSolicitud("3", solicitudesFiltered[selectedIndex]?.tipoSoli); handleCloseOpenDialogModificar(); }}>Aceptar</Button>
           </DialogActions>
         </Dialog>
 

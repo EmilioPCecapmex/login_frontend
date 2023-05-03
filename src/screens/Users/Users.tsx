@@ -454,6 +454,5 @@ export const imprimirSolicitud = (datos: any) => {
       link.click();
     })
     .catch((r) => {
-      console.log("Error");
     });
 }
