@@ -68,6 +68,7 @@ export const Login = () => {
     IdApp: "",
     Nombre: "",
     Path: "",
+    Descripcion: "",
   });
 
   const [modalType, setModalType] = useState("");
@@ -163,6 +164,7 @@ export const Login = () => {
       .then((r) => {
         if (r.status === 200) {
           const IdApps = r.data.data;
+     
           setAppsList(IdApps);
           openAppModal(
             "success",
@@ -205,7 +207,6 @@ export const Login = () => {
           localStorage.setItem("jwtToken", r.data.token);
           localStorage.setItem("refreshToken", r.data.refreshToken);
           document.cookie = "jwt=" + r.data.token;
-
           setAppsList(r.data.AppIds);
           openAppModal(
             "success",
