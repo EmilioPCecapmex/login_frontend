@@ -6,6 +6,8 @@ import DoneAllIcon from "@mui/icons-material/DoneAll";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Card,  CardContent, Grid } from "@mui/material";
+import logo from "../assets/logo.svg";
 
 export default function AppsModal({
   openM,
@@ -43,6 +45,7 @@ export default function AppsModal({
   const [userDetails, setUserDetails] = useState<Usuario>();
 
   useEffect(() => {
+
     axios
       .post(
         process.env.REACT_APP_APPLICATION_DEV + "/api/user-detail",
@@ -65,110 +68,99 @@ export default function AppsModal({
 
   const openPage = (t: string, idapp: string) => {
     closeM();
-    if(t !== "./admin"){
-      window.location.assign(t+"?jwt="+ localStorage.getItem("jwtToken")+"&rf=" + localStorage.getItem("refreshToken")+"&IdApp=" + idapp)
+    if (t !== "./admin") {
+      window.location.assign(t + "?jwt=" + localStorage.getItem("jwtToken") + "&rf=" + localStorage.getItem("refreshToken") + "&IdApp=" + idapp)
       localStorage.clear();
 
-    }else if(t === "./admin"){
+    } else if (t === "./admin") {
       navigate(t);
-      
+
     }
   }
   return (
-      <Dialog open={openM} fullWidth maxWidth= "sm" >
-        <Box
-     
-        >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <UseIcon v={type} />
-          </Box>
-          <Box sx={{ mt: "3vh" }}>
-            <Typography
-              sx={{
-                textAlign: "center",
-                fontFamily: "MontserratBold",
-                fontSize: "25px",
-                color: "#808080",
-              }}
-            >
-              Bienvenido {userDetails?.Nombre},
+    <Dialog open={openM} fullScreen >
+      <Grid>
+
+        <Grid container item xs={12}>
+
+          <Grid className="logoLogin" container item xs={12} justifyContent="center" alignItems="flex-end">
+            <img src={logo}
+              style={{ objectFit: "fill", width: "100%", height: "100%", }} />
+          </Grid>
+        </Grid>
+
+        <Grid container item xs={12} alignItems="center" >
+          <Grid container
+          paddingBottom={4}
+            direction="column"
+            justifyContent="center"
+            alignItems="center" sx={{ mt: "150px" }}>
+            <Typography variant="h5" className="LoginBienvenidoTitulo" >
+              {userDetails?.Nombre+' '+userDetails?.ApellidoPaterno+' '+ userDetails?.ApellidoMaterno}
             </Typography>
-            <Typography
-              sx={{
-                mt: "1vh",
-                textAlign: "center",
-                fontFamily: "MontserratMedium",
-                fontSize: "20px",
-                color: "#808080",
-              }}
-            >
+            {/* <Typography variant="h5" className="LoginBienvenidoContenido">
               {text}
-            </Typography>
-          </Box>
+            </Typography> */}
+          </Grid>
+        </Grid>
+        <Grid container item xs={12} sx={{ bgcolor: "#EEEEEE" }} paddingTop={1} paddingBottom={5}>
+          <Box sx={{ flexGrow: 1 }}>
+            <Grid container paddingTop={3} spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
 
-          <Box
-            sx={{              
-              mt: "2vh",
-              width: "100%",
-              height: "auto",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "row",
-              flexWrap: "wrap",
-            }}
-          >
-            {Object.values(apps)?.map((item) => {
-              return (
-                <Button
-                  variant="outlined"
-                  key={item.IdApp}
-                  onClick={() => {
-                    openPage(item.Path, item.IdApp)
-                  }}
-                  sx={{
-                    borderColor: "#62787B",
-                    width: "30%",
-                    height: "7vh",
-                    mt: 1,
-                    mr: 1,
-                    ml: 1,
-                    color: "#62787B",
-                    fontFamily: "MontserratMedium",
-                  }}
-                >
-                  {item.Nombre}
-                </Button>
-              );
-            })}
-          </Box>
+              {Object.values(apps)?.map((item) => {
+                return (
+                  <>
 
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              mt: "4vh",
-              mr: "5vw",
-              ml: "5vw",
-            }}
-          >
-            <Button
-            color="error"
-              sx={{ fontFamily: "MontserratMedium" }}
-              onClick={() => closeModal()}
-            >
+                    <Grid   item xs={2} sm={4} md={4} key={item.IdApp}
+                      sx={{justifyContent:'space-evenly'}}
+                      onClick={() => { openPage(item.Path, item.IdApp) }} >
+                      <Card className="GridAplicacionesAcceso"  sx={{cursor:'pointer' }} >
+                        <CardContent className="GridAplicacionesAcceso"  
+                        sx={{ display: "flex", justifyContent: "space-evenly" }}>
+                          <Box
+                          sx={{  width: "100%", display: "flex", flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+
+                            <Box sx={{ display: "flex", justifyContent: "center", flexDirection: "column", paddingTop: "3%" }}>
+                              <Box  sx={{ width: "100%", height: "200px", }}>
+                                <Typography variant="h5" className="NombreApp">
+                                  {item?.Nombre}
+                                </Typography>
+                                <Typography variant="h5" className="DescripcionApp">
+                                  {item?.Descripcion}
+                                </Typography>
+                              </Box>
+                            </Box>
+                          </Box>
+
+                        </CardContent>
+                      </Card>
+                    </Grid>
+
+                  </>
+
+                );
+              })}
+
+            </Grid>
+          </Box>
+        </Grid>
+        <Grid
+        paddingTop={2}
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="flex-start"
+        >
+          <Grid item >
+            <Button className="cancelar" onClick={() => closeModal()} >
               Cancelar
             </Button>
-          </Box>
-        </Box>
-      </Dialog>
+          </Grid>
+        </Grid>
+      </Grid>
+
+
+    </Dialog>
   );
 }
 

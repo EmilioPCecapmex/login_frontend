@@ -67,8 +67,8 @@ import { CommentsDialog } from '../../components/commentsDialog';
                     justifyContent="flex-end" >
                     <Grid item paddingTop={2} >
                         <Tooltip title="Ver comentarios">
-                            <Badge badgeContent={comentCount} color="primary">
-                                <IconButton className='iconos-header' onClick={() => setOpenComments(true)}  color={comentCount!==0? "info":"default"}>
+                            <Badge className='BotonColorPrimario' badgeContent={comentCount} color="primary">
+                                <IconButton className='iconos-header' onClick={() => setOpenComments(true)}  color={comentCount!==0? "secondary":"default"}>
                                     <CommentIcon fontSize="large" />
                                 </IconButton>
                             </Badge>
