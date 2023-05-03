@@ -8,8 +8,11 @@ import Solicitudes from "./screens/solicitudes/Solicitudes";
 import Users from "./screens/Users/Users";
 import "./Fonts.css";
 import { Documentos } from "./screens/ValidadorDE/Documentos";
+import { createTheme } from "@mui/material";
 
 const App = () => {
+
+
   return (
     <>
       <Router>
