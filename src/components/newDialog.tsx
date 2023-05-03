@@ -447,13 +447,14 @@ export const NewDialog = (props: NewDialogProps) => {
       </DialogContent>
       <DialogActions>
         <Button
-          color="error"
+        className="cancelar"
           onClick={() => props.handleNewDialogClose()}
           sx={{ fontFamily: "MontserratRegular" }}
         >
           Cancelar
         </Button>
         <Button
+        className="aceptar"
          disabled={
           !nombreUsuario
           || (nombreUsuario.length<5)
