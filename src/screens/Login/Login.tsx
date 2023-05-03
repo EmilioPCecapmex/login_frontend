@@ -360,13 +360,14 @@ export const Login = () => {
                       variant="outlined"
                       onMouseOver={() => onFocusButton()}
                       onMouseLeave={() => onFocusLeaveButton()}
+                      
                       sx={st.signInBtn}
                       onClick={() => signIn()}
-                      style={{
-                        backgroundColor: btnBgColor,
-                        color: btnTxtColor,
-                        borderColor: btnTxtColor,
-                      }}
+                      // style={{
+                      //   color: btnTxtColor,
+                      //   borderColor: btnTxtColor,
+                        
+                      // }}
                     >
                       {ls.btnText}
                     </Button>
