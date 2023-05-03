@@ -96,7 +96,7 @@ export default function AppsModal({
             justifyContent="center"
             alignItems="center" sx={{ mt: "150px" }}>
             <Typography variant="h5" className="LoginBienvenidoTitulo" >
-              {userDetails?.Nombre}
+              {userDetails?.Nombre+' '+userDetails?.ApellidoPaterno+' '+ userDetails?.ApellidoMaterno}
             </Typography>
             {/* <Typography variant="h5" className="LoginBienvenidoContenido">
               {text}
@@ -112,9 +112,9 @@ export default function AppsModal({
                   <>
 
                     <Grid   item xs={2} sm={4} md={4} key={item.IdApp}
-                      
+                      sx={{justifyContent:'space-evenly'}}
                       onClick={() => { openPage(item.Path, item.IdApp) }} >
-                      <Card className="GridAplicacionesAcceso"  sx={{ margin: "2%" }} >
+                      <Card className="GridAplicacionesAcceso"  sx={{cursor:'pointer' }} >
                         <CardContent className="GridAplicacionesAcceso"  
                         sx={{ display: "flex", justifyContent: "space-evenly" }}>
                           <Box
