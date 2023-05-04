@@ -189,8 +189,8 @@ button.registrar-app {
 button.cancelar {
 
   font-family: 'Montserrat', sans-serif;
-  background-color: rgb(21, 33, 47);
-  color: #ffffff;
+  background-color: rgb(175, 140, 85);
+  color: white;
   font-size: 12px;
 
 }
@@ -198,8 +198,8 @@ button.cancelar {
 button.cancelar:hover {
 
   font-family: 'Montserrat', sans-serif;
-  background-color: rgb(21, 33, 47, 0.892);
-  color: rgb(255, 255, 255);
+  background-color: rgba(175, 140, 85, 0.6);
+  color: black;
   font-size: 12px;
 
 }
@@ -208,8 +208,8 @@ button.cancelar:hover {
 button.aceptar {
 
   font-family: 'Montserrat', sans-serif;
-  background-color: rgba(175, 140, 85);
-  color: #ffffff;
+  background-color: #15212f;
+  color: white;
   font-size: 12px;
 
 }
@@ -217,8 +217,8 @@ button.aceptar {
 button.aceptar:hover {
 
   font-family: 'Montserrat', sans-serif;
-  background-color: rgba(176, 140, 85, 0.892);
-  color: rgb(21, 33, 47);
+  background-color: rgba(47, 47, 47, 0.4);
+  color: #000;
   font-size: 12px;
 
 }
