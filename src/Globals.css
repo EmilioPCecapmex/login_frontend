@@ -189,7 +189,7 @@ button.registrar-app {
 button.cancelar {
 
   font-family: 'Montserrat', sans-serif;
-  background-color: rgb(21, 33, 47);
+  background-color:   rgb(175, 140, 85);
   color: #ffffff;
   font-size: 12px;
 
@@ -198,30 +198,67 @@ button.cancelar {
 button.cancelar:hover {
 
   font-family: 'Montserrat', sans-serif;
-  background-color: rgb(21, 33, 47, 0.892);
+  background-color:   rgba(175, 140, 85, 0.881);
   color: rgb(255, 255, 255);
   font-size: 12px;
 
 }
 
+button.cancelarAppLogin {
+
+  font-family: 'Montserrat', sans-serif;
+  background-color:   rgb(175, 140, 85);
+  color: #ffffff;
+  font-size: 15px;
+
+}
+
+button.cancelarAppLogin:hover {
+
+  font-family: 'Montserrat', sans-serif;
+  background-color:   rgba(175, 140, 85, 0.881);
+  color: rgb(255, 255, 255);
+  font-size: 15px;
+
+}
+button.AceptarAppLogin {
+
+  font-family: 'Montserrat', sans-serif;
+  background-color:  #15212f;
+  color: #ffffff;
+  font-size: 14px;
+
+}
+
+button.AceptarAppLogin:hover {
+
+  font-family: 'Montserrat', sans-serif;
+  background-color:  #15212ff1;
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+
+}
+
+
+
 
 button.aceptar {
 
   font-family: 'Montserrat', sans-serif;
-  background-color: rgba(175, 140, 85);
+  background-color: #15212f;
   color: #ffffff;
   font-size: 12px;
 
 }
 
-button.aceptar:hover {
+/* button.aceptar:hover {
 
   font-family: 'Montserrat', sans-serif;
-  background-color: rgba(176, 140, 85, 0.892);
-  color: rgb(21, 33, 47);
+  background-color: #15212fdb;
+  color: rgb(255, 255, 255);
   font-size: 12px;
 
-}
+} */
 
 button.Solicitudes-cancelar-usuario {
 
@@ -311,7 +348,7 @@ div.ContentLogin {
 div.logoLogin {
   width: 100%;
   height: 100px;
-  position: absolute;
+  /* position: absolute; */
   top: 0%;
   /* left: 50px; */
   padding-top: 10px;
@@ -322,10 +359,49 @@ div.logoLogin {
   justify-content: center;
 
 }
+div.ApssLoginElementos {
+padding-top: 40px;
+  width: 100%;
+  /* position: absolute; */
+  top: 0%;
+  /* left: 50px; */
+  color: #fff;
+  background-color: #EEEEEE;
+  font-family: "MontserratSemiBold2";
 
-div.GridAplicacionesAcceso {
+}
+
+
+div.GridAplicacionesAccesoPadre {
+  cursor: pointer;
   border-radius: 10px;
   box-shadow: #808080;
+  /* background-color:rgba(175, 140, 85, 0.04); */
+
+}
+
+div.GridAplicacionesAccesoPadre:hover {
+  cursor: pointer;
+  border-radius: 10px;
+border-color: antiquewhite;  
+
+  /* background-color:rgb(252, 254, 246); */
+}
+div.GridAplicacionesAcceso {
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: #808080;
+  /* background-color:rgba(175, 140, 85, 0.04); */
+
+}
+
+div.GridAplicacionesAcceso:hover {
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: #2e2a2a;
+border-color: antiquewhite;  
+
+  /* background-color:rgb(252, 254, 246); */
 }
 
 h5.LoginBienvenidoTitulo {
@@ -355,8 +431,8 @@ h5.NombreApp {
   font-family: 'Montserrat', sans-serif;
   font-size: 20px;
   color: rgb(21, 33, 47);
-  text-align: justify;
-  font-weight: 650;
+  text-align:center;
+  font-weight: 800;
 }
 
 h5.DescripcionApp {
