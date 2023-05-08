@@ -74,7 +74,6 @@ export default function AppsModal({
 
     } else if (t === "./admin") {
       navigate(t);
-
     }
   }
   return (

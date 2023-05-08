@@ -76,7 +76,7 @@ export const isAdmin = () => {
     )
     .then((r) => {
       const valid = r.data.data.findIndex(
-        (data: any) => data.Nombre === "ADMIN"
+        (data: any) => data.Nombre === "PLATAFORMA DE ACCESO ÚNICO Y APLICACIONES"
       );
       return valid;
     })
