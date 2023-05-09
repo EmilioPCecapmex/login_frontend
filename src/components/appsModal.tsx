@@ -74,6 +74,7 @@ export default function AppsModal({
 
     } else if (t === "./admin") {
       navigate(t);
+
     }
   }
   return (
@@ -88,21 +89,32 @@ export default function AppsModal({
           </Grid>
         </Grid>
 
- 
-        <Grid container className="ApssLoginElementos" item xs={12} sx={{ bgcolor: "#EEEEEE" }} paddingTop={1} paddingBottom={5}>
-          <Typography   variant="h5" className="NombreApp" sx={{width:'100%'}}>Favor de seleccionar la plataforma a la que deseas ingresar</Typography>
+        <Grid container item xs={12} alignItems="center" >
+          <Grid container
+          paddingBottom={4}
+            direction="column"
+            justifyContent="center"
+            alignItems="center" sx={{ mt: "150px" }}>
+            <Typography variant="h5" className="LoginBienvenidoTitulo" >
+              {userDetails?.Nombre+' '+userDetails?.ApellidoPaterno+' '+ userDetails?.ApellidoMaterno}
+            </Typography>
+            {/* <Typography variant="h5" className="LoginBienvenidoContenido">
+              {text}
+            </Typography> */}
+          </Grid>
+        </Grid>
+        <Grid container item xs={12} sx={{ bgcolor: "#EEEEEE" }} paddingTop={1} paddingBottom={5}>
           <Box sx={{ flexGrow: 1 }}>
-            
             <Grid container paddingTop={3} spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} justifyContent={"space-evenly"}>
 
               {Object.values(apps)?.map((item) => {
                 return (
                   <>
 
-                    <Grid    item xs={2} sm={4} md={4} key={item.IdApp}
+                    <Grid   item xs={2} sm={4} md={4} key={item.IdApp}
                       sx={{justifyContent:'space-evenly'}}
                       onClick={() => { openPage(item.Path, item.IdApp) }} >
-                      <Card className="GridAplicacionesAcceso"   >
+                      <Card className="GridAplicacionesAcceso"  sx={{cursor:'pointer' }} >
                         <CardContent className="GridAplicacionesAcceso"  
                         sx={{ display: "flex", justifyContent: "space-evenly" }}>
                           <Box
@@ -140,7 +152,7 @@ export default function AppsModal({
           alignItems="flex-start"
         >
           <Grid item >
-            <Button className="cancelarAppLogin" onClick={() => closeModal()} >
+            <Button className="cancelar" onClick={() => closeModal()} >
               Cancelar
             </Button>
           </Grid>

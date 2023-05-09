@@ -356,10 +356,19 @@ export const Login = () => {
                     </Grid>
                   </Grid>
                   <Box sx={st.btnBox}>
-           
                     <Button
-                    className="AceptarAppLogin"                    
-                      onClick={() => signIn()}>
+                      variant="outlined"
+                      onMouseOver={() => onFocusButton()}
+                      onMouseLeave={() => onFocusLeaveButton()}
+                      
+                      sx={st.signInBtn}
+                      onClick={() => signIn()}
+                      // style={{
+                      //   color: btnTxtColor,
+                      //   borderColor: btnTxtColor,
+                        
+                      // }}
+                    >
                       {ls.btnText}
                     </Button>
                   </Box>
