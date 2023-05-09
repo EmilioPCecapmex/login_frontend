@@ -90,7 +90,9 @@ export default function AppsModal({
 
  
         <Grid container className="ApssLoginElementos" item xs={12} sx={{ bgcolor: "#EEEEEE" }} paddingTop={1} paddingBottom={5}>
+          <Typography   variant="h5" className="NombreApp" sx={{width:'100%'}}>Favor de seleccionar la plataforma a la que deseas ingresar</Typography>
           <Box sx={{ flexGrow: 1 }}>
+            
             <Grid container paddingTop={3} spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} justifyContent={"space-evenly"}>
 
               {Object.values(apps)?.map((item) => {
