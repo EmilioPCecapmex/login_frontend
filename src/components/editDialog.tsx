@@ -163,15 +163,15 @@ export const EditDialog = (props: EditDialogProps) => {
         <DialogActions>
           <Button
             onClick={handleCloseDelete}
-            color="error"
+            className="cancelar"
             sx={{ fontFamily: "MontserratRegular" }}
           >
-            Cancelar
+            Cancelar 
           </Button>
           <Button
             onClick={() => deleteUser()}
             autoFocus
-            sx={{ fontFamily: "MontserratRegular" }}
+            className="aceptar"
           >
             Aceptar
           </Button>
@@ -529,14 +529,14 @@ export const EditDialog = (props: EditDialogProps) => {
       <DialogActions>
       <Button
               
-              color="error"
+              className="cancelar"
               sx={{ fontFamily: "MontserratRegular" }}
               onClick={() => handleClickOpenDelete()}
             >
               Eliminar Usuario
             </Button>
         <Button
-          color="error"
+          className="cancelar"
           onClick={() => props.handleEditDialogClose()}
           sx={{ fontFamily: "MontserratRegular" }}
         >
@@ -544,6 +544,7 @@ export const EditDialog = (props: EditDialogProps) => {
         </Button>
         <Button
           onClick={() => handleUpdateBtn()}
+          className="aceptar"
           sx={{ fontFamily: "MontserratRegular" }}
         >
           Actualizar

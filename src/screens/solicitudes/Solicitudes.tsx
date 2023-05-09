@@ -1125,8 +1125,8 @@ export const Solicitudes = () => {
             />
           </DialogContent>
           <DialogActions>
-            <Button variant="contained" color="error" onClick={() => { handleCloseOpenDialogRechazar() }}>Cancelar</Button>
-            <Button disabled={comentario.length >= 10 ? false : true} variant="contained" color="primary" onClick={() => { setIdSolicitud(solicitudSeleccionada); setOpenDialogImpDoc(true); modificarSolicitud("2", solicitudesFiltered[selectedIndex]?.tipoSoli); handleCloseOpenDialogRechazar(); }}>Aceptar</Button>
+            <Button variant="contained" className="cancelar" onClick={() => { handleCloseOpenDialogRechazar() }}>Cancelar</Button>
+            <Button className="aceptar" disabled={comentario.length >= 10 ? false : true} variant="contained" color="primary" onClick={() => { setIdSolicitud(solicitudSeleccionada); setOpenDialogImpDoc(true); modificarSolicitud("2", solicitudesFiltered[selectedIndex]?.tipoSoli); handleCloseOpenDialogRechazar(); }}>Aceptar</Button>
           </DialogActions>
         </Dialog>
 
@@ -1174,8 +1174,8 @@ export const Solicitudes = () => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button variant="contained" color="error" onClick={() => { handleCloseOpenDialogAceptar() }}>Cancelar</Button>
-            <Button variant="contained" color="primary" onClick={() => { setIdSolicitud(solicitudSeleccionada); modificarSolicitud("1", solicitudesFiltered[selectedIndex]?.tipoSoli); setOpenDialogImpDoc(true); handleCloseOpenDialogAceptar(); }}>Aceptar</Button>
+            <Button variant="contained" className="cancelar" onClick={() => { handleCloseOpenDialogAceptar() }}>Cancelar</Button>
+            <Button variant="contained" className="aceptar" onClick={() => { setIdSolicitud(solicitudSeleccionada); modificarSolicitud("1", solicitudesFiltered[selectedIndex]?.tipoSoli); setOpenDialogImpDoc(true); handleCloseOpenDialogAceptar(); }}>Aceptar</Button>
           </DialogActions>
         </Dialog>
 
@@ -1193,8 +1193,8 @@ export const Solicitudes = () => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button variant="contained" color="error" onClick={() => { handleCloseOpenDialogImpDoc() }}>Cancelar</Button>
-            <Button variant="contained" color="primary" onClick={() => { getDatosDocumento(); handleCloseOpenDialogImpDoc(); }}>Aceptar</Button>
+            <Button variant="contained" className="cancelar" onClick={() => { handleCloseOpenDialogImpDoc() }}>Cancelar</Button>
+            <Button variant="contained" className="aceptar" onClick={() => { getDatosDocumento(); handleCloseOpenDialogImpDoc(); }}>Aceptar</Button>
           </DialogActions>
         </Dialog>
       </Grid>
