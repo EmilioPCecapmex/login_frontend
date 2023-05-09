@@ -186,23 +186,7 @@ button.registrar-app {
 
 }
 
-button.cancelar {
 
-  font-family: 'Montserrat', sans-serif;
-  background-color: rgb(175, 140, 85);
-  color: white;
-  font-size: 12px;
-
-}
-
-button.cancelar:hover {
-
-  font-family: 'Montserrat', sans-serif;
-  background-color:   rgba(175, 140, 85, 0.881);
-  color: rgb(255, 255, 255);
-  font-size: 12px;
-
-}
 
 button.cancelarAppLogin {
 
@@ -229,7 +213,6 @@ button.AceptarAppLogin {
   font-size: 14px;
 
 }
-
 button.AceptarAppLogin:hover {
 
   font-family: 'Montserrat', sans-serif;
@@ -238,27 +221,40 @@ button.AceptarAppLogin:hover {
   font-size: 14px;
 
 }
-
-
-
-
 button.aceptar {
 
   font-family: 'Montserrat', sans-serif;
   background-color: #15212f;
-  color: #ffffff;
-  font-size: 12px;
+  color: #fff;
+  font-size: 14px;
+
 
 }
 
-/* button.aceptar:hover {
+button.aceptar:hover {
+  font-family: 'Montserrat', sans-serif;
+  background-color:  rgba(47, 47, 47, 0.2);
+  color: #000;
+  font-size: 14px;
+}
+
+button.cancelar {
 
   font-family: 'Montserrat', sans-serif;
-  background-color: #15212fdb;
-  color: rgb(255, 255, 255);
-  font-size: 12px;
+  background-color:   rgb(175, 140, 85);
+  color: #fff;
+  font-size: 14px;
 
-} */
+}
+
+button.cancelar:hover {
+
+  font-family: 'Montserrat', sans-serif;
+  background-color:   rgba(175, 140, 85, 0.6);
+  color: #000;
+  font-size: 14px;
+
+}
 
 button.Solicitudes-cancelar-usuario {
 
