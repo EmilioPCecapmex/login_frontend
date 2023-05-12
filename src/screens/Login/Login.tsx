@@ -18,6 +18,13 @@ import AppsModal from "../../components/appsModal";
 import axios from "axios";
 import { JWT_Token, sessionValid } from "../../funcs/validation";
 
+interface IApps{
+  IdApp: string;
+  Nombre: string;
+  Path: string;
+  Descripcion: string;
+}
+
 export const Login = () => {
 
   useEffect(() => {
@@ -51,8 +58,6 @@ export const Login = () => {
   const [usuario, setUsuario] = useState("");
   const [contrasena, setContrasena] = useState("");
 
-  const [btnBgColor, setBtnBgColor] = useState("#666666");
-  const [btnTxtColor, setBtnTxtColor] = useState("#fff");
   const [userInputColor, setUserInputColor] = useState("#cccccc");
   const [userInputTextColor, setUserInputTextColor] = useState("#fff");
 
@@ -63,12 +68,12 @@ export const Login = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openAppsModal, setOpenAppsModal] = useState(false);
 
-  const [appsList, setAppsList] = useState({
+  const [appsList, setAppsList] = useState<Array<IApps>>([{
     IdApp: "",
     Nombre: "",
     Path: "",
     Descripcion: "",
-  });
+  }]);
 
   const [modalType, setModalType] = useState("");
   const [modalText, setModalText] = useState("");
@@ -84,15 +89,6 @@ export const Login = () => {
     setContrasena(v);
   };
 
-  const onFocusButton = () => {
-    setBtnBgColor("#fff");
-    setBtnTxtColor("#666666");
-  };
-
-  const onFocusLeaveButton = () => {
-    setBtnBgColor("#666666");
-    setBtnTxtColor("#fff");
-  };
 
   const onClickTxtUsuario = () => {
     setUserInputColor("#fff");
@@ -163,7 +159,7 @@ export const Login = () => {
       .then((r) => {
         if (r.status === 200) {
           const IdApps = r.data.data;
-     
+          
           setAppsList(IdApps);
           openAppModal(
             "success",
@@ -206,14 +202,23 @@ export const Login = () => {
           localStorage.setItem("jwtToken", r.data.token);
           localStorage.setItem("refreshToken", r.data.refreshToken);
           document.cookie = "jwt=" + r.data.token;
-          setAppsList(r.data.AppIds);
-          openAppModal(
+          let arrayApps:Array<IApps>=r.data.AppIds
+          setAppsList(arrayApps);
+          userDetail()
+          if(arrayApps.length>1){
+            openAppModal(
             "success",
             r.data.AppIds[0].Msg ||
             "tu usuario cuenta con acceso a las siguientes plataformas."
           );
+          }
 
-          userDetail()
+          if(arrayApps.length===1){
+            window.location.assign(arrayApps[0].Path + "?jwt=" + localStorage.getItem("jwtToken") + "&rf=" + localStorage.getItem("refreshToken") + "&IdApp=" + arrayApps[0].IdApp)
+          }
+          
+
+          
         }
       })
       .catch((error) => {

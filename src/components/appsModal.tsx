@@ -2,12 +2,10 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Dialog from "@mui/material/Dialog";
-import DoneAllIcon from "@mui/icons-material/DoneAll";
-import { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Card,  CardContent, Grid } from "@mui/material";
 import logo from "../assets/logo.svg";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function AppsModal({
   openM,
@@ -22,18 +20,7 @@ export default function AppsModal({
   text: string;
   apps: Object;
 }) {
-  const UseIcon = ({ v }: { v: string }) => {
-    switch (v) {
-      case "success":
-        return (
-          <DoneAllIcon
-            sx={{ width: "10vw", height: "10vh", color: "#31B214" }}
-          />
-        );
-      default:
-        return null;
-    }
-  };
+
 
   const navigate = useNavigate();
 
@@ -42,29 +29,7 @@ export default function AppsModal({
     closeM();
   };
 
-  const [userDetails, setUserDetails] = useState<Usuario>();
-
-  useEffect(() => {
-
-    axios
-      .post(
-        process.env.REACT_APP_APPLICATION_DEV + "/api/user-detail",
-        {
-          IdUsuario: localStorage.getItem("IdUsuario") || "",
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: localStorage.getItem("jwtToken") || "",
-          },
-        }
-      )
-      .then((r) => {
-        if (r.status === 200) {
-          setUserDetails(r.data.data);
-        }
-      });
-  }, []);
+  
 
   const openPage = (t: string, idapp: string) => {
     closeM();
@@ -140,8 +105,8 @@ export default function AppsModal({
           alignItems="flex-start"
         >
           <Grid item >
-            <Button className="cancelarAppLogin" onClick={() => closeModal()} >
-              Cancelar
+            <Button className="cancelarAppLogin" onClick={() => closeModal()}  startIcon={<ArrowBackIcon/>} >
+              Regresar
             </Button>
           </Grid>
         </Grid>
