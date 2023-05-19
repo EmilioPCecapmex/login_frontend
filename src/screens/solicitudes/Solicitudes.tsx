@@ -21,13 +21,8 @@ import {
   DialogTitle,
   FormControlLabel,
   Checkbox,
-  Badge,
-  Tooltip,
   Grid,
   Hidden,
-  Container,
-  ListItem,
-  ListItemText,
 } from "@mui/material";
 import Swal from "sweetalert2";
 import { Header } from "../../components/header";
@@ -36,7 +31,6 @@ import { IApps } from "./IApps";
 import InfoTwoToneIcon from "@mui/icons-material/InfoTwoTone";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import CommentIcon from "@mui/icons-material/Comment";
 import { CommentsDialog } from "../../components/commentsDialog";
 import CircularProgress from '@mui/material/CircularProgress';
 import moment from 'moment';
@@ -119,8 +113,6 @@ export const Solicitudes = () => {
   const [solicitudSeleccionada, setSolicitudSeleccionada] = useState("");
 
   const [openComments, setOpenComments] = useState(false);
-
-  const [openVerSolicitud, setOpenVerSolicitud] = useState(false);
 
   const handleCloseComments = () => {
     setOpenComments(false);
@@ -490,13 +482,8 @@ export const Solicitudes = () => {
 
   const [comentario, setComentario] = useState("");
 
-
-
-
   return (
-
     <>
-
       <Header />
       <TimerCounter />
 
@@ -507,9 +494,7 @@ export const Solicitudes = () => {
           sx={{
             height: "100%",
             width: "95%",
-            // border: "1px solid #b3afaf",
             borderRadius: 5,
-            // backgroundColor: "#E4E4E4",
           }}>
 
           <Grid container >
@@ -520,7 +505,6 @@ export const Solicitudes = () => {
               <Grid item xs={12} md={4}
                 sx={{ height: "80vh" }}
                 paddingLeft={.4}
-              // paddingTop={2}
               >
 
                 <div className="div-Solicitudes" >
@@ -543,7 +527,6 @@ export const Solicitudes = () => {
                               value={item.Id}
                               onClick={() => {
                                 setAppSelectedIndex(item.Id);
-                                setOpenVerSolicitud(true)
                               }}
                             >
                               {item.Nombre}
@@ -676,9 +659,6 @@ export const Solicitudes = () => {
 
             </Hidden>
 
-
-
-
             <Hidden mdUp >
               <Dialog fullScreen open={openVerSolicitudesModal}>
 
@@ -701,7 +681,6 @@ export const Solicitudes = () => {
                             bgcolor: COLOR.blanco
                           }}
                         >
-
 
                           <Grid item container     justifyContent="flex-end" >
 
@@ -783,9 +762,6 @@ export const Solicitudes = () => {
                                   justifyContent="space-between"
                                   alignItems="center"   >
 
-
-                                  {/* {solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() === "ALTA" || solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() === "MODIFICACION" ?
-                                    <> */}
                                   <Grid item container xs={6} sm={4} md={3} justifyContent="center">
 
                                     <FormControlLabel control={<Checkbox
@@ -808,10 +784,7 @@ export const Solicitudes = () => {
 
                                       className="aceptar" color="primary" variant="contained" onClick={() => { setOpenDialogModificar(true); }}>Solicitar modificar</Button>
                                   </Grid>
-                                  {/* </>
-                                    :
-                                    null} */}
-
+                                 
                                   <Grid item container
                                     paddingTop={1}
                                     paddingBottom={2}
@@ -933,7 +906,6 @@ export const Solicitudes = () => {
                           bgcolor: COLOR.blanco
                         }}
                       >
-
                         {selectedIndex < 0 ?
                           (
                             <Box
@@ -973,9 +945,6 @@ export const Solicitudes = () => {
                                 justifyContent="space-between"
                                 alignItems="center"   >
 
-
-                                {/* {solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() === "ALTA" || solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() === "MODIFICACION" ?
-                                  <> */}
                                 <Grid item container xs={6} md={3} justifyContent="center">
 
                                   <FormControlLabel control={<Checkbox
@@ -1043,11 +1012,9 @@ export const Solicitudes = () => {
                                     </IconButton>
                                   </Grid>
                                 </Grid>
-
                               </Grid>
 
                             </Grid>
-
                             : <CircularProgress />
                         }
                       </Grid>
