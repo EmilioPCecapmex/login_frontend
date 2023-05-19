@@ -24,7 +24,6 @@ export const CommentsDialog = ({
   solicitud: string;
 }) => {
   const [comentarios, setComentarios] = useState<Array<IComentarios>>([]);
-  const [renderComments, setRenderComments] = useState(false);
 
   const getComentarios = () => {
     axios({
@@ -41,7 +40,6 @@ export const CommentsDialog = ({
     })
       .then(function (response) {
         setComentarios(response.data.data);
-        setRenderComments(true);
       })
       .catch(function (error) {
         Swal.fire({
@@ -55,9 +53,7 @@ export const CommentsDialog = ({
   useEffect(() => {
     if (open) {
       getComentarios();
-    } else {
-      setRenderComments(false);
-    }
+    } 
   }, [open]);
 
   return (
