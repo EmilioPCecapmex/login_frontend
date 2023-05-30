@@ -45,8 +45,20 @@ export const NewDialog = (props: NewDialogProps) => {
   const [curp, setCurp] = useState("");
   const [rfc, setRfc] = useState("");
   const [tipousuario, setTipoUsuario] = useState("");
+
+
   const [puedeFirmar, setPuedeFirmar] = useState(false);
 
+
+  const [errorNombre, setErrorNombre] = useState(false);
+  const [errorUsuario, setErrorUsuario] = useState(false);
+  const [errorAPaterno, setErrorAPaterno] = useState(false);
+  const [errorAMaterno, setErrorAMaterno] = useState(false);
+  const [errorPuesto, setErrorPuesto] = useState(false);
+  const [errorTpoUsuario, setErrorTpoUsuario] = useState(false);
+  const [errorTelefono, setErrorTelefono] = useState(false);
+  const [errorExt, setErrorExt] = useState(false);
+  const [errorCelular, setErrorCelular] = useState(false);
   const [errorEmail, setErrorEmail] = useState(false);
   const [errorrfc, setErrorRfc] = useState(false);
   const [errorcurp, setErrorCurp] = useState(false);
@@ -455,13 +467,12 @@ export const NewDialog = (props: NewDialogProps) => {
         </Button>
         <Button
         className="aceptar"
-         disabled={
-          !nombreUsuario
-          || (nombreUsuario.length<5)
-          || !nombre
-        }
+       
 
-          onClick={() => isValidEmail() ? handleStoreBtn() : setErrorEmail(true)}
+          onClick={() => {
+            if(!(!nombreUsuario|| (nombreUsuario.length<5)|| !nombre)){
+              isValidEmail() ? handleStoreBtn() : setErrorEmail(true)
+            }}}
           sx={{ fontFamily: "MontserratRegular" }}
         >
           Crear Usuario
