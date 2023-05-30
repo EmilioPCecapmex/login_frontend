@@ -1,6 +1,5 @@
 import {
   Badge,
-  Box,
   Grid,
   Hidden,
   IconButton,
@@ -15,8 +14,6 @@ import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import AppsIcon from '@mui/icons-material/Apps';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import axios from "axios";
-import { COLOR } from "../screens/styles/colors";
-
 export const Header = () => {
   const navigate = useNavigate();
   const logoutFnc = () => {

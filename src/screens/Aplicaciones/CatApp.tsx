@@ -276,7 +276,7 @@ export default function CatApps() {
             {/* boton a la derecha para agregar una aplicacion nueva */}
             <Grid container  item justifyContent="flex-end">
               <Button
-                className="registrar-app"
+                className="aceptar"
                 variant="text"
                 onClick={(event) => handleNewBtnClick(event)}
                   sx={{

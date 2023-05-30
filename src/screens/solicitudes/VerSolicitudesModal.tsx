@@ -1,33 +1,12 @@
 import {
-    Box, Grid, Tooltip, Typography,
+    Grid, Tooltip,
     IconButton,
-    Button,
     TextField,
-    List,
-    ListItemButton,
-    Divider,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    FormControlLabel,
-    Checkbox,
     Badge,
-    Hidden,
 } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { COLOR } from '../styles/colors'
-import { IDetalleSolicitud, iDetalleUsuario, iOnChangeInfo, ISolicitud } from './ISolicitud'
-import InfoTwoToneIcon from "@mui/icons-material/InfoTwoTone";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
+import { useState } from 'react'
+import { IDetalleSolicitud, iDetalleUsuario, iOnChangeInfo} from './ISolicitud'
 import CommentIcon from "@mui/icons-material/Comment";
-import CircularProgress from '@mui/material/CircularProgress';
 import { CommentsDialog } from '../../components/commentsDialog';
 
  const VerSolicitudesModal = ({
@@ -316,32 +295,6 @@ import { CommentsDialog } from '../../components/commentsDialog';
                         helperText={onChangeInfo.Ext ? detalleUsuario.Ext : null}
                     />
                 </Grid>
-
-{/* 
-                <Grid item xs={12} >
-                    <TextField
-                        fullWidth
-                        multiline
-                        rows={4}
-                        label={
-                            <Typography
-                                sx={{ fontFamily: "MontserratSemiBold" }}
-                            >
-                                INFORMACIÓN ADICIONAL
-                            </Typography>
-                        }
-                        sx={{
-                            fontFamily: "MontserratSemiBold",
-                            fontSize: "1.5vw",
-                        }}
-                        value={detalleSolicitud[0]?.DatosAdicionales || ""}
-                        variant="filled"
-                    />
-                </Grid> */}
-
-
-
-
             </Grid>
         </>
     )
