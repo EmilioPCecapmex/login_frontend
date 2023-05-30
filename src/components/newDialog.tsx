@@ -45,8 +45,20 @@ export const NewDialog = (props: NewDialogProps) => {
   const [curp, setCurp] = useState("");
   const [rfc, setRfc] = useState("");
   const [tipousuario, setTipoUsuario] = useState("");
+
+
   const [puedeFirmar, setPuedeFirmar] = useState(false);
 
+
+  const [errorNombre, setErrorNombre] = useState(false);
+  const [errorUsuario, setErrorUsuario] = useState(false);
+  const [errorAPaterno, setErrorAPaterno] = useState(false);
+  const [errorAMaterno, setErrorAMaterno] = useState(false);
+  const [errorPuesto, setErrorPuesto] = useState(false);
+  const [errorTpoUsuario, setErrorTpoUsuario] = useState(false);
+  const [errorTelefono, setErrorTelefono] = useState(false);
+  const [errorExt, setErrorExt] = useState(false);
+  const [errorCelular, setErrorCelular] = useState(false);
   const [errorEmail, setErrorEmail] = useState(false);
   const [errorrfc, setErrorRfc] = useState(false);
   const [errorcurp, setErrorCurp] = useState(false);
@@ -271,8 +283,9 @@ export const NewDialog = (props: NewDialogProps) => {
               variant="standard"
               value={nombreUsuario}
               required
+              error={!nombreUsuario || (nombreUsuario.length<5)}
               inputProps={{ minLength: 4 }}
-              onChange={(v) => compruebaNombreUsuario(v.target.value)}
+              onChange={(v) => setNombreUsuario((v.target.value).trim() )}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -285,7 +298,8 @@ export const NewDialog = (props: NewDialogProps) => {
               variant="standard"
               value={nombre}
               required
-              onChange={(v) => compruebaNombre(v.target.value)}
+              error={!nombre}
+              onChange={(v) => setNombre(v.target.value)}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -445,14 +459,20 @@ export const NewDialog = (props: NewDialogProps) => {
       </DialogContent>
       <DialogActions>
         <Button
-          color="error"
+        className="cancelar"
           onClick={() => props.handleNewDialogClose()}
           sx={{ fontFamily: "MontserratRegular" }}
         >
           Cancelar
         </Button>
         <Button
-          onClick={() => isValidEmail() ? handleStoreBtn() : setErrorEmail(true)}
+        className="aceptar"
+       
+
+          onClick={() => {
+            if(!(!nombreUsuario|| (nombreUsuario.length<5)|| !nombre)){
+              isValidEmail() ? handleStoreBtn() : setErrorEmail(true)
+            }}}
           sx={{ fontFamily: "MontserratRegular" }}
         >
           Crear Usuario

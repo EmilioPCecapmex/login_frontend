@@ -1,4 +1,5 @@
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
+import "./Globals.css"
 import CatApps from "./screens/Aplicaciones/CatApp";
 import { E404 } from "./screens/Errors/E404";
 import { Forgot } from "./screens/Forgot/Forgot";
@@ -7,8 +8,11 @@ import Solicitudes from "./screens/solicitudes/Solicitudes";
 import Users from "./screens/Users/Users";
 import "./Fonts.css";
 import { Documentos } from "./screens/ValidadorDE/Documentos";
+import { createTheme } from "@mui/material";
 
 const App = () => {
+
+
   return (
     <>
       <Router>

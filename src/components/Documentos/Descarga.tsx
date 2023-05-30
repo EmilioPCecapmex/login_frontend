@@ -55,7 +55,6 @@ export const DialogDescarga = ({
         setEnviado(true);
       })
       .catch((err) => {
-        console.log(err);
         setLoading(false);
         setEnviado(false);
       });

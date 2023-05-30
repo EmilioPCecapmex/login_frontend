@@ -12,6 +12,7 @@ import {
   Button,
   Card,
   CardContent,
+  Grid,
   IconButton,
   Tooltip,
   Typography,
@@ -225,8 +226,7 @@ export default function CatApps() {
         Swal.fire({
           icon: "error",
           title: "Mensaje",
-          text:
-            "(" + error.response.status + ") " + error.response.data.message,
+          text: "(" + error.response.status + ") " + error.response.data.message,
         }).then((r) => navigate("/config"));
       });
   };
@@ -243,7 +243,7 @@ export default function CatApps() {
       <Box>
         <Header />
       </Box>
-      <Box sx={{display:"flex",justifyContent:"flex-end"}}>
+      <Box >
         <TimerCounter />
       </Box>
       
@@ -264,10 +264,9 @@ export default function CatApps() {
             <Typography
               sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw" }}
             >
-              <AppsIcon sx={{width: '3vw', height: '3vw'}}/>
+              <AppsIcon fontSize="large"/>
             </Typography>
-            <Typography
-              sx={{ fontFamily: "MontserratMedium", fontSize: "1vw" }}
+            <Typography className="h5"
             >
               Catálogo de aplicaciones registradas.
             </Typography>
@@ -275,23 +274,23 @@ export default function CatApps() {
           {/* aqui es el contenido del card,y ponemos primero un box y estamos dibujando el boton para agregar un nuevo registro */}
           <CardContent>
             {/* boton a la derecha para agregar una aplicacion nueva */}
-            <Box display="flex" justifyContent="flex-end">
+            <Grid container  item justifyContent="flex-end">
               <Button
+                className="aceptar"
                 variant="text"
                 onClick={(event) => handleNewBtnClick(event)}
-                sx={{
-                  fontFamily: "MontserratBold",
-                  backgroundColor: "#DFA94F",
-                  color: "#000001",
-                  fontSize: ".6vw",
-                  mb: "1vh",
-                  boxShadow: 4,
-                }}
+                  sx={{
+                    fontFamily: "MontserratBold",
+                    backgroundColor: "#DFA94F",
+                    color: "#000001",
+                    fontSize: "10px",
+                    boxShadow: 4,
+                  }}
                 startIcon={<AddIcon />}
               >
                 registrar aplicación
               </Button>
-            </Box>
+            </Grid>
             {/* Grid del listado,aqui se asigna el id unico que tiene que tener cada renglon, asi que asignamos el campo ID que se obtiene del endpoint */}
             <MUIXDataGridApp
               id={(row: any) => row.Id}

@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Grid,
   Input,
   Typography,
   useMediaQuery,
@@ -17,13 +18,27 @@ import AppsModal from "../../components/appsModal";
 import axios from "axios";
 import { JWT_Token, sessionValid } from "../../funcs/validation";
 
+interface IApps{
+  IdApp: string;
+  Nombre: string;
+  Path: string;
+  Descripcion: string;
+}
+
 export const Login = () => {
 
   useEffect(() => {
-    localStorage.clear();
-    handleCloseAppsModal();
+    setTimeout(() => {
+      localStorage.clear();
+      handleCloseAppsModal();
+    }, 100);
+
+    if (localStorage.getItem("jwtToken") !== null) { localStorage.clear(); }
+
+
+
   }, [])
-  
+
   const navigate = useNavigate();
   const theme = useTheme();
   let st = lstXl;
@@ -43,8 +58,6 @@ export const Login = () => {
   const [usuario, setUsuario] = useState("");
   const [contrasena, setContrasena] = useState("");
 
-  const [btnBgColor, setBtnBgColor] = useState("#666666");
-  const [btnTxtColor, setBtnTxtColor] = useState("#fff");
   const [userInputColor, setUserInputColor] = useState("#cccccc");
   const [userInputTextColor, setUserInputTextColor] = useState("#fff");
 
@@ -55,11 +68,12 @@ export const Login = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openAppsModal, setOpenAppsModal] = useState(false);
 
-  const [appsList, setAppsList] = useState({
+  const [appsList, setAppsList] = useState<Array<IApps>>([{
     IdApp: "",
     Nombre: "",
     Path: "",
-  });
+    Descripcion: "",
+  }]);
 
   const [modalType, setModalType] = useState("");
   const [modalText, setModalText] = useState("");
@@ -75,15 +89,6 @@ export const Login = () => {
     setContrasena(v);
   };
 
-  const onFocusButton = () => {
-    setBtnBgColor("#fff");
-    setBtnTxtColor("#666666");
-  };
-
-  const onFocusLeaveButton = () => {
-    setBtnBgColor("#666666");
-    setBtnTxtColor("#fff");
-  };
 
   const onClickTxtUsuario = () => {
     setUserInputColor("#fff");
@@ -94,8 +99,8 @@ export const Login = () => {
     if (event.key === 'Enter') {
       signIn()
     }
-  };	
-  
+  };
+
   const onClickTxtContrasena = () => {
     setContrasenaInputColor("#fff");
     setContrasenaTextInputColor("#666666");
@@ -154,6 +159,7 @@ export const Login = () => {
       .then((r) => {
         if (r.status === 200) {
           const IdApps = r.data.data;
+          
           setAppsList(IdApps);
           openAppModal(
             "success",
@@ -195,16 +201,24 @@ export const Login = () => {
           localStorage.setItem("IdUsuario", r.data.IdUsuario);
           localStorage.setItem("jwtToken", r.data.token);
           localStorage.setItem("refreshToken", r.data.refreshToken);
-          document.cookie = "jwt="+r.data.token;
-          
-          setAppsList(r.data.AppIds);
-          openAppModal(
+          document.cookie = "jwt=" + r.data.token;
+          let arrayApps:Array<IApps>=r.data.AppIds
+          setAppsList(arrayApps);
+          userDetail()
+          if(arrayApps.length>1){
+            openAppModal(
             "success",
             r.data.AppIds[0].Msg ||
-              "tu usuario cuenta con acceso a las siguientes plataformas."
+            "tu usuario cuenta con acceso a las siguientes plataformas."
           );
+          }
 
-          userDetail()
+          if(arrayApps.length===1){
+            window.location.assign(arrayApps[0].Path + "?jwt=" + localStorage.getItem("jwtToken") + "&rf=" + localStorage.getItem("refreshToken") + "&IdApp=" + arrayApps[0].IdApp)
+          }
+          
+
+          
         }
       })
       .catch((error) => {
@@ -229,12 +243,12 @@ export const Login = () => {
         }
       )
       .then((r) => {
-        if(r.status === 200){
-          localStorage.setItem("NombreUsuario", r.data.data.Nombre + " "+ r.data.data.ApellidoPaterno)
-        } 
-   
+        if (r.status === 200) {
+          localStorage.setItem("NombreUsuario", r.data.data.Nombre + " " + r.data.data.ApellidoPaterno)
+        }
+
       })
-   
+
   };
 
   const signIn = () => {
@@ -245,120 +259,155 @@ export const Login = () => {
     }
   };
 
-  
+
 
   return (
-    <Box sx={st.parentBox}>
-      <Box sx={{position: 'absolute', top: 10, left: 10,}}>
-        <Typography sx={{fontFamily: 'MontserratBold',color: '#ccc'}}>{process.env.REACT_APP_APPLICATION_ENVIRONMENT}</Typography>
-      </Box>
-      {openAppsModal ? (
-        <AppsModal
-          openM={openAppsModal}
-          closeM={handleCloseAppsModal}
-          type={modalType}
-          text={modalText}
-          apps={appsList}
-        />
-      ) : null}
+    <>
+      <div className="ContentLogin">
+        <Grid
 
-      <AlertModal
-        openM={openModal}
-        closeM={handleCloseModal}
-        type={modalType}
-        text={modalText}
-      />
-      <Box sx={st.horizontalBox}>
-        <Box sx={st.centerBox}>
-          <Box sx={st.loginBox}>
-            <Box sx={st.contentBox}>
-              <Box sx={st.imgBox}>
-                <img alt="Logo" src={logo} style={st.imgSize} />
-              </Box>
+          sx={st.parentBox}>
+          <Box sx={{ position: 'absolute', top: 10, left: 10, }}>
+            <Typography sx={{ fontFamily: 'MontserratBold', color: '#ccc' }}>{process.env.REACT_APP_APPLICATION_ENVIRONMENT}</Typography>
+          </Box>
+          {openAppsModal ? (
+            <AppsModal
+              openM={openAppsModal}
+              closeM={handleCloseAppsModal}
+              type={modalType}
+              text={modalText}
+              apps={appsList}
+            />
+          ) : null}
 
-              <Box sx={st.loginTextBox}>
-                <Typography sx={st.loginText}>{ls.signIn}</Typography>
-              </Box>
-
-              <Box sx={st.secondaryTextBox}>
-                <Typography sx={st.secondaryText}>
-                  {ls.secondaryText}
-                </Typography>
-              </Box>
-
-              <Box sx={st.parentBoxUserField}>
-                <Box
-                  style={{ backgroundColor: userInputColor }}
-                  sx={st.userFieldBox}
+          <AlertModal
+            openM={openModal}
+            closeM={handleCloseModal}
+            type={modalType}
+            text={modalText}
+          />
+          <Box sx={st.horizontalBox}>
+            <Box sx={st.centerBox}>
+              <Box sx={st.loginBox}>
+                <Grid container
+                // sx={st.contentBox}
                 >
-                  <Input
-                    disableUnderline
-                    value={usuario}
-                    placeholder={ls.placeholderUser}
-                    onChange={(v) => onChangeUsuario(v.target.value)}
-                    id="usrPlaceholder"
-                    sx={st.userField}
-                    style={{ color: userInputTextColor }}
-                    onClickCapture={() => onClickTxtUsuario()}
-                    onBlurCapture={() => verifyUsuario()}
-                    onKeyDown={handleKeyDown}
+                  <Grid container item xs={12} justifyContent="center" alignItems="flex-end"  
+                  // sx={{backgroundColor:COLOR.verde}}
 
-                  />
-                </Box>
-              </Box>
-              <Box sx={st.parentBoxPassField}>
-                <Box
-                  style={{ backgroundColor: contrasenaInputColor }}
-                  sx={st.passFieldBox}
-                >
-                  <Input
-                    disableUnderline
-                    placeholder={ls.placeholderPass}
-                    onChange={(v) => onChangePassword(v.target.value)}
-                    type="password"
-                    id="pswPlaceholder"
-                    sx={st.passField}
-                    style={{ color: contrasenaTextInputColor }}
-                    onClickCapture={() => onClickTxtContrasena()}
-                    onBlurCapture={() => verifyContrasena()}
-                    onKeyDown={handleKeyDown}
-                  />
-                </Box>
-              </Box>
-              <Box sx={st.btnBox}>
-                <Button
-                  variant="outlined"
-                  onMouseOver={() => onFocusButton()}
-                  onMouseLeave={() => onFocusLeaveButton()}
-                  sx={st.signInBtn}
-                  onClick={() => signIn()}
-                  style={{
-                    backgroundColor: btnBgColor,
-                    color: btnTxtColor,
-                    borderColor: btnTxtColor,
-                  }}
-                >
-                  {ls.btnText}
-                </Button>
-              </Box>
-              <Box sx={st.forgotBox}>
-                <Button
-                  onClick={() => navigate("./recovery")}
-                  sx={st.forgotBtn}
-                >
-                  {ls.forgot}
-                </Button>
+                  //  sx={st.imgBox}
+                  >
+                    <img alt="Logo" src={logo} 
+                    // style={st.imgSize}
+                    style={{
+                      objectFit: "scale-down",
+                      width: "100%",
+                      height: "100%",
+                      // borderRadius: '50%',
+                    }} 
+
+                    />
+                  </Grid>
+
+                  <Grid container item xs={12} justifyContent="center"
+                  // sx={st.loginTextBox}
+                  >
+                    <Typography sx={st.loginText}>{ls.signIn}</Typography>
+                  </Grid>
+
+                  <Grid container item xs={12} justifyContent="center" sx={st.secondaryTextBox}>
+                    <Typography sx={st.secondaryText}>
+                      {ls.secondaryText}
+                    </Typography>
+                  </Grid>
+
+                  <Box sx={st.parentBoxUserField}>
+                    <Box
+                      style={{ backgroundColor: userInputColor }}
+                      sx={st.userFieldBox}
+                    >
+                      <Input
+                        disableUnderline
+                        value={usuario}
+                        placeholder={ls.placeholderUser}
+                        onChange={(v) => onChangeUsuario(v.target.value)}
+                        id="usrPlaceholder"
+                        sx={st.userField}
+                        style={{ color: userInputTextColor }}
+                        onClickCapture={() => onClickTxtUsuario()}
+                        onBlurCapture={() => verifyUsuario()}
+                        onKeyDown={handleKeyDown}
+
+                      />
+                    </Box>
+                  </Box>
+                  <Grid sx={st.parentBoxPassField}>
+                    <Grid
+                      style={{ backgroundColor: contrasenaInputColor }}
+                      sx={st.passFieldBox}
+                    >
+                      <Input
+                        disableUnderline
+                        placeholder={ls.placeholderPass}
+                        onChange={(v) => onChangePassword(v.target.value)}
+                        type="password"
+                        id="pswPlaceholder"
+                        sx={st.passField}
+                        style={{ color: contrasenaTextInputColor }}
+                        onClickCapture={() => onClickTxtContrasena()}
+                        onBlurCapture={() => verifyContrasena()}
+                        onKeyDown={handleKeyDown}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Box sx={st.btnBox}>
+           
+           
+                    <Button
+                    className="AceptarAppLogin"                    
+                      onClick={() => signIn()}>
+                      {ls.btnText}
+                    </Button>
+                  </Box>
+                  <Box sx={st.forgotBox}>
+                    <Button
+                      onClick={() => navigate("./recovery")}
+                      sx={st.forgotBtn}
+                    >
+                      {ls.forgot}
+                    </Button>
+                  </Box>
+                </Grid>
               </Box>
             </Box>
           </Box>
-        </Box>
-      </Box>
-      <Box sx={st.footer}>
-        <Box>{actualYear()}</Box>
-        <Box sx={st.footerCenterText}>{ls.footerSecondText}</Box>
-        <Box>{ls.footerThirdText}</Box>
-        <Box position={"absolute"} bottom={0} right={0}> v.{process.env.REACT_APP_APPLICATION_VERSION}</Box>
-      </Box>
-    </Box>
+        </Grid>
+      </div>
+      <div className="FooterLogin">
+        <Grid paddingTop={2} container direction="row" justifyContent="center"
+        //  sx={st.footer}
+        >
+
+          <Grid item container xs={10}  justifyContent="center">
+
+            <Grid container xs={3} sm={4} md={3} paddingRight={2} justifyContent="flex-end" >
+              {actualYear()}
+            </Grid>
+            <Grid container xs={6} sm={4} md={3} justifyContent="center">
+              {ls.footerSecondText}
+            </Grid>
+            <Grid xs={3} sm={4} md={3}>
+              {ls.footerThirdText}
+            </Grid>
+
+          </Grid>
+   
+          <Box sx={{ position: 'absolute', right: 5, bottom: 5, }}>
+            <Typography sx={{ fontFamily: 'MontserratBold', fontSize:"10px", color: '#808080' }}> v.{process.env.REACT_APP_APPLICATION_VERSION}</Typography>
+          </Box>
+        </Grid>
+      </div>
+
+    </>
   );
 };

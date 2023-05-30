@@ -45,4 +45,34 @@ export interface IDetalleSolicitud {
         NombreSolicitante: string;
 }
 
+export interface iOnChangeInfo{
+        Nombre: boolean,
+        ApellidoPaterno:boolean,
+        ApellidoMaterno:boolean,
+        NombreUsuario:boolean,
+        CorreoElectronico:boolean,
+        Puesto:boolean,
+        Curp:boolean,
+        Rfc:boolean,
+        Telefono:boolean,
+        Ext:boolean,
+        Celular:boolean,
 
+
+}
+export interface iDetalleUsuario{
+Id: string,
+Nombre: string,
+ApellidoPaterno: string,
+ApellidoMaterno: string,
+NombreUsuario: string,
+CorreoElectronico: string,
+Puesto: string,
+Curp: string,
+Rfc: string,
+Telefono: string,
+Ext: string,
+Celular: string,
+IdTipoUsuario: string,
+
+}
