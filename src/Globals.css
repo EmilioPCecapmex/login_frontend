@@ -16,6 +16,40 @@
   color: '#000000',
 }
 
+.ContainerSliderProgress {
+  background: #ffffff00;
+  width: 100%;
+  height: 100%;
+  /* opacity: 0.5; */
+  position: relative;
+  cursor: wait;
+}
+
+.containerCenter {
+  display: flex;
+  position: fixed;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-content: center;
+  /* background: #793434; */
+  overflow: scroll;
+  width: 100%;
+  height: 100%;
+
+  /* padding-top: 56.25%; 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+}
+
+.ContainerMUIXDataGridCatalogos {
+  position: relative;
+  align-items: center;
+  align-content: center;
+  /* background: #793434; */
+  width: 98vw;
+  height: 100%;
+
+}
+
 .container {
   position: fixed;
   overflow: hidden;
@@ -46,6 +80,17 @@ h2 {
   font-family: sans-serif;
   color: rgb(21, 33, 47);
 
+}
+
+h4 {
+  font-family: sans-serif;
+  color: rgb(21, 33, 47);
+}
+
+h4.TituloContainerSolicitudesUsuario {
+  font-family: sans-serif;
+  color: rgb(21, 33, 47);
+  text-align: center;
 }
 
 h3 {
@@ -191,7 +236,7 @@ button.registrar-app {
 button.cancelarAppLogin {
 
   font-family: 'Montserrat', sans-serif;
-  background-color:   rgb(175, 140, 85);
+  background-color: rgb(175, 140, 85);
   color: #fff;
   font-size: 15px;
 
@@ -200,11 +245,12 @@ button.cancelarAppLogin {
 button.cancelarAppLogin:hover {
 
   font-family: 'Montserrat', sans-serif;
-  background-color:   rgba(175, 140, 85, 0.6);
+  background-color: rgba(175, 140, 85, 0.6);
   color: #000;
   font-size: 15px;
 
 }
+
 button.AceptarAppLogin {
 
   font-family: 'Montserrat', sans-serif;
@@ -213,14 +259,16 @@ button.AceptarAppLogin {
   font-size: 14px;
 
 }
+
 button.AceptarAppLogin:hover {
 
   font-family: 'Montserrat', sans-serif;
-  background-color:  rgba(47, 47, 47, 0.2);
+  background-color: rgba(47, 47, 47, 0.2);
   color: #000;
   font-size: 14px;
 
 }
+
 button.aceptar {
 
   font-family: 'Montserrat', sans-serif;
@@ -233,7 +281,7 @@ button.aceptar {
 
 button.aceptar:hover {
   font-family: 'Montserrat', sans-serif;
-  background-color:  rgba(47, 47, 47, 0.2);
+  background-color: rgba(47, 47, 47, 0.2);
   color: #000;
   font-size: 14px;
 }
@@ -241,7 +289,7 @@ button.aceptar:hover {
 button.cancelar {
 
   font-family: 'Montserrat', sans-serif;
-  background-color:   rgb(175, 140, 85);
+  background-color: rgb(175, 140, 85);
   color: #fff;
   font-size: 14px;
 
@@ -250,7 +298,7 @@ button.cancelar {
 button.cancelar:hover {
 
   font-family: 'Montserrat', sans-serif;
-  background-color:   rgba(175, 140, 85, 0.6);
+  background-color: rgba(175, 140, 85, 0.6);
   color: #000;
   font-size: 14px;
 
@@ -355,8 +403,9 @@ div.logoLogin {
   justify-content: center;
 
 }
+
 div.ApssLoginElementos {
-padding-top: 40px;
+  padding-top: 40px;
   width: 100%;
   /* position: absolute; */
   top: 0%;
@@ -372,7 +421,7 @@ div.GridAplicacionesAccesoPadre {
   cursor: pointer;
   border-radius: 10px;
   box-shadow: #808080;
-  
+
   /* background-color:rgba(175, 140, 85, 0.04); */
 
 }
@@ -383,6 +432,7 @@ div.GridAplicacionesAccesoPadre:hover {
 
   /* background-color:rgb(252, 254, 246); */
 }
+
 div.GridAplicacionesAcceso {
   cursor: pointer;
   border-radius: 10px;
@@ -394,7 +444,7 @@ div.GridAplicacionesAcceso {
 div.GridAplicacionesAcceso:hover {
   cursor: pointer;
   border-radius: 10px;
-  box-shadow: 0px  0px 6px #2e2a2a;
+  box-shadow: 0px 0px 6px #2e2a2a;
   /* background-color:rgb(252, 254, 246); */
 }
 
@@ -425,7 +475,7 @@ h5.NombreApp {
   font-family: 'Montserrat', sans-serif;
   font-size: 20px;
   color: rgb(21, 33, 47);
-  text-align:center;
+  text-align: center;
   font-weight: 800;
 }
 

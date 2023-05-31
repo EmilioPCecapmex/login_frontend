@@ -94,6 +94,13 @@ export default function CatApps() {
       hideable: false,
       headerAlign: "center",
     },
+    {
+      field: "Descripcion",
+      headerName: "Descripción",
+      width: 600,
+      hideable: false,
+      headerAlign: "center",
+    },
     // Tercer columna donde se mostrara el path
     {
       field: "Path",
