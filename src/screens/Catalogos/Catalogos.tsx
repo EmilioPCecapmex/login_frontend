@@ -1,49 +1,41 @@
 import {
     Box,
-    Button,
     Grid,
     IconButton,
-    Input,
     Tab,
     Tooltip,
     Typography,
-    useMediaQuery,
-    useTheme,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import logo from "../../assets/logo.svg";
-import AlertModal from "../../components/alertModal";
-import { useNavigate } from "react-router-dom";
-import AppsModal from "../../components/appsModal";
-import axios from "axios";
-import { JWT_Token, sessionValid } from "../../funcs/validation";
-import { UserLogin } from "../../Interfaces/User";
-import { SolicitudUsuarios } from "../SolicitudDeUsuarios/SolicitudUsuarios";
+import ResponseCatalogos from "../../Interfaces/User";
 import { UserServices } from "../../services/UserServices";
-import SliderProgress from "../Componentes/SliderProgress";
-import { Toast } from "../Componentes/Toast";
-import { AlertS } from "../Componentes/AlertS";
 import { Header } from "../../components/header";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import MUIXDataGrid from "../../components/MUIXDataGrid";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-interface IApps {
-    IdApp: string;
-    Nombre: string;
-    Path: string;
-    Descripcion: string;
-}
+import ButtonsAdd from "../Componentes/ButtonsAdd";
+import { CatalogosModal } from "./CatalogosModal";
 
 const Catalogos = () => {
-    const [valueTab, setValueTab] = useState('');
-    const [labelTab, setLabelTab] = useState('1');
+    const [valueTab, setValueTab] = useState<string>("1");
     const [openSlider, setOpenSlider] = useState(true);
     const [secretarias, setSecretarias] = useState([]);
     const [roles, setRoles] = useState([]);
     const [uResponsable, setUResponsable] = useState([]);
     const [departamentos, setDepartamentos] = useState([]);
     const [perfiles, setPerfiles] = useState([]);
+    ////////////// ocuplat columnas
+    const [HideClave, setHideClave] = useState(true);
+    const [HideNombre, setHideNombre] = useState(true);
+    const [HideDescripcion, setHideDescripcion] = useState(true);
+    const [HideNombreCorto, setHideNombreCorto] = useState(true);
+    const [HideControlInterno, setHideControlInterno] = useState(true);
+    const [HideReferencia, setHideReferencia] = useState(true);
+    /////////////
+    const [openModal, setOpenModal] = useState(false);
+
+
     const columns = [
         // primer columna del grid donde ponemos los botones de editar y eliminar
         {
@@ -55,22 +47,22 @@ const Catalogos = () => {
             renderCell: (cellValues: any) => {
                 return (
                     <Box>
-                        <Tooltip title={"Editar App " + cellValues.row.Nombre}>
+                        <Tooltip title={"Editar"}>
                             <IconButton
                                 color="primary"
-                                // onClick={(event) => {
-                                //     handleEditBtnClick(event, cellValues);
-                                // }}
+                            // onClick={(event) => {
+                            //     handleEditBtnClick(event, cellValues);
+                            // }}
                             >
                                 <EditIcon />
                             </IconButton>
                         </Tooltip>
-                        <Tooltip title={"Eliminar App " + cellValues.row.Nombre}>
+                        <Tooltip title={"Eliminar"}>
                             <IconButton
                                 color="error"
-                                // onClick={(event) => {
-                                //     handleDeleteBtnClick(event, cellValues);
-                                // }}
+                            // onClick={(event) => {
+                            //     handleDeleteBtnClick(event, cellValues);
+                            // }}
                             >
                                 <DeleteIcon />
                             </IconButton>
@@ -79,65 +71,124 @@ const Catalogos = () => {
                 );
             },
         },
-        // segunda columna donde se mostrara el nombre
         {
             field: "Clave",
             headerName: "Clave",
             width: 200,
             headerAlign: "center",
-            // hide: va.row
+            hide: HideClave
         },
-        // Tercer columna donde se mostrara el path
         {
             field: "Nombre",
             headerName: "Nombre",
             width: 650,
-            // width:'*',
             headerAlign: "center",
-        },
-        // cuarta columna donde se mostrara si esta activo o no
-        {
-            field: "Descripcion",
-            headerName: "Descripcion",
-            width: 550,
-            headerAlign: "center",
+            hide: HideNombre
         },
         {
             field: "NombreCorto",
             headerName: "NombreCorto",
             width: 150,
             headerAlign: "center",
+            hide: HideNombreCorto
         },
-
+        {
+            field: "Referencia",
+            headerName: "Referencia",
+            width: 150,
+            headerAlign: "center",
+            hide: HideReferencia
+        },
+        {
+            field: "Descripcion",
+            headerName: "Descripcion",
+            width: 1000,
+            headerAlign: "center",
+            hide: HideDescripcion
+        },
         {
             field: "ControlInterno",
             headerName: "ControlInterno",
             width: 100,
             headerAlign: "center",
+            hide: HideControlInterno
         },
-        {
-            field: "Referencia",
-            headerName: "Referencia",
-            width: 100,
-            headerAlign: "center",
-        },
+
     ];
 
 
-
+    const handleOpen = () => {
+        setOpenModal(true);
+    };
 
 
 
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-        console.log(newValue);
-        consulta(newValue, "catalogos");
+        setHideClave(true);
+        setHideNombre(true);
+        setHideDescripcion(true)
+        setHideNombreCorto(true);
+        setHideControlInterno(true);
+        setHideReferencia(true);
         setValueTab(newValue);
+        consulta(newValue, "catalogos");
     };
 
     const consulta = (catalogo: string, opcion: string) => {
         setOpenSlider(true);
-        UserServices.consultaCatalogos({ cat: catalogo, opcion: opcion }, String(localStorage.getItem("jwtToken"))).then((res) => {
+        UserServices.consultaCatalogos({ cat: catalogo, opcion: opcion, tipo: "4" }, String(localStorage.getItem("jwtToken"))).then((res) => {
             if (res.status === 200) {
+                const user: Array<ResponseCatalogos> = res.data.data;
+                var clave = 0;
+                var Nombre = 0;
+                var Descripcion = 0;
+                var NombreCorto = 0;
+                var ControlInterno = 0;
+                var Referencia = 0;
+
+                user?.map((data) => {
+                    if (data?.Clave) {
+                        clave++;
+                    }
+                    if (data?.Nombre) {
+                        Nombre++;
+                    }
+                    if (data?.Descripcion) {
+                        Descripcion++;
+                    }
+                    if (data?.NombreCorto) {
+                        NombreCorto++;
+                    }
+                    if (data?.ControlInterno) {
+                        ControlInterno++;
+                    }
+                    if (data?.Referencia) {
+                        Referencia++;
+                    }
+
+
+                })
+
+                if (clave != 0) {
+                    setHideClave(false);
+                }
+                if (Nombre != 0) {
+                    setHideNombre(false);
+                }
+                if (Descripcion != 0) {
+                    setHideDescripcion(false)
+                }
+                if (NombreCorto != 0) {
+                    setHideNombreCorto(false);
+                }
+                if (ControlInterno != 0) {
+                    setHideControlInterno(false);
+                }
+                if (Referencia != 0) {
+                    setHideReferencia(false);
+                }
+
+
                 if (catalogo === "1" && opcion === "catalogos") {
                     setSecretarias(res.data.data);
                 }
@@ -159,11 +210,12 @@ const Catalogos = () => {
         });
 
     };
+    
 
     useEffect(() => {
         // setOpenSlider(true)
-
-
+        consulta(valueTab, "catalogos");
+setOpenModal(false)
 
 
     }, []);
@@ -175,7 +227,7 @@ const Catalogos = () => {
         <>
             <Header />
             <Grid container item xs={12} justifyContent="center" paddingTop={3}>
-                <TabContext value={valueTab}>
+                <TabContext value={String(valueTab)}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <TabList onChange={handleChange} aria-label="lab API tabs example">
                             <Tab label="Secretarias" value="1" />
@@ -185,32 +237,30 @@ const Catalogos = () => {
                             <Tab label="Perfiles" value="5" />
                         </TabList>
                     </Box>
+                    <Grid item xs={12} paddingLeft={1}>
+                        <ButtonsAdd handleOpen={handleOpen} agregar={true} />
+                    </Grid>
                     <TabPanel value="1">
-                        <Typography>{labelTab}</Typography>
                         <Grid item xs={12} className="ContainerMUIXDataGridCatalogos">
                             <MUIXDataGrid columns={columns} rows={secretarias} />
                         </Grid>
                     </TabPanel>
                     <TabPanel value="2">
-                        <Typography>{labelTab}</Typography>
                         <Grid item xs={12} className="ContainerMUIXDataGridCatalogos">
                             <MUIXDataGrid columns={columns} rows={uResponsable} />
                         </Grid>
                     </TabPanel>
                     <TabPanel value="3">
-                        <Typography>{labelTab}</Typography>
                         <Grid item xs={12} className="ContainerMUIXDataGridCatalogos">
                             <MUIXDataGrid columns={columns} rows={departamentos} />
                         </Grid>
                     </TabPanel>
                     <TabPanel value="4">
-                        <Typography>{labelTab}</Typography>
                         <Grid item xs={12} className="ContainerMUIXDataGridCatalogos">
                             <MUIXDataGrid columns={columns} rows={roles} />
                         </Grid>
                     </TabPanel>
                     <TabPanel value="5">
-                        <Typography>{labelTab}</Typography>
                         <Grid item xs={12} className="ContainerMUIXDataGridCatalogos">
                             <MUIXDataGrid columns={columns} rows={perfiles} />
                         </Grid>
@@ -221,13 +271,15 @@ const Catalogos = () => {
                 <Grid paddingTop={2} container direction="row" justifyContent="center">
 
 
-
-
                 </Grid>
 
                 <Box sx={{ position: 'absolute', right: 5, bottom: 5, }}>
                     <Typography sx={{ fontFamily: 'MontserratBold', fontSize: "10px", color: '#808080' }}> v.{process.env.REACT_APP_APPLICATION_VERSION}</Typography>
                 </Box>
+                {
+                    openModal?
+                    <CatalogosModal/>:""
+                }
 
             </div>
         </>

@@ -8,7 +8,7 @@ const theme = createTheme(coreEsES, gridEsES);
 
 
 export default function MUIXDataGrid(props: any) {
-  const [pageSize, setPageSize] = React.useState(8);
+  const [pageSize, setPageSize] = React.useState(25);
 
   const changePageSize = (v: number) => {
     setPageSize(v);
@@ -183,7 +183,7 @@ export default function MUIXDataGrid(props: any) {
           getRowId={(row) => row.Id ? row.Id : row.id}
 
           pageSize={pageSize}
-          rowsPerPageOptions={[10, 25, 50, 100]}
+          rowsPerPageOptions={[25, 50, 100]}
           onPageSizeChange={(v) => changePageSize(v)}
 
           sx={{

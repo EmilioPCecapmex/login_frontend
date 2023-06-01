@@ -20,7 +20,7 @@
   background: #ffffff00;
   width: 100%;
   height: 100%;
-  /* opacity: 0.5; */
+  opacity: 0.5;
   position: relative;
   cursor: wait;
 }
@@ -45,7 +45,7 @@
   align-items: center;
   align-content: center;
   /* background: #793434; */
-  width: 98vw;
+  width: 99vw;
   height: 100%;
 
 }

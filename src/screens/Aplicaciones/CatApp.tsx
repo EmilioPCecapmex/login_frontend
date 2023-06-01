@@ -116,14 +116,7 @@ export default function CatApps() {
       width: 100,
       headerAlign: "center",
     },
-    // // quinta columna deleted
-    // {
-    //   field: "Deleted",
-    //   headerName: "Eliminada",
-    //   width: 100,
-    //   headerAlign: "center",
-    //   //hide: true,
-    // },
+
   ];
   const [rows, setRows] = useState([]);
 
@@ -180,7 +173,7 @@ export default function CatApps() {
         const data = { IdApp: cellValues.row.Id };
         axios({
           method: "delete",
-          url: process.env.REACT_APP_APPLICATION_DEV +`/api/app`,
+          url: process.env.REACT_APP_APPLICATION_DEV + `/api/app`,
           headers: {
             "Content-Type": "application/json",
             Authorization: localStorage.getItem("jwtToken") || "",
@@ -205,7 +198,7 @@ export default function CatApps() {
       }
     });
   };
-  
+
   // aqui es el consumo del endpoint para obtener el listado de app de la base de datos
   const getAllApps = () => {
     axios({
@@ -241,7 +234,7 @@ export default function CatApps() {
   // esto es solo para que se ejecute la rutina de obtieneaplicaciones cuando cargue la pagina
   useEffect(() => {
     getAllApps();
-  },[]);
+  }, []);
 
   return (
     <>
@@ -253,7 +246,7 @@ export default function CatApps() {
       <Box >
         <TimerCounter />
       </Box>
-      
+
       {/* esta configuracion es del box que va a contener el card principal*/}
       <Box
         sx={{
@@ -271,7 +264,7 @@ export default function CatApps() {
             <Typography
               sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw" }}
             >
-              <AppsIcon fontSize="large"/>
+              <AppsIcon fontSize="large" />
             </Typography>
             <Typography className="h5"
             >
@@ -281,18 +274,18 @@ export default function CatApps() {
           {/* aqui es el contenido del card,y ponemos primero un box y estamos dibujando el boton para agregar un nuevo registro */}
           <CardContent>
             {/* boton a la derecha para agregar una aplicacion nueva */}
-            <Grid container  item justifyContent="flex-end">
+            <Grid container item justifyContent="flex-end">
               <Button
                 className="aceptar"
                 variant="text"
                 onClick={(event) => handleNewBtnClick(event)}
-                  sx={{
-                    fontFamily: "MontserratBold",
-                    backgroundColor: "#DFA94F",
-                    color: "#000001",
-                    fontSize: "10px",
-                    boxShadow: 4,
-                  }}
+                sx={{
+                  fontFamily: "MontserratBold",
+                  backgroundColor: "#DFA94F",
+                  color: "#000001",
+                  fontSize: "10px",
+                  boxShadow: 4,
+                }}
                 startIcon={<AddIcon />}
               >
                 registrar aplicación
@@ -320,7 +313,7 @@ export default function CatApps() {
           app={editDialogApp}
         />
       ) : null}
-      
+
     </>
   );
 }

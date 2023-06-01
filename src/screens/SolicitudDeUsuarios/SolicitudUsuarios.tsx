@@ -244,26 +244,28 @@ export const SolicitudUsuarios = (props: NewDialogProps) => {
                 ApellidoMaterno: apellidoMaterno,
                 NombreUsuario: nombreUsuario,
                 CorreoElectronico: correo,
-                Puesto: puesto,
-                IdUsuarioModificador: localStorage.getItem("IdUsuario"),
-                Rfc: rfc,
                 Curp: curp,
+                Rfc: rfc,
+                Celular: celular,
                 Telefono: telefono,
                 Ext: ext,
-                Celular: celular,
-                PuedeFirmar: puedeFirmar ? 1 : 0,
-                IdTipoUsuario: tipousuario,
+                TipoSolicitud:"ALTA",
+                DatosAdicionales:"",
+                IdApp:idApps,
+                IdUsuarioModificador: props.idUsuarioSolicitante? props.idUsuarioSolicitante: localStorage.getItem("IdUsuario"),
                 idUResponsable: idUResponsable,
                 idPerfil: idPerfil,
                 idRol: idRol,
                 idDepartamento: idDepartamento,
-
+                IdTipoUsuario: tipousuario,
+                PuedeFirmar: puedeFirmar ? 1 : 0,
+                Puesto: puesto,
             };
 
             UserServices.createsolicitud(data, String(jwt) !== "null" ? String(jwt) : String(localStorage.getItem("jwtToken"))).then((res) => {
                 if (res.status === 200) {
                     setUserTypes(res?.data?.data);
-                }else{
+                } else {
                     Swal.fire({
                         icon: "error",
                         title: "Mensaje",
@@ -272,7 +274,7 @@ export const SolicitudUsuarios = (props: NewDialogProps) => {
                 }
             });
 
-           
+
         }
     };
 

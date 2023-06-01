@@ -58,24 +58,17 @@ export const Login = () => {
 
   const [usuario, setUsuario] = useState("");
   const [contrasena, setContrasena] = useState("");
-
   const [userInputColor, setUserInputColor] = useState("#cccccc");
   const [userInputTextColor, setUserInputTextColor] = useState("#fff");
-
   const [contrasenaInputColor, setContrasenaInputColor] = useState("#cccccc");
-  const [contrasenaTextInputColor, setContrasenaTextInputColor] =
-    useState("#fff");
-
+  const [contrasenaTextInputColor, setContrasenaTextInputColor] = useState("#fff");
   const [openModal, setOpenModal] = useState(false);
   const [openAppsModal, setOpenAppsModal] = useState(false);
   const [openSolicitudesMoadal, setOpenSolicitudesMoadal] = useState(false);
   const [existenParams, setExistenParams] = useState(true);
   const [openSlider, setOpenSlider] = useState(true);
-
-
   const [idUsuarioSolicitante, setIdUsuarioSolicitante] = useState("");
-
-  const [mensajeSlider, setMensajeSlider] = useState("");
+  const [mensajeSlider, setMensajeSlider] = useState("Validando...");
 
 
   const [appsList, setAppsList] = useState<Array<IApps>>([{
@@ -188,7 +181,7 @@ export const Login = () => {
 
   const verifyToken = () => {
     if (jwt) {
-      setOpenSlider(true);
+      // setOpenSlider(true);
       UserServices.verify({}, String(jwt)).then((res) => {
 
         if (res.status === 200) {
@@ -203,8 +196,6 @@ export const Login = () => {
             if (resuserDetail.status === 200) {
 
               if (((res.data.data.exp - (Date.now() / 1000)) / 60) > 20) {
-                console.log(true)
-                console.log(existenParams)
                 setOpenSolicitudesMoadal(true);
                 setIdUsuarioSolicitante(res?.data?.data?.IdUsuario);
                 setOpenSlider(false)
@@ -322,7 +313,7 @@ export const Login = () => {
     console.log(jwt)
     console.log(idAppSolicitante)
     if (jwt && idAppSolicitante) {
-      // setExistenParams(true);
+      setExistenParams(true);
       setOpenSlider(true)
       verifyToken();
 
@@ -340,7 +331,7 @@ export const Login = () => {
       });
     }
 
-   
+
   }, []);
   useEffect(() => {
     setTimeout(() => {
@@ -357,22 +348,26 @@ export const Login = () => {
 
   return (
     <>
- <SliderProgress open={openSlider} texto={mensajeSlider} />
+
 
       { // jwt?
 
-        (openSolicitudesMoadal && existenParams) ?
+        (jwt && idAppSolicitante) ?
           <>
-           
-            <SolicitudUsuarios
-              modoModal={openSolicitudesMoadal}
-              token={String(jwt)}
-              idUsuarioSolicitante={String(idUsuarioSolicitante)}
-              idApp={String(idAppSolicitante)} />
+            {openSolicitudesMoadal ?
+              <SolicitudUsuarios
+                modoModal={openSolicitudesMoadal}
+                token={String(jwt)}
+                idUsuarioSolicitante={String(idUsuarioSolicitante)}
+                idApp={String(idAppSolicitante)} /> 
+                :
+              <SliderProgress open={openSlider} texto={mensajeSlider} />
+            }
           </>
           :
           <>
-            {/* <SliderProgress open={openSlider} texto={mensajeSlider} /> */}
+            <SliderProgress open={openSlider} texto={mensajeSlider} />
+
             <div className="ContentLogin">
               <Grid item
 
