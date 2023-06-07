@@ -14,6 +14,9 @@ import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import AppsIcon from '@mui/icons-material/Apps';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import axios from "axios";
+import DescriptionIcon from '@mui/icons-material/Description';
+import { COLOR } from "../screens/styles/colors";
+
 export const Header = () => {
   const navigate = useNavigate();
   const logoutFnc = () => {
@@ -48,13 +51,14 @@ export const Header = () => {
 
   return (
     <div className="box">
-      <Grid container item xs={12} 
+      <Grid container item xs={12}
         direction="row"
         justifyContent="space-between"
         alignItems="center"
-      sx={{ height: "110px",
-           border: "1px solid #b3afaf"
-      }}
+        sx={{
+          height: "110px",
+          border: "1px solid #b3afaf"
+        }}
       >
 
         <Grid item xs={6} md={4} >
@@ -64,20 +68,24 @@ export const Header = () => {
           <Grid container item xs={3} md={4}
             justifyContent="center"
           >
-            <img alt="logo" src={logo}      
-            style={{
-                      objectFit: "scale-down",
-                      width: "60%",
-                      height: "100%",
-                      // borderRadius: '50%',
-                    }}  />
+            <img alt="logo" src={logo}
+              style={{
+                objectFit: "scale-down",
+                width: "60%",
+                height: "100%",
+                // borderRadius: '50%',
+              }} />
           </Grid>
         </Hidden>
         <Grid paddingRight={3} item container xs={6} md={4} justifyContent="flex-end" alignItems="center"
-         sx={{
-        height: "50px",
-      }}>
-
+          sx={{
+            height: "50px",
+          }}>
+          <Tooltip title="Catalogos">
+            <IconButton className="iconos-header" onClick={() => navigate("../catalogos")}>
+              <DescriptionIcon />
+            </IconButton>
+          </Tooltip>
           <Tooltip title="Solicitudes">
             <Badge badgeContent={solCount} color="primary">
               <IconButton className="iconos-header" onClick={() => navigate("../solicitudes")}>

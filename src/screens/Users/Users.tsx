@@ -187,7 +187,7 @@ export default function Users() {
           icon: "error",
           title: "Mensaje",
           text:
-            "(" + error.response.status + ") " + error.response.data.message,
+            "(" + error?.response?.status + ") " + error?.response?.data?.message,
         }).then((r) => navigate("../"));
       });
   };
@@ -369,7 +369,7 @@ export default function Users() {
         </Box>
         {newDialogOpen ? (
           <NewDialog
-            newDialogOpen={newDialogOpen}
+            newDialogOpen={true}
             handleNewDialogClose={handleNewDialogClose}
           />
         ) : null}
