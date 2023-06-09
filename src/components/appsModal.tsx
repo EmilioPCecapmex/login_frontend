@@ -2,10 +2,10 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Dialog from "@mui/material/Dialog";
-import DoneAllIcon from "@mui/icons-material/DoneAll";
-import { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Card,  CardContent, Grid } from "@mui/material";
+import logo from "../assets/logo.svg";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function AppsModal({
   openM,
@@ -20,18 +20,7 @@ export default function AppsModal({
   text: string;
   apps: Object;
 }) {
-  const UseIcon = ({ v }: { v: string }) => {
-    switch (v) {
-      case "success":
-        return (
-          <DoneAllIcon
-            sx={{ width: "10vw", height: "10vh", color: "#31B214" }}
-          />
-        );
-      default:
-        return null;
-    }
-  };
+
 
   const navigate = useNavigate();
 
@@ -40,133 +29,91 @@ export default function AppsModal({
     closeM();
   };
 
-  const [userDetails, setUserDetails] = useState<Usuario>();
-
-  useEffect(() => {
-    axios
-      .post(
-        process.env.REACT_APP_APPLICATION_DEV + "/api/user-detail",
-        {
-          IdUsuario: localStorage.getItem("IdUsuario") || "",
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: localStorage.getItem("jwtToken") || "",
-          },
-        }
-      )
-      .then((r) => {
-        if (r.status === 200) {
-          setUserDetails(r.data.data);
-        }
-      });
-  }, []);
+  
 
   const openPage = (t: string, idapp: string) => {
-    if(t !== "./admin"){
-      window.location.assign(t+"?jwt="+ localStorage.getItem("jwtToken")+"&rf=" + localStorage.getItem("refreshToken")+"&IdApp=" + idapp)
+    closeM();
+    if (t !== "./admin") {
+      window.location.assign(t + "?jwt=" + localStorage.getItem("jwtToken") + "&rf=" + localStorage.getItem("refreshToken") + "&IdApp=" + idapp)
+      localStorage.clear();
 
-    }else if(t === "./admin"){
-      navigate(t)
+    } else if (t === "./admin") {
+      navigate(t);
     }
   }
-
   return (
-      <Dialog open={openM} fullWidth maxWidth= "sm" >
-        <Box
-     
+    <Dialog open={openM} fullScreen >
+      <Grid>
+
+        <Grid container item xs={12}>
+
+          <Grid className="logoLogin" container item xs={12} justifyContent="center" alignItems="flex-end">
+            <img src={logo}
+              style={{ objectFit: "fill", width: "100%", height: "100%", }} />
+          </Grid>
+        </Grid>
+
+ 
+        <Grid container className="ApssLoginElementos" item xs={12} sx={{ bgcolor: "#EEEEEE" }} paddingTop={1} paddingBottom={5}>
+          <Typography   variant="h5" className="NombreApp" sx={{width:'100%'}}>Favor de seleccionar la plataforma a la que deseas ingresar</Typography>
+          <Box sx={{ flexGrow: 1 }}>
+            
+            <Grid container paddingTop={3} spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} justifyContent={"space-evenly"}>
+
+              {Object.values(apps)?.map((item) => {
+                return (
+                  <>
+
+                    <Grid    item xs={2} sm={4} md={4} key={item.IdApp}
+                      sx={{justifyContent:'space-evenly'}}
+                      onClick={() => { openPage(item.Path, item.IdApp) }} >
+                      <Card className="GridAplicacionesAcceso"   >
+                        <CardContent className="GridAplicacionesAcceso"  
+                        sx={{ display: "flex", justifyContent: "space-evenly" }}>
+                          <Box
+                          sx={{  width: "100%", display: "flex", flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+
+                            <Box sx={{ display: "flex", justifyContent: "center", flexDirection: "column", paddingTop: "3%" }}>
+                              <Box  sx={{ width: "100%", height: "200px", }}>
+                                <Typography variant="h5" className="NombreApp">
+                                  {item?.Nombre}
+                                </Typography>
+                                <Typography variant="h5" className="DescripcionApp">
+                                  {item?.Descripcion}
+                                </Typography>
+                              </Box>
+                            </Box>
+                          </Box>
+
+                        </CardContent>
+                      </Card>
+                    </Grid>
+
+                  </>
+
+                );
+              })}
+
+            </Grid>
+          </Box>
+        </Grid>
+        <Grid
+        paddingTop={2}
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="flex-start"
         >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <UseIcon v={type} />
-          </Box>
-          <Box sx={{ mt: "3vh" }}>
-            <Typography
-              sx={{
-                textAlign: "center",
-                fontFamily: "MontserratBold",
-                fontSize: "1vw",
-                color: "#808080",
-              }}
-            >
-              Bienvenido {userDetails?.Nombre},
-            </Typography>
-            <Typography
-              sx={{
-                mt: "1vh",
-                textAlign: "center",
-                fontFamily: "MontserratMedium",
-                fontSize: ".8vw",
-                color: "#808080",
-              }}
-            >
-              {text}
-            </Typography>
-          </Box>
-
-          <Box
-            sx={{              
-              mt: "2vh",
-              width: "100%",
-              height: "auto",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "row",
-              flexWrap: "wrap",
-            }}
-          >
-            {Object.values(apps)?.map((item) => {
-              return (
-                <Button
-                  variant="outlined"
-                  key={item.IdApp}
-                  onClick={() => {
-                    openPage(item.Path, item.IdApp)
-                  }}
-                  sx={{
-                    borderColor: "#62787B",
-                    width: "30%",
-                    height: "7vh",
-                    mt: 1,
-                    mr: 1,
-                    ml: 1,
-                    color: "#62787B",
-                    fontFamily: "MontserratMedium",
-                  }}
-                >
-                  {item.Nombre}
-                </Button>
-              );
-            })}
-          </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              mt: "4vh",
-              mr: "5vw",
-              ml: "5vw",
-            }}
-          >
-            <Button
-            color="error"
-              sx={{ fontFamily: "MontserratMedium" }}
-              onClick={() => closeModal()}
-            >
-              Cancelar
+          <Grid item >
+            <Button className="cancelarAppLogin" onClick={() => closeModal()}  startIcon={<ArrowBackIcon/>} >
+              Regresar
             </Button>
-          </Box>
-        </Box>
-      </Dialog>
+          </Grid>
+        </Grid>
+      </Grid>
+
+
+    </Dialog>
   );
 }
 

@@ -111,7 +111,12 @@ export const lstXl = {
     width: "7vw",
     textTransform: "capitalize",
     fontFamily: "MontserratMedium",
-    fontSize: ".8vw",
+    fontSize: ".8vw",backgroundColor: "#15212f",
+    color:"white",
+    "&&:hover": {
+      backgroundColor: "rgba(47, 47, 47, 0.4)",
+      color: "#000",
+    },
   },
   forgotBox: {
     width: "100%",
@@ -255,6 +260,13 @@ export const lstLg = {
     textTransform: "capitalize",
     fontFamily: "MontserratMedium",
     fontSize: ".8vw",
+    backgroundColor: "#15212f",color:"white","&&:hover": {
+
+      backgroundColor: "rgba(47, 47, 47, 0.4)",
+
+      color: "#000",
+
+    },
   },
   forgotBox: {
     width: "100%",
@@ -397,7 +409,13 @@ export const lstMd = {
     width: "10vw",
     textTransform: "capitalize",
     fontFamily: "MontserratMedium",
-    fontSize: "1vw",
+    fontSize: "1vw",backgroundColor: "#15212f",color:"white","&&:hover": {
+
+      backgroundColor: "rgba(47, 47, 47, 0.4)",
+
+      color: "#000",
+
+    },
   },
   forgotBox: {
     width: "100%",
@@ -540,7 +558,13 @@ export const lstSm = {
     width: "20vw",
     textTransform: "capitalize",
     fontFamily: "MontserratMedium",
-    fontSize: "2vw",
+    fontSize: "2vw",backgroundColor: "#15212f",color:"white","&&:hover": {
+
+      backgroundColor: "rgba(47, 47, 47, 0.4)",
+
+      color: "#000",
+
+    },
   },
   forgotBox: {
     width: "100%",
@@ -683,7 +707,13 @@ export const lstXs = {
     width: "30vw",
     textTransform: "capitalize",
     fontFamily: "MontserratMedium",
-    fontSize: "3vw",
+    fontSize: "3vw",backgroundColor: "#15212f",color:"white","&&:hover": {
+
+      backgroundColor: "rgba(47, 47, 47, 0.4)",
+
+      color: "#000",
+
+    },
   },
   forgotBox: {
     width: "100%",

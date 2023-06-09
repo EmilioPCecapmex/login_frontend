@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Box, Card, CardContent, IconButton, Tooltip, Button, Typography, FormGroup, FormControlLabel, Switch, } from "@mui/material";
+import { Box, Card, CardContent, IconButton, Tooltip, Button, Typography, FormGroup, FormControlLabel, Switch, Grid, } from "@mui/material";
 import {
   AccountTree as AccountTreeIcon,
   Edit as EditIcon,
@@ -18,6 +18,7 @@ import { Header } from "../../components/header";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { TimerCounter } from "../../components/timer/timer";
+
 
 export interface Usuario {
   EstaActivoLabel: string;
@@ -37,7 +38,7 @@ export interface Usuario {
   ModificadoPor: string;
   NombreCreadoPor: string;
   NombreModificadoPor: string;
-  PuedeFirmar:number;
+  PuedeFirmar: number;
 }
 
 export default function Users() {
@@ -45,7 +46,7 @@ export default function Users() {
 
   const Toast = Swal.mixin({
     toast: true,
-    position: "top-end",
+    position: "bottom-end",
     showConfirmButton: false,
     timer: 5000,
     timerProgressBar: true,
@@ -91,7 +92,7 @@ export default function Users() {
     handleEditDialogOpen();
   };
 
-  
+
 
 
 
@@ -106,8 +107,13 @@ export default function Users() {
         },
       })
       .then((r) => {
-        if (r.status === 200) {
+        if (r.status === 200 && r.data.result[0].length !== 0) {
           imprimirSolicitud(r.data.result[0][0]);
+        } else {
+          Toast.fire({
+            icon: "error",
+            title: "No se encontro solicitud!",
+          });
         }
       });
   }
@@ -171,20 +177,23 @@ export default function Users() {
         }
 
         setRows(rows);
+        setTimeout(() => {
+          getAllUsers();
+        }, 60000);
+
       })
       .catch(function (error) {
         Swal.fire({
           icon: "error",
           title: "Mensaje",
           text:
-            "(" + error.response.status + ") " + error.response.data.message,
+            "(" + error?.response?.status + ") " + error?.response?.data?.message,
         }).then((r) => navigate("../"));
       });
   };
 
   useEffect(() => {
     getAllUsers();
-    // eslint-disable-next-line
   }, [showAllUsers]);
 
 
@@ -224,7 +233,7 @@ export default function Users() {
               </IconButton>
             </Tooltip>
 
-            <Tooltip title={"Editar acceso a plataformas"}>
+            <Tooltip title={"Visualizar acceso a plataformas"}>
               <IconButton
                 color="info"
                 onClick={(event) => {
@@ -271,19 +280,19 @@ export default function Users() {
     },
     {
       field: "NombreCreadoPor",
-      headerName: "Creado Por",
+      headerName: "Creador",
       width: 150,
       headerAlign: "center",
     },
     {
       field: "NombreModificadoPor",
-      headerName: "Modificado Por",
+      headerName: "Actualizado Por",
       width: 150,
       headerAlign: "center",
     },
     {
       field: "EstaActivoLabel",
-      headerName: "Esta Activo",
+      headerName: "Estatus",
       width: 110,
       headerAlign: "center",
     },
@@ -292,7 +301,7 @@ export default function Users() {
   return (
     <Box>
       <Header />
-      <Box sx={{display:"flex",justifyContent:"flex-end"}}>
+      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
         <TimerCounter />
       </Box>
       <Box
@@ -307,40 +316,40 @@ export default function Users() {
         <Box>
           <Card sx={{ height: "80vh", width: "80vw", boxShadow: 10 }}>
             <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-
-              <Box>
-                <Typography
-                  sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw" }}
-                >
-                  <PeopleAltIcon sx={{ width: '3vw', height: '3vw' }} />
-                </Typography>
-
-                <Typography
-                  sx={{ fontFamily: "MontserratMedium", fontSize: "1vw" }}
-                >
-                  Listado de usuarios con acceso a plataformas.
-                </Typography>
-              </Box>
-
-              <FormGroup>
-                <FormControlLabel control={<Switch onChange={(v) => setShowAllUsers(v.target.checked)} />} label={
-                  <Typography sx={{ fontFamily: 'MontserratSemiBold' }}>
-                    Usuarios Inactivos
+              <Grid container   justifyContent="space-between" >
+                <Grid container item xs={12} md={6}   direction="row" justifyContent="flex-start"  alignItems="flex-start" >
+                  <PeopleAltIcon  />
+                  < Typography  className="h6">
+                    Listado de usuarios con acceso a plataformas.
                   </Typography>
-                } />
-              </FormGroup>
+                </Grid>
+                <Grid item container  xs={12} md={6}  justifyContent="flex-end">
+                  <FormGroup>
+                    <FormControlLabel control={<Switch onChange={(v) => setShowAllUsers(v.target.checked)} />} label={
+                      <Typography className="h5">
+                        Usuarios Inactivos
+                      </Typography>
+                    } />
+                  </FormGroup>
+                </Grid>
+
+              </Grid>
+
+
+
             </Box>
 
             <CardContent>
               <Box display="flex" justifyContent="flex-end">
                 <Button
+                  className="registrar-usuario"
                   variant="text"
                   onClick={(event) => handleNewBtnClick(event)}
                   sx={{
                     fontFamily: "MontserratBold",
                     backgroundColor: "#DFA94F",
                     color: "#000001",
-                    fontSize: ".6vw",
+                    fontSize: "10px",
                     mb: "1vh",
                     boxShadow: 4,
                   }}
@@ -353,13 +362,14 @@ export default function Users() {
                 id={(row: any) => row.Id}
                 columns={columns}
                 rows={rows}
+
               />
             </CardContent>
           </Card>
         </Box>
         {newDialogOpen ? (
           <NewDialog
-            newDialogOpen={newDialogOpen}
+            newDialogOpen={true}
             handleNewDialogClose={handleNewDialogClose}
           />
         ) : null}
@@ -413,7 +423,9 @@ export const imprimirSolicitud = (datos: any) => {
     "Extension": datos?.Extension,
     "Celular": datos?.Celular,
     "Tipo": datos?.TpoUsuario,
-    "Plataforma": datos?.AccesoApp
+    "Plataforma": datos?.AccesoApp,
+    "Puesto": datos?.Puesto,
+    "Estado": datos?.Estatus === 0 ? "PENDIENTE" : datos?.Estatus === 1 ? "ACEPTADA" : datos?.Estatus === 2 ? "RECHAZADA" : datos?.Estatus === 3 ? "SE SOLICITO MODIFICACIÓN" : "SE DESCONOCE",
   })
   let dataArray = new FormData();
   dataArray.append("data", JSON.stringify(objeto))
@@ -442,6 +454,5 @@ export const imprimirSolicitud = (datos: any) => {
       link.click();
     })
     .catch((r) => {
-      console.log("Error");
     });
 }

@@ -12,6 +12,7 @@ import {
   Button,
   Card,
   CardContent,
+  Grid,
   IconButton,
   Tooltip,
   Typography,
@@ -37,7 +38,7 @@ export interface AppInterface {
 //componente de sweetalert2 para el uso de los mensajes de alertas
 const Toast = Swal.mixin({
   toast: true,
-  position: "top-end",
+  position: "bottom-end",
   showConfirmButton: false,
   timer: 2000,
   timerProgressBar: false,
@@ -93,6 +94,13 @@ export default function CatApps() {
       hideable: false,
       headerAlign: "center",
     },
+    {
+      field: "Descripcion",
+      headerName: "Descripción",
+      width: 600,
+      hideable: false,
+      headerAlign: "center",
+    },
     // Tercer columna donde se mostrara el path
     {
       field: "Path",
@@ -108,14 +116,7 @@ export default function CatApps() {
       width: 100,
       headerAlign: "center",
     },
-    // // quinta columna deleted
-    // {
-    //   field: "Deleted",
-    //   headerName: "Eliminada",
-    //   width: 100,
-    //   headerAlign: "center",
-    //   //hide: true,
-    // },
+
   ];
   const [rows, setRows] = useState([]);
 
@@ -172,7 +173,7 @@ export default function CatApps() {
         const data = { IdApp: cellValues.row.Id };
         axios({
           method: "delete",
-          url: process.env.REACT_APP_APPLICATION_DEV +`/api/app`,
+          url: process.env.REACT_APP_APPLICATION_DEV + `/api/app`,
           headers: {
             "Content-Type": "application/json",
             Authorization: localStorage.getItem("jwtToken") || "",
@@ -197,7 +198,7 @@ export default function CatApps() {
       }
     });
   };
-  
+
   // aqui es el consumo del endpoint para obtener el listado de app de la base de datos
   const getAllApps = () => {
     axios({
@@ -225,8 +226,7 @@ export default function CatApps() {
         Swal.fire({
           icon: "error",
           title: "Mensaje",
-          text:
-            "(" + error.response.status + ") " + error.response.data.message,
+          text: "(" + error.response.status + ") " + error.response.data.message,
         }).then((r) => navigate("/config"));
       });
   };
@@ -234,7 +234,7 @@ export default function CatApps() {
   // esto es solo para que se ejecute la rutina de obtieneaplicaciones cuando cargue la pagina
   useEffect(() => {
     getAllApps();
-  },[]);
+  }, []);
 
   return (
     <>
@@ -243,10 +243,10 @@ export default function CatApps() {
       <Box>
         <Header />
       </Box>
-      <Box sx={{display:"flex",justifyContent:"flex-end"}}>
+      <Box >
         <TimerCounter />
       </Box>
-      
+
       {/* esta configuracion es del box que va a contener el card principal*/}
       <Box
         sx={{
@@ -264,10 +264,9 @@ export default function CatApps() {
             <Typography
               sx={{ fontFamily: "MontserratSemiBold", fontSize: "1.5vw" }}
             >
-              <AppsIcon sx={{width: '3vw', height: '3vw'}}/>
+              <AppsIcon fontSize="large" />
             </Typography>
-            <Typography
-              sx={{ fontFamily: "MontserratMedium", fontSize: "1vw" }}
+            <Typography className="h5"
             >
               Catálogo de aplicaciones registradas.
             </Typography>
@@ -275,23 +274,23 @@ export default function CatApps() {
           {/* aqui es el contenido del card,y ponemos primero un box y estamos dibujando el boton para agregar un nuevo registro */}
           <CardContent>
             {/* boton a la derecha para agregar una aplicacion nueva */}
-            <Box display="flex" justifyContent="flex-end">
+            <Grid container item justifyContent="flex-end">
               <Button
+                className="aceptar"
                 variant="text"
                 onClick={(event) => handleNewBtnClick(event)}
                 sx={{
                   fontFamily: "MontserratBold",
                   backgroundColor: "#DFA94F",
                   color: "#000001",
-                  fontSize: ".6vw",
-                  mb: "1vh",
+                  fontSize: "10px",
                   boxShadow: 4,
                 }}
                 startIcon={<AddIcon />}
               >
                 registrar aplicación
               </Button>
-            </Box>
+            </Grid>
             {/* Grid del listado,aqui se asigna el id unico que tiene que tener cada renglon, asi que asignamos el campo ID que se obtiene del endpoint */}
             <MUIXDataGridApp
               id={(row: any) => row.Id}
@@ -314,7 +313,7 @@ export default function CatApps() {
           app={editDialogApp}
         />
       ) : null}
-      
+
     </>
   );
 }

@@ -128,10 +128,10 @@ export const NewDialogApp = (props: NewDialogProps) => {
       </DialogContent>
 
       <DialogActions>
-        <Button color="error" onClick={() => props.handleNewDialogClose()}>
+        <Button className="cancelar" onClick={() => props.handleNewDialogClose()}>
           Cancelar
         </Button>
-        <Button onClick={() => handleStoreBtn()}>Crear</Button>
+        <Button className="aceptar" onClick={() => handleStoreBtn()}>Crear</Button>
       </DialogActions>
     </Dialog>
   );

@@ -1,0 +1,492 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&display=swap');
+
+.approvedCell {
+  color: rgb(0, 0, 0);
+}
+
+.cellClassName.super-app-theme--cell {
+  color: '#1a3e72',
+}
+
+.cellClassName.super-app.negative {
+  color: "rgb(182, 60, 60)",
+}
+
+.cellClassName.super-app.positive {
+  color: '#000000',
+}
+
+.ContainerSliderProgress {
+  background: #ffffff00;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  position: relative;
+  cursor: wait;
+}
+
+.containerCenter {
+  display: flex;
+  position: fixed;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-content: center;
+  /* background: #793434; */
+  overflow: scroll;
+  width: 100%;
+  height: 100%;
+
+  /* padding-top: 56.25%; 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+}
+
+.ContainerMUIXDataGridCatalogos {
+  position: relative;
+  align-items: center;
+  align-content: center;
+  /* background: #793434; */
+  width: 99vw;
+  height: 100%;
+
+}
+
+.container {
+  position: fixed;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  /* padding-top: 56.25%; 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+}
+
+/* Then style the iframe to fit in the container div with full height and width */
+
+img {
+  width: 200px;
+  height: 200px;
+  cursor: pointer;
+  object-fit: "scale-down";
+  /* border-radius: 40px 40px 40px 40px; */
+  /* border-radius: 40px; */
+
+}
+
+h1 {
+  font-family: sans-serif;
+  color: rgb(21, 33, 47);
+
+}
+
+h2 {
+  font-family: sans-serif;
+  color: rgb(21, 33, 47);
+
+}
+
+h4 {
+  font-family: sans-serif;
+  color: rgb(21, 33, 47);
+}
+
+h4.TituloContainerSolicitudesUsuario {
+  font-family: sans-serif;
+  color: rgb(21, 33, 47);
+  text-align: center;
+}
+
+h3 {
+  font-family: sans-serif;
+  color: rgb(21, 33, 47);
+}
+
+h6 {
+  font-family: sans-serif;
+  /* font-weight: bold; */
+  color: rgb(21, 33, 47);
+  margin-right: 2rem;
+  /* mr: "2rem" */
+}
+
+h5 {
+  font-family: sans-serif;
+  font-weight: bold;
+  color: rgb(21, 33, 47);
+  margin-right: 2rem;
+  margin-right: 2rem;
+}
+
+
+label.TypographyH6Gray {
+  font-family: sans-serif;
+  font-weight: bold;
+  color: rgb(129, 129, 129);
+  margin-right: 2rem;
+  /* mr: "2rem" */
+}
+
+label.TypographyH6Black {
+  font-family: sans-serif;
+  font-weight: bold;
+  color: rgb(7, 7, 7);
+  margin-right: 2rem;
+  /* mr: "2rem" */
+}
+
+label.nombre-archivo {
+  font-family: sans-serif;
+  font-weight: bold;
+  color: rgb(85, 83, 83);
+  font-size: 14px;
+  /* margin-right:1rem; */
+  /* mr: "2rem" */
+}
+
+label.textoNormal {
+  font-family: 'Montserrat', sans-serif;
+  /* font-weight: bold; */
+  color: rgb(21, 33, 47);
+  font-size: 13px;
+  /* margin-right:1rem; */
+  /* mr: "2rem" */
+}
+
+label.textoGridSolicitudes {
+  font-family: 'MMontserratSemiBold', sans-serif;
+  /* font-weight: bold; */
+  color: rgb(21, 33, 47);
+  font-size: 15px;
+  /* margin-right:1rem; */
+  /* mr: "2rem" */
+}
+
+
+.menu-Typography {
+
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 33px;
+  color: rgb(21, 33, 47);
+}
+
+
+label.Typography {
+  font-family: sans-serif;
+  font-weight: bold;
+  color: rgb(21, 33, 47);
+  margin-right: 2rem;
+  /* mr: "2rem" */
+}
+
+.TextField.FieldTextGridSolicitudes {
+  /* : sans-serif; */
+  font-weight: bold;
+  color: rgb(7, 7, 7);
+  margin-right: 2rem;
+  /* mr: "2rem" */
+  font-family: "MontserratSemiBold";
+  font-size: 350px;
+  width: "32.5%";
+}
+
+
+Button.iconos-header:hover {
+  background-color: rgb(175, 140, 85);
+
+}
+
+button.cerrar {
+  color: #ffffff;
+  border-radius: 11px;
+  border-top-left-radius: 0px;
+  border-bottom-right-radius: 0%;
+
+}
+
+
+button.registrar-usuario {
+
+  font-family: 'Montserrat', sans-serif;
+  background-color: rgb(175, 140, 85);
+  color: rgb(255, 255, 255);
+  font-size: 15px;
+
+}
+
+button.registrar-usuario:hover {
+
+  font-family: 'Montserrat', sans-serif;
+  background-color: rgb(175, 140, 85);
+  color: rgb(21, 33, 47);
+  font-size: 15px;
+
+}
+
+button.registrar-app {
+
+  font-family: 'Montserrat', sans-serif;
+  background-color: rgb(175, 140, 85);
+  color: rgb(21, 33, 47);
+  font-size: 12px;
+
+}
+
+
+
+button.cancelarAppLogin {
+
+  font-family: 'Montserrat', sans-serif;
+  background-color: rgb(175, 140, 85);
+  color: #fff;
+  font-size: 15px;
+
+}
+
+button.cancelarAppLogin:hover {
+
+  font-family: 'Montserrat', sans-serif;
+  background-color: rgba(175, 140, 85, 0.6);
+  color: #000;
+  font-size: 15px;
+
+}
+
+button.AceptarAppLogin {
+
+  font-family: 'Montserrat', sans-serif;
+  background-color: #15212f;
+  color: #fff;
+  font-size: 14px;
+
+}
+
+button.AceptarAppLogin:hover {
+
+  font-family: 'Montserrat', sans-serif;
+  background-color: rgba(47, 47, 47, 0.2);
+  color: #000;
+  font-size: 14px;
+
+}
+
+button.aceptar {
+
+  font-family: 'Montserrat', sans-serif;
+  background-color: #15212f;
+  color: #fff;
+  font-size: 14px;
+
+
+}
+
+button.aceptar:hover {
+  font-family: 'Montserrat', sans-serif;
+  background-color: rgba(47, 47, 47, 0.2);
+  color: #000;
+  font-size: 14px;
+}
+
+button.cancelar {
+
+  font-family: 'Montserrat', sans-serif;
+  background-color: rgb(175, 140, 85);
+  color: #fff;
+  font-size: 14px;
+
+}
+
+button.cancelar:hover {
+
+  font-family: 'Montserrat', sans-serif;
+  background-color: rgba(175, 140, 85, 0.6);
+  color: #000;
+  font-size: 14px;
+
+}
+
+button.Solicitudes-cancelar-usuario {
+
+  font-family: 'Montserrat', sans-serif;
+  background-color: rgb(21, 33, 47);
+  color: #ffffff;
+  font-size: 12px;
+
+}
+
+button.Solicitudes-cancelar-usuario:hover {
+
+  font-family: 'Montserrat', sans-serif;
+  background-color: rgba(21, 33, 47, 0.854);
+  color: rgb(255, 255, 255);
+  font-size: 12px;
+
+}
+
+button.BotonColorPrimario {
+
+  font-family: 'Montserrat', sans-serif;
+  background-color: rgba(176, 140, 85, 0.892);
+  color: rgb(21, 33, 47);
+  font-size: 12px;
+
+}
+
+
+.box {
+  width: 100%;
+  height: 10%;
+  font-size: 10vh;
+}
+
+div.div-Solicitudes {
+  overflow: "hidden";
+  /* background:red; */
+  height: 78%;
+  width: 100%;
+}
+
+div.div-VerSolicitudes {
+  padding-top: 10px;
+  overflow: "hidden";
+  height: 100%;
+  width: 100%;
+}
+
+div.div-VerSolicitudesPrincipal {
+  overflow: "hidden";
+  /* background:red; */
+  height: 100%;
+  width: 100%;
+}
+
+div.FooterLogin {
+  width: 100%;
+  height: 5%;
+  position: absolute;
+  /* top:  50px; */
+  /* left: 50px; */
+  bottom: 0%;
+  padding-bottom: 0%;
+  background-color: #f3f6f9;
+  font-family: "MontserratSemiBold2";
+  color: #808080;
+  justify-content: center;
+
+}
+
+div.ContentLogin {
+  width: 100%;
+  height: 95%;
+  position: absolute;
+  top: 0%;
+  /* left: 50px; */
+  padding-top: 0%;
+  bottom: 0%;
+  color: #fff;
+  background-color: #fff;
+  font-family: "MontserratSemiBold2";
+  justify-content: center;
+
+}
+
+div.logoLogin {
+  width: 100%;
+  height: 100px;
+  /* position: absolute; */
+  top: 0%;
+  /* left: 50px; */
+  padding-top: 10px;
+  bottom: 0%;
+  color: #fff;
+  background-color: #fff;
+  font-family: "MontserratSemiBold2";
+  justify-content: center;
+
+}
+
+div.ApssLoginElementos {
+  padding-top: 40px;
+  width: 100%;
+  /* position: absolute; */
+  top: 0%;
+  /* left: 50px; */
+  color: #fff;
+  background-color: #EEEEEE;
+  font-family: "MontserratSemiBold2";
+
+}
+
+
+div.GridAplicacionesAccesoPadre {
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: #808080;
+
+  /* background-color:rgba(175, 140, 85, 0.04); */
+
+}
+
+div.GridAplicacionesAccesoPadre:hover {
+  cursor: pointer;
+  border-radius: 0px;
+
+  /* background-color:rgb(252, 254, 246); */
+}
+
+div.GridAplicacionesAcceso {
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: #808080;
+  /* background-color:rgba(175, 140, 85, 0.04); */
+
+}
+
+div.GridAplicacionesAcceso:hover {
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 0px 0px 6px #2e2a2a;
+  /* background-color:rgb(252, 254, 246); */
+}
+
+h5.LoginBienvenidoTitulo {
+
+  font-family: 'Montserrat', sans-serif;
+  font-size: 25px;
+  color: rgb(21, 33, 47);
+  text-align: center;
+  font-weight: bold
+}
+
+
+h5.LoginBienvenidoContenido {
+
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  color: rgb(21, 33, 47);
+  text-align: center;
+  font-weight: 500;
+
+
+
+}
+
+h5.NombreApp {
+
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  color: rgb(21, 33, 47);
+  text-align: center;
+  font-weight: 800;
+}
+
+h5.DescripcionApp {
+  padding-top: 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  color: rgb(21, 33, 47);
+  text-align: justify;
+  font-weight: 500;
+
+
+
+}
