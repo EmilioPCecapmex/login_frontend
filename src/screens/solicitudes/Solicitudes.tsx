@@ -36,7 +36,6 @@ import { IApps } from "./IApps";
 import InfoTwoToneIcon from "@mui/icons-material/InfoTwoTone";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import CommentIcon from "@mui/icons-material/Comment";
 import { CommentsDialog } from "../../components/commentsDialog";
 import CircularProgress from '@mui/material/CircularProgress';
 import moment from 'moment';
@@ -46,6 +45,7 @@ import { COLOR } from "../styles/colors";
 import VerSolicitudesModal from "./VerSolicitudesModal";
 import CloseIcon from '@mui/icons-material/Close';
 export const Solicitudes = () => {
+
   const [solicitudes, setSolicitudes] = useState<Array<ISolicitud>>([]);
 
   const [solicitudesFiltered, setSolicitudesFiltered] =
@@ -54,29 +54,40 @@ export const Solicitudes = () => {
   const [detalleSolicitud, setDetalleSolicitud] = useState<
     Array<IDetalleSolicitud>
   >([{
-    Respuesta: "",
-    Mensaje: "",
-    Id: "",
-    Nombre: "",
-    ApellidoPaterno: "",
     ApellidoMaterno: "",
-    NombreUsuario: "",
-    CorreoElectronico: "",
-    Puesto: "",
-    Curp: "",
-    Rfc: "",
-    Telefono: "",
-    Ext: "",
-    Celular: "",
-    IdTipoUsuario: "",
-    EstaActivo: 0,
-    Deleted: 0,
-    FechaDeCreacion: "",
-    CreadoPor: "",
-    Estatus: 0,
-    DatosAdicionales: "",
-    NombreApp: "",
-    NombreSolicitante: "",
+  ApellidoPaterno: "",
+  Celular: "",
+  CorreoElectronico: "",
+  CreadoPor: "",
+  Curp: "",
+  DatosAdicionales: "",
+  Departamento: "",
+  Dependencia: "",
+  Estatus: 0,
+  Ext: "",
+  FechaDeCreacion: "",
+  Id: "",
+  IdDepartamento: "",
+  IdDependencia: "",
+  IdPerfil: "",
+  IdRol: "",
+  IdTipoUsuario: "",
+  IdUResponsable: "",
+  Mensaje: "",
+  Nombre: "",
+  NombreApp: "",
+  NombreSolicitante: "",
+  NombreUsuario: "",
+  Perfil: "",
+  PuedeFirmar: 0,
+  Puesto: "",
+  Respuesta: "",
+  Rfc: "",
+  Rol: "",
+  Telefono: "",
+  TpoUsuario: "",
+  UResponsable: "",
+  Secretaria:""
   }]);
 
   const [detalleUsuario, setDetalleUsuario] = useState
@@ -337,6 +348,11 @@ export const Solicitudes = () => {
 
   const [adminPlataforma, setAdminPlataforma] = useState(false);
   const [puedeFirmar, setPuedeFirmar] = useState(false);
+
+  useEffect(() => {
+    setPuedeFirmar(detalleSolicitud[0].PuedeFirmar===1)
+  }, [detalleSolicitud])
+  
   const [comentCount, setComentCount] = useState(0);
   /////////////////////// modal de Ver Solicitudes
   const [openVerSolicitudesModal, setOpenVerSolicitudesModal] = useState(false);
@@ -770,7 +786,7 @@ export const Solicitudes = () => {
                             ) :
                             (solicitudesFiltered[selectedIndex]?.NombreUsuario === (detalleSolicitud[0].Nombre + " " + detalleSolicitud[0].ApellidoPaterno)) ?
 
-                              <Grid container rowSpacing={3} justifyContent="space-between">
+                              <Grid container rowSpacing={2} justifyContent="space-between">
 
                                 <VerSolicitudesModal
                                   detalleSolicitud={detalleSolicitud}
@@ -780,34 +796,34 @@ export const Solicitudes = () => {
                                   solicitudSeleccionada={solicitudSeleccionada} />
 
                                 <Grid item container xs={12} direction="row"
-                                  justifyContent="space-between"
-                                  alignItems="center"   >
+                                  justifyContent="space-evenly"
+                                  alignItems="flex-end"   >
 
 
                                   {/* {solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() === "ALTA" || solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() === "MODIFICACION" ?
                                     <> */}
-                                  <Grid item container xs={6} sm={4} md={3} justifyContent="center">
+                                  {/* <Grid item container xs={6} sm={4} md={3} justifyContent="center"> */}
 
                                     <FormControlLabel control={<Checkbox
                                       disabled={solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "ALTA" && solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "MODIFICACION"}
 
                                       checked={puedeFirmar} onChange={() => { setPuedeFirmar(!puedeFirmar) }} />} label="Permiso para firmar" />
-                                  </Grid>
-                                  <Grid item container xs={6} sm={4} md={3} justifyContent="center">
+                                  {/* </Grid> */}
+                                  {/* <Grid item container xs={6} sm={4} md={3} justifyContent="center">
 
                                     <FormControlLabel control={<Checkbox
                                       disabled={solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "ALTA" && solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "MODIFICACION"}
 
                                       checked={adminPlataforma} onChange={() => { setAdminPlataforma(!adminPlataforma) }} />} label="Admin. de plataforma" />
-                                  </Grid>
+                                  </Grid> */}
 
 
-                                  <Grid item container xs={12} sm={4} md={3} justifyContent="center">
+                                  {/* <Grid item container xs={12} sm={4} md={3} justifyContent="center">
                                     <Button
                                       disabled={solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "ALTA" && solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "MODIFICACION"}
 
                                       className="aceptar" color="primary" variant="contained" onClick={() => { setOpenDialogModificar(true); }}>Solicitar modificar</Button>
-                                  </Grid>
+                                  </Grid> */}
                                   {/* </>
                                     :
                                     null} */}
@@ -970,8 +986,8 @@ export const Solicitudes = () => {
                                 solicitudSeleccionada={solicitudSeleccionada} />
 
                               <Grid item container xs={12} direction="row"
-                                justifyContent="space-between"
-                                alignItems="center"   >
+                                justifyContent="space-evenly"
+                                alignItems="flex-end"   >
 
 
                                 {/* {solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() === "ALTA" || solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() === "MODIFICACION" ?
@@ -983,19 +999,19 @@ export const Solicitudes = () => {
 
                                     checked={puedeFirmar} onChange={() => { setPuedeFirmar(!puedeFirmar) }} />} label="Permiso para firmar" />
                                 </Grid>
-                                <Grid item container xs={6} md={3} justifyContent="center">
+                                {/* <Grid item container xs={6} md={3} justifyContent="center">
 
                                   <FormControlLabel control={<Checkbox
                                     disabled={solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "ALTA" && solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "MODIFICACION"}
                                     checked={adminPlataforma} onChange={() => { setAdminPlataforma(!adminPlataforma) }} />} label="Admin. de plataforma" />
-                                </Grid>
+                                </Grid> */}
 
 
-                                <Grid item container xs={12} md={4} justifyContent="center">
+                                {/* <Grid item container xs={12} md={4} justifyContent="center">
                                   <Button
                                     disabled={solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "ALTA" && solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() !== "MODIFICACION"}
                                     className="aceptar" variant="contained"  onClick={() => { setOpenDialogModificar(true); }}>Solicitar modificar</Button>
-                                </Grid>
+                                </Grid> */}
                                 {/* </>
                                   :
                                   null} */}

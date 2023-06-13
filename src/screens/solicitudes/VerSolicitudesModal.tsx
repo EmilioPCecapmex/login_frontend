@@ -179,7 +179,7 @@ import { CommentsDialog } from '../../components/commentsDialog';
                     />
                 </Grid>
 
-                <Grid item xs={12} sm={5.8} md={5.8} >
+                <Grid item xs={12} sm={5.8} md={5.8}  lg={3.8}>
                     <label className="textoGridSolicitudes">
                         USUARIO
                     </label>
@@ -196,7 +196,7 @@ import { CommentsDialog } from '../../components/commentsDialog';
                         helperText={onChangeInfo.NombreUsuario ? detalleUsuario.NombreUsuario : null}
                     />
                 </Grid>
-                <Grid item xs={12} sm={9} md={5.8}  >
+                <Grid item xs={12} sm={5.8} md={5.8}   lg={3.8}  >
                     <label className="textoGridSolicitudes">
                         CORREO ELECTRÓNICO
                     </label>
@@ -213,23 +213,7 @@ import { CommentsDialog } from '../../components/commentsDialog';
                         helperText={onChangeInfo.CorreoElectronico ? detalleUsuario.CorreoElectronico : null}
                     />
                 </Grid>
-                <Grid item xs={12} sm={5.8} md={5.8} lg={3.8} >
-                    <label className="textoGridSolicitudes">
-                        CELULAR
-                    </label>
-                    <TextField
-                        fullWidth
-                        InputProps={{ readOnly: true }}
-                        sx={{
-                            fontFamily: "MontserratSemiBold",
-                            fontSize: "1.5vw",
-                            backgroundColor: onChangeInfo.Celular ? "#fde6a2" : null,
-                        }}
-                        value={detalleSolicitud[0]?.Celular || ""}
-                        variant="standard"
-                        helperText={onChangeInfo.Celular ? detalleUsuario.Celular : null}
-                    />
-                </Grid>
+                
                 <Grid item xs={12} sm={5.8} md={5.8} lg={3.8} >
                     <label className="textoGridSolicitudes">
                         PUESTO
@@ -247,6 +231,58 @@ import { CommentsDialog } from '../../components/commentsDialog';
                         helperText={onChangeInfo.Puesto ? detalleUsuario.Puesto : null}
                     />
 
+                </Grid>
+               
+                <Grid item xs={12} sm={5.8} md={5.8} lg={3.8} >
+                    <label className="textoGridSolicitudes">
+                        CELULAR
+                    </label>
+                    <TextField
+                        fullWidth
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                            fontFamily: "MontserratSemiBold",
+                            fontSize: "1.5vw",
+                            backgroundColor: onChangeInfo.Celular ? "#fde6a2" : null,
+                        }}
+                        value={detalleSolicitud[0]?.Celular || ""}
+                        variant="standard"
+                        helperText={onChangeInfo.Celular ? detalleUsuario.Celular : null}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={5.8} md={5.8} lg={3.8}>
+                    <label className="textoGridSolicitudes">
+                        TÉLEFONO
+                    </label>
+                    <TextField
+                        fullWidth
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                            fontFamily: "MontserratSemiBold",
+                            fontSize: "1.5vw",
+                            backgroundColor: onChangeInfo.Telefono ? "#fde6a2" : null,
+                        }}
+                        value={detalleSolicitud[0]?.Telefono || ""}
+                        variant="standard"
+                        helperText={onChangeInfo.Telefono ? detalleUsuario.Telefono : null}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={5.8} md={5.8} lg={3.8}>
+                    <label className="textoGridSolicitudes">
+                        EXTENSIÓN
+                    </label>
+                    <TextField
+                        fullWidth
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                            fontFamily: "MontserratSemiBold",
+                            fontSize: "1.5vw",
+                            backgroundColor: onChangeInfo.Ext ? "#fde6a2" : null,
+                        }}
+                        value={detalleSolicitud[0]?.Ext || ""}
+                        variant="standard"
+                        helperText={onChangeInfo.Ext ? detalleUsuario.Ext : null}
+                    />
                 </Grid>
                 <Grid item xs={12} sm={5.8} md={5.8} lg={3.8}>
                     <label className="textoGridSolicitudes">
@@ -284,24 +320,7 @@ import { CommentsDialog } from '../../components/commentsDialog';
                 </Grid>
                 <Grid item xs={12} sm={5.8} md={5.8} lg={3.8}>
                     <label className="textoGridSolicitudes">
-                        TÉLEFONO
-                    </label>
-                    <TextField
-                        fullWidth
-                        InputProps={{ readOnly: true }}
-                        sx={{
-                            fontFamily: "MontserratSemiBold",
-                            fontSize: "1.5vw",
-                            backgroundColor: onChangeInfo.Telefono ? "#fde6a2" : null,
-                        }}
-                        value={detalleSolicitud[0]?.Telefono || ""}
-                        variant="standard"
-                        helperText={onChangeInfo.Telefono ? detalleUsuario.Telefono : null}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={5.8} md={5.8} lg={3.8}>
-                    <label className="textoGridSolicitudes">
-                        EXTENSIÓN
+                    TpoUsuario
                     </label>
                     <TextField
                         fullWidth
@@ -311,11 +330,114 @@ import { CommentsDialog } from '../../components/commentsDialog';
                             fontSize: "1.5vw",
                             backgroundColor: onChangeInfo.Ext ? "#fde6a2" : null,
                         }}
-                        value={detalleSolicitud[0]?.Ext || ""}
+                        value={detalleSolicitud[0]?.TpoUsuario || ""}
                         variant="standard"
                         helperText={onChangeInfo.Ext ? detalleUsuario.Ext : null}
                     />
                 </Grid>
+                <Grid item xs={12} sm={5.8} md={5.8} lg={3.8}>
+                    <label className="textoGridSolicitudes">
+                    Secretaria
+                    </label>
+                    <TextField
+                        fullWidth
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                            fontFamily: "MontserratSemiBold",
+                            fontSize: "1.5vw",
+                            backgroundColor: onChangeInfo.Ext ? "#fde6a2" : null,
+                        }}
+                        value={detalleSolicitud[0]?.Secretaria || ""}
+                        variant="standard"
+                        helperText={onChangeInfo.Ext ? detalleUsuario.Ext : null}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={5.8} md={5.8} lg={3.8}>
+                    <label className="textoGridSolicitudes">
+                    Dependencia
+                    </label>
+                    <TextField
+                        fullWidth
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                            fontFamily: "MontserratSemiBold",
+                            fontSize: "1.5vw",
+                            backgroundColor: onChangeInfo.Ext ? "#fde6a2" : null,
+                        }}
+                        value={detalleSolicitud[0]?.Dependencia || ""}
+                        variant="standard"
+                        helperText={onChangeInfo.Ext ? detalleUsuario.Ext : null}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={5.8} md={5.8} lg={3.8}>
+                    <label className="textoGridSolicitudes">
+                    Departamento
+                    </label>
+                    <TextField
+                        fullWidth
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                            fontFamily: "MontserratSemiBold",
+                            fontSize: "1.5vw",
+                            backgroundColor: onChangeInfo.Ext ? "#fde6a2" : null,
+                        }}
+                        value={detalleSolicitud[0]?.Departamento || ""}
+                        variant="standard"
+                        helperText={onChangeInfo.Ext ? detalleUsuario.Ext : null}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={5.8} md={5.8} lg={3.8}>
+                    <label className="textoGridSolicitudes">
+                    Rol
+                    </label>
+                    <TextField
+                        fullWidth
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                            fontFamily: "MontserratSemiBold",
+                            fontSize: "1.5vw",
+                            backgroundColor: onChangeInfo.Ext ? "#fde6a2" : null,
+                        }}
+                        value={detalleSolicitud[0]?.Rol || ""}
+                        variant="standard"
+                        helperText={onChangeInfo.Ext ? detalleUsuario.Ext : null}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={5.8} md={5.8} lg={3.8}>
+                    <label className="textoGridSolicitudes">
+                        Perfil
+                    </label>
+                    <TextField
+                        fullWidth
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                            fontFamily: "MontserratSemiBold",
+                            fontSize: "1.5vw",
+                            backgroundColor: onChangeInfo.Ext ? "#fde6a2" : null,
+                        }}
+                        value={detalleSolicitud[0]?.Perfil || ""}
+                        variant="standard"
+                        helperText={onChangeInfo.Ext ? detalleUsuario.Ext : null}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={5.8} md={5.8} lg={3.8}>
+                    <label className="textoGridSolicitudes">
+                    Unidad responsable
+                    </label>
+                    <TextField
+                        fullWidth
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                            fontFamily: "MontserratSemiBold",
+                            fontSize: "1.5vw",
+                            backgroundColor: onChangeInfo.Ext ? "#fde6a2" : null,
+                        }}
+                        value={detalleSolicitud[0]?.UResponsable || ""}
+                        variant="standard"
+                        helperText={onChangeInfo.Ext ? detalleUsuario.Ext : null}
+                    />
+                </Grid>
+
 
 {/* 
                 <Grid item xs={12} >
