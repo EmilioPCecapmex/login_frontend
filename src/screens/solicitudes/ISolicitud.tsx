@@ -20,30 +20,42 @@ export interface ISolicitud{
 
 
 export interface IDetalleSolicitud {
-        Respuesta:         string;
-        Mensaje:           string;
-        Id:                string;
-        Nombre:            string;
-        ApellidoPaterno:   string;
-        ApellidoMaterno:   string;
-        NombreUsuario:     string;
+        ApellidoMaterno: string;
+        ApellidoPaterno: string;
+        Celular: string;
         CorreoElectronico: string;
-        Puesto:string;
-        Curp:              string;
-        Rfc:               string;
-        Telefono:          string;
-        Ext:               string;
-        Celular:           string;
-        IdTipoUsuario:     string;
-        EstaActivo:        number;
-        Deleted:           number;
-        FechaDeCreacion:   string;
-        CreadoPor:         string;
-        Estatus:           number;
-        DatosAdicionales:  string;
-        NombreApp:      string;
+        CreadoPor: string;
+        Curp: string;
+        DatosAdicionales: string;
+        Departamento: string;
+        Dependencia: string;
+        Estatus: number;
+        Ext: string;
+        FechaDeCreacion: string;
+        Id: string;
+        IdDepartamento: string;
+        IdDependencia: string;
+        IdPerfil: string;
+        IdRol: string;
+        IdTipoUsuario: string;
+        IdUResponsable: string;
+        Mensaje: string;
+        Nombre: string;
+        NombreApp: string;
         NombreSolicitante: string;
+        NombreUsuario: string;
+        Perfil: string;
+        PuedeFirmar: number;
+        Puesto: string;
+        Respuesta: string;
+        Rfc: string;
+        Rol: string;
+        Telefono: string;
+        TpoUsuario: string;
+        UResponsable: string;
+        Secretaria:string
 }
+
 
 export interface iOnChangeInfo{
         Nombre: boolean,
