@@ -1,6 +1,5 @@
 import {
   Badge,
-  Box,
   Grid,
   Hidden,
   IconButton,

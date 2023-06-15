@@ -30,27 +30,30 @@ export const NewDialog = (props: NewDialogProps) => {
       }
     >
       <div className="ContainerSolicitudesUsuario">
-        <Grid container item xs={12} justifyContent={"space-between"} paddingRight={1}paddingTop={1}>
-          <Grid item xs={11} justifyContent={"center"}>
-               <Typography variant="h4" className="TituloContainerSolicitudesUsuario">
-                Registro de Usuario
+        <Grid container item xs={12} justifyContent={"space-between"} paddingRight={1} paddingTop={1} paddingBottom={1} bgcolor={"#af8c55"}>
+          <Grid container item xs={1} justifyContent={"flex-end"}> 
+
+          </Grid>
+          <Grid item xs={10} justifyContent={"center"}>
+            <Typography variant="h4" className="TituloContainerSolicitudesUsuario" style={{color:'white'}}>
+              Registro de Usuario
 
             </Typography>
-            </Grid>
+          </Grid>
           <Grid container item xs={1} justifyContent={"flex-end"}>
 
-          <IconButton
-            aria-label="close"
-            onClick={() => props.handleNewDialogClose()}
-            sx={{
-              color: (theme) => theme.palette.grey[500],
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
+            <IconButton
+              aria-label="close"
+              onClick={() => props.handleNewDialogClose()}
+              sx={{
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
           </Grid>
         </Grid>
-        <SolicitudUsuarios modoModal={false} token={""} idUsuarioSolicitante={""} idApp={""}   />
+        <SolicitudUsuarios modoModal={false} token={""} idUsuarioSolicitante={""} idApp={""} />
 
       </div>
     </Dialog>
