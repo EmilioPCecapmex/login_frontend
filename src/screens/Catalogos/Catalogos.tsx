@@ -19,6 +19,8 @@ const Catalogos = () => {
   const [uResponsable, setUResponsable] = useState([]);
   const [departamentos, setDepartamentos] = useState([]);
   const [perfiles, setPerfiles] = useState([]);
+  const [dependencias, setDependencias] = useState([]);
+  const [tpoDependencias, setTpoDependencias] = useState([]);
   ////////////// ocuplat columnas
   const [HideClave, setHideClave] = useState(true);
   const [HideNombre, setHideNombre] = useState(true);
@@ -50,6 +52,7 @@ const Catalogos = () => {
     IdTipoDependencia: "",
     IdPerfil: "",
     Referencia: "",
+    
   });
 
   const columns = [
@@ -161,7 +164,9 @@ const Catalogos = () => {
         var NombreCorto = 0;
         var ControlInterno = 0;
         var Referencia = 0;
-
+        console.log('user',user);
+        console.log(user[0].Nombre?true:false);
+        
         user?.map((data) => {
           if (data?.Clave) {
             clave++;
@@ -217,6 +222,12 @@ const Catalogos = () => {
         if (catalogo === "5" && opcion === "catalogos") {
           setPerfiles(res.data.data);
         }
+        if (catalogo === "6" && opcion === "catalogos") {
+          setDependencias(res.data.data);
+        }
+        if (catalogo === "7" && opcion === "catalogos") {
+          setTpoDependencias(res.data.data);
+        }
         setOpenSlider(false);
       }
     });
@@ -240,6 +251,8 @@ const Catalogos = () => {
               <Tab label="Departamentos" value="3" />
               <Tab label="Roles" value="4" />
               <Tab label="Perfiles" value="5" />
+              <Tab label="Dependencias" value="6" />
+              <Tab label="Tipo Dependencias" value="7" />
             </TabList>
           </Box>
           <Grid item xs={12} paddingLeft={1}>
@@ -268,6 +281,16 @@ const Catalogos = () => {
           <TabPanel value="5">
             <Grid item xs={12} className="ContainerMUIXDataGridCatalogos">
               <MUIXDataGrid columns={columns} rows={perfiles} />
+            </Grid>
+          </TabPanel>
+          <TabPanel value="6">
+            <Grid item xs={12} className="ContainerMUIXDataGridCatalogos">
+              <MUIXDataGrid columns={columns} rows={dependencias} />
+            </Grid>
+          </TabPanel>
+          <TabPanel value="7">
+            <Grid item xs={12} className="ContainerMUIXDataGridCatalogos">
+              <MUIXDataGrid columns={columns} rows={tpoDependencias} />
             </Grid>
           </TabPanel>
         </TabContext>
