@@ -1,13 +1,17 @@
 import {
+  Autocomplete,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  Grid,
   TextField,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import { getCatalogo, modificarCatalogo } from "../../services/catalogosService";
+import { IDepartamento, IDependencia, IPerfil, IRol, ISecretaria, ITpoDependencia, IUResponsable, IUsuarios } from "../../screens/SolicitudDeUsuarios/ICatalogos";
 
 export interface IModify {
   IdSecretaria: string;
@@ -71,7 +75,7 @@ export const Edit = ({
     IdTitular: "", //elemento.IdTitular,
     PerteneceA: "", //elemento.PerteneceA,
     Direccion: "", //elemento.Direccion,
-    IdModificador: "", //elemento.IdModificador,
+    IdModificador: localStorage.getItem("IdUsuario")||'', //elemento.IdModificador,
     IdUResponsable: "", //elemento.IdUResponsable,
     Clave: "", //elemento.Clave,
     Descripcion: "", //elemento.Descripcion,
@@ -85,6 +89,161 @@ export const Edit = ({
     IdPerfil: "", //elemento.IdPerfil,
     Referencia: "", //elemento.ref,
   });
+
+  //------------------------CATALOGOS-------------------------------------------
+  const [departamentos, setDepartamentos] = useState<Array<IDepartamento>>([]);
+  const [roles, setRoles] = useState<Array<IRol>>([]);
+  const [dependencias, setDependencias] = useState<Array<IDependencia>>([]);
+  const [tpoDependencias, setTpoDependencias] = useState<Array<ITpoDependencia>>([]);
+  const [perfiles, setPerfiles] = useState<Array<IPerfil>>([]);
+  const [secretarias, setSecretarias] = useState<Array<ISecretaria>>([]);
+  const [uResponsables, setUResponsables] = useState<Array<IUResponsable>>([]);
+
+  const [dependenciasFiltered, setDependenciasFiltered] = useState<Array<IDependencia>>([]);
+  const [secretariasFiltered, setSecretariasFiltered] = useState<Array<ISecretaria>>([]);
+  const [usuarios,setUsuarios]=useState<Array<IUsuarios>>([])
+
+  useEffect(() => {
+      setDependenciasFiltered(dependencias)
+  }, [dependencias])
+  useEffect(() => {
+      setSecretariasFiltered(secretarias)
+  }, [secretarias])
+  //elementos seleccionados
+  const [departamento, setDepartamento] = useState<IDepartamento>({
+      Id: '',
+      Descripcion: '',
+      NombreCorto: '',
+      IdResponsable: '',
+      Responsable: '',
+      UltimaActualizacion: '',
+      FechaCreacion: '',
+      ModificadoPor: '',
+      Modificador: '',
+      CreadoPor: '',
+      Creador: '',
+      Deleted:'',
+  });
+  const [dependencia, setDependencia] = useState<IDependencia>({
+      Id: '',
+      Nombre: '',
+      Direccion: '',
+      Telefono: '',
+      IdTipoDependencia: '',
+      TipoDependencia: '',
+      IdTitular: '',
+      Titular: '',
+      IdPerteneceA: '',
+      PerteneceA: '',
+      Deleted:'',
+  });
+
+
+  const [rol, setRol] = useState<IRol>({
+      ControlInterno: '',
+      Deleted:'',
+      Descripcion: '',
+      Id: '',
+      Nombre: ''
+  });
+  const [perfil, setPerfil] = useState<IPerfil>({
+      Deleted:'',
+      Descripcion: '',
+      Id: '',
+      Referencia: '',
+  });
+  const [uResponsable, setUResponsable] = useState<IUResponsable>({
+      Clave: '',
+      Deleted:'',
+      Descripcion: '',
+      Id: '',
+  })
+  const [secretaria, setSecretaria] = useState<ISecretaria>({
+      Deleted:'',
+      Direccion: '',
+      Id: '',
+      IdTitular: '',
+      Nombre: '',
+      Nombre_corto: '',
+      PerteneceA: '',
+      Titular: ''
+  })
+
+  const [titular,setTitular]=useState<IUsuarios>({
+    Id:"",
+    Nombre:""
+  })
+  useEffect(() => {
+      if (dependencia.Id != '') {
+          let aux = secretarias.find((sec) => sec.Id === dependencia.IdPerteneceA)
+          console.log('aux', aux);
+          console.log('dependencia', dependencia);
+          console.log('secretarias', secretarias);
+          if (aux !== undefined) {
+              setSecretaria(aux);
+          }
+      }
+      else { setSecretariasFiltered(secretarias) }
+  }, [dependencia.Id])
+
+
+  useEffect(() => {
+      if (secretaria.Id !== '') {
+          setDependenciasFiltered(dependencias.filter((obj) => obj.IdPerteneceA === secretaria.Id))
+      }
+      else { setSecretariasFiltered(secretarias) }
+  }, [secretaria])
+
+  useEffect(() => {
+      console.log('condicion', secretariasFiltered.find((obj) => obj === secretaria));
+
+      if (dependenciasFiltered.find((obj) => obj === dependencia) === undefined)
+          setDependencia({
+              Id: '',
+              Nombre: '',
+              Direccion: '',
+              Telefono: '',
+              IdTipoDependencia: '',
+              TipoDependencia: '',
+              IdTitular: '',
+              Titular: '',
+              IdPerteneceA: '',
+              PerteneceA: '',
+              Deleted:'',
+          })
+
+  }, [dependenciasFiltered])
+
+  useEffect(() => {
+    getCatalogo("departamentos", setDepartamentos)
+    getCatalogo("roles", setRoles)
+    getCatalogo("dependencias", setDependencias)
+    getCatalogo("perfiles", setPerfiles)
+    getCatalogo("secretarias", setSecretarias)
+    getCatalogo("uresponsables", setUResponsables)
+    getCatalogo("usuarios-asignables",setUsuarios)
+    getCatalogo("tipodependencias",setTpoDependencias)
+}, []);
+
+useEffect(() => {
+  let aux=secretarias.find((item)=>  item.Id===nuevoElemento.PerteneceA);
+  if(aux!==undefined){
+    setSecretaria(aux)
+  }
+}, [nuevoElemento.PerteneceA, secretarias])
+
+useEffect(() => {
+  let aux=usuarios.find((item)=>  item.Id===nuevoElemento.IdResponsable);
+  if(aux!==undefined){
+    setTitular(aux)}
+    else{
+      aux=usuarios.find((item)=>  item.Id===nuevoElemento.IdTitular);
+      if(aux!==undefined){
+        setTitular(aux)}
+  }
+}, [nuevoElemento.IdResponsable, nuevoElemento.IdTitular, usuarios])
+
+//------------------------CATALOGOS-------------------------------------------
 
   const [ruta, setRuta] = useState("");
 
@@ -112,6 +271,7 @@ export const Edit = ({
       case "7":
         setRuta("/tipodependencia");
         break;
+       
       default:
         setRuta("/");
         break;
@@ -122,6 +282,13 @@ export const Edit = ({
     setNuevoElemento(elementoVacio);
   }, [catalogo]);
 
+  useEffect(() => {
+    setNuevoElemento({...nuevoElemento,})
+  }, [secretaria])
+  
+
+
+  
   return (
     <Dialog
       open={open}
@@ -146,15 +313,16 @@ export const Edit = ({
           } - `}
           {elemento.Nombre || elemento.Descripcion}
         </Typography>
-        {["1", "4"].includes(catalogo) && (
+        {["1", "4","6"].includes(catalogo) && (
           <TextField
-            sx={{ mt: 1, width: "100%" }}
+            sx={{ mt: 3, width: "100%" }}
             title="Nombre"
+            label="Nombre"
             placeholder="Nombre"
-            value={nuevoElemento.Nombre}
+            value={nuevoElemento.Nombre||""}
             onChange={(v) => {
               setNuevoElemento({
-                ...nuevoElemento,
+                ...nuevoElemento,IdModificador: localStorage.getItem("IdUsuario")||'',
                 Nombre: v.target.value.replaceAll("'", "").replaceAll('"', ""),
               });
             }}
@@ -163,13 +331,14 @@ export const Edit = ({
         {["2"].includes(catalogo) && (
           <TextField
             multiline
-            sx={{ mt: 1, width: "100%" }}
+            sx={{ mt: 3, width: "100%" }}
             title="Clave"
+            label="Clave"
             placeholder="Clave"
-            value={nuevoElemento.Clave}
+            value={nuevoElemento.Clave||""}
             onChange={(v) => {
               setNuevoElemento({
-                ...nuevoElemento,
+                ...nuevoElemento,IdModificador: localStorage.getItem("IdUsuario")||'',
                 Clave: v.target.value.replaceAll("'", "").replaceAll('"', ""),
               });
             }}
@@ -178,13 +347,14 @@ export const Edit = ({
         {["2", "3", "4", "5"].includes(catalogo) && (
           <TextField
             multiline
-            sx={{ mt: 1, width: "100%" }}
+            sx={{ mt: 3, width: "100%" }}
             title="Descripcion"
+            label="Descripcion"
             placeholder="Descripcion"
-            value={nuevoElemento.Descripcion}
+            value={nuevoElemento.Descripcion||""}
             onChange={(v) => {
               setNuevoElemento({
-                ...nuevoElemento,
+                ...nuevoElemento,IdModificador: localStorage.getItem("IdUsuario")||'',
                 Descripcion: v.target.value
                   .replaceAll("'", "")
                   .replaceAll('"', ""),
@@ -195,13 +365,14 @@ export const Edit = ({
         {["1", "3"].includes(catalogo) && (
           <TextField
             multiline
-            sx={{ mt: 1, width: "100%" }}
+            sx={{ mt: 3, width: "100%" }}
             title="Abreviatura"
+            label="Abreviatura"
             placeholder="Abreviatura"
-            value={nuevoElemento.NombreCorto}
+            value={nuevoElemento.NombreCorto||""}
             onChange={(v) => {
               setNuevoElemento({
-                ...nuevoElemento,
+                ...nuevoElemento,IdModificador: localStorage.getItem("IdUsuario")||'',
                 NombreCorto: v.target.value
                   .replaceAll("'", "")
                   .replaceAll('"', ""),
@@ -209,50 +380,125 @@ export const Edit = ({
             }}
           />
         )}
-        {["1", "3"].includes(catalogo) && (
-          <TextField
-            multiline
-            sx={{ mt: 1, width: "100%" }}
-            title="Titular / Responsable"
-            placeholder="Titular / Responsable"
-            value={nuevoElemento.IdTitular}
-            onChange={(v) => {
-              setNuevoElemento({
-                ...nuevoElemento,
-                IdTitular: v.target.value
-                  .replaceAll("'", "")
-                  .replaceAll('"', ""),
-              });
-            }}
+        {["1", "3","6"].includes(catalogo) && (
+          <Grid  sx={{ mt: 3, width: "100%" }}>
+          <Typography variant="body2"> Titular / Responsable: </Typography>
+          <Autocomplete
+              options={usuarios}
+              getOptionLabel={(usuarios) => usuarios.Nombre || 'Seleccione titular'}
+              value={titular}
+              onChange={(event, newValue) => {
+                  if (newValue != null) { setTitular(newValue);  
+              //         setErrores({...errores, secretaria:{
+              //         valid:false,
+              //         text:"Ingresa secretaria valida"
+              // }})
+            }
+              }}
+              renderInput={(params) => (
+                  <TextField
+                      key={params.id}
+                      {...params}
+                      variant="outlined"
+                      // error={errores.secretaria.valid}
+                  />
+              )}
           />
+      </Grid>
+          // <TextField
+          //   multiline
+          //   sx={{ mt: 3, width: "100%" }}
+          //   title="Titular / Responsable"
+          //   label="Titular / Responsable"
+          //   placeholder="Titular / Responsable"
+          //   value={nuevoElemento.IdTitular||""}
+          //   onChange={(v) => {
+          //     setNuevoElemento({
+          //       ...nuevoElemento,
+          //       IdTitular: v.target.value
+          //         .replaceAll("'", "")
+          //         .replaceAll('"', ""),
+          //     });
+          //   }}
+          // />
         )}
-        {["1"].includes(catalogo) && (
+      {["1","6"].includes(catalogo) && (<Grid  sx={{ mt: 3, width: "100%" }}>
+                        <Typography variant="body2">Tipo de dependencia:</Typography>
+                        <Autocomplete
+                            options={tpoDependencias}
+                            getOptionLabel={(tpodependencia) => tpodependencia.Nombre || 'Seleccione secretaria'}
+                            value={secretaria}
+                            onChange={(event, newValue) => {
+                                if (newValue != null) { setSecretaria(newValue);  
+                            //         setErrores({...errores, secretaria:{
+                            //         valid:false,
+                            //         text:"Ingresa secretaria valida"
+                            // }})
+                          }
+                            }}
+                            renderInput={(params) => (
+                                <TextField
+                                    key={params.id}
+                                    {...params}
+                                    variant="outlined"
+                                    // error={errores.secretaria.valid}
+                                />
+                            )}
+                        />
+                    </Grid>
+        )}
+        {["1","6"].includes(catalogo) && (<Grid  sx={{ mt: 3, width: "100%" }}>
+                        <Typography variant="body2">Pertenece a la secretaria:</Typography>
+                        <Autocomplete
+                            options={secretariasFiltered}
+                            getOptionLabel={(secretaria) => secretaria.Nombre || 'Seleccione secretaria'}
+                            value={secretaria}
+                            onChange={(event, newValue) => {
+                                if (newValue != null) { setSecretaria(newValue);  
+                            //         setErrores({...errores, secretaria:{
+                            //         valid:false,
+                            //         text:"Ingresa secretaria valida"
+                            // }})
+                          }
+                            }}
+                            renderInput={(params) => (
+                                <TextField
+                                    key={params.id}
+                                    {...params}
+                                    variant="outlined"
+                                    // error={errores.secretaria.valid}
+                                />
+                            )}
+                        />
+                    </Grid>
+          // <TextField
+          //   multiline
+          //   sx={{ mt: 3, width: "100%" }}
+          //   title="Pertenece A"
+          //   label="Pertenece A"
+          //   placeholder="Pertenece A"
+          //   value={nuevoElemento.PerteneceA||""}
+          //   onChange={(v) => {
+          //     setNuevoElemento({
+          //       ...nuevoElemento,
+          //       PerteneceA: v.target.value
+          //         .replaceAll("'", "")
+          //         .replaceAll('"', ""),
+          //     });
+          //   }}
+          // />
+        )}
+        {["1","6"].includes(catalogo) && (
           <TextField
             multiline
-            sx={{ mt: 1, width: "100%" }}
-            title="Pertenece A"
-            placeholder="Pertenece A"
-            value={nuevoElemento.PerteneceA}
-            onChange={(v) => {
-              setNuevoElemento({
-                ...nuevoElemento,
-                PerteneceA: v.target.value
-                  .replaceAll("'", "")
-                  .replaceAll('"', ""),
-              });
-            }}
-          />
-        )}
-        {["1"].includes(catalogo) && (
-          <TextField
-            multiline
-            sx={{ mt: 1, width: "100%" }}
+            sx={{ mt: 3, width: "100%" }}
             title="Direccion"
+            label="Direccion"
             placeholder="Direccion"
-            value={nuevoElemento.Direccion}
+            value={nuevoElemento.Direccion||""}
             onChange={(v) => {
               setNuevoElemento({
-                ...nuevoElemento,
+                ...nuevoElemento,IdModificador: localStorage.getItem("IdUsuario")||'',
                 Direccion: v.target.value
                   .replaceAll("'", "")
                   .replaceAll('"', ""),
@@ -260,16 +506,33 @@ export const Edit = ({
             }}
           />
         )}
+         {["6"].includes(catalogo) && (
+          <TextField
+            multiline
+            sx={{ mt: 3, width: "100%" }}
+            title="Telefono"
+            label="Telefono"
+            placeholder="Telefono"
+            value={nuevoElemento.Telefono||""}
+            onChange={(v) => {
+              setNuevoElemento({
+                ...nuevoElemento,IdModificador: localStorage.getItem("IdUsuario")||'',
+                Telefono: v.target.value.replaceAll("'", "").replaceAll('"', ""),
+              });
+            }}
+          />
+        )}
         {["4"].includes(catalogo) && (
           <TextField
             multiline
-            sx={{ mt: 1, width: "100%" }}
+            sx={{ mt: 3, width: "100%" }}
             title="Control Interno"
+            label="Control Interno"
             placeholder="Control Interno"
-            value={nuevoElemento.ControlInterno}
+            value={nuevoElemento.ControlInterno||""}
             onChange={(v) => {
               setNuevoElemento({
-                ...nuevoElemento,
+                ...nuevoElemento,IdModificador: localStorage.getItem("IdUsuario")||'',
                 ControlInterno: v.target.value
                   .replaceAll("'", "")
                   .replaceAll('"', ""),
@@ -280,13 +543,14 @@ export const Edit = ({
         {["5"].includes(catalogo) && (
           <TextField
             multiline
-            sx={{ mt: 1, width: "100%" }}
+            sx={{ mt: 3, width: "100%" }}
             title="Referencia"
+            label="Referencia"
             placeholder="Referencia"
-            value={nuevoElemento.Referencia}
+            value={nuevoElemento.Referencia||""}
             onChange={(v) => {
               setNuevoElemento({
-                ...nuevoElemento,
+                ...nuevoElemento,IdModificador: localStorage.getItem("IdUsuario")||'',
                 Referencia: v.target.value
                   .replaceAll("'", "")
                   .replaceAll('"', ""),
@@ -299,7 +563,9 @@ export const Edit = ({
         <Button className="cancelar" onClick={() => setOpen(false)}>
           Cancelar
         </Button>
-        <Button className="aceptar">Editar</Button>
+        <Button className="aceptar" onClick={()=>{modificarCatalogo(ruta,{...nuevoElemento})
+        }}>Editar</Button>
+        {/* console.log(nuevoElemento*/}
       </DialogActions>
     </Dialog>
   );
