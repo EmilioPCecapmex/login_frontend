@@ -50,3 +50,27 @@ export const modificarCatalogo=(path:string,data:any)=>{
     }
     );
 }
+
+export const EliminarCatalogo=(path:string,Id:string)=>{
+  axios({
+    method: "put",
+    data:{ 
+      Id:Id,
+      IdUsuario: localStorage.getItem("IdUsuario"),
+    },
+    url: process.env.REACT_APP_APPLICATION_DEV + `/api/${path}`,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: localStorage.getItem("jwtToken") || "",
+    },
+  })
+    // aqui se recibe lo del endpoint en response
+    .then((r)=>{
+        // console.log('data',data.data);
+        console.log(r);
+        
+    })
+    .catch((e)=>{console.log(e);
+    }
+    );
+}

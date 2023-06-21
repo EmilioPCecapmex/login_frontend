@@ -10,7 +10,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ButtonsAdd from "../Componentes/ButtonsAdd";
 import { CatalogosModal } from "../../components/dialogsCatalogos/CatalogosModal";
 import { Edit, IModify } from "../../components/dialogsCatalogos/Edit";
-
+import { Delete } from "../../components/dialogsCatalogos/Delete";
 const Catalogos = () => {
   const [valueTab, setValueTab] = useState<string>("1");
   const [openSlider, setOpenSlider] = useState(true);
@@ -32,6 +32,8 @@ const Catalogos = () => {
 
   const [openModal, setOpenModal] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [selectId, setSelectId] = useState(String)
   const [elemento, setElemento] = useState<IModify>({
     IdSecretaria: "",
     Nombre: "",
@@ -69,7 +71,7 @@ const Catalogos = () => {
               <IconButton
                 color="primary"
                 onClick={() => {
-                  console.log(cellValues.row);
+                  console.log(cellValues.row.Id);
                   setElemento(cellValues.row);
                   setOpenEdit(true);
                 }}
@@ -80,9 +82,12 @@ const Catalogos = () => {
             <Tooltip title={"Eliminar"}>
               <IconButton
                 color="error"
-                // onClick={(event) => {
-                //     handleDeleteBtnClick(event, cellValues);
-                // }}
+                 onClick={(event) => {
+                  console.log(cellValues.row);
+                  setSelectId(cellValues.row.Id);
+                  setElemento(cellValues.row);
+                     setOpenDelete(true);
+                 }}
               >
                 <DeleteIcon />
               </IconButton>
@@ -321,6 +326,14 @@ const Catalogos = () => {
           elemento={elemento}
           catalogo={valueTab}
         />
+        <Delete
+          open={openDelete}
+          setOpen={setOpenDelete}
+          Id={selectId}
+          catalogo={valueTab}
+          elemento={elemento}
+        />
+
       </div>
     </>
   );
