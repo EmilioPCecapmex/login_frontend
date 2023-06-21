@@ -422,7 +422,7 @@ useEffect(() => {
           //   }}
           // />
         )}
-      {["1","6"].includes(catalogo) && (<Grid  sx={{ mt: 3, width: "100%" }}>
+      {/* {["1","6"].includes(catalogo) && (<Grid  sx={{ mt: 3, width: "100%" }}>
                         <Typography variant="body2">Tipo de dependencia:</Typography>
                         <Autocomplete
                             options={tpoDependencias}
@@ -446,7 +446,7 @@ useEffect(() => {
                             )}
                         />
                     </Grid>
-        )}
+        )} */}
         {["1","6"].includes(catalogo) && (<Grid  sx={{ mt: 3, width: "100%" }}>
                         <Typography variant="body2">Pertenece a la secretaria:</Typography>
                         <Autocomplete
