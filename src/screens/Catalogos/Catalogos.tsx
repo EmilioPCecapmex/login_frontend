@@ -12,6 +12,7 @@ import { Edit, IModify } from "../../components/dialogsCatalogos/Edit";
 import { Create } from "../../components/dialogsCatalogos/Create";
 
 import { Delete } from "../../components/dialogsCatalogos/Delete";
+import { log } from "console";
 const Catalogos = () => {
   const [valueTab, setValueTab] = useState<string>("1");
   const [openSlider, setOpenSlider] = useState(true);
@@ -31,7 +32,7 @@ const Catalogos = () => {
   const [HideReferencia, setHideReferencia] = useState(true);
   /////////////
 
-  const [openModal, setOpenModal] = useState(false);
+  
   const [openEdit, setOpenEdit] = useState(false);
   const [openCreate, setOpenCreate] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -142,9 +143,7 @@ const Catalogos = () => {
     },
   ];
 
-  const handleOpen = () => {
-    setOpenModal(true);
-  };
+ const [reload,setReload]=useState("");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setHideClave(true);
@@ -241,10 +240,8 @@ const Catalogos = () => {
   };
 
   useEffect(() => {
-    // setOpenSlider(true)
     consulta(valueTab, "catalogos");
-    setOpenModal(false);
-  }, []);
+  }, [reload]);
 
   return (
     <>
@@ -326,11 +323,13 @@ const Catalogos = () => {
           setOpen={setOpenEdit}
           elemento={elemento}
           catalogo={valueTab}
+          reloadData={setReload}
         />
         <Create
           open={openCreate}
           setOpen={setOpenCreate}
           catalogo={valueTab}
+          reloadData={setReload}
         />
         <Delete
           open={openDelete}
@@ -338,6 +337,7 @@ const Catalogos = () => {
           Id={selectId}
           catalogo={valueTab}
           elemento={elemento}
+          reloadData={setReload}
         />
 
       </div>

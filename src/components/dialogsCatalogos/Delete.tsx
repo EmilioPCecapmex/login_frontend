@@ -1,30 +1,16 @@
 import {
-  Autocomplete,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  Grid,
   TextField,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import {
-    EliminarCatalogo,
-  getCatalogo,
-  modificarCatalogo,
+    EliminarCatalogo
 } from "../../services/catalogosService";
-import {
-  IDepartamento,
-  IDependencia,
-  IPerfil,
-  IRol,
-  ISecretaria,
-  ITpoDependencia,
-  IUResponsable,
-  IUsuarios,
-} from "../../screens/SolicitudDeUsuarios/ICatalogos";
 import { IModify } from "./Edit";
 
 export const Delete = ({
@@ -33,12 +19,14 @@ export const Delete = ({
   Id,
   catalogo,
   elemento,
+  reloadData,
 }: {
   open: boolean;
   setOpen: Function;
   Id: string;
   catalogo: string;
   elemento: IModify;
+  reloadData: Function
 }) => {
   //------------------------Cambiar nombres-------------------------------------
   const elementoVacio = {
@@ -86,197 +74,32 @@ export const Delete = ({
   });
 
   //------------------------CATALOGOS-------------------------------------------
-  const [departamentos, setDepartamentos] = useState<Array<IDepartamento>>([]);
-  const [roles, setRoles] = useState<Array<IRol>>([]);
-  const [dependencias, setDependencias] = useState<Array<IDependencia>>([]);
-  const [tpoDependencias, setTpoDependencias] = useState<
-    Array<ITpoDependencia>
-  >([]);
-  const [perfiles, setPerfiles] = useState<Array<IPerfil>>([]);
-  const [secretarias, setSecretarias] = useState<Array<ISecretaria>>([]);
-  const [uResponsables, setUResponsables] = useState<Array<IUResponsable>>([]);
 
-  const [dependenciasFiltered, setDependenciasFiltered] = useState<
-    Array<IDependencia>
-  >([]);
-  const [secretariasFiltered, setSecretariasFiltered] = useState<
-    Array<ISecretaria>
-  >([]);
-  const [usuarios, setUsuarios] = useState<Array<IUsuarios>>([]);
-
-//   useEffect(() => {
-//     setDependenciasFiltered(dependencias);
-//   }, [dependencias]);
-//   useEffect(() => {
-//     setSecretariasFiltered(secretarias);
-//   }, [secretarias]);
-
-  //elementos seleccionados
-  const [departamento, setDepartamento] = useState<IDepartamento>({
-    Id: "",
-    Descripcion: "",
-    NombreCorto: "",
-    IdResponsable: "",
-    Responsable: "",
-    UltimaActualizacion: "",
-    FechaCreacion: "",
-    ModificadoPor: "",
-    Modificador: "",
-    CreadoPor: "",
-    Creador: "",
-    Deleted: "",
-  });
-  const [dependencia, setDependencia] = useState<IDependencia>({
-    Id: "",
-    Nombre: "",
-    Direccion: "",
-    Telefono: "",
-    IdTipoDependencia: "",
-    TipoDependencia: "",
-    IdTitular: "",
-    Titular: "",
-    IdPerteneceA: "",
-    PerteneceA: "",
-    Deleted: "",
-  });
-
-  const [rol, setRol] = useState<IRol>({
-    ControlInterno: "",
-    Deleted: "",
-    Descripcion: "",
-    Id: "",
-    Nombre: "",
-  });
-  const [perfil, setPerfil] = useState<IPerfil>({
-    Deleted: "",
-    Descripcion: "",
-    Id: "",
-    Referencia: "",
-  });
-  const [uResponsable, setUResponsable] = useState<IUResponsable>({
-    Clave: "",
-    Deleted: "",
-    Descripcion: "",
-    Id: "",
-  });
-  const [secretaria, setSecretaria] = useState<ISecretaria>({
-    Deleted: "",
-    Direccion: "",
-    Id: "",
-    IdTitular: "",
-    Nombre: "",
-    Nombre_corto: "",
-    PerteneceA: "",
-    Titular: "",
-  });
-
-  const [titular, setTitular] = useState<IUsuarios>({
-    Id: "",
-    Nombre: "",
-  });
-
-//   useEffect(() => {
-//     if (dependencia.Id != "") {
-//       let aux = secretarias.find((sec) => sec.Id === dependencia.IdPerteneceA);
-//       console.log("aux", aux);
-//       console.log("dependencia", dependencia);
-//       console.log("secretarias", secretarias);
-//       if (aux !== undefined) {
-//         setSecretaria(aux);
-//       }
-//     } else {
-//       setSecretariasFiltered(secretarias);
-//     }
-//   }, [dependencia.Id]);
-
-//   useEffect(() => {
-//     if (secretaria.Id !== "") {
-//       setDependenciasFiltered(
-//         dependencias.filter((obj) => obj.IdPerteneceA === secretaria.Id)
-//       );
-//     } else {
-//       setSecretariasFiltered(secretarias);
-//     }
-//   }, [secretaria]);
-
-//   useEffect(() => {
-//     console.log(
-//       "condicion",
-//       secretariasFiltered.find((obj) => obj === secretaria)
-//     );
-
-//     if (dependenciasFiltered.find((obj) => obj === dependencia) === undefined)
-//       setDependencia({
-//         Id: "",
-//         Nombre: "",
-//         Direccion: "",
-//         Telefono: "",
-//         IdTipoDependencia: "",
-//         TipoDependencia: "",
-//         IdTitular: "",
-//         Titular: "",
-//         IdPerteneceA: "",
-//         PerteneceA: "",
-//         Deleted: "",
-//       });
-//   }, [dependenciasFiltered]);
-
-  useEffect(() => {
-    getCatalogo("departamentos", setDepartamentos);
-    getCatalogo("roles", setRoles);
-    getCatalogo("dependencias", setDependencias);
-    getCatalogo("perfiles", setPerfiles);
-    getCatalogo("secretarias", setSecretarias);
-    getCatalogo("uresponsables", setUResponsables);
-    getCatalogo("usuarios-asignables", setUsuarios);
-    getCatalogo("tipodependencias", setTpoDependencias);
-  }, []);
-
-//   useEffect(() => {
-//     let aux = secretarias.find((item) => item.Id === cargarElemento.PerteneceA);
-//     if (aux !== undefined) {
-//       setSecretaria(aux);
-//     }
-//   }, [cargarElemento.PerteneceA, secretarias]);
-
-//   useEffect(() => {
-//     let aux = usuarios.find((item) => item.Id === cargarElemento.IdResponsable);
-//     if (aux !== undefined) {
-//       setTitular(aux);
-//     } else {
-//       aux = usuarios.find((item) => item.Id === cargarElemento.IdTitular);
-//       if (aux !== undefined) {
-//         setTitular(aux);
-//       }
-//     }
-//   }, [cargarElemento.IdResponsable, cargarElemento.IdTitular, usuarios]);
-
-  //------------------------------Rutas---------------------------
   const [ruta, setRuta] = useState("");
 
   useEffect(() => {
     setCargarElemento(elemento);
     switch (catalogo) {
       case "1":
-        setRuta("/delete-secretaria");
+        setRuta("delete-secretaria");
         break;
       case "2":
-        setRuta("/delete-uresponsable");
+        setRuta("delete-uresponsable");
         break;
       case "3":
-        setRuta("/delete-departamento");
+        setRuta("delete-departamento");
         break;
       case "4":
-        setRuta("/delete-rol");
+        setRuta("delete-rol");
         break;
       case "5":
-        setRuta("/delete-perfil");
+        setRuta("delete-perfil");
         break;
       case "6":
-        setRuta("/delete-dependencia");
+        setRuta("delete-dependencia");
         break;
       case "7":
-        setRuta("/delete-tipodependencia");
+        setRuta("delete-tipodependencia");
         break;
 
       default:
@@ -284,14 +107,6 @@ export const Delete = ({
         break;
     }
   }, [catalogo, open]);
-
-//   useEffect(() => {
-//     setCargarElemento(elementoVacio);
-//   }, [catalogo]);
-
-//   useEffect(() => {
-//     setCargarElemento({ ...cargarElemento });
-//   }, [secretaria]);
 
   return (
     <Dialog
@@ -302,7 +117,7 @@ export const Delete = ({
       fullWidth
       maxWidth={"sm"}
     >
-      <DialogTitle>Eliminar elemento:</DialogTitle>
+      <DialogTitle sx={{display:"flex",justifyContent:"center"}}> Deseas eliminar este elemento?</DialogTitle>
       <DialogContent
         sx={{
           display: "flex",
@@ -310,17 +125,13 @@ export const Delete = ({
           alignItems: "center",
         }}
       >
-        <Typography>{ruta}</Typography>
-        <Typography>Deseas eliminar este elemento?</Typography>
-        <Typography>
-          {`${
-            elemento.NombreCorto || elemento.Clave || elemento.Referencia
-          } - `}
-          {elemento.Nombre || elemento.Descripcion}
-        </Typography>
-        {["1", "4", "6"].includes(catalogo) && (
+        
+       
+       
+        {/* {["1", "4", "6"].includes(catalogo) && (
           <TextField
             sx={{ mt: 3, width: "100%" }}
+            variant="standard"
             title="Nombre"
             label="Nombre"
             placeholder="Nombre"
@@ -331,6 +142,7 @@ export const Delete = ({
           <TextField
             multiline
             sx={{ mt: 3, width: "100%" }}
+            variant="standard"
             title="Clave"
             label="Clave"
             placeholder="Clave"
@@ -341,6 +153,7 @@ export const Delete = ({
           <TextField
             multiline
             sx={{ mt: 3, width: "100%" }}
+            variant="standard"
             title="Descripcion"
             label="Descripcion"
             placeholder="Descripcion"
@@ -360,6 +173,7 @@ export const Delete = ({
           <TextField
             multiline
             sx={{ mt: 3, width: "100%" }}
+            variant="standard"
             title="Abreviatura"
             label="Abreviatura"
             placeholder="Abreviatura"
@@ -374,33 +188,9 @@ export const Delete = ({
               });
             }}
           />
-        )}
-
-        {/* {["1","6"].includes(catalogo) && (<Grid  sx={{ mt: 3, width: "100%" }}>
-                        <Typography variant="body2">Tipo de dependencia:</Typography>
-                        <Autocomplete
-                            options={tpoDependencias}
-                            getOptionLabel={(tpodependencia) => tpodependencia.Nombre || 'Seleccione secretaria'}
-                            value={secretaria}
-                            onChange={(event, newValue) => {
-                                if (newValue != null) { setSecretaria(newValue);  
-                            //         setErrores({...errores, secretaria:{
-                            //         valid:false,
-                            //         text:"Ingresa secretaria valida"
-                            // }})
-                          }
-                            }}
-                            renderInput={(params) => (
-                                <TextField
-                                    key={params.id}
-                                    {...params}
-                                    variant="outlined"
-                                    // error={errores.secretaria.valid}
-                                />
-                            )}
-                        />
-                    </Grid>
         )} */}
+
+       
       </DialogContent>
       <DialogActions>
         <Button className="cancelar" onClick={() => setOpen(false)}>
@@ -408,10 +198,9 @@ export const Delete = ({
         </Button>
         <Button className="aceptar" 
         onClick={()=>{
-            EliminarCatalogo(ruta,Id)
+            EliminarCatalogo(ruta,Id,setOpen,reloadData)
         }}>
-            Eliminar</Button>
-        {/* console.log(nuevoElemento*/}
+            Aceptar</Button>
       </DialogActions>
     </Dialog>
   );

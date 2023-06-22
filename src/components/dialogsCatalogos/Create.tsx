@@ -39,10 +39,12 @@ export const Create = ({
   open,
   setOpen,
   catalogo,
+  reloadData
 }: {
   open: boolean;
   setOpen: Function;
   catalogo: string;
+  reloadData: Function
 }) => {
   const elementoVacio = {
     IdSecretaria: "", //elemento.IdSecretaria,
@@ -571,8 +573,8 @@ useEffect(() => {
         <Button className="cancelar" onClick={() => setOpen(false)}>
           Cancelar
         </Button>
-        <Button className="aceptar" onClick={()=>{createCatalogo(ruta,{...nuevoElemento},setOpen)
-        }}>Editar</Button>
+        <Button className="aceptar" onClick={()=>{createCatalogo(ruta,{...nuevoElemento},setOpen,reloadData)
+        }}>Agregar</Button>
         {/* console.log(nuevoElemento*/}
       </DialogActions>
     </Dialog>

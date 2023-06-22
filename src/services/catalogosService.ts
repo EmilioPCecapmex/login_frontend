@@ -23,37 +23,37 @@ const Toast = Swal.mixin({
 
 });
 
-export const getCatalogo=(path:string,setState:Function)=>{
-    axios({
-        method: "get",
-        params:{
-            IdUsuario: localStorage.getItem('IdUsuario')
-        },
-        url: process.env.REACT_APP_APPLICATION_DEV + `/api/${path}`,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: localStorage.getItem("jwtToken") || "",
-        },
-      })
-        // aqui se recibe lo del endpoint en response
-        .then(({data})=>{
-            console.log('data',data.data);
-            setState(data.data)
-        })
-        .catch(
-        //     function (error) {
-        // //   Swal.fire({
-        // //     icon: "error",
-        // //     title: "Mensaje",
-        // //     text: "(" + error.response.status + ") " + error.response.data.message,
-        // //   })
-        // }
-        );
-    
-        
+export const getCatalogo = (path: string, setState: Function) => {
+  axios({
+    method: "get",
+    params: {
+      IdUsuario: localStorage.getItem('IdUsuario')
+    },
+    url: process.env.REACT_APP_APPLICATION_DEV + `/api/${path}`,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: localStorage.getItem("jwtToken") || "",
+    },
+  })
+    // aqui se recibe lo del endpoint en response
+    .then(({ data }) => {
+      console.log('data', data.data);
+      setState(data.data)
+    })
+    .catch(
+    //     function (error) {
+    // //   Swal.fire({
+    // //     icon: "error",
+    // //     title: "Mensaje",
+    // //     text: "(" + error.response.status + ") " + error.response.data.message,
+    // //   })
+    // }
+  );
+
+
 }
 
-export const modificarCatalogo=(path:string,data:any,setOpen:Function)=>{
+export const modificarCatalogo = (path: string, data: any, setOpen: Function, reloadData: Function) => {
   axios({
     method: "put",
     data: data,
@@ -64,27 +64,28 @@ export const modificarCatalogo=(path:string,data:any,setOpen:Function)=>{
     },
   })
     // aqui se recibe lo del endpoint en response
-    .then((r)=>{
+    .then((r) => {
+      reloadData(String(Math.random()))
       Toast.fire({
         icon: "success",
         title: `El registro se modifico correctamente`,
 
       });
-        setOpen(false)
+      setOpen(false)
     })
-    .catch((e)=>{
-      let mensaje =e.response.data.error==='Ingrese IdModificador válido.'?'No se detectaron cambios':e.response.data.error;
+    .catch((e) => {
+      let mensaje = e.response.data.error === 'Ingrese IdModificador válido.' ? 'No se detectaron cambios' : e.response.data.error;
       Swal.fire({
         icon: "error",
         title: "Mensaje",
-        text: "( " +mensaje+ " ) " 
+        text: "( " + mensaje + " ) "
       })
-    
+
     }
     );
 }
 
-export const createCatalogo=(path:string,data:any,setOpen:Function)=>{
+export const createCatalogo = (path: string, data: any, setOpen: Function, reloadData: Function) => {
   axios({
     method: "post",
     data: data,
@@ -95,31 +96,32 @@ export const createCatalogo=(path:string,data:any,setOpen:Function)=>{
     },
   })
     // aqui se recibe lo del endpoint en response
-    .then((r)=>{
+    .then((r) => {
+      reloadData(String(Math.random()))
       Toast.fire({
         icon: "success",
         title: `El registro se creo correctamente`,
 
       });
-        setOpen(false)
+      setOpen(false)
     })
-    .catch((e)=>{
-      let mensaje =e.response.data.error==='Ingrese IdModificador válido.'?'No se detectaron cambios':e.response.data.error;
+    .catch((e) => {
+      let mensaje = e.response.data.error === 'Ingrese IdModificador válido.' ? 'No se detectaron cambios' : e.response.data.error;
       Swal.fire({
         icon: "error",
         title: "Mensaje",
-        text: "( " +mensaje+ " ) " 
+        text: "( " + mensaje + " ) "
       })
-    
+
     }
     );
 }
 
-export const EliminarCatalogo=(path:string,Id:string)=>{
+export const EliminarCatalogo = (path: string, Id: string, setOpen: Function, reloadData: Function) => {
   axios({
     method: "put",
-    data:{ 
-      Id:Id,
+    data: {
+      Id: Id,
       IdUsuario: localStorage.getItem("IdUsuario"),
     },
     url: process.env.REACT_APP_APPLICATION_DEV + `/api/${path}`,
@@ -129,12 +131,22 @@ export const EliminarCatalogo=(path:string,Id:string)=>{
     },
   })
     // aqui se recibe lo del endpoint en response
-    .then((r)=>{
-        // console.log('data',data.data);
-        console.log(r);
-        
+    .then((r) => {
+      reloadData(String(Math.random()))
+      Toast.fire({
+        icon: "success",
+        title: `El elimino se creo correctamente`,
+
+      });
+      setOpen(false)
     })
-    .catch((e)=>{console.log(e);
+    .catch((e) => {
+      let mensaje = e.response.data.error === 'Ingrese IdModificador válido.' ? 'No se detectaron cambios' : e.response.data.error;
+      Swal.fire({
+        icon: "error",
+        title: "Mensaje",
+        text: "( " + mensaje + " ) "
+      });
     }
     );
 }

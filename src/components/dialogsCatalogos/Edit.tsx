@@ -40,11 +40,13 @@ export const Edit = ({
   setOpen,
   elemento,
   catalogo,
+  reloadData
 }: {
   open: boolean;
   setOpen: Function;
   elemento: IModify;
   catalogo: string;
+  reloadData: Function
 }) => {
   const elementoVacio = {
     IdSecretaria: "", //elemento.IdSecretaria,
@@ -252,6 +254,15 @@ useEffect(() => {
   }
 }, [nuevoElemento.IdResponsable, nuevoElemento.IdTitular, usuarios])
 
+
+useEffect(() => {
+  let aux= tpoDependencias.find((tpodep)=>tpodep.Id===elemento.IdTipoDependencia)
+  if(aux)
+    setTpoDependencia(aux)
+}, [elemento.IdTipoDependencia])
+
+
+
 //------------------------CATALOGOS-------------------------------------------
 
   const [ruta, setRuta] = useState("");
@@ -317,13 +328,6 @@ useEffect(() => {
           alignItems: "center",
         }}
       >
-        <Typography>{ruta}</Typography>
-        <Typography>
-          {`${
-            elemento.NombreCorto || elemento.Clave || elemento.Referencia
-          } - `}
-          {elemento.Nombre || elemento.Descripcion}
-        </Typography>
         {["1", "4","6","7"].includes(catalogo) && (
           <TextField
             sx={{ mt: 3, width: "100%" }}
@@ -399,7 +403,9 @@ useEffect(() => {
               getOptionLabel={(usuarios) => usuarios.Nombre || 'Seleccione titular'}
               value={titular}
               onChange={(event, newValue) => {
-                  if (newValue != null) { setTitular(newValue);  
+                  if (newValue != null) { 
+                    setTitular(newValue); 
+                    setNuevoElemento({...nuevoElemento,IdTitular:newValue.Id,IdResponsable:newValue.Id,IdModificador: localStorage.getItem("IdUsuario")||''}) 
               //         setErrores({...errores, secretaria:{
               //         valid:false,
               //         text:"Ingresa secretaria valida"
@@ -576,7 +582,7 @@ useEffect(() => {
         <Button className="cancelar" onClick={() => setOpen(false)}>
           Cancelar
         </Button>
-        <Button className="aceptar" onClick={()=>{modificarCatalogo(ruta,{...nuevoElemento},setOpen)
+        <Button className="aceptar" onClick={()=>{modificarCatalogo(ruta,{...nuevoElemento},setOpen,reloadData)
         }}>Editar</Button>
         {/* console.log(nuevoElemento*/}
       </DialogActions>
