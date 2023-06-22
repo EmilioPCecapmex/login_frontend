@@ -12,6 +12,13 @@ export interface IDependencia {
     Deleted: string;
 }
 
+export interface ITpoDependencia {
+    Id: string;
+    Nombre: string;
+    Descripcion: string;
+    Deleted: string;
+}
+
 export interface IDepartamento {
     Id: string;
     Descripcion: string;
@@ -57,4 +64,9 @@ export interface ISecretaria {
     Nombre_corto: string;
     PerteneceA: string;
     Titular: string;
+}
+
+export interface IUsuarios{
+    Id:string;
+    Nombre:string;
 }

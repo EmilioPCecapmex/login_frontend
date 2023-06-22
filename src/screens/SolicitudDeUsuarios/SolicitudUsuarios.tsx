@@ -692,10 +692,7 @@ function validarCadena(nombre: string): boolean {
 
     }, []);
 
-    useEffect(() => {
-        console.log('secretarias', secretarias);
-    }, [secretarias])
-
+ 
 
 
     return (
