@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getCatalogo, modificarCatalogo } from "../../services/catalogosService";
+import { createCatalogo, getCatalogo, modificarCatalogo } from "../../services/catalogosService";
 import { IDepartamento, IDependencia, IPerfil, IRol, ISecretaria, ITpoDependencia, IUResponsable, IUsuarios } from "../../screens/SolicitudDeUsuarios/ICatalogos";
 
 export interface IModify {
@@ -20,7 +20,7 @@ export interface IModify {
   IdTitular: string;
   PerteneceA: string;
   Direccion: string;
-  IdModificador: string;
+  CreadoPor: string;
   IdUResponsable: string;
   Clave: string;
   Descripcion: string;
@@ -35,15 +35,13 @@ export interface IModify {
   Referencia: string;
 }
 
-export const Edit = ({
+export const Create = ({
   open,
   setOpen,
-  elemento,
   catalogo,
 }: {
   open: boolean;
   setOpen: Function;
-  elemento: IModify;
   catalogo: string;
 }) => {
   const elementoVacio = {
@@ -53,7 +51,7 @@ export const Edit = ({
     IdTitular: "", //elemento.IdTitular,
     PerteneceA: "", //elemento.PerteneceA,
     Direccion: "", //elemento.Direccion,
-    IdModificador: "", //elemento.IdModificador,
+    CreadoPor: "", //elemento.CreadoPor,
     IdUResponsable: "", //elemento.IdUResponsable,
     Clave: "", //elemento.Clave,
     Descripcion: "", //elemento.Descripcion,
@@ -75,7 +73,7 @@ export const Edit = ({
     IdTitular: "", //elemento.IdTitular,
     PerteneceA: "", //elemento.PerteneceA,
     Direccion: "", //elemento.Direccion,
-    IdModificador: localStorage.getItem("IdUsuario")||'', //elemento.IdModificador,
+    CreadoPor: localStorage.getItem("IdUsuario")||'', //elemento.CreadoPor,
     IdUResponsable: "", //elemento.IdUResponsable,
     Clave: "", //elemento.Clave,
     Descripcion: "", //elemento.Descripcion,
@@ -257,28 +255,27 @@ useEffect(() => {
   const [ruta, setRuta] = useState("");
 
   useEffect(() => {
-    setNuevoElemento(elemento);
     switch (catalogo) {
       case "1":
-        setRuta("/secretaria");
+        setRuta("/create-secretaria");
         break;
       case "2":
-        setRuta("/uresponsable");
+        setRuta("/create-uresponsable");
         break;
       case "3":
-        setRuta("/departamento");
+        setRuta("/create-departamento");
         break;
       case "4":
-        setRuta("/rol");
+        setRuta("/create-rol");
         break;
       case "5":
-        setRuta("/perfil");
+        setRuta("/create-perfil");
         break;
       case "6":
-        setRuta("/dependencia");
+        setRuta("/create-dependencia");
         break;
       case "7":
-        setRuta("/tipodependencia");
+        setRuta("/create-tipodependencia");
         break;
        
       default:
@@ -296,6 +293,11 @@ useEffect(() => {
   useEffect(() => {
     setNuevoElemento({...nuevoElemento,PerteneceA:secretaria.Id})
   }, [secretaria])
+
+  useEffect(() => {
+    setNuevoElemento(elementoVacio)
+  }, [])
+  
   
 
 
@@ -309,7 +311,7 @@ useEffect(() => {
       fullWidth
       maxWidth={"sm"}
     >
-      <DialogTitle>Editar elemento:</DialogTitle>
+      <DialogTitle>Crear elemento:</DialogTitle>
       <DialogContent
         sx={{
           display: "flex",
@@ -317,13 +319,6 @@ useEffect(() => {
           alignItems: "center",
         }}
       >
-        <Typography>{ruta}</Typography>
-        <Typography>
-          {`${
-            elemento.NombreCorto || elemento.Clave || elemento.Referencia
-          } - `}
-          {elemento.Nombre || elemento.Descripcion}
-        </Typography>
         {["1", "4","6","7"].includes(catalogo) && (
           <TextField
             sx={{ mt: 3, width: "100%" }}
@@ -333,7 +328,7 @@ useEffect(() => {
             value={nuevoElemento.Nombre||""}
             onChange={(v) => {
               setNuevoElemento({
-                ...nuevoElemento,IdModificador: localStorage.getItem("IdUsuario")||'',
+                ...nuevoElemento,CreadoPor: localStorage.getItem("IdUsuario")||'',
                 Nombre: v.target.value.replaceAll("'", "").replaceAll('"', ""),
               });
             }}
@@ -349,7 +344,7 @@ useEffect(() => {
             value={nuevoElemento.Clave||""}
             onChange={(v) => {
               setNuevoElemento({
-                ...nuevoElemento,IdModificador: localStorage.getItem("IdUsuario")||'',
+                ...nuevoElemento,CreadoPor: localStorage.getItem("IdUsuario")||'',
                 Clave: v.target.value.replaceAll("'", "").replaceAll('"', ""),
               });
             }}
@@ -365,7 +360,7 @@ useEffect(() => {
             value={nuevoElemento.Descripcion||""}
             onChange={(v) => {
               setNuevoElemento({
-                ...nuevoElemento,IdModificador: localStorage.getItem("IdUsuario")||'',
+                ...nuevoElemento,CreadoPor: localStorage.getItem("IdUsuario")||'',
                 Descripcion: v.target.value
                   .replaceAll("'", "")
                   .replaceAll('"', ""),
@@ -383,7 +378,7 @@ useEffect(() => {
             value={nuevoElemento.NombreCorto||""}
             onChange={(v) => {
               setNuevoElemento({
-                ...nuevoElemento,IdModificador: localStorage.getItem("IdUsuario")||'',
+                ...nuevoElemento,CreadoPor: localStorage.getItem("IdUsuario")||'',
                 NombreCorto: v.target.value
                   .replaceAll("'", "")
                   .replaceAll('"', ""),
@@ -399,7 +394,7 @@ useEffect(() => {
               getOptionLabel={(usuarios) => usuarios.Nombre || 'Seleccione titular'}
               value={titular}
               onChange={(event, newValue) => {
-                  if (newValue != null) { setTitular(newValue);  
+                  if (newValue != null) { setTitular(newValue);  setNuevoElemento({...nuevoElemento,IdTitular:newValue.Id,IdResponsable:newValue.Id,CreadoPor: localStorage.getItem("IdUsuario")||''});  
               //         setErrores({...errores, secretaria:{
               //         valid:false,
               //         text:"Ingresa secretaria valida"
@@ -441,7 +436,7 @@ useEffect(() => {
                             value={tpoDependencia}
                             onChange={(event, newValue) => {
                                 if (newValue != null) { setTpoDependencia(newValue);  
-                                  setNuevoElemento({...nuevoElemento,IdModificador: localStorage.getItem("IdUsuario")||'',IdTipoDependencia:newValue.Id});
+                                  setNuevoElemento({...nuevoElemento,CreadoPor: localStorage.getItem("IdUsuario")||'',IdTipoDependencia:newValue.Id});
                             //         setErrores({...errores, secretaria:{
                             //         valid:false,
                             //         text:"Ingresa secretaria valida"
@@ -467,7 +462,7 @@ useEffect(() => {
                             value={secretaria}
                             onChange={(event, newValue) => {
                                 if (newValue != null) { setSecretaria(newValue);  
-                                  setNuevoElemento({...nuevoElemento,IdModificador: localStorage.getItem("IdUsuario")||''});
+                                  setNuevoElemento({...nuevoElemento,CreadoPor: localStorage.getItem("IdUsuario")||''});
                             //         setErrores({...errores, secretaria:{
                             //         valid:false,
                             //         text:"Ingresa secretaria valida"
@@ -511,7 +506,7 @@ useEffect(() => {
             value={nuevoElemento.Direccion||""}
             onChange={(v) => {
               setNuevoElemento({
-                ...nuevoElemento,IdModificador: localStorage.getItem("IdUsuario")||'',
+                ...nuevoElemento,CreadoPor: localStorage.getItem("IdUsuario")||'',
                 Direccion: v.target.value
                   .replaceAll("'", "")
                   .replaceAll('"', ""),
@@ -529,7 +524,7 @@ useEffect(() => {
             value={nuevoElemento.Telefono||""}
             onChange={(v) => {
               setNuevoElemento({
-                ...nuevoElemento,IdModificador: localStorage.getItem("IdUsuario")||'',
+                ...nuevoElemento,CreadoPor: localStorage.getItem("IdUsuario")||'',
                 Telefono: v.target.value.replaceAll("'", "").replaceAll('"', ""),
               });
             }}
@@ -545,7 +540,7 @@ useEffect(() => {
             value={nuevoElemento.ControlInterno||""}
             onChange={(v) => {
               setNuevoElemento({
-                ...nuevoElemento,IdModificador: localStorage.getItem("IdUsuario")||'',
+                ...nuevoElemento,CreadoPor: localStorage.getItem("IdUsuario")||'',
                 ControlInterno: v.target.value
                   .replaceAll("'", "")
                   .replaceAll('"', ""),
@@ -563,7 +558,7 @@ useEffect(() => {
             value={nuevoElemento.Referencia||""}
             onChange={(v) => {
               setNuevoElemento({
-                ...nuevoElemento,IdModificador: localStorage.getItem("IdUsuario")||'',
+                ...nuevoElemento,CreadoPor: localStorage.getItem("IdUsuario")||'',
                 Referencia: v.target.value
                   .replaceAll("'", "")
                   .replaceAll('"', ""),
@@ -576,7 +571,7 @@ useEffect(() => {
         <Button className="cancelar" onClick={() => setOpen(false)}>
           Cancelar
         </Button>
-        <Button className="aceptar" onClick={()=>{modificarCatalogo(ruta,{...nuevoElemento},setOpen)
+        <Button className="aceptar" onClick={()=>{createCatalogo(ruta,{...nuevoElemento},setOpen)
         }}>Editar</Button>
         {/* console.log(nuevoElemento*/}
       </DialogActions>

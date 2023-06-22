@@ -8,8 +8,8 @@ import MUIXDataGrid from "../../components/MUIXDataGrid";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ButtonsAdd from "../Componentes/ButtonsAdd";
-import { CatalogosModal } from "../../components/dialogsCatalogos/CatalogosModal";
 import { Edit, IModify } from "../../components/dialogsCatalogos/Edit";
+import { Create } from "../../components/dialogsCatalogos/Create";
 
 const Catalogos = () => {
   const [valueTab, setValueTab] = useState<string>("1");
@@ -32,6 +32,7 @@ const Catalogos = () => {
 
   const [openModal, setOpenModal] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+  const [openCreate, setOpenCreate] = useState(false);
   const [elemento, setElemento] = useState<IModify>({
     IdSecretaria: "",
     Nombre: "",
@@ -256,7 +257,7 @@ const Catalogos = () => {
             </TabList>
           </Box>
           <Grid item xs={12} paddingLeft={1}>
-            <ButtonsAdd handleOpen={handleOpen} agregar={true} />
+            <ButtonsAdd handleOpen={setOpenCreate} agregar={true} />
           </Grid>
           <TabPanel value="1">
             <Grid item xs={12} className="ContainerMUIXDataGridCatalogos">
@@ -296,12 +297,12 @@ const Catalogos = () => {
         </TabContext>
       </Grid>
       <div className="FooterLogin">
-        <Grid
+        {/* <Grid
           paddingTop={2}
           container
           direction="row"
           justifyContent="center"
-        ></Grid>
+        ></Grid> */}
 
         <Box sx={{ position: "absolute", right: 5, bottom: 5 }}>
           <Typography
@@ -314,11 +315,15 @@ const Catalogos = () => {
             v.{process.env.REACT_APP_APPLICATION_VERSION}
           </Typography>
         </Box>
-        <CatalogosModal />
         <Edit
           open={openEdit}
           setOpen={setOpenEdit}
           elemento={elemento}
+          catalogo={valueTab}
+        />
+        <Create
+          open={openCreate}
+          setOpen={setOpenCreate}
           catalogo={valueTab}
         />
       </div>
