@@ -264,7 +264,11 @@ export const Login = () => {
           }
 
           if (arrayApps.length === 1) {
-            window.location.assign(arrayApps[0].Path + "?jwt=" + localStorage.getItem("jwtToken") + "&rf=" + localStorage.getItem("refreshToken") + "&IdApp=" + arrayApps[0].IdApp)
+            if(arrayApps[0].Path!=="./admin"){
+              window.location.assign(arrayApps[0].Path + "?jwt=" + localStorage.getItem("jwtToken") + "&rf=" + localStorage.getItem("refreshToken") + "&IdApp=" + arrayApps[0].IdApp);
+            }else{
+              navigate("./admin");
+            }
           }
 
 
