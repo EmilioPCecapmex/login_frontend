@@ -25,24 +25,26 @@ export interface EditDialogProps {
 
 export const EditDialogApp = (props: EditDialogProps) => {
   const [Nombre, setNombre] = useState("");
+  const [descripcion, setDescripcion] = useState("");
   const [Path, setPath] = useState("");
   // esto creo que es solo para poder prender o apagar el switch
   const [estatus, setEstatus] = useState<boolean>(false);
 
   useEffect(() => {
-    setNombre(props.app.row.Nombre);
-    setPath(props.app.row.Path);
+    setNombre(props?.app?.row?.Nombre);
+    setPath(props?.app?.row?.Path);
+    setDescripcion(props?.app?.row?.Descripcion)
     //setEstaActivo(props.app.EstaActivo === 1 ? reue : else);
-    setEstatus(props.app.row.estatusLabel === "Activo" ? true : false);
+    setEstatus(props?.app?.row?.estatusLabel === "Activo" ? true : false);
   }, [
-    props.app.row.Id,
-    props.app.row.Nombre,
-    props.app.row.Path,
-    props.app.row.estatusLabel,
+    props?.app?.row?.Id,
+    props?.app?.row?.Nombre,
+    props?.app?.row?.Path,
+    props?.app?.row?.estatusLabel,
   ]);
 
   const handleUpdateBtn = () => {
-    if (Nombre === "" || Path === "") {
+    if (Nombre === "" || Path === ""||descripcion==="") {
       Swal.fire({
         icon: "error",
         title: "Mensaje",
@@ -54,6 +56,7 @@ export const EditDialogApp = (props: EditDialogProps) => {
         IdApp: props.app.row.Id,
         Nombre: Nombre,
         Path: Path,
+        Descripcion:descripcion,
         EstaActivo: estatus ? 1 : 0,
         IdUsuarioModificador: localStorage.getItem("IdUsuario"),
       };
@@ -117,7 +120,8 @@ export const EditDialogApp = (props: EditDialogProps) => {
               label="Nombre"
               type="text"
               fullWidth
-              variant="standard"
+              variant="outlined"
+              size="small"
               value={Nombre}
               onChange={(v) => setNombre(v.target.value)}
             />
@@ -131,9 +135,26 @@ export const EditDialogApp = (props: EditDialogProps) => {
               label="Path"
               type="text"
               fullWidth
-              variant="standard"
+              variant="outlined"
+              size="small"
+
               value={Path}
               onChange={(v) => setPath(v.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} >
+            <TextField
+              autoFocus
+              margin="dense"
+              id="descripcion"
+              label="Descripción"
+              type="text"
+              fullWidth
+              variant="outlined"
+              multiline
+              rows={4}
+              value={descripcion}
+              onChange={(v) => setDescripcion(v.target.value)}
             />
           </Grid>
           {/* objeto de estatus */}
