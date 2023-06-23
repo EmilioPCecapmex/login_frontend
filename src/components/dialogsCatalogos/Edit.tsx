@@ -185,9 +185,7 @@ export const Edit = ({
   useEffect(() => {
       if (dependencia.Id != '') {
           let aux = secretarias.find((sec) => sec.Id === dependencia.IdPerteneceA)
-          console.log('aux', aux);
-          console.log('dependencia', dependencia);
-          console.log('secretarias', secretarias);
+    
           if (aux !== undefined) {
               setSecretaria(aux);
           }
@@ -204,8 +202,6 @@ export const Edit = ({
   }, [secretaria])
 
   useEffect(() => {
-      console.log('condicion', secretariasFiltered.find((obj) => obj === secretaria));
-
       if (dependenciasFiltered.find((obj) => obj === dependencia) === undefined)
           setDependencia({
               Id: '',
@@ -584,7 +580,6 @@ useEffect(() => {
         </Button>
         <Button className="aceptar" onClick={()=>{modificarCatalogo(ruta,{...nuevoElemento},setOpen,reloadData)
         }}>Editar</Button>
-        {/* console.log(nuevoElemento*/}
       </DialogActions>
     </Dialog>
   );

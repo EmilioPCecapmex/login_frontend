@@ -74,7 +74,6 @@ const Catalogos = () => {
               <IconButton
                 color="primary"
                 onClick={() => {
-                  console.log(cellValues.row.Id);
                   setElemento(cellValues.row);
                   setOpenEdit(true);
                 }}
@@ -86,7 +85,6 @@ const Catalogos = () => {
               <IconButton
                 color="error"
                  onClick={(event) => {
-                  console.log(cellValues.row);
                   setSelectId(cellValues.row.Id);
                   setElemento(cellValues.row);
                      setOpenDelete(true);
@@ -170,8 +168,6 @@ const Catalogos = () => {
         var NombreCorto = 0;
         var ControlInterno = 0;
         var Referencia = 0;
-        console.log('user',user);
-        console.log(user[0].Nombre?true:false);
         
         user?.map((data) => {
           if (data?.Clave) {

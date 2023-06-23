@@ -152,9 +152,6 @@ export const SolicitudUsuarios = (props: NewDialogProps) => {
     useEffect(() => {
         if (dependencia.Id != '') {
             let aux = secretarias.find((sec) => sec.Id === dependencia.IdPerteneceA)
-            console.log('aux', aux);
-            console.log('dependencia', dependencia);
-            console.log('secretarias', secretarias);
             if (aux !== undefined) {
                 setSecretaria(aux);
             }
@@ -171,7 +168,6 @@ export const SolicitudUsuarios = (props: NewDialogProps) => {
     }, [secretaria])
 
     useEffect(() => {
-        console.log('condicion', secretariasFiltered.find((obj) => obj === secretaria));
 
         if (dependenciasFiltered.find((obj) => obj === dependencia) === undefined)
             setDependencia({

@@ -37,7 +37,6 @@ export const getCatalogo = (path: string, setState: Function) => {
   })
     // aqui se recibe lo del endpoint en response
     .then(({ data }) => {
-      console.log('data', data.data);
       setState(data.data)
     })
     .catch(

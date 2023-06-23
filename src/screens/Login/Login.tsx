@@ -185,14 +185,11 @@ export const Login = () => {
       UserServices.verify({}, String(jwt)).then((res) => {
 
         if (res.status === 200) {
-          console.log(((res.data.data.exp - (Date.now() / 1000)) / 60))
-
           let data = {
 
             IdUsuario: res.data.data.IdUsuario
           }
           UserServices.userDetail(data, String(jwt)).then((resuserDetail) => {
-            console.log(resuserDetail.status)
             if (resuserDetail.status === 200) {
 
               if (((res.data.data.exp - (Date.now() / 1000)) / 60) > 20) {
