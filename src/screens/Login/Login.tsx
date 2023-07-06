@@ -64,7 +64,7 @@ export const Login = () => {
   const [contrasenaTextInputColor, setContrasenaTextInputColor] = useState("#fff");
   const [openModal, setOpenModal] = useState(false);
   const [openAppsModal, setOpenAppsModal] = useState(false);
-  const [openSolicitudesMoadal, setOpenSolicitudesMoadal] = useState(false);
+  const [opensolicitudModal, setOpensolicitudModal] = useState(false);
   const [existenParams, setExistenParams] = useState(true);
   const [openSlider, setOpenSlider] = useState(true);
   const [idUsuarioSolicitante, setIdUsuarioSolicitante] = useState("");
@@ -155,7 +155,7 @@ export const Login = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            authorization: (openSolicitudesMoadal && jwt) ? jwt : JWT_Token,
+            authorization: (opensolicitudModal && jwt) ? jwt : JWT_Token,
           },
         }
       )
@@ -193,7 +193,7 @@ export const Login = () => {
             if (resuserDetail.status === 200) {
 
               if (((res.data.data.exp - (Date.now() / 1000)) / 60) > 20) {
-                setOpenSolicitudesMoadal(true);
+                setOpensolicitudModal(true);
                 setIdUsuarioSolicitante(res?.data?.data?.IdUsuario);
                 setOpenSlider(false)
                 if (!existenParams) {
@@ -202,7 +202,7 @@ export const Login = () => {
 
               }
               else {
-                setOpenSolicitudesMoadal(false);
+                setOpensolicitudModal(false);
                 // AlertS.fire({
                 //   title: "¡El Token es demaciado viejo. reintente con un Token nuevo!",
                 //   icon: "warning",
@@ -355,9 +355,10 @@ export const Login = () => {
 
         (jwt && idAppSolicitante) ?
           <>
-            {openSolicitudesMoadal ?
+            {opensolicitudModal ?
               <SolicitudUsuarios
-                modoModal={openSolicitudesMoadal}
+                handleDialogClose={setOpensolicitudModal}
+                modoModal={opensolicitudModal}
                 token={String(jwt)}
                 idUsuarioSolicitante={String(idUsuarioSolicitante)}
                 idApp={String(idAppSolicitante)} /> 

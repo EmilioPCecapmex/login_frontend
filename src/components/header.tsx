@@ -81,7 +81,7 @@ export const Header = () => {
           sx={{
             height: "50px",
           }}>
-          <Tooltip title="Catalogos">
+          <Tooltip title="Catálogos">
             <IconButton className="iconos-header" onClick={() => navigate("../catalogos")}>
               <DescriptionIcon />
             </IconButton>
@@ -106,7 +106,7 @@ export const Header = () => {
             </IconButton>
           </Tooltip>
 
-          <Tooltip title="Logout">
+          <Tooltip title="Cerrar sesión ">
             <IconButton className="iconos-header" onClick={() => logoutFnc()}>
               <PowerSettingsNewIcon />
             </IconButton>

@@ -27,7 +27,7 @@ const App = () => {
           <Route path="/app" element={<CatApps />} />
           <Route path="/validador" element={<Documentos />} />
           <Route path="/catalogos" element={<Catalogos/>} />
-          <Route path="/generarSolicitud" element={<SolicitudUsuarios modoModal={false} token={""} idUsuarioSolicitante={""} idApp={""}/>} />
+          <Route path="/generarSolicitud" element={<SolicitudUsuarios handleDialogClose={()=>{}} modoModal={false} token={""} idUsuarioSolicitante={""} idApp={""}/>} />
         </Routes>
       </HashRouter>
   );

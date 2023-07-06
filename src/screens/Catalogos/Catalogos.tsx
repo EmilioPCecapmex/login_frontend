@@ -72,7 +72,7 @@ const Catalogos = () => {
           <Box>
             <Tooltip title={"Editar"}>
               <IconButton
-                color="primary"
+                sx={{color:"black"}}
                 onClick={() => {
                   setElemento(cellValues.row);
                   setOpenEdit(true);
@@ -83,7 +83,7 @@ const Catalogos = () => {
             </Tooltip>
             <Tooltip title={"Eliminar"}>
               <IconButton
-                color="error"
+                sx={{color:"black"}}
                  onClick={(event) => {
                   setSelectId(cellValues.row.Id);
                   setElemento(cellValues.row);
@@ -321,12 +321,12 @@ const Catalogos = () => {
           catalogo={valueTab}
           reloadData={setReload}
         />
-        <Create
+        {openCreate && <Create
           open={openCreate}
           setOpen={setOpenCreate}
           catalogo={valueTab}
           reloadData={setReload}
-        />
+        />}
         <Delete
           open={openDelete}
           setOpen={setOpenDelete}
