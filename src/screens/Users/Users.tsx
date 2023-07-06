@@ -211,7 +211,7 @@ export default function Users() {
           <Box>
             <Tooltip title={"Descargar solicitud - " + cellValues.row.NombreUsuario}>
               <IconButton
-                color="info"
+                sx={{color:"black"}}
                 onClick={(event) => {
                   getDatosDocumento(cellValues.row.NombreUsuario);
                   //imprimirDocumento(event, cellValues);
@@ -224,7 +224,7 @@ export default function Users() {
 
             <Tooltip title={"Editar - " + cellValues.row.NombreUsuario}>
               <IconButton
-                color="warning"
+                sx={{color:"black"}}
                 onClick={(event) => {
                   handleEditBtnClick(event, cellValues);
                 }}
@@ -235,7 +235,7 @@ export default function Users() {
 
             <Tooltip title={"Visualizar acceso a plataformas"}>
               <IconButton
-                color="info"
+                sx={{color:"black"}}
                 onClick={(event) => {
                   handleAppsBtnClick(event, cellValues);
                 }}

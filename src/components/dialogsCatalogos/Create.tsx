@@ -183,9 +183,7 @@ export const Create = ({
   useEffect(() => {
       if (dependencia.Id != '') {
           let aux = secretarias.find((sec) => sec.Id === dependencia.IdPerteneceA)
-          console.log('aux', aux);
-          console.log('dependencia', dependencia);
-          console.log('secretarias', secretarias);
+         
           if (aux !== undefined) {
               setSecretaria(aux);
           }
@@ -202,8 +200,6 @@ export const Create = ({
   }, [secretaria])
 
   useEffect(() => {
-      console.log('condicion', secretariasFiltered.find((obj) => obj === secretaria));
-
       if (dependenciasFiltered.find((obj) => obj === dependencia) === undefined)
           setDependencia({
               Id: '',
@@ -457,7 +453,7 @@ useEffect(() => {
                     </Grid>
         )}
         {["1","6"].includes(catalogo) && (<Grid  sx={{ mt: 3, width: "100%" }}>
-                        <Typography variant="body2">Pertenece a la secretaria:</Typography>
+                        <Typography variant="body2">Pertenece a la Secretaria:</Typography>
                         <Autocomplete
                             options={secretariasFiltered}
                             getOptionLabel={(secretaria) => secretaria.Nombre || 'Seleccione secretaria'}
@@ -502,9 +498,9 @@ useEffect(() => {
           <TextField
             multiline
             sx={{ mt: 3, width: "100%" }}
-            title="Direccion"
-            label="Direccion"
-            placeholder="Direccion"
+            title="Dirección"
+            label="Dirección"
+            placeholder="Dirección"
             value={nuevoElemento.Direccion||""}
             onChange={(v) => {
               setNuevoElemento({
@@ -520,9 +516,9 @@ useEffect(() => {
           <TextField
             multiline
             sx={{ mt: 3, width: "100%" }}
-            title="Telefono"
-            label="Telefono"
-            placeholder="Telefono"
+            title="Teléfono"
+            label="Teléfono"
+            placeholder="Teléfono"
             value={nuevoElemento.Telefono||""}
             onChange={(v) => {
               setNuevoElemento({
@@ -575,7 +571,6 @@ useEffect(() => {
         </Button>
         <Button className="aceptar" onClick={()=>{createCatalogo(ruta,{...nuevoElemento},setOpen,reloadData)
         }}>Agregar</Button>
-        {/* console.log(nuevoElemento*/}
       </DialogActions>
     </Dialog>
   );

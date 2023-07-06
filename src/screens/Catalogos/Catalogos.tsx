@@ -72,9 +72,8 @@ const Catalogos = () => {
           <Box>
             <Tooltip title={"Editar"}>
               <IconButton
-                color="primary"
+                sx={{color:"black"}}
                 onClick={() => {
-                  console.log(cellValues.row.Id);
                   setElemento(cellValues.row);
                   setOpenEdit(true);
                 }}
@@ -84,9 +83,8 @@ const Catalogos = () => {
             </Tooltip>
             <Tooltip title={"Eliminar"}>
               <IconButton
-                color="error"
+                sx={{color:"black"}}
                  onClick={(event) => {
-                  console.log(cellValues.row);
                   setSelectId(cellValues.row.Id);
                   setElemento(cellValues.row);
                      setOpenDelete(true);
@@ -170,8 +168,6 @@ const Catalogos = () => {
         var NombreCorto = 0;
         var ControlInterno = 0;
         var Referencia = 0;
-        console.log('user',user);
-        console.log(user[0].Nombre?true:false);
         
         user?.map((data) => {
           if (data?.Clave) {
@@ -325,12 +321,12 @@ const Catalogos = () => {
           catalogo={valueTab}
           reloadData={setReload}
         />
-        <Create
+        {openCreate && <Create
           open={openCreate}
           setOpen={setOpenCreate}
           catalogo={valueTab}
           reloadData={setReload}
-        />
+        />}
         <Delete
           open={openDelete}
           setOpen={setOpenDelete}

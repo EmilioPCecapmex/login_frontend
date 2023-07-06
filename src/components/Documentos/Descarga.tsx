@@ -49,7 +49,6 @@ export const DialogDescarga = ({
         dataArray2
       )
       .then((response) => {
-        console.log(response);
         
         setNecesitaToken(response.data === 1 ? true : false);
       });

@@ -33,7 +33,7 @@ export interface NewDialogProps {
     token: string
     idUsuarioSolicitante: string
     idApp: string
-    // handleNewDialogClose: Function;
+    handleDialogClose: Function;
 }
 
 export interface IUserTypes {
@@ -73,6 +73,11 @@ interface IObjectError{
 
 
 export const SolicitudUsuarios = (props: NewDialogProps) => {
+    console.log('props',props);
+    
+
+    
+    
     // arrays de listas
     // const [tpoDependencia, setTpoDependencia] = useState();
 //------------------------CATALOGOS-------------------------------------------
@@ -152,9 +157,6 @@ export const SolicitudUsuarios = (props: NewDialogProps) => {
     useEffect(() => {
         if (dependencia.Id != '') {
             let aux = secretarias.find((sec) => sec.Id === dependencia.IdPerteneceA)
-            console.log('aux', aux);
-            console.log('dependencia', dependencia);
-            console.log('secretarias', secretarias);
             if (aux !== undefined) {
                 setSecretaria(aux);
             }
@@ -171,7 +173,6 @@ export const SolicitudUsuarios = (props: NewDialogProps) => {
     }, [secretaria])
 
     useEffect(() => {
-        console.log('condicion', secretariasFiltered.find((obj) => obj === secretaria));
 
         if (dependenciasFiltered.find((obj) => obj === dependencia) === undefined)
             setDependencia({
@@ -326,6 +327,15 @@ function validarCadena(nombre: string): boolean {
         value: '',
         label: ''
     });
+
+    useEffect(() => {
+    if(apps.length){
+        let aux=apps.find((app)=>app.value===props.idApp)
+        if(aux)
+            setApp(aux)
+    }
+    }, [apps])
+    
     //const [UResponsable, setUResponsable] = useState<SelectValues[]>([]);
     // const [idUResponsable, setIdUResponsable] = useState<string>("");
     // const [nameDep, setNameDep] = useState<string>("");
@@ -595,30 +605,43 @@ function validarCadena(nombre: string): boolean {
                 Dependencia: dependencia.Id,
             };
 
-            UserServices.createsolicitud(data, String(jwt) !== "null" ? String(jwt) : String(localStorage.getItem("jwtToken"))).then((res) => {
+            UserServices.createsolicitud(data, String(jwt) !== "null" ? String(jwt) : 
+            String(localStorage.getItem("jwtToken"))).then((res) => {
                 if (res.status === 200) {
-                    console.log('res',res.data.data);
+                    console.log('res',res);
                     
-                    if(res.data.data[0][0].Respuesta==='406')
+                    if(res.data.data[0][0].Respuesta==='406'||res.data.data[0][0].Respuesta==='403')
                     Swal.fire({
                         icon: "error",
                         title: "Mensaje",
                         text: res.data.data[0][0].Mensaje
                     });
 
+                    if(res.data.data[0][0].Respuesta==='201'){
+                        props.handleDialogClose(false);
+                        Swal.fire({
+                        icon: "success",
+                        title: "Mensaje",
+                        text: res.data.data[0][0].Mensaje
+                    });
+                    }
+                    
+
                     // setUserTypes(res?.data?.data);
                 } else {
                     Swal.fire({
                         icon: "error",
                         title: "Mensaje",
-                        text: "(" + res.response.status + ") " + res.response.data.msg,
+                        text: "(" + res.response.status + ") " 
                     });
                 }
-            }).catch((e)=>{
+            }).catch((error)=>{
+                console.log('error',error);
+            
                 Swal.fire({
                     icon: "error",
                     title: "Mensaje",
-                    text: `${e}`
+                    text: 'Error al realizar el registro'
                 });
             });
 
@@ -682,7 +705,7 @@ function validarCadena(nombre: string): boolean {
         getCatalogo("secretarias", setSecretarias)
         getCatalogo("uresponsables", setUResponsables)
 
-        if (props.idApp) {
+        if (props.idApp!=='') {
 
             let aux = apps.find((app) => app.id = props.idApp)
             if (aux)
@@ -701,7 +724,7 @@ function validarCadena(nombre: string): boolean {
 
             <Paper sx={{ height: "90vh", width: "80vw",mt:"2vh",bgcolor:"#fefdfc", overflow:"auto" }} >
                 <Grid container height={"100%"} width={"100%"} display={"flex"} justifyContent={"space-evenly"}  >
-
+                    
                     <Grid item xs={10} height={"10%"} md={4.5}>
                         <TextField
                             margin="dense"
@@ -1180,6 +1203,7 @@ function validarCadena(nombre: string): boolean {
                     <Grid item xs={10} height={"10%"}  md={4.5}>
                         <Typography variant="body2"> Aplicaciones: </Typography>
                         <Autocomplete
+                        disabled={props.idApp!==''}
                             options={apps}
                             getOptionLabel={(app) => app.label || 'Seleccione aplicacion'}
                             value={app}

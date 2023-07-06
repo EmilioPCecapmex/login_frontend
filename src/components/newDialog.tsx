@@ -53,7 +53,7 @@ export const NewDialog = (props: NewDialogProps) => {
             </IconButton>
           </Grid>
         </Grid>
-        <SolicitudUsuarios modoModal={false} token={""} idUsuarioSolicitante={""} idApp={""} />
+        <SolicitudUsuarios handleDialogClose={props.handleNewDialogClose} modoModal={false} token={""} idUsuarioSolicitante={""} idApp={""} />
 
       </div>
     </Dialog>
