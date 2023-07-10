@@ -14,19 +14,13 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import SelectValues from "../../Interfaces/SelectValues";
-import SelectFragLogin from "../../components/SelectFrag/SelectFragLogin";
 import { UserServices } from "../../services/UserServices";
 import SliderProgress from "../Componentes/SliderProgress";
 import { getCatalogo } from "../../services/catalogosService";
-import { log } from "console";
 import { IDepartamento, IDependencia, IPerfil, IRol, ISecretaria, IUResponsable } from "./ICatalogos";
-import { Email, LoginSharp } from "@mui/icons-material";
-
-
 
 export interface NewDialogProps {
     modoModal: boolean;
@@ -42,45 +36,38 @@ export interface IUserTypes {
     Descripcion: string;
 }
 
-interface IError{
-    valid:boolean;
-    text:string
+interface IError {
+    valid: boolean;
+    text: string
 }
 
-interface IObjectError{
-    nombre:IError;
-    aPaterno:IError;
-    aMAterno:IError;
-    nUsuario:IError;
-    email:IError;
-    curp:IError;
-    rfc:IError;
-    puesto:IError;
-    celular:IError;
-    telefono:IError;
-    ext:IError;
-    tpoUsuario:IError;
-    secretaria:IError;
-    dependencia:IError;
-    departamento:IError;
-    perfil:IError;
-    rol:IError;
-    uResponsable:IError;
-    aplicacion:IError;
+interface IObjectError {
+    nombre: IError;
+    aPaterno: IError;
+    aMAterno: IError;
+    nUsuario: IError;
+    email: IError;
+    curp: IError;
+    rfc: IError;
+    puesto: IError;
+    celular: IError;
+    telefono: IError;
+    ext: IError;
+    tpoUsuario: IError;
+    secretaria: IError;
+    dependencia: IError;
+    departamento: IError;
+    perfil: IError;
+    rol: IError;
+    uResponsable: IError;
+    aplicacion: IError;
 }
 
 
 
 
-export const SolicitudUsuarios = (props: NewDialogProps) => {
-    console.log('props',props);
-    
-
-    
-    
-    // arrays de listas
-    // const [tpoDependencia, setTpoDependencia] = useState();
-//------------------------CATALOGOS-------------------------------------------
+export const SolicitudUsuario = (props: NewDialogProps) => {
+    //------------------------CATALOGOS-------------------------------------------
     const [departamentos, setDepartamentos] = useState<Array<IDepartamento>>([]);
     const [roles, setRoles] = useState<Array<IRol>>([]);
     const [dependencias, setDependencias] = useState<Array<IDependencia>>([]);
@@ -110,7 +97,7 @@ export const SolicitudUsuarios = (props: NewDialogProps) => {
         Modificador: '',
         CreadoPor: '',
         Creador: '',
-        Deleted:'',
+        Deleted: '',
     });
     const [dependencia, setDependencia] = useState<IDependencia>({
         Id: '',
@@ -123,29 +110,29 @@ export const SolicitudUsuarios = (props: NewDialogProps) => {
         Titular: '',
         IdPerteneceA: '',
         PerteneceA: '',
-        Deleted:'',
+        Deleted: '',
     });
     const [rol, setRol] = useState<IRol>({
         ControlInterno: '',
-        Deleted:'',
+        Deleted: '',
         Descripcion: '',
         Id: '',
         Nombre: ''
     });
     const [perfil, setPerfil] = useState<IPerfil>({
-        Deleted:'',
+        Deleted: '',
         Descripcion: '',
         Id: '',
         Referencia: '',
     });
     const [uResponsable, setUResponsable] = useState<IUResponsable>({
         Clave: '',
-        Deleted:'',
+        Deleted: '',
         Descripcion: '',
         Id: '',
     })
     const [secretaria, setSecretaria] = useState<ISecretaria>({
-        Deleted:'',
+        Deleted: '',
         Direccion: '',
         Id: '',
         IdTitular: '',
@@ -186,92 +173,92 @@ export const SolicitudUsuarios = (props: NewDialogProps) => {
                 Titular: '',
                 IdPerteneceA: '',
                 PerteneceA: '',
-                Deleted:'',
+                Deleted: '',
             })
 
     }, [dependenciasFiltered])
 
- //------------------------CATALOGOS-------------------------------------------
- //------------------------Errores---------------------------------------------
-    const [errores,setErrores]=useState<IObjectError>(
+    //------------------------CATALOGOS-------------------------------------------
+    //------------------------Errores---------------------------------------------
+    const [errores, setErrores] = useState<IObjectError>(
         {
-            nombre:{
-                valid:false,
-                text:"Ingresa nombre "
+            nombre: {
+                valid: false,
+                text: "Ingresa nombre "
             },
-            aPaterno:{
-                valid:false,
-                text:"Ingresa apellido paterno "
+            aPaterno: {
+                valid: false,
+                text: "Ingresa apellido paterno "
             },
-            aMAterno:{
-                valid:false,
-                text:"Ingresa apellido materno "
+            aMAterno: {
+                valid: false,
+                text: "Ingresa apellido materno "
             },
-            nUsuario:{
-                valid:false,
-                text:"Ingresa nombde de usuario "
+            nUsuario: {
+                valid: false,
+                text: "Ingresa nombde de usuario "
             },
-            email:{
-                valid:false,
-                text:"Ingresa correo electronico valido"
+            email: {
+                valid: false,
+                text: "Ingresa correo electronico valido"
             },
-            curp:{
-                valid:false,
-                text:"Ingresa CURP"
+            curp: {
+                valid: false,
+                text: "Ingresa CURP"
             },
-            rfc:{
-                valid:false,
-                text:"Ingresa RFC"
+            rfc: {
+                valid: false,
+                text: "Ingresa RFC"
             },
-            puesto:{
-                valid:false,
-                text:"Ingresa puesto"
+            puesto: {
+                valid: false,
+                text: "Ingresa puesto"
             },
-            celular:{
-                valid:false,
-                text:"Ingresa celular"
+            celular: {
+                valid: false,
+                text: "Ingresa celular"
             },
-            telefono:{
-                valid:false,
-                text:"Ingresa telefono"
+            telefono: {
+                valid: false,
+                text: "Ingresa telefono"
             },
-            ext:{
-                valid:false,
-                text:"Ingresa extencion"
-            },tpoUsuario:{
-                valid:false,
-                text:"Selecciona tipo de usuario"
+            ext: {
+                valid: false,
+                text: "Ingresa extencion"
+            }, tpoUsuario: {
+                valid: false,
+                text: "Selecciona tipo de usuario"
             },
-            secretaria:{
-                valid:false,
-                text:"Selecciona secretaria"
+            secretaria: {
+                valid: false,
+                text: "Selecciona secretaria"
             },
-            dependencia:{
-                valid:false,
-                text:"Selecciona dependencia"
+            dependencia: {
+                valid: false,
+                text: "Selecciona dependencia"
             },
-            departamento:{
-                valid:false,
-                text:"Selecciona departamento"
+            departamento: {
+                valid: false,
+                text: "Selecciona departamento"
             },
-            perfil:{
-                valid:false,
-                text:"Selecciona perfiles"
+            perfil: {
+                valid: false,
+                text: "Selecciona perfiles"
             },
-            rol:{
-                valid:false,
-                text:"Selecciona roles"
+            rol: {
+                valid: false,
+                text: "Selecciona roles"
             },
-            uResponsable:{
-                valid:false,
-                text:"Selecciona unidad resposnable"
+            uResponsable: {
+                valid: false,
+                text: "Selecciona unidad resposnable"
             },
-            aplicacion:{
-                valid:false,
-                text:"Selecciona aplicacion"
+            aplicacion: {
+                valid: false,
+                text: "Selecciona aplicacion"
             }
         }
-        
+
     );
     // useEffect(() => {
     //     console.log("tpo", tpoDependencia);
@@ -298,16 +285,16 @@ export const SolicitudUsuarios = (props: NewDialogProps) => {
     const [curp, setCurp] = useState("");
     const [rfc, setRfc] = useState("");
     const [tipousuario, setTipoUsuario] = useState("");
-//-------------------------------validaciones de campos-------------------------------------------------------------
-function validarCadena(nombre: string): boolean {
-    // Expresión regular para validar el nombre
-    const patron = /^(?!.*\s{2})[a-zA-ZáÁéÉíÍóÓúÚñÑ0-9\s']*$/;
+    //-------------------------------validaciones de campos-------------------------------------------------------------
+    function validarCadena(nombre: string): boolean {
+        // Expresión regular para validar el nombre
+        const patron = /^(?!.*\s{2})[a-zA-ZáÁéÉíÍóÓúÚñÑ0-9\s']*$/;
 
-    // Comprobamos si el nombre cumple con el patrón
-    return patron.test(nombre);
-  }
+        // Comprobamos si el nombre cumple con el patrón
+        return patron.test(nombre);
+    }
 
-//-------------------------------END validaciones de campos----------------------------------------------------------
+    //-------------------------------END validaciones de campos----------------------------------------------------------
 
     // const [idLabelRol, setIdLabelRol] = useState<string>("");
 
@@ -329,13 +316,13 @@ function validarCadena(nombre: string): boolean {
     });
 
     useEffect(() => {
-    if(apps.length){
-        let aux=apps.find((app)=>app.value===props.idApp)
-        if(aux)
-            setApp(aux)
-    }
+        if (apps.length) {
+            let aux = apps.find((app) => app.value === props.idApp)
+            if (aux)
+                setApp(aux)
+        }
     }, [apps])
-    
+
     //const [UResponsable, setUResponsable] = useState<SelectValues[]>([]);
     // const [idUResponsable, setIdUResponsable] = useState<string>("");
     // const [nameDep, setNameDep] = useState<string>("");
@@ -385,10 +372,12 @@ function validarCadena(nombre: string): boolean {
     const compruebaCelular = (value: number) => {
         if (value <= 9999999999) {
             setCelular(value);
-            setErrores({...errores, celular:{
-                valid:false,
-                text:"Ingresa celular valido"
-        }})
+            setErrores({
+                ...errores, celular: {
+                    valid: false,
+                    text: "Ingresa celular valido"
+                }
+            })
         } else if (value.toString() === "NaN") {
             setCelular(0);
         }
@@ -396,10 +385,12 @@ function validarCadena(nombre: string): boolean {
     const compruebaTelefono = (value: number) => {
         if (value <= 9999999999) {
             setTelefono(value);
-            setErrores({...errores, telefono:{
-                valid:false,
-                text:"Ingresa telefono valido"
-        }})
+            setErrores({
+                ...errores, telefono: {
+                    valid: false,
+                    text: "Ingresa telefono valido"
+                }
+            })
         } else if (value.toString() === "NaN") {
             setTelefono(0);
         }
@@ -408,10 +399,12 @@ function validarCadena(nombre: string): boolean {
     const compruebaExt = (value: number) => {
         if (value <= 9999) {
             setExt(value);
-            setErrores({...errores, ext:{
-                valid:false,
-                text:"Ingresa extencion valida"
-        }})
+            setErrores({
+                ...errores, ext: {
+                    valid: false,
+                    text: "Ingresa extencion valida"
+                }
+            })
         } else if (value.toString() === "NaN") {
             setExt(0);
         }
@@ -450,7 +443,7 @@ function validarCadena(nombre: string): boolean {
         }
     }
 
-    function  isValidEmail() {
+    function isValidEmail() {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         return emailRegex.test(correo);
     }
@@ -467,112 +460,112 @@ function validarCadena(nombre: string): boolean {
         if (!format.test(value)) {
             setCurp(value.toUpperCase());
         }
-       
+
     };
 
     const handleStoreBtn = () => {
-            setErrores(
-                {
-                    nombre:{
-                        valid:nombre === "",
-                        text:"Ingresa nombre "
-                    },
-                    aPaterno:{
-                        valid:apellidoPaterno === "",
-                        text:"Ingresa apellido paterno "
-                    },
-                    aMAterno:{
-                        valid:apellidoMaterno === "",
-                        text:"Ingresa apellido materno "
-                    },
-                    nUsuario:{
-                        valid:nombreUsuario === "" ,
-                        text:"Ingresa nombre de usuario valido"
-                    },
-                    email:{
-                        valid:!isValidEmail(),
-                        text:"Ingresa correo electronico valido"
-                    },
-                    curp:{
-                        valid:curp === "",
-                        text:"Ingresa CURP valido"
-                    },
-                    rfc:{
-                        valid:rfc === "" ,
-                        text:"Ingresa RFC valido"
-                    },
-                    puesto:{
-                        valid:puesto==="",
-                        text:"Ingresa puesto valido"
-                    },
-                    celular:{
-                        valid:celular <= 0,
-                        text:"Ingresa celular valido"
-                    },
-                    telefono:{
-                        valid:telefono <= 0 ,
-                        text:"Ingresa telefono valido"
-                    },
-                    ext:{
-                        valid:ext <= 0,
-                        text:"Ingresa extencion valida"
-                    },tpoUsuario:{
-                        valid:tipousuario==="",
-                        text:"Selecciona tipo de usuario"
-                    },
-                    secretaria:{
-                        valid:secretaria.Id==="",
-                        text:"Selecciona secretaria"
-                    },
-                    dependencia:{
-                        valid:dependencia.Id==="",
-                        text:"Selecciona dependencia"
-                    },
-                    departamento:{
-                        valid:departamento.Id==="",
-                        text:"Selecciona departamento"
-                    },
-                    perfil:{
-                        valid:perfil.Id==="",
-                        text:"Selecciona perfiles"
-                    },
-                    rol:{
-                        valid:rol.Id==="",
-                        text:"Selecciona roles"
-                    },
-                    uResponsable:{
-                        valid:uResponsable.Id==="",
-                        text:"Selecciona unidad resposnable"
-                    },
-                    aplicacion:{
-                        valid:app.value==="",
-                        text:"Selecciona aplicacion"
-                    }
+        setErrores(
+            {
+                nombre: {
+                    valid: nombre === "",
+                    text: "Ingresa nombre "
+                },
+                aPaterno: {
+                    valid: apellidoPaterno === "",
+                    text: "Ingresa apellido paterno "
+                },
+                aMAterno: {
+                    valid: apellidoMaterno === "",
+                    text: "Ingresa apellido materno "
+                },
+                nUsuario: {
+                    valid: nombreUsuario === "",
+                    text: "Ingresa nombre de usuario valido"
+                },
+                email: {
+                    valid: !isValidEmail(),
+                    text: "Ingresa correo electronico valido"
+                },
+                curp: {
+                    valid: curp === "",
+                    text: "Ingresa CURP valido"
+                },
+                rfc: {
+                    valid: rfc === "",
+                    text: "Ingresa RFC valido"
+                },
+                puesto: {
+                    valid: puesto === "",
+                    text: "Ingresa puesto valido"
+                },
+                celular: {
+                    valid: celular <= 0,
+                    text: "Ingresa celular valido"
+                },
+                telefono: {
+                    valid: telefono <= 0,
+                    text: "Ingresa telefono valido"
+                },
+                ext: {
+                    valid: ext <= 0,
+                    text: "Ingresa extencion valida"
+                }, tpoUsuario: {
+                    valid: tipousuario === "",
+                    text: "Selecciona tipo de usuario"
+                },
+                secretaria: {
+                    valid: secretaria.Id === "",
+                    text: "Selecciona secretaria"
+                },
+                dependencia: {
+                    valid: dependencia.Id === "",
+                    text: "Selecciona dependencia"
+                },
+                departamento: {
+                    valid: departamento.Id === "",
+                    text: "Selecciona departamento"
+                },
+                perfil: {
+                    valid: perfil.Id === "",
+                    text: "Selecciona perfiles"
+                },
+                rol: {
+                    valid: rol.Id === "",
+                    text: "Selecciona roles"
+                },
+                uResponsable: {
+                    valid: uResponsable.Id === "",
+                    text: "Selecciona unidad resposnable"
+                },
+                aplicacion: {
+                    valid: app.value === "",
+                    text: "Selecciona aplicacion"
                 }
-                
-            );
+            }
+
+        );
         if (
-                nombre === "" ||
-                apellidoPaterno === "" ||
-                apellidoMaterno === "" ||
-                nombreUsuario === "" ||
-                !isValidEmail()||
-                tipousuario==="" ||
-                curp === "" ||
-                rfc === "" ||
-                puesto==="" ||
-                celular <= 0||
-                telefono <= 0 ||
-                ext <= 0 ||
-                secretaria.Id==="" ||
-                dependencia.Id==="" ||
-                departamento.Id==="" ||
-                perfil.Id==="" ||
-                rol.Id==="" ||
-                uResponsable.Id==="" ||
-                app.value===""
+            nombre === "" ||
+            apellidoPaterno === "" ||
+            apellidoMaterno === "" ||
+            nombreUsuario === "" ||
+            !isValidEmail() ||
+            tipousuario === "" ||
+            curp === "" ||
+            rfc === "" ||
+            puesto === "" ||
+            celular <= 0 ||
+            telefono <= 0 ||
+            ext <= 0 ||
+            secretaria.Id === "" ||
+            dependencia.Id === "" ||
+            departamento.Id === "" ||
+            perfil.Id === "" ||
+            rol.Id === "" ||
+            uResponsable.Id === "" ||
+            app.value === ""
         ) {
-           
+
             Swal.fire({
                 icon: "error",
                 title: "Mensaje",
@@ -605,45 +598,45 @@ function validarCadena(nombre: string): boolean {
                 Dependencia: dependencia.Id,
             };
 
-            UserServices.createsolicitud(data, String(jwt) !== "null" ? String(jwt) : 
-            String(localStorage.getItem("jwtToken"))).then((res) => {
-                if (res.status === 200) {
-                    console.log('res',res);
-                    
-                    if(res.data.data[0][0].Respuesta==='406'||res.data.data[0][0].Respuesta==='403')
-                    Swal.fire({
-                        icon: "error",
-                        title: "Mensaje",
-                        text: res.data.data[0][0].Mensaje
-                    });
+            UserServices.createsolicitud(data, String(jwt) !== "null" ? String(jwt) :
+                String(localStorage.getItem("jwtToken"))).then((res) => {
+                    if (res.status === 200) {
+                        console.log('res', res);
 
-                    if(res.data.data[0][0].Respuesta==='201'){
-                        props.handleDialogClose(false);
+                        if (res.data.data[0][0].Respuesta === '406' || res.data.data[0][0].Respuesta === '403')
+                            Swal.fire({
+                                icon: "error",
+                                title: "Mensaje",
+                                text: res.data.data[0][0].Mensaje
+                            });
+
+                        if (res.data.data[0][0].Respuesta === '201') {
+                            props.handleDialogClose(false);
+                            Swal.fire({
+                                icon: "success",
+                                title: "Mensaje",
+                                text: res.data.data[0][0].Mensaje
+                            });
+                        }
+
+
+                        // setUserTypes(res?.data?.data);
+                    } else {
                         Swal.fire({
-                        icon: "success",
-                        title: "Mensaje",
-                        text: res.data.data[0][0].Mensaje
-                    });
+                            icon: "error",
+                            title: "Mensaje",
+                            text: "(" + res.response.status + ") "
+                        });
                     }
-                    
+                }).catch((error) => {
+                    console.log('error', error);
 
-                    // setUserTypes(res?.data?.data);
-                } else {
                     Swal.fire({
                         icon: "error",
                         title: "Mensaje",
-                        text: "(" + res.response.status + ") " 
+                        text: 'Error al realizar el registro'
                     });
-                }
-            }).catch((error)=>{
-                console.log('error',error);
-            
-                Swal.fire({
-                    icon: "error",
-                    title: "Mensaje",
-                    text: 'Error al realizar el registro'
                 });
-            });
 
 
         }
@@ -705,7 +698,7 @@ function validarCadena(nombre: string): boolean {
         getCatalogo("secretarias", setSecretarias)
         getCatalogo("uresponsables", setUResponsables)
 
-        if (props.idApp!=='') {
+        if (props.idApp !== '') {
 
             let aux = apps.find((app) => app.id = props.idApp)
             if (aux)
@@ -715,16 +708,16 @@ function validarCadena(nombre: string): boolean {
 
     }, []);
 
- 
+
 
 
     return (
-        <div className="ContainerSolicitudesUsuario" style={{display:"flex",justifyContent:"center",alignItems:"center"}} >
+        <div className="ContainerSolicitudesUsuario" style={{ display: "flex", justifyContent: "center", alignItems: "center" }} >
             <SliderProgress open={false} texto={""} />
 
-            <Paper sx={{ height: "90vh", width: "80vw",mt:"2vh",bgcolor:"#fefdfc", overflow:"auto" }} >
+            <Paper sx={{ height: "90vh", width: "80vw", mt: "2vh", bgcolor: "#fefdfc", overflow: "auto" }} >
                 <Grid container height={"100%"} width={"100%"} display={"flex"} justifyContent={"space-evenly"}  >
-                    
+
                     <Grid item xs={10} height={"10%"} md={4.5}>
                         <TextField
                             margin="dense"
@@ -735,19 +728,24 @@ function validarCadena(nombre: string): boolean {
                             variant="standard"
                             value={nombre}
                             required
+                            inputProps={{maxLength:20 }}
                             error={errores.nombre.valid}
-                            helperText={errores.nombre.valid?errores.nombre.text:""}
+                            helperText={errores.nombre.valid ? errores.nombre.text : ""}
                             onChange={(v) => {
-                                if(validarCadena(v.target.value)){
-                                    setNombre(v.target.value); 
-                                    if(nombre.length>=3)
-                                    setErrores({...errores, nombre:{
-                                        valid:false,
-                                        text:"Ingresa Nombre(s)"
-                                }}) }}}
+                                if (validarCadena(v.target.value)) {
+                                    setNombre(v.target.value);
+                                    if (nombre.length >= 3)
+                                        setErrores({
+                                            ...errores, nombre: {
+                                                valid: false,
+                                                text: "Ingresa Nombre(s)"
+                                            }
+                                        })
+                                }
+                            }}
                         />
                     </Grid>
-                    <Grid item xs={10} height={"10%"}  md={4.5}>
+                    <Grid item xs={10} height={"10%"} md={4.5}>
                         <TextField
                             margin="dense"
                             id="apellidoPaterno"
@@ -757,21 +755,26 @@ function validarCadena(nombre: string): boolean {
                             variant="standard"
                             value={apellidoPaterno}
                             required
+                            inputProps={{maxLength:20 }}
                             error={errores.aPaterno.valid}
-                            helperText={errores.aPaterno.valid?errores.aPaterno.text:""}
+                            helperText={errores.aPaterno.valid ? errores.aPaterno.text : ""}
                             onChange={(v) => {
-                                if(validarCadena(v.target.value)){
-                                    setApellidoPaterno(v.target.value); 
-                                    if(apellidoPaterno.length>=3)
-                                    setErrores({...errores, aPaterno:{
-                                        valid:false,
-                                        text:"Ingresa apellido paterno"
-                                }}) }}}
+                                if (validarCadena(v.target.value)) {
+                                    setApellidoPaterno(v.target.value);
+                                    if (apellidoPaterno.length >= 3)
+                                        setErrores({
+                                            ...errores, aPaterno: {
+                                                valid: false,
+                                                text: "Ingresa apellido paterno"
+                                            }
+                                        })
+                                }
+                            }}
                         />
                     </Grid>
 
 
-                    <Grid item xs={10} height={"10%"}  md={4.5}>
+                    <Grid item xs={10} height={"10%"} md={4.5}>
                         <TextField
                             margin="dense"
                             id="apellidoMaterno"
@@ -781,19 +784,24 @@ function validarCadena(nombre: string): boolean {
                             variant="standard"
                             value={apellidoMaterno}
                             required
+                            inputProps={{maxLength:20 }}
                             error={errores.aMAterno.valid}
-                            helperText={errores.aMAterno.valid?errores.aMAterno.text:""}
+                            helperText={errores.aMAterno.valid ? errores.aMAterno.text : ""}
                             onChange={(v) => {
-                                if(validarCadena(v.target.value)){
-                                    setApellidoMaterno(v.target.value); 
-                                    if(apellidoMaterno.length>=3)
-                                    setErrores({...errores, aMAterno:{
-                                        valid:false,
-                                        text:"Ingresa apellido materno"
-                                }}) }}}
+                                if (validarCadena(v.target.value)) {
+                                    setApellidoMaterno(v.target.value);
+                                    if (apellidoMaterno.length >= 3)
+                                        setErrores({
+                                            ...errores, aMAterno: {
+                                                valid: false,
+                                                text: "Ingresa apellido materno"
+                                            }
+                                        })
+                                }
+                            }}
                         />
                     </Grid>
-                    <Grid item xs={10} height={"10%"}  md={4.5}>
+                    <Grid item xs={10} height={"10%"} md={4.5}>
                         <TextField
                             autoFocus
                             margin="dense"
@@ -805,21 +813,25 @@ function validarCadena(nombre: string): boolean {
                             value={nombreUsuario}
                             required
                             error={errores.nUsuario.valid}
-                            helperText={errores.nUsuario.valid?errores.nUsuario.text:""}
-                            inputProps={{ minLength: 4 }} //validacion de longuitud  de texto
+                            helperText={errores.nUsuario.valid ? errores.nUsuario.text : ""}
+                            inputProps={{ minLength: 4,maxLength:30  }} //validacion de longuitud  de texto
                             onChange={(v) => {
-                                if(validarCadena(v.target.value)){
-                                    setNombreUsuario((v.target.value).trim()); 
-                                    if(nombreUsuario.length>=3)
-                                    setErrores({...errores, nUsuario:{
-                                        valid:false,
-                                        text:"Ingresa nombre de usuario valido"
-                                }}) }}}
+                                if (validarCadena(v.target.value)) {
+                                    setNombreUsuario((v.target.value).trim());
+                                    if (nombreUsuario.length >= 3)
+                                        setErrores({
+                                            ...errores, nUsuario: {
+                                                valid: false,
+                                                text: "Ingresa nombre de usuario valido"
+                                            }
+                                        })
+                                }
+                            }}
                         />
                     </Grid>
 
 
-                    <Grid item xs={10} height={"10%"}  md={4.5}>
+                    <Grid item xs={10} height={"10%"} md={4.5}>
                         <TextField
                             margin="dense"
                             id="correo"
@@ -829,30 +841,37 @@ function validarCadena(nombre: string): boolean {
                             variant="standard"
                             value={correo}
                             required
+                            inputProps={{maxLength:100 }}
                             onChange={(v) => {
-                                    setCorreo(v.target.value); 
-                                    if(correo.length>=3 && !errores.email.valid)
-                                    setErrores({...errores, email:{
-                                        valid:false,
-                                        text:"Ingresa correo electronico valido"
-                                }}) }}
+                                setCorreo(v.target.value);
+                                if (correo.length >= 3 && !errores.email.valid)
+                                    setErrores({
+                                        ...errores, email: {
+                                            valid: false,
+                                            text: "Ingresa correo electronico valido"
+                                        }
+                                    })
+                            }}
                             error={errores.email.valid}
-                            helperText={errores.email.valid?errores.email.text:""}
+                            helperText={errores.email.valid ? errores.email.text : ""}
                         />
                     </Grid>
-                    <Grid item xs={10} height={"10%"}  md={4.5}>
+                    <Grid item xs={10} height={"10%"} md={4.5}>
                         <FormControl required variant="standard" fullWidth>
                             <InputLabel variant="standard" htmlFor="uncontrolled-native">
                                 Tipo de Usuario
                             </InputLabel>
                             <Select
                                 onChange={(v) => {
-                                        setTipoUsuario(v.target.value); 
-                                        if(apellidoPaterno!=="")
-                                        setErrores({...errores, tpoUsuario:{
-                                            valid:false,
-                                            text:"Selecciona tipo de usuario"
-                                    }}) }}
+                                    setTipoUsuario(v.target.value);
+                                    if (apellidoPaterno !== "")
+                                        setErrores({
+                                            ...errores, tpoUsuario: {
+                                                valid: false,
+                                                text: "Selecciona tipo de usuario"
+                                            }
+                                        })
+                                }}
                                 id="tipousuario"
                                 value={tipousuario}
                                 sx={{ display: "flex", pt: 1 }}
@@ -867,11 +886,11 @@ function validarCadena(nombre: string): boolean {
                                     </MenuItem>
                                 ))}
                             </Select>
-                            <FormHelperText sx={{color:'red'}}>{errores.tpoUsuario.valid?errores.tpoUsuario.text:""}</FormHelperText>
+                            <FormHelperText sx={{ color: 'red' }}>{errores.tpoUsuario.valid ? errores.tpoUsuario.text : ""}</FormHelperText>
                         </FormControl>
                     </Grid>
 
-                    <Grid item xs={10} height={"10%"}  md={4.5}>
+                    <Grid item xs={10} height={"10%"} md={4.5}>
                         <TextField
                             margin="dense"
                             id="curp"
@@ -882,19 +901,23 @@ function validarCadena(nombre: string): boolean {
                             value={curp}
                             required
                             error={errores.curp.valid}
-                            helperText={errores.curp.valid?errores.curp.text:""}
+                            helperText={errores.curp.valid ? errores.curp.text : ""}
                             inputProps={{ maxLength: 18, minLength: 18 }}
                             onChange={(v) => {
-                                if(validarCadena(v.target.value)){
-                                    compruebaCurp(v.target.value); 
-                                    if(curp.length>=3)
-                                    setErrores({...errores, curp:{
-                                        valid:false,
-                                        text:"Ingresa CURP valido"
-                                }})}}}
+                                if (validarCadena(v.target.value)) {
+                                    compruebaCurp(v.target.value);
+                                    if (curp.length >= 3)
+                                        setErrores({
+                                            ...errores, curp: {
+                                                valid: false,
+                                                text: "Ingresa CURP valido"
+                                            }
+                                        })
+                                }
+                            }}
                         />
                     </Grid>
-                    <Grid item xs={10} height={"10%"}  md={4.5}>
+                    <Grid item xs={10} height={"10%"} md={4.5}>
                         <TextField
                             margin="dense"
                             id="rfc"
@@ -905,19 +928,23 @@ function validarCadena(nombre: string): boolean {
                             value={rfc}
                             required
                             error={errores.rfc.valid}
-                            helperText={errores.rfc.valid?errores.rfc.text:""}
+                            helperText={errores.rfc.valid ? errores.rfc.text : ""}
                             inputProps={{ maxLength: 13, minLength: 12 }}
                             onChange={(v) => {
-                                if(validarCadena(v.target.value)){
-                                    compruebaRfc(v.target.value); 
-                                    if(rfc.length>=12)
-                                    setErrores({...errores, rfc:{
-                                        valid:false,
-                                        text:"Ingresa RFC valido"
-                                }})}}}
+                                if (validarCadena(v.target.value)) {
+                                    compruebaRfc(v.target.value);
+                                    if (rfc.length >= 12)
+                                        setErrores({
+                                            ...errores, rfc: {
+                                                valid: false,
+                                                text: "Ingresa RFC valido"
+                                            }
+                                        })
+                                }
+                            }}
                         />
                     </Grid>
-                    <Grid item xs={10} height={"10%"}  md={4.5}>
+                    <Grid item xs={10} height={"10%"} md={4.5}>
                         <TextField
                             margin="dense"
                             id="puesto"
@@ -927,21 +954,26 @@ function validarCadena(nombre: string): boolean {
                             variant="standard"
                             value={puesto}
                             required
+                            inputProps={{maxLength:255 }}
                             error={errores.puesto.valid}
-                            helperText={errores.puesto.valid?errores.puesto.text:""}
+                            helperText={errores.puesto.valid ? errores.puesto.text : ""}
                             onChange={
                                 (v) => {
-                                    if(validarCadena(v.target.value)){
-                                        setPuesto(v.target.value); 
-                                        if(puesto.length>=3)
-                                        setErrores({...errores, puesto:{
-                                            valid:false,
-                                            text:"Ingresa puesto"
-                                    }})}}
+                                    if (validarCadena(v.target.value)) {
+                                        setPuesto(v.target.value);
+                                        if (puesto.length >= 3)
+                                            setErrores({
+                                                ...errores, puesto: {
+                                                    valid: false,
+                                                    text: "Ingresa puesto"
+                                                }
+                                            })
                                     }
+                                }
+                            }
                         />
                     </Grid>
-                    <Grid item xs={10} height={"10%"}  md={4.5} >
+                    <Grid item xs={10} height={"10%"} md={4.5} >
                         <TextField
                             fullWidth
                             sx={{ mr: 4 }}
@@ -950,23 +982,27 @@ function validarCadena(nombre: string): boolean {
                             label="Celular"
                             value={celular === 0 ? "" : celular}
                             required
+                            inputProps={{maxLength:10 }}
                             variant="standard"
                             error={errores.celular.valid}
-                            helperText={errores.celular.valid?errores.celular.text:""}
+                            helperText={errores.celular.valid ? errores.celular.text : ""}
                             onChange={(v) => {
-                            
-                                    compruebaCelular(parseInt(v.target.value)); 
-                                    if(celular>1)
-                                    setErrores({...errores, celular:{
-                                        valid:false,
-                                        text:"Ingresa celular valido"
-                                }})}
-                                }
+
+                                compruebaCelular(parseInt(v.target.value));
+                                if (celular > 1)
+                                    setErrores({
+                                        ...errores, celular: {
+                                            valid: false,
+                                            text: "Ingresa celular valido"
+                                        }
+                                    })
+                            }
+                            }
                         />
 
                     </Grid>
 
-                    <Grid item xs={10} height={"10%"}  md={4.5}>
+                    <Grid item xs={10} height={"10%"} md={4.5}>
                         <TextField
                             fullWidth
                             sx={{ mr: 6 }}
@@ -975,22 +1011,26 @@ function validarCadena(nombre: string): boolean {
                             label="Telefono"
                             value={telefono === 0 ? "" : telefono}
                             required
+                            inputProps={{maxLength:10 }}
                             variant="standard"
                             error={errores.telefono.valid}
-                            helperText={errores.telefono.valid?errores.telefono.text:""}
+                            helperText={errores.telefono.valid ? errores.telefono.text : ""}
                             onChange={
                                 (v) => {
-                                    compruebaTelefono(parseInt(v.target.value)); 
-                                    if(celular>1)
-                                    setErrores({...errores, telefono:{
-                                        valid:false,
-                                        text:"Ingresa telefono valido"
-                                }})}
-                               }
+                                    compruebaTelefono(parseInt(v.target.value));
+                                    if (celular > 1)
+                                        setErrores({
+                                            ...errores, telefono: {
+                                                valid: false,
+                                                text: "Ingresa telefono valido"
+                                            }
+                                        })
+                                }
+                            }
                         />
 
                     </Grid>
-                    <Grid item xs={10} height={"10%"}  md={4.5} sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                    <Grid item xs={10} height={"10%"} md={4.5} sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
 
                         <TextField
                             sx={{ width: "50%" }}
@@ -1000,14 +1040,18 @@ function validarCadena(nombre: string): boolean {
                             value={ext === 0 ? "" : ext}
                             variant="standard"
                             error={errores.ext.valid}
-                            helperText={errores.ext.valid?errores.ext.text:""}
-                            onChange={ (v) => {
-                                compruebaExt(parseInt(v.target.value)); 
-                                if(celular>1)
-                                setErrores({...errores, ext:{
-                                    valid:false,
-                                    text:"Ingresa extencion valido"
-                            }})}}
+                            inputProps={{maxLength:40 }}
+                            helperText={errores.ext.valid ? errores.ext.text : ""}
+                            onChange={(v) => {
+                                compruebaExt(parseInt(v.target.value));
+                                if (celular > 1)
+                                    setErrores({
+                                        ...errores, ext: {
+                                            valid: false,
+                                            text: "Ingresa extencion valido"
+                                        }
+                                    })
+                            }}
                         />
 
                         <FormGroup sx={{ display: "flex", justifyContent: "center" }}>
@@ -1023,18 +1067,25 @@ function validarCadena(nombre: string): boolean {
                         </FormGroup>
                     </Grid>
 
-                    <Grid item xs={10} height={"10%"}  md={4.5}>
+                    <Grid item xs={10} height={"10%"} md={4.5}>
                         <Typography variant="body2"> Secretarias: </Typography>
                         <Autocomplete
+                            noOptionsText='No se encontraron opciones'
+                            clearText="Borrar"
+                            closeText="Cerrar"
                             options={secretariasFiltered}
                             getOptionLabel={(secretaria) => secretaria.Nombre || 'Seleccione secretaria'}
                             value={secretaria}
                             onChange={(event, newValue) => {
-                                if (newValue != null) { setSecretaria(newValue);  
-                                    setErrores({...errores, secretaria:{
-                                    valid:false,
-                                    text:"Ingresa secretaria valida"
-                            }})}
+                                if (newValue != null) {
+                                    setSecretaria(newValue);
+                                    setErrores({
+                                        ...errores, secretaria: {
+                                            valid: false,
+                                            text: "Ingresa secretaria valida"
+                                        }
+                                    })
+                                }
                             }}
                             renderInput={(params) => (
                                 <TextField
@@ -1046,7 +1097,7 @@ function validarCadena(nombre: string): boolean {
                             )}
                         />
                     </Grid>
-                    <Grid item xs={10} height={"10%"}  md={4.5}>
+                    <Grid item xs={10} height={"10%"} md={4.5}>
                         {/* <Typography variant="body2"> Dependencias: </Typography> */}
                         {/* <SelectFragLogin
                         value={idDepartamento}
@@ -1059,16 +1110,22 @@ function validarCadena(nombre: string): boolean {
                     /> */}
                         <Typography variant="body2"> Dependencias: </Typography>
                         <Autocomplete
+                            noOptionsText='No se encontraron opciones'
+                            clearText="Borrar"
+                            closeText="Cerrar"
                             options={dependenciasFiltered}
                             getOptionLabel={(option) => option.Nombre || 'Seleccione dependencia'}
                             value={dependencia}
                             onChange={(event, newValue) => {
-                                if (newValue != null) { setDependencia(newValue);
-                                    setErrores({...errores, dependencia:{
-                                        valid:false,
-                                        text:"Ingresa dependencia valida"
-                                }})
-                             }
+                                if (newValue != null) {
+                                    setDependencia(newValue);
+                                    setErrores({
+                                        ...errores, dependencia: {
+                                            valid: false,
+                                            text: "Ingresa dependencia valida"
+                                        }
+                                    })
+                                }
                             }}
                             renderInput={(params) => (
                                 <TextField
@@ -1081,18 +1138,25 @@ function validarCadena(nombre: string): boolean {
                         />
                     </Grid>
 
-                    <Grid item xs={10} height={"10%"}  md={4.5}>
+                    <Grid item xs={10} height={"10%"} md={4.5}>
                         <Typography variant="body2"> Departamentos: </Typography>
                         <Autocomplete
+                            noOptionsText='No se encontraron opciones'
+                            clearText="Borrar"
+                            closeText="Cerrar"
                             options={departamentos}
                             getOptionLabel={(departamento) => departamento.Descripcion || 'Seleccione departamento'}
                             value={departamento}
                             onChange={(event, newValue) => {
-                                if (newValue != null) { setDepartamento(newValue);
-                                    setErrores({...errores, departamento:{
-                                        valid:false,
-                                        text:"Ingresa departamento valido"
-                                }}) }
+                                if (newValue != null) {
+                                    setDepartamento(newValue);
+                                    setErrores({
+                                        ...errores, departamento: {
+                                            valid: false,
+                                            text: "Ingresa departamento valido"
+                                        }
+                                    })
+                                }
                             }}
                             renderInput={(params) => (
                                 <TextField
@@ -1103,47 +1167,27 @@ function validarCadena(nombre: string): boolean {
                                 />
                             )}
                         />
-                        {/* <Typography variant="body2"> Dependencias: </Typography> */}
-                        {/* <SelectFragLogin
-                        value={idDepartamento}
-                        options={departamentos}
-                        onInputChange={handleFilterChangeDepartamento}
-                        placeholder={"Seleccione Departamento"}
-                        label={idLabelDepartamentoNoAdmin ? idLabelDepartamentoNoAdmin : ""}
-                        disabled={false}
-
-                    /> */}
-                        {/* <Autocomplete
-                        
-                        options={departamentos}
-                        getOptionLabel={(option) => option.Nombre}
-                        value={dependencia}
-                        onChange={(event, newValue) => {
-                            if(newValue!= null)
-                            {setDependencia(newValue);}
-                        }}
-                        renderInput={(params) => (
-                            <TextField
-                                key={params.id}
-                                {...params}
-                                label="Dependencias"
-                                variant="outlined"
-                            />
-                        )}
-                    /> */}
+                   
                     </Grid>
-                    <Grid item xs={10} height={"10%"}  md={4.5}>
+                    <Grid item xs={10} height={"10%"} md={4.5}>
                         <Typography variant="body2"> Perfiles: </Typography>
                         <Autocomplete
+                            noOptionsText='No se encontraron opciones'
+                            clearText="Borrar"
+                            closeText="Cerrar"
                             options={perfiles}
                             getOptionLabel={(perfil) => perfil.Descripcion || 'Seleccione departamento'}
                             value={perfil}
                             onChange={(event, newValue) => {
-                                if (newValue != null) { setPerfil(newValue); 
-                                    setErrores({...errores, perfil:{
-                                        valid:false,
-                                        text:"Selecciona perfil valido"
-                                }})}
+                                if (newValue != null) {
+                                    setPerfil(newValue);
+                                    setErrores({
+                                        ...errores, perfil: {
+                                            valid: false,
+                                            text: "Selecciona perfil valido"
+                                        }
+                                    })
+                                }
                             }}
                             renderInput={(params) => (
                                 <TextField
@@ -1155,18 +1199,25 @@ function validarCadena(nombre: string): boolean {
                             )}
                         />
                     </Grid>
-                    <Grid item xs={10} height={"10%"}  md={4.5}>
+                    <Grid item xs={10} height={"10%"} md={4.5}>
                         <Typography variant="body2"> Roles: </Typography>
                         <Autocomplete
+                            noOptionsText='No se encontraron opciones'
+                            clearText="Borrar"
+                            closeText="Cerrar"
                             options={roles}
                             getOptionLabel={(rol) => rol.Nombre || 'Seleccione rol'}
                             value={rol}
                             onChange={(event, newValue) => {
-                                if (newValue != null) { setRol(newValue); 
-                                    setErrores({...errores, rol:{
-                                        valid:false,
-                                        text:"Ingresa extencion valido"
-                                }})}
+                                if (newValue != null) {
+                                    setRol(newValue);
+                                    setErrores({
+                                        ...errores, rol: {
+                                            valid: false,
+                                            text: "Ingresa extencion valido"
+                                        }
+                                    })
+                                }
                             }}
                             renderInput={(params) => (
                                 <TextField
@@ -1178,17 +1229,24 @@ function validarCadena(nombre: string): boolean {
                             )}
                         />
                     </Grid>
-                    <Grid item xs={10} height={"10%"}  md={4.5}>
+                    <Grid item xs={10} height={"10%"} md={4.5}>
                         <Typography variant="body2"> Unidad Responsable: </Typography>
                         <Autocomplete
+                            noOptionsText='No se encontraron opciones'
+                            clearText="Borrar"
+                            closeText="Cerrar"
                             options={uResponsables}
                             getOptionLabel={(uresponsable) => uresponsable.Descripcion || 'Seleccione unidad  responsable'}
                             value={uResponsable}
                             onChange={(event, newValue) => {
-                                if (newValue != null) { setUResponsable(newValue); setErrores({...errores, uResponsable:{
-                                    valid:false,
-                                    text:"Ingresa unidad responsable valido"
-                            }})}
+                                if (newValue != null) {
+                                    setUResponsable(newValue); setErrores({
+                                        ...errores, uResponsable: {
+                                            valid: false,
+                                            text: "Ingresa unidad responsable valido"
+                                        }
+                                    })
+                                }
                             }}
                             renderInput={(params) => (
                                 <TextField
@@ -1200,18 +1258,25 @@ function validarCadena(nombre: string): boolean {
                             )}
                         />
                     </Grid>
-                    <Grid item xs={10} height={"10%"}  md={4.5}>
+                    <Grid item xs={10} height={"10%"} md={4.5}>
                         <Typography variant="body2"> Aplicaciones: </Typography>
                         <Autocomplete
-                        disabled={props.idApp!==''}
+                            noOptionsText='No se encontraron opciones'
+                            clearText="Borrar"
+                            closeText="Cerrar"
+                            disabled={props.idApp !== ''}
                             options={apps}
                             getOptionLabel={(app) => app.label || 'Seleccione aplicacion'}
                             value={app}
                             onChange={(event, newValue) => {
-                                if (newValue != null) { setApp(newValue); setErrores({...errores, aplicacion:{
-                                    valid:false,
-                                    text:"Ingresa aplicacion valido"
-                            }})}
+                                if (newValue != null) {
+                                    setApp(newValue); setErrores({
+                                        ...errores, aplicacion: {
+                                            valid: false,
+                                            text: "Ingresa aplicacion valido"
+                                        }
+                                    })
+                                }
                             }}
                             renderInput={(params) => (
                                 <TextField
@@ -1225,14 +1290,14 @@ function validarCadena(nombre: string): boolean {
                     </Grid>
                     {/* //Buttons */}
 
-                    <Grid item xs={10} height={"10%"}  md={4.5} display={"flex"} justifyContent="flex-end" alignItems={"center"}>
+                    <Grid item xs={10} height={"10%"} md={4.5} display={"flex"} justifyContent="flex-end" alignItems={"center"}>
                         <Button
 
                             className="aceptar"
                             onClick={() => {
-                                
-                                   handleStoreBtn()
-                                
+
+                                handleStoreBtn()
+
                             }}
                             sx={{ fontFamily: "MontserratRegular", maxHeight: "50%" }}
                         >

@@ -2,7 +2,7 @@ import {
   Dialog, Grid, IconButton, Typography,
 } from "@mui/material";
 import { useEffect } from "react";
-import { SolicitudUsuarios } from "../screens/SolicitudDeUsuarios/SolicitudUsuarios";
+import { SolicitudUsuario} from "../screens/SolicitudDeUsuarios/SolicitudUsuario";
 import { Close as CloseIcon } from "@mui/icons-material";
 
 
@@ -16,6 +16,9 @@ export interface IUserTypes {
   Nombre: string;
   Descripcion: string;
 }
+
+
+
 export const NewDialog = (props: NewDialogProps) => {
 
 
@@ -53,7 +56,7 @@ export const NewDialog = (props: NewDialogProps) => {
             </IconButton>
           </Grid>
         </Grid>
-        <SolicitudUsuarios handleDialogClose={props.handleNewDialogClose} modoModal={false} token={""} idUsuarioSolicitante={""} idApp={""} />
+        <SolicitudUsuario handleDialogClose={props.handleNewDialogClose} modoModal={false} token={""} idUsuarioSolicitante={""} idApp={""} />
 
       </div>
     </Dialog>

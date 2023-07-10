@@ -18,7 +18,7 @@ import AppsModal from "../../components/appsModal";
 import axios from "axios";
 import { JWT_Token, sessionValid } from "../../funcs/validation";
 import { UserLogin } from "../../Interfaces/User";
-import { SolicitudUsuarios } from "../SolicitudDeUsuarios/SolicitudUsuarios";
+import { SolicitudUsuario} from "../SolicitudDeUsuarios/SolicitudUsuario";
 import { UserServices } from "../../services/UserServices";
 import SliderProgress from "../Componentes/SliderProgress";
 import { Toast } from "../Componentes/Toast";
@@ -356,7 +356,7 @@ export const Login = () => {
         (jwt && idAppSolicitante) ?
           <>
             {opensolicitudModal ?
-              <SolicitudUsuarios
+              <SolicitudUsuario
                 handleDialogClose={setOpensolicitudModal}
                 modoModal={opensolicitudModal}
                 token={String(jwt)}
