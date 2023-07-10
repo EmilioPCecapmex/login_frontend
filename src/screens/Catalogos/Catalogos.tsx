@@ -10,9 +10,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ButtonsAdd from "../Componentes/ButtonsAdd";
 import { Edit, IModify } from "../../components/dialogsCatalogos/Edit";
 import { Create } from "../../components/dialogsCatalogos/Create";
-
 import { Delete } from "../../components/dialogsCatalogos/Delete";
-import { log } from "console";
 const Catalogos = () => {
   const [valueTab, setValueTab] = useState<string>("1");
   const [openSlider, setOpenSlider] = useState(true);
@@ -107,13 +105,13 @@ const Catalogos = () => {
     {
       field: "Nombre",
       headerName: "Nombre",
-      width: 650,
+      width: 400,
       headerAlign: "center",
       hide: HideNombre,
     },
     {
       field: "NombreCorto",
-      headerName: "NombreCorto",
+      headerName: "Nombre Corto",
       width: 150,
       headerAlign: "center",
       hide: HideNombreCorto,
@@ -128,13 +126,13 @@ const Catalogos = () => {
     {
       field: "Descripcion",
       headerName: "Descripcion",
-      width: 1000,
+      width: 600,
       headerAlign: "center",
       hide: HideDescripcion,
     },
     {
       field: "ControlInterno",
-      headerName: "ControlInterno",
+      headerName: "Control Interno",
       width: 100,
       headerAlign: "center",
       hide: HideControlInterno,
