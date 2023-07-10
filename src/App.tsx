@@ -8,7 +8,7 @@ import Solicitudes from "./screens/solicitudes/Solicitudes";
 import Users from "./screens/Users/Users";
 import "./Fonts.css";
 import { Documentos } from "./screens/ValidadorDE/Documentos";
-import { SolicitudUsuarios } from "./screens/SolicitudDeUsuarios/SolicitudUsuarios";
+import { SolicitudUsuario } from "./screens/SolicitudDeUsuarios/SolicitudUsuario";
 import Catalogos from "./screens/Catalogos/Catalogos";
 
 const App = () => {
@@ -27,7 +27,7 @@ const App = () => {
           <Route path="/app" element={<CatApps />} />
           <Route path="/validador" element={<Documentos />} />
           <Route path="/catalogos" element={<Catalogos/>} />
-          <Route path="/generarSolicitud" element={<SolicitudUsuarios handleDialogClose={()=>{}} modoModal={false} token={""} idUsuarioSolicitante={""} idApp={""}/>} />
+          <Route path="/generarSolicitud" element={<SolicitudUsuario handleDialogClose={()=>{}} modoModal={false} token={""} idUsuarioSolicitante={""} idApp={""}/>} />
         </Routes>
       </HashRouter>
   );

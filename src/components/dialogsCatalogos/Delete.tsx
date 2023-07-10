@@ -117,7 +117,7 @@ export const Delete = ({
       fullWidth
       maxWidth={"sm"}
     >
-      <DialogTitle sx={{display:"flex",justifyContent:"center"}}> Deseas eliminar este elemento?</DialogTitle>
+      <DialogTitle sx={{display:"flex",justifyContent:"center"}}> ¿Deseas eliminar este elemento?</DialogTitle>
       <DialogContent
         sx={{
           display: "flex",

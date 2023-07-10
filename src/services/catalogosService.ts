@@ -37,6 +37,8 @@ export const getCatalogo = (path: string, setState: Function) => {
   })
     // aqui se recibe lo del endpoint en response
     .then(({ data }) => {
+      console.log(`catalogo ${path}`,data.data);
+      
       setState(data.data)
     })
     .catch(
@@ -67,7 +69,7 @@ export const modificarCatalogo = (path: string, data: any, setOpen: Function, re
       reloadData(String(Math.random()))
       Toast.fire({
         icon: "success",
-        title: `El registro se modifico correctamente`,
+        title: `¡Registro Editado!`,
 
       });
       setOpen(false)
@@ -99,7 +101,7 @@ export const createCatalogo = (path: string, data: any, setOpen: Function, reloa
       reloadData(String(Math.random()))
       Toast.fire({
         icon: "success",
-        title: `El registro se creo correctamente`,
+        title: `¡Registro creado!`,
 
       });
       setOpen(false)
@@ -134,7 +136,7 @@ export const EliminarCatalogo = (path: string, Id: string, setOpen: Function, re
       reloadData(String(Math.random()))
       Toast.fire({
         icon: "success",
-        title: `El elimino se creo correctamente`,
+        title: `¡Registro eliminado!`,
 
       });
       setOpen(false)

@@ -352,9 +352,9 @@ useEffect(() => {
           <TextField
             multiline
             sx={{ mt: 3, width: "100%" }}
-            title="Descripcion"
-            label="Descripcion"
-            placeholder="Descripcion"
+            title="Descripción"
+            label="Descripción"
+            placeholder="Descripción"
             value={nuevoElemento.Descripcion||""}
             onChange={(v) => {
               setNuevoElemento({
@@ -388,6 +388,9 @@ useEffect(() => {
           <Grid  sx={{ mt: 3, width: "100%" }}>
           <Typography variant="body2"> Titular / Responsable: </Typography>
           <Autocomplete
+          noOptionsText='No se encontraron opciones'
+          clearText="Borrar"
+          closeText="Cerrar"
               options={usuarios}
               getOptionLabel={(usuarios) => usuarios.Nombre || 'Seleccione titular'}
               value={titular}
@@ -429,6 +432,9 @@ useEffect(() => {
       {["6"].includes(catalogo) && (<Grid  sx={{ mt: 3, width: "100%" }}>
                         <Typography variant="body2">Tipo de dependencia:</Typography>
                         <Autocomplete
+                        noOptionsText='No se encontraron opciones'
+          clearText="Borrar"
+          closeText="Cerrar"
                             options={tpoDependencias}
                             getOptionLabel={(tpodependencia) => tpodependencia.Nombre || 'Seleccione tipo de dependencia'}
                             value={tpoDependencia}
@@ -455,6 +461,9 @@ useEffect(() => {
         {["1","6"].includes(catalogo) && (<Grid  sx={{ mt: 3, width: "100%" }}>
                         <Typography variant="body2">Pertenece a la Secretaria:</Typography>
                         <Autocomplete
+                        noOptionsText='No se encontraron opciones'
+          clearText="Borrar"
+          closeText="Cerrar"
                             options={secretariasFiltered}
                             getOptionLabel={(secretaria) => secretaria.Nombre || 'Seleccione secretaria'}
                             value={secretaria}
