@@ -29,7 +29,7 @@ export const AppsDialog = (props: AppsDialogProps) => {
     axios({
       method: "get",
       url: process.env.REACT_APP_APPLICATION_DEV + "/api/apps",
-      params: {IdUsuario: localStorage.getItem("IdUsuario")},
+      params: { IdUsuario: localStorage.getItem("IdUsuario") },
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",
@@ -155,31 +155,31 @@ export const AppsDialog = (props: AppsDialogProps) => {
       </DialogTitle>
       <DialogContent dividers>
         <Grid container direction={"row"}>
-          {apps.map((app: any) => (
-            app.active?
-            <Grid
-              item
-              xs={6}
-              md={3}
-              key={app.Id}
-              justifyContent="center"
-              display="flex"
-            >
-              <FormGroup sx={{ width: '10vw'}}>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      
-                      defaultChecked={app.active}
-                      checked={app.active}
-                      // onChange={(v) => handleCheck(v.target.checked, app.Id)}
-                    />
-                  }
-                  label={app.Nombre}
-                />
-              </FormGroup>
-            </Grid>:null
-          ))}
+          {apps.map((app: any) =>
+            app.active ? (
+              <Grid
+                item
+                xs={6}
+                md={3}
+                key={app.Id}
+                justifyContent="center"
+                display="flex"
+              >
+                <FormGroup sx={{ width: "10vw" }}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        defaultChecked={app.active}
+                        checked={app.active}
+                        // onChange={(v) => handleCheck(v.target.checked, app.Id)}
+                      />
+                    }
+                    label={app.Nombre}
+                  />
+                </FormGroup>
+              </Grid>
+            ) : null
+          )}
         </Grid>
       </DialogContent>
       <DialogActions>

@@ -64,7 +64,7 @@ export default function CatApps() {
           <Box>
             <Tooltip title={"Editar App " + cellValues.row.Nombre}>
               <IconButton
-                color="primary"
+              sx={{color:"black"}}
                 onClick={(event) => {
                   handleEditBtnClick(event, cellValues);
                 }}
@@ -74,7 +74,7 @@ export default function CatApps() {
             </Tooltip>
             <Tooltip title={"Eliminar App " + cellValues.row.Nombre}>
               <IconButton
-                color="error"
+                sx={{color:"black"}}
                 onClick={(event) => {
                   handleDeleteBtnClick(event, cellValues);
                 }}
