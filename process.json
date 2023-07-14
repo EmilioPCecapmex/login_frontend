@@ -2,7 +2,7 @@
     "apps": [
         {
             "name": "login_frontend",
-            "script": "./index.tsx",
+            "script": "npm install; npm start",
             "instances": 2,
             "env": {
                 "REACT_APP_APPLICATION_DEV": "http://10.200.4.105:5000",
