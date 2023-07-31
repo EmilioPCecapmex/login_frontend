@@ -186,9 +186,21 @@ export default function MUIXDataGridApp(props: any) {
 					rowsPerPageOptions={[10, 25, 50, 100]}
 					onPageSizeChange={(v) => changePageSize(v)}
 					getRowId={props.id}
-					components={{
-						Toolbar: GridToolbar,
-					}}
+					components={{Toolbar: GridToolbar,}}
+					componentsProps={{
+						toolbar: {
+						  printOptions: { disableToolbarButton: true },
+						  csvOptions: { disableToolbarButton: true },
+						  label: "Buscar",
+						  showQuickFilter: true,
+						  quickFilterProps: { debounceMs: 500 },
+						  // csvOptions: {
+						  //   fileName: props.modulo,
+						  //   utf8WithBom: true,
+						  // }
+						},
+					  }}
+					
 				/>
 			</ThemeProvider>
 		</div>

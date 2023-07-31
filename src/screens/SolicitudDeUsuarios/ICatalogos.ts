@@ -70,3 +70,9 @@ export interface IUsuarios{
     Id:string;
     Nombre:string;
 }
+
+export interface IEntidadPadre{
+    tipo:string;
+    value:string;
+    descripcion:string;
+}

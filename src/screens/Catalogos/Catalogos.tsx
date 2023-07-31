@@ -13,7 +13,6 @@ import { Create } from "../../components/dialogsCatalogos/Create";
 import { Delete } from "../../components/dialogsCatalogos/Delete";
 const Catalogos = () => {
   const [valueTab, setValueTab] = useState<string>("1");
-  const [openSlider, setOpenSlider] = useState(true);
   const [secretarias, setSecretarias] = useState([]);
   const [roles, setRoles] = useState([]);
   const [uResponsable, setUResponsable] = useState([]);
@@ -153,7 +152,6 @@ const Catalogos = () => {
   };
 
   const consulta = (catalogo: string, opcion: string) => {
-    setOpenSlider(true);
     UserServices.consultaCatalogos(
       { cat: catalogo, opcion: opcion, tipo: "4" },
       String(localStorage.getItem("jwtToken"))
@@ -228,7 +226,6 @@ const Catalogos = () => {
         if (catalogo === "7" && opcion === "catalogos") {
           setTpoDependencias(res.data.data);
         }
-        setOpenSlider(false);
       }
     });
   };
@@ -244,13 +241,15 @@ const Catalogos = () => {
         <TabContext value={String(valueTab)}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <TabList onChange={handleChange} aria-label="lab API tabs example">
-              <Tab label="Secretarias" value="1" />
-              <Tab label="Unidad responsable" value="2" />
-              <Tab label="Departamentos" value="3" />
-              <Tab label="Roles" value="4" />
-              <Tab label="Perfiles" value="5" />
-              <Tab label="Dependencias" value="6" />
+              <Tab label="Secretarias" value="1" />\
               <Tab label="Tipo Dependencias" value="7" />
+              <Tab label="Dependencias" value="6" />
+              
+              <Tab label="SIREGOB" value="2" />
+              {/* <Tab label="Departamentos" value="3" /> */}
+              {/* <Tab label="Roles" value="4" /> */}
+              <Tab label="Perfiles" value="5" />
+              
             </TabList>
           </Box>
           <Grid item xs={12} paddingLeft={1}>

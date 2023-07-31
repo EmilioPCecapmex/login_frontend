@@ -17,16 +17,17 @@ import {
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import SelectValues from "../../Interfaces/SelectValues";
-import { UserServices } from "../../services/UserServices";
+import { UserServices, userDetail } from "../../services/UserServices";
 import SliderProgress from "../Componentes/SliderProgress";
 import { getCatalogo } from "../../services/catalogosService";
 import { IDepartamento, IDependencia, IPerfil, IRol, ISecretaria, IUResponsable } from "./ICatalogos";
 
 export interface NewDialogProps {
     modoModal: boolean;
-    token: string
-    idUsuarioSolicitante: string
-    idApp: string
+    idUsuario:string;
+    token: string;
+    idUsuarioSolicitante: string;
+    idApp: string;
     handleDialogClose: Function;
 }
 
@@ -63,18 +64,14 @@ interface IObjectError {
     aplicacion: IError;
 }
 
-
-
-
 export const SolicitudModificarUsuario
  = (props: NewDialogProps) => {
     console.log('props', props);
 
-
-
-
-    // arrays de listas
-    // const [tpoDependencia, setTpoDependencia] = useState();
+    useEffect(() => {
+        userDetail({'IdUsuario':props.idUsuario,'IdApp':props.idApp})
+    }, [])
+    
     //------------------------CATALOGOS-------------------------------------------
     const [departamentos, setDepartamentos] = useState<Array<IDepartamento>>([]);
     const [roles, setRoles] = useState<Array<IRol>>([]);
@@ -268,15 +265,6 @@ export const SolicitudModificarUsuario
         }
 
     );
-    // useEffect(() => {
-    //     console.log("tpo", tpoDependencia);
-    //     console.log("departamentos", departamentos);
-    //     console.log("roles", roles);
-    //     console.log("dependencias", dependencias);
-    //     console.log("perfiles", perfiles);
-    //     console.log("secretarias", secretarias);
-    //     console.log("uresponsables", uresponsables);
-    // }, [tpoDependencia])
 
     const [nombre, setNombre] = useState("");
     const [nombreUsuario, setNombreUsuario] = useState("");
@@ -284,8 +272,6 @@ export const SolicitudModificarUsuario
     const [apellidoMaterno, setApellidoMaterno] = useState("");
     const [correo, setCorreo] = useState("");
     const [puesto, setPuesto] = useState("");
-    // const [dependencia, setDependencia] = useState("");
-
 
     const [celular, setCelular] = useState(0);
     const [telefono, setTelefono] = useState(0);
@@ -304,19 +290,7 @@ export const SolicitudModificarUsuario
 
     //-------------------------------END validaciones de campos----------------------------------------------------------
 
-    // const [idLabelRol, setIdLabelRol] = useState<string>("");
-
     const [puedeFirmar, setPuedeFirmar] = useState(false);
-    // const [departamento, setDepartamentos] = useState<SelectValues[]>([]);
-
-    // const [idLabelDepartamentoNoAdmin, setLabelDepartamentoNoAdmin] = useState<string>("");
-    // const [idLabelPerfilNoAdmin, setLabelPerfilNoAdmin] = useState<string>("");
-
-    // const [perfiles, setPerfiles] = useState<SelectValues[]>([]);
-
-    // const [idRol, setIdRol] = useState<string>("");
-    // const [secretarias, setSecretarias] = useState<SelectValues[]>([]);
-    // const [idSecretarias, setIdSecretarias] = useState<string>("");
     const [apps, setApps] = useState<SelectValues[]>([]);
     const [app, setApp] = useState<SelectValues>({
         value: '',
@@ -331,51 +305,9 @@ export const SolicitudModificarUsuario
         }
     }, [apps])
 
-    //const [UResponsable, setUResponsable] = useState<SelectValues[]>([]);
-    // const [idUResponsable, setIdUResponsable] = useState<string>("");
-    // const [nameDep, setNameDep] = useState<string>("");
-
-    // const [nameUresp, setNameUresp] = useState<string>("Sin Unidad Asignada");
-    // const [namePerf, setNamePerf] = useState<string>("");
-
-    // const [openSlider, setOpenSlider] = useState(true);
-
-
-    // const [errorNombre, setErrorNombre] = useState(false);
-    // const [errorUsuario, setErrorUsuario] = useState(false);
-    // const [errorAPaterno, setErrorAPaterno] = useState(false);
-    // const [errorAMaterno, setErrorAMaterno] = useState(false);
-    // const [errorPuesto, setErrorPuesto] = useState(false);
-    // const [errorTpoUsuario, setErrorTpoUsuario] = useState(false);
-    // const [errorTelefono, setErrorTelefono] = useState(false);
-    // const [errorExt, setErrorExt] = useState(false);
-    // const [errorCelular, setErrorCelular] = useState(false);
-
     const urlParams = window.location.search;
     const query = new URLSearchParams(urlParams);
     const jwt = query.get("jwt");
-
-
-    // const handleFilterChangeDepartamento = (v: any) => {
-    //     console.log(v.value);
-
-    //     setIdDepartamento(v.value);
-    //     setNameDep(v.label);
-    //     //consultaSecretarias(v.value, "select")
-    // };
-
-    // const handleFilterChangeUResponsable = (v: any) => {
-    //     console.log(v)
-    //     setIdUResponsable(v.value);
-    //     setNameUresp(v.label);
-    // };
-    // const handleFilterChangeSecretaria = (v: any) => {
-    //     setIdSecretarias(v.value);
-    // };
-    // const handleFilterChangeApps = (v: any) => {
-    //     setApp(v.value);
-
-    // };
 
     const compruebaCelular = (value: number) => {
         if (value <= 9999999999) {
@@ -425,42 +357,9 @@ export const SolicitudModificarUsuario
         }
     };
 
-    const compruebaNombreUsuario = (value: string) => {
-        var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-        if (!format.test(value)) {
-            setNombreUsuario(value);
-        }
-    }
-    const compruebaNombre = (value: string) => {
-        var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-        if (!format.test(value)) {
-            setNombre(value);
-        }
-    }
-
-    const compruebaAPaterno = (value: string) => {
-        var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-        if (!format.test(value)) {
-            setApellidoPaterno(value);
-        }
-    }
-    const compruebaAMaterno = (value: string) => {
-        var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-        if (!format.test(value)) {
-            setApellidoMaterno(value);
-        }
-    }
-
     function isValidEmail() {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         return emailRegex.test(correo);
-    }
-
-    const compruebaPuesto = (value: string) => {
-        var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-        if (!format.test(value)) {
-            setPuesto(value);
-        }
     }
 
     const compruebaCurp = (value: string) => {
@@ -651,7 +550,6 @@ export const SolicitudModificarUsuario
     };
 
     const [usertypes, setUserTypes] = useState<Array<IUserTypes>>([]);
-    const [usertypessel, setUserTypesSel] = useState("");
     const getAllUserTypes = () => {
         const data = {
             IdUsuario: (props.modoModal && props.token && props.idUsuarioSolicitante) ? props.idUsuarioSolicitante : localStorage.getItem("IdUsuario"),
@@ -662,18 +560,6 @@ export const SolicitudModificarUsuario
             }
         });
     };
-
-    // const consultaSecretarias = (idDepartamento: string, opcion: string) => {
-    //     setOpenSlider(true);
-    //     UserServices.consultaCatalogos({ idDep: idDepartamento, cat: "7", opcion: opcion }, String(jwt) !== "null" ? String(jwt) : String(localStorage.getItem("jwtToken"))).then((res) => {
-    //         if (res.status === 200) {
-    //             // setIdDepartamento(res.data);
-    //             setOpenSlider(false)
-    //         }
-    //     });
-
-    // };
-
 
     const consulta = (catalogo: string, opcion: string) => {
         // setOpenSlider(true);
@@ -688,16 +574,8 @@ export const SolicitudModificarUsuario
 
     };
     useEffect(() => {
-        // setOpenSlider(true)
-
         getAllUserTypes();
-        // consulta("1", "select");
         consulta("2", "select");
-        // consulta("3", "select");
-        // consulta("4", "select");
-        // consulta("5", "select");
-        // consulta("6", "select");
-
         // getCatalogo("tipodependencias", setTpoDependencia)
         getCatalogo("departamentos", setDepartamentos)
         getCatalogo("roles", setRoles)
