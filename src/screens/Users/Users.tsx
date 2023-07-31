@@ -18,6 +18,8 @@ import { Header } from "../../components/header";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { TimerCounter } from "../../components/timer/timer";
+import { SolicitudModificarUsuario } from "../SolicitudDeUsuarios/SolicitudModificarUsuario";
+
 
 
 export interface Usuario {
@@ -225,15 +227,18 @@ export default function Users() {
             <Tooltip title={"Editar - " + cellValues.row.NombreUsuario}>
               <IconButton
                 sx={{color:"black"}}
+                // onClick={(event) => {
+                //   handleEditBtnClick(event, cellValues);
+                // }}
                 onClick={(event) => {
-                  handleEditBtnClick(event, cellValues);
+                  handleAppsBtnClick(event, cellValues);
                 }}
               >
                 <EditIcon />
               </IconButton>
             </Tooltip>
 
-            <Tooltip title={"Visualizar acceso a plataformas"}>
+            {/* <Tooltip title={"Visualizar acceso a plataformas"}>
               <IconButton
                 sx={{color:"black"}}
                 onClick={(event) => {
@@ -242,7 +247,8 @@ export default function Users() {
               >
                 <AccountTreeIcon />
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
+            
 
           </Box>
         );
@@ -299,11 +305,9 @@ export default function Users() {
   ];
 
   return (
-    <Box>
+    <Grid container sx={{ width: "100vw", height: "100vh" }}>
       <Header />
-      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-        <TimerCounter />
-      </Box>
+     
       <Box
         sx={{
           height: "87vh",
@@ -373,22 +377,29 @@ export default function Users() {
             handleNewDialogClose={handleNewDialogClose}
           />
         ) : null}
-        {editDialogOpen ? (
+        {/* (
           <EditDialog
             editDialogOpen={editDialogOpen}
             handleEditDialogClose={handleEditDialogClose}
             usuario={editDialogUsuario}
           />
-        ) : null}
-        {appsDialogOpen ? (
+        ) */}
+        {appsDialogOpen ?<AppsDialog
+            appsDialogOpen={appsDialogOpen}
+            handleAppsDialogClose={handleAppsDialogClose}
+            usuario={appsDialogUsuario}
+            OpenModalEditar={()=>setEditDialogOpen(true)}
+          /> : null}
+          {editDialogOpen && <SolicitudModificarUsuario idApp="" idUsuario="" idUsuarioSolicitante="" handleDialogClose={handleEditDialogClose} modoModal token=""/>  }
+        {/* {appsDialogOpen ? (
           <AppsDialog
             appsDialogOpen={appsDialogOpen}
             handleAppsDialogClose={handleAppsDialogClose}
             usuario={appsDialogUsuario}
           />
-        ) : null}
+        ) : null} */}
       </Box>
-    </Box>
+    </Grid>
   );
 }
 
@@ -407,8 +418,6 @@ export interface IUsuarios {
 }
 
 export const imprimirSolicitud = (datos: any) => {
-
-
   const objeto = ({
     "Fecha": datos?.Fecha,
     "TipoDeMovimiento": datos?.TipoDeMovimiento,

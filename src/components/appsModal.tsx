@@ -25,7 +25,7 @@ export default function AppsModal({
   const navigate = useNavigate();
 
   const closeModal = () => {
-    localStorage.clear();
+    // localStorage.clear();
     closeM();
   };
 
@@ -35,7 +35,7 @@ export default function AppsModal({
     closeM();
     if (t !== "./admin") {
       window.location.assign(t + "?jwt=" + localStorage.getItem("jwtToken") + "&rf=" + localStorage.getItem("refreshToken") + "&IdApp=" + idapp)
-      localStorage.clear();
+      // localStorage.clear();
 
     } else if (t === "./admin") {
       navigate(t);

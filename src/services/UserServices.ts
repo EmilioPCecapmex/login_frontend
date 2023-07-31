@@ -1,3 +1,4 @@
+import axios from "axios";
 import { get, post, postRefresh, postSingle, putPass } from "./apiServiceExt";
 
 
@@ -46,5 +47,11 @@ export class UserServices {
 
 }
 
-
+export const userDetail=(data:any)=>{
+    axios.post(process.env.REACT_APP_APPLICATION_DEV+'/api/userapp-detail',data)
+    .then(response=>{console.log(response);
+    })
+    .catch(error=>{console.log(error);
+    })
+}
 

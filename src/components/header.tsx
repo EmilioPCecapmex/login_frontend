@@ -16,12 +16,13 @@ import PostAddIcon from '@mui/icons-material/PostAdd';
 import axios from "axios";
 import DescriptionIcon from '@mui/icons-material/Description';
 import { COLOR } from "../screens/styles/colors";
+import { TimerCounter } from "./timer/timer";
 
 export const Header = () => {
   const navigate = useNavigate();
   const logoutFnc = () => {
     localStorage.clear();
-    navigate("../");
+    window.location.assign(process.env.REACT_APP_APPLICATION_FRONT||"https:google.com")
   };
 
 
@@ -56,12 +57,13 @@ export const Header = () => {
         justifyContent="space-between"
         alignItems="center"
         sx={{
-          height: "110px",
+          height: "12vh",
+          width:"100vw",
           border: "1px solid #b3afaf"
         }}
       >
 
-        <Grid item xs={6} md={4} >
+        <Grid container item xs={6} md={4} alignItems="center">
           <Typography paddingLeft={3} variant="h5" > {localStorage.getItem("NombreUsuario")} </Typography>
         </Grid>
         <Hidden mdDown>
@@ -81,6 +83,7 @@ export const Header = () => {
           sx={{
             height: "50px",
           }}>
+             <TimerCounter />
           <Tooltip title="Catálogos">
             <IconButton className="iconos-header" onClick={() => navigate("../catalogos")}>
               <DescriptionIcon />
