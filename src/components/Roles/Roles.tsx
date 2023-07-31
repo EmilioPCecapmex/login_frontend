@@ -27,10 +27,10 @@ export function Roles({ open, closeModal, idApp, app }: { open: boolean, closeMo
     const [roles, setRoles] = useState<Array<IRol>>([])
     const [bandera, setBandera] = useState(false);
 
-    const[openMenus,setOpenMenu]=useState(false);
-    const[idRol,setIdRol]=useState("")
-    const[rol,setRol]=useState("")
-    
+    const [openMenus, setOpenMenu] = useState(false);
+    const [idRol, setIdRol] = useState("")
+    const [rol, setRol] = useState("")
+
     const columns = [
         {
             field: "acciones",
@@ -65,13 +65,13 @@ export function Roles({ open, closeModal, idApp, app }: { open: boolean, closeMo
                         <Tooltip title={"Editar acceso a Menus"}>
                             <IconButton sx={{ color: "black" }}
                                 onClick={(event) => {
-                                    
-                                   
-                                    if(cellValues.row.Id){
+
+
+                                    if (cellValues.row.Id) {
                                         setIdRol(cellValues.row.Id)
                                     }
 
-                                    if(cellValues.row.Descripcion){
+                                    if (cellValues.row.Descripcion) {
                                         setRol(cellValues.row.Descripcion)
                                     }
 
@@ -93,7 +93,7 @@ export function Roles({ open, closeModal, idApp, app }: { open: boolean, closeMo
                                 <DeleteIcon />
                             </IconButton>
                         </Tooltip>
-                        
+
                     </Box>
                 );
             },
@@ -104,7 +104,7 @@ export function Roles({ open, closeModal, idApp, app }: { open: boolean, closeMo
             width: 250,
             hideable: false,
             headerAlign: "left",
-    
+
         },
         {
             field: "Nombre",
@@ -170,16 +170,16 @@ export function Roles({ open, closeModal, idApp, app }: { open: boolean, closeMo
                         <Card sx={{ height: "90%", width: "95%", boxShadow: 10 }}>
                             {/* este box es la leyenda que se encuentra arriba a la izquierda */}
                             <Grid container sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", height: "10%" }}>
-                                
-                                <Grid item xl={2} xs={12} md={12} sx={{ display: "flex", justifyContent: "center",alignItems:"center" }}>
+
+                                <Grid item xl={2} xs={12} md={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                     <AppsIcon style={{ fontSize: "60px" }} />
                                 </Grid>
 
-                                <Grid item xl={4} xs={12} md={12} sx={{ display: "flex", justifyContent: "center",alignItems:"center" }}>
-                                    <Typography fontFamily={"Montserrat-Bold"} fontSize={50}>{app}</Typography>
+                                <Grid item xl={8} xs={12} md={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                    <Typography fontFamily={"Montserrat-Bold"} fontSize={40}>{app}</Typography>
                                 </Grid>
 
-                                <Grid item xl={2} xs={12} md={12} sx={{ display: "flex", justifyContent: "center",alignItems:"center" }}>
+                                <Grid item xl={2} xs={12} md={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                     <Button
                                         className="aceptar"
                                         variant="text"
@@ -193,32 +193,34 @@ export function Roles({ open, closeModal, idApp, app }: { open: boolean, closeMo
                                     // }}
                                     // startIcon={<AddIcon />}
                                     >
-                                        registrar aplicación
+                                        Agragar Rol
                                     </Button>
                                 </Grid>
 
 
                             </Grid>
-                            <CardContent sx={{ display: "flex", justifyContent: "center", alignItems: "center",width:"95%",height:"80%"}}>
-                                {roles.length === 0 ?
-                                    <Box sx={{ width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center", }}>
-                                        <Typography fontFamily={"Montserrat-Bold"} fontSize={50}>Sin Información registrada </Typography>
-                                    </Box>
-                                    :
-                                    // roles[0].ControlInterno
 
+                            {roles.length === 0 ?
+                                <Box sx={{ width: "100%", height: "90%", display: "flex", justifyContent: "center", alignItems: "center", }}>
+                                    <Typography fontFamily={"Montserrat-Bold"} fontSize={50}>Sin Información registrada </Typography>
+                                </Box>
+                                :
+                                // roles[0].ControlInterno
+                                <Box sx={{ width: "100%", height: "90%", display: "flex", justifyContent: "center", alignItems: "flex-start", }}>
                                     <MUIXDataGrid id={Math.random} columns={columns} rows={roles} camposCsv={camposCsv} />
+                                </Box>
 
 
-                                }
-                            </CardContent>
+
+                            }
+
                         </Card>
 
 
 
                     </Grid>
                 </Grid>}
-            {openMenus && <Menus open={openMenus} closeModal={()=>{setOpenMenu(false)}} idRol={idRol} rol={rol} idApp={idApp}/>}
+            {openMenus && <Menus open={openMenus} closeModal={() => { setOpenMenu(false) }} idRol={idRol} rol={rol} idApp={idApp} />}
         </Dialog>
     )
 }

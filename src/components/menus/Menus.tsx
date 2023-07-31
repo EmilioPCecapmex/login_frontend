@@ -77,8 +77,8 @@ export function Menus({ open, closeModal, idRol, rol, idApp }: { open: boolean, 
                                     <AppsIcon style={{ fontSize: "60px" }} />
                                 </Grid>
 
-                                <Grid item xl={4} xs={12} md={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                    <Typography fontFamily={"Montserrat-Bold"} fontSize={50}>{rol}</Typography>
+                                <Grid item xl={8} xs={12} md={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
+                                    <Typography fontFamily={"Montserrat-Bold"} fontSize={40}>{rol}</Typography>
                                 </Grid>
 
                                 <Grid item xl={2} xs={12} md={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
@@ -116,7 +116,7 @@ export function Menus({ open, closeModal, idRol, rol, idApp }: { open: boolean, 
                                     {menusRol.map((menu)=>{ return(
                                         
                                         <Grid container item xl={11} sx={{display:"flex",height:"12%",border:"1px solid", bgcolor: '#c4a57b',boxShadow: 10, borderRadius:2,alignItems:"center",justifyContent:"space-around",mt:"2vh"}}>
-                                            <Grid item  xl={9}><Typography fontFamily={"Montserrat-Ligth"} fontSize={30}>{menu.Descripcion}</Typography></Grid>
+                                            <Grid item  xl={9}><Typography fontFamily={"Montserrat-Ligth"} fontSize={20}>{menu.Descripcion}</Typography></Grid>
                                             <Grid item  xl={2} sx={{display:"flex"}}> 
                                             <Tooltip title={"Administrar permisos de "+ menu.Descripcion}>
                                                     <IconButton onClick={()=>{setMenu(menu);setOpenPermisos(true)}}>
