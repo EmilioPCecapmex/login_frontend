@@ -467,6 +467,7 @@ export const Create = ({
             clearText="Borrar"
             closeText="Cerrar"
             options={entidadesPadres}
+            groupBy={(entidad) => entidad.tipo}
             getOptionLabel={(entidad) => entidad.descripcion || 'Seleccione una entidad'}
             value={entidadPadre}
             onChange={(event, newValue) => {

@@ -25,6 +25,8 @@ import AppsIcon from '@mui/icons-material/Apps';
 import { TimerCounter } from "../../components/timer/timer";
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { Roles } from "../../components/Roles/Roles";
+import PortraitIcon from '@mui/icons-material/Portrait';
+import { Perfiles } from "../../components/perfiles/Perfiles";
 
 // estructura que se va a llenar con la informacion que regresa el endpoint
 // tiene que tener el mismo nombre que regresa el endpoint
@@ -54,6 +56,7 @@ export default function CatApps() {
   const navigate = useNavigate();
   //Roles
   const [openRoles,setOpenRoles]=useState(false)
+  const [openPerfiles,setOpenPerfiles]=useState(false)
   const [idApp,setIdApp]=useState("")
   const [app,setApp]=useState("")
   // Set columns and rows for DataGrid
@@ -62,7 +65,7 @@ export default function CatApps() {
     {
       field: "acciones",
       headerName: "Acciones",
-      width: 150,
+      width: 200,
       headerAlign: "center",
       hideable: false,
       renderCell: (cellValues: any) => {
@@ -78,6 +81,21 @@ export default function CatApps() {
                 <EditIcon />
               </IconButton>
             </Tooltip>
+            <Tooltip title={"Administrar perfiles de " + cellValues.row.Nombre}>
+              <IconButton
+                sx={{ color: "black" }}
+                onClick={(event) => {
+                  setOpenPerfiles(!openPerfiles);
+                  setIdApp(cellValues?.row?.Id);
+                  setApp(cellValues?.row?.Nombre)
+                  console.log('cellvalues',cellValues);
+                  
+                }}
+              >
+                <PortraitIcon />
+              </IconButton>
+            </Tooltip>
+            
             <Tooltip title={"Administrar roles de " + cellValues.row.Nombre}>
               <IconButton
                 sx={{ color: "black" }}
@@ -110,7 +128,7 @@ export default function CatApps() {
     {
       field: "Nombre",
       headerName: "Nombre",
-      width: 400,
+      width: 550,
       hideable: false,
       headerAlign: "center",
     },
@@ -125,7 +143,7 @@ export default function CatApps() {
     {
       field: "Path",
       headerName: "Ruta",
-      width: 350,
+      width: 300,
       hideable: false,
       headerAlign: "center",
     },
@@ -337,7 +355,8 @@ export default function CatApps() {
           app={editDialogApp}
         />
       )}
-      {openRoles && <Roles open={openRoles} closeModal={setOpenRoles} idApp={idApp} app={app}/>}
+      {openRoles && <Roles open={openRoles} closeModal={()=>setOpenRoles(false)} idApp={idApp} app={app}/>}
+      {openPerfiles && <Perfiles open={openPerfiles} closeModal={()=>setOpenPerfiles(false)} idApp={idApp} app={app}/>}
 
     </Grid>
   );

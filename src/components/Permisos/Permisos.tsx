@@ -78,7 +78,7 @@ export function Permisos({ open, closeModal, menu, idApp, idRol }: { open: boole
                                     <SecurityIcon style={{ fontSize: "60px" }} />
                                 </Grid>
 
-                                <Grid item xl={4} xs={12} md={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                <Grid item xl={8} xs={12} md={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                     <Typography fontFamily={"Montserrat-Bold"} fontSize={50}>{menu.Descripcion}</Typography>
                                 </Grid>
 

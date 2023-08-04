@@ -22,7 +22,7 @@ export const getPermisosMenu=(IdMenu:string,setState:Function,IdApp:string,bande
           
         }
       ).catch(
-        ()=>{bandera();}
+        ()=>{setState([]);bandera();}
       )
 }
 
@@ -49,7 +49,7 @@ export const getPermisosMenuRol=(IdMenu:string,IdRol:string,setState:Function)=>
           
         }
       ).catch(
-        ()=>{}
+        ()=>{setState([])}
       )
 }
 

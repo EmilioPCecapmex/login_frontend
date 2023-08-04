@@ -22,7 +22,7 @@ export const getMenus=(IdApp:string,setState:Function,bandera:Function)=>{
           
         }
       ).catch(
-        ()=>{bandera();}
+        ()=>{bandera();setState([])}
       )
 }
 
@@ -49,7 +49,7 @@ export const getMenusRol=(IdRol:string,setState:Function)=>{
           
         }
       ).catch(
-        ()=>{}
+        ()=>{setState([])}
       )
 }
 

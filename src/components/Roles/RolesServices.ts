@@ -22,6 +22,6 @@ export const getRoles=(IdApp:string,setState:Function,bandera:Function)=>{
           
         }
       ).catch(
-        ()=>{bandera();}
+        ()=>{bandera();setState([])}
       )
 }

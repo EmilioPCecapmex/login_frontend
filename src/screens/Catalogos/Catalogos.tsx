@@ -248,7 +248,7 @@ const Catalogos = () => {
               <Tab label="SIREGOB" value="2" />
               {/* <Tab label="Departamentos" value="3" /> */}
               {/* <Tab label="Roles" value="4" /> */}
-              <Tab label="Perfiles" value="5" />
+              {/* <Tab label="Perfiles" value="5" /> */}
               
             </TabList>
           </Box>
