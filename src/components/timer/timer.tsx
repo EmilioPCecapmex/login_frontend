@@ -21,7 +21,7 @@ export const TimerCounter = () => {
       "sessionT",
       (session.getTime() - actualDate.getTime()).toString()
     );
-    if ((rest<=0)) {
+    if ((rest<5)) {
       logout();
     }
   }, 1000);
