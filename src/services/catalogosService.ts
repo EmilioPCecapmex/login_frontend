@@ -38,17 +38,10 @@ export const getCatalogo = (path: string, setState: Function) => {
     // aqui se recibe lo del endpoint en response
     .then(({ data }) => {
       console.log(`catalogo ${path}`,data.data);
-      
       setState(data.data)
     })
     .catch(
-    //     function (error) {
-    // //   Swal.fire({
-    // //     icon: "error",
-    // //     title: "Mensaje",
-    // //     text: "(" + error.response.status + ") " + error.response.data.message,
-    // //   })
-    // }
+   
   );
 
 
