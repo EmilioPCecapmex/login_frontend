@@ -10,8 +10,8 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { createCatalogo, getCatalogo, modificarCatalogo } from "../../services/catalogosService";
-import { IDepartamento, IDependencia, IEntidadPadre, IPerfil, IRol, ISecretaria, ITpoDependencia, IUResponsable, IUsuarios } from "../../screens/SolicitudDeUsuarios/ICatalogos";
+import { createCatalogo, getCatalogo } from "../../services/catalogosService";
+import {  IEntidadPadre, ITpoDependencia,IUsuarios } from "../../screens/SolicitudDeUsuarios/ICatalogos";
 
 export interface IModify {
   IdSecretaria: string;
@@ -91,54 +91,10 @@ export const Create = ({
   });
 
   //------------------------CATALOGOS-------------------------------------------
-  // const [departamentos, setDepartamentos] = useState<Array<IDepartamento>>([]);
-  // const [roles, setRoles] = useState<Array<IRol>>([]);
-  const [dependencias, setDependencias] = useState<Array<IDependencia>>([]);
   const [tpoDependencias, setTpoDependencias] = useState<Array<ITpoDependencia>>([]);
-  // const [perfiles, setPerfiles] = useState<Array<IPerfil>>([]);
-  const [secretarias, setSecretarias] = useState<Array<ISecretaria>>([]);
-  // const [uResponsables, setUResponsables] = useState<Array<IUResponsable>>([]);
   const [entidadesPadres, setEntidadesPadres] = useState<Array<IEntidadPadre>>([{tipo:"", descripcion:"",value:""}])
   const [entidadPadre, setEntidadPadre] = useState<IEntidadPadre>({ tipo: "", value: "", descripcion: "" })
-
-  const [dependenciasFiltered, setDependenciasFiltered] = useState<Array<IDependencia>>([]);
-  const [secretariasFiltered, setSecretariasFiltered] = useState<Array<ISecretaria>>([]);
   const [usuarios, setUsuarios] = useState<Array<IUsuarios>>([])
-
-  useEffect(() => {
-    setDependenciasFiltered(dependencias)
-  }, [dependencias])
-  useEffect(() => {
-    setSecretariasFiltered(secretarias)
-  }, [secretarias])
-  //elementos seleccionados
-  // const [departamento, setDepartamento] = useState<IDepartamento>({
-  //   Id: '',
-  //   Descripcion: '',
-  //   NombreCorto: '',
-  //   IdResponsable: '',
-  //   Responsable: '',
-  //   UltimaActualizacion: '',
-  //   FechaCreacion: '',
-  //   ModificadoPor: '',
-  //   Modificador: '',
-  //   CreadoPor: '',
-  //   Creador: '',
-  //   Deleted: '',
-  // });
-  const [dependencia, setDependencia] = useState<IDependencia>({
-    Id: '',
-    Nombre: '',
-    Direccion: '',
-    Telefono: '',
-    IdTipoDependencia: '',
-    TipoDependencia: '',
-    IdTitular: '',
-    Titular: '',
-    IdPerteneceA: '',
-    PerteneceA: '',
-    Deleted: '',
-  });
 
   const [tpoDependencia, setTpoDependencia] = useState<ITpoDependencia>({
     Id: '',
@@ -147,85 +103,13 @@ export const Create = ({
     Deleted: '',
   });
 
-
-  const [rol, setRol] = useState<IRol>({
-    ControlInterno: '',
-    Deleted: '',
-    Descripcion: '',
-    Id: '',
-    Nombre: ''
-  });
-  const [perfil, setPerfil] = useState<IPerfil>({
-    Deleted: '',
-    Descripcion: '',
-    Id: '',
-    Referencia: '',
-  });
-  const [uResponsable, setUResponsable] = useState<IUResponsable>({
-    Clave: '',
-    Deleted: '',
-    Descripcion: '',
-    Id: '',
-  })
-  const [secretaria, setSecretaria] = useState<ISecretaria>({
-    Deleted: '',
-    Direccion: '',
-    Id: '',
-    IdTitular: '',
-    Nombre: '',
-    Nombre_corto: '',
-    PerteneceA: '',
-    Titular: ''
-  })
-
   const [titular, setTitular] = useState<IUsuarios>({
     Id: "",
     Nombre: ""
   })
-  useEffect(() => {
-    if (dependencia.Id != '') {
-      let aux = secretarias.find((sec) => sec.Id === dependencia.IdPerteneceA)
-
-      if (aux !== undefined) {
-        setSecretaria(aux);
-      }
-    }
-    else { setSecretariasFiltered(secretarias) }
-  }, [dependencia.Id])
 
 
   useEffect(() => {
-    if (secretaria.Id !== '') {
-      setDependenciasFiltered(dependencias.filter((obj) => obj.IdPerteneceA === secretaria.Id))
-    }
-    else { setSecretariasFiltered(secretarias) }
-  }, [secretaria])
-
-  useEffect(() => {
-    if (dependenciasFiltered.find((obj) => obj === dependencia) === undefined)
-      setDependencia({
-        Id: '',
-        Nombre: '',
-        Direccion: '',
-        Telefono: '',
-        IdTipoDependencia: '',
-        TipoDependencia: '',
-        IdTitular: '',
-        Titular: '',
-        IdPerteneceA: '',
-        PerteneceA: '',
-        Deleted: '',
-      })
-
-  }, [dependenciasFiltered])
-
-  useEffect(() => {
-    // getCatalogo("departamentos", setDepartamentos)
-    // getCatalogo("roles", setRoles)
-    getCatalogo("dependencias", setDependencias)
-    // getCatalogo("perfiles", setPerfiles)
-    getCatalogo("secretarias", setSecretarias)
-    // getCatalogo("uresponsables", setUResponsables)
     getCatalogo("usuarios-asignables", setUsuarios)
     getCatalogo("tipodependencias", setTpoDependencias)
     getCatalogo("entidad-padre", setEntidadesPadres)
@@ -291,6 +175,11 @@ export const Create = ({
   useEffect(() => {
     setNuevoElemento({ ...nuevoElemento, PerteneceA: entidadPadre.value })
   }, [entidadPadre])
+
+  useEffect(() => {
+    setNuevoElemento({ ...nuevoElemento, IdTipoDependencia:tpoDependencia.Id  })
+  }, [tpoDependencia])
+
 
   useEffect(() => {
     setNuevoElemento(elementoVacio)
@@ -442,11 +331,7 @@ export const Create = ({
             onChange={(event, newValue) => {
               if (newValue != null) {
                 setTpoDependencia(newValue);
-                setNuevoElemento({ ...nuevoElemento, CreadoPor: localStorage.getItem("IdUsuario") || '', IdTipoDependencia: newValue.Id });
-                //         setErrores({...errores, secretaria:{
-                //         valid:false,
-                //         text:"Ingresa secretaria valida"
-                // }})
+                setNuevoElemento({ ...nuevoElemento, CreadoPor: localStorage.getItem("IdUsuario") || ''});
               }
             }}
             renderInput={(params) => (
@@ -471,6 +356,8 @@ export const Create = ({
             getOptionLabel={(entidad) => entidad.descripcion || 'Seleccione una entidad'}
             value={entidadPadre}
             onChange={(event, newValue) => {
+                console.log(event,newValue);
+                
               if (newValue != null) {
                 setEntidadPadre(newValue);
                 setNuevoElemento({ ...nuevoElemento, CreadoPor: localStorage.getItem("IdUsuario") || '' });
