@@ -8,8 +8,10 @@ import AppsIcon from '@mui/icons-material/Apps';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Menus } from "../menus/Menus";
 import { getRoles } from "./RolesServices";
+import ButtonsAdd from "../../screens/Componentes/ButtonsAdd";
+import { DialogRoles } from "./DialogRoles";
 
-interface IRol {
+export interface IRol {
     ControlInterno: string,
     Deleted: number,
     Descripcion: string,
@@ -28,6 +30,16 @@ export function Roles({ open, closeModal, idApp, app }: { open: boolean, closeMo
     const [bandera, setBandera] = useState(false);
 
     const [openMenus, setOpenMenu] = useState(false);
+    const [openDialogRoles, setOpenDialogRoles] = useState(false);
+    const [movimiento, setMovimiento] = useState("agregar");
+    const [registroData, setRegistroData] = useState<IRol>({
+        ControlInterno: "",
+        Deleted: 0,
+        Descripcion: "",
+        Id: "",
+        Nombre: ""
+    })
+
     const [idRol, setIdRol] = useState("")
     const [rol, setRol] = useState("")
 
@@ -45,18 +57,11 @@ export function Roles({ open, closeModal, idApp, app }: { open: boolean, closeMo
                             <IconButton
                                 sx={{ color: "black" }}
                                 onClick={(event) => {
-                                    //   setuuid(cellValues.row.uuid);
-                                    //   setCve(cellValues.row.Cve);
-                                    //   setNombre(cellValues.row.Nombre);
-                                    //   setDireccion(cellValues.row.Direccion);
-                                    //   setTelefono(cellValues.row.Telefono);
-                                    //   setTipoDependencia(cellValues.row.uuidTipoDependencia);
-                                    //   setTitularDependencia(cellValues.row.uuidTitular);
-                                    //   setSecretaria(cellValues.row.uuidSecretaria);
-                                    //   setCreadoPor(cellValues.row.CreadoPor);
-                                    //   setModificadoPor(cellValues.row.ModificadoPor);
-                                    //   setEliminadoPor(cellValues.row.EliminadoPor);
-                                    //   handleOpen();
+                                    console.log("row", cellValues.row);
+
+                                    setRegistroData(cellValues.row)
+                                    setMovimiento("editar")
+                                    setOpenDialogRoles(true)
                                 }}
                             >
                                 <EditIcon />
@@ -86,7 +91,9 @@ export function Roles({ open, closeModal, idApp, app }: { open: boolean, closeMo
                         <Tooltip title={"Eliminar"}>
                             <IconButton sx={{ color: "black" }}
                                 onClick={(event) => {
-                                    // handleDelete(event, cellValues);
+                                    setRegistroData(cellValues.row)
+                                    setMovimiento("eliminar")
+                                    setOpenDialogRoles(true)
                                 }
                                 }
                             >
@@ -98,42 +105,47 @@ export function Roles({ open, closeModal, idApp, app }: { open: boolean, closeMo
                 );
             },
         },
-        {
-            field: "Id",
-            headerName: "Id",
-            width: 250,
-            hideable: false,
-            headerAlign: "left",
+        // {
+        //     field: "Id",
+        //     headerName: "Id",
+        //     width: 250,
+        //     hideable: false,
+        //     headerAlign: "left",
 
-        },
+        // },
         {
             field: "Nombre",
             headerName: "Nombre",
-            width: 200,
+            width: 300,
             hideable: false,
             headerAlign: "left",
         },
         {
             field: "Descripcion",
             headerName: "Descripcion",
-            width: 400,
+            width: 600,
             hideable: false,
             headerAlign: "left",
         },
         {
             field: "ControlInterno",
             headerName: "Control Interno",
-            width: 400,
+            width: 500,
             hideable: false,
             headerAlign: "left",
         },
-        {
-            field: "Deleted",
-            headerName: "Eliminado",
-            width: 150,
-            hideable: false,
-            headerAlign: "left",
-        }
+        // {
+        //     field: "Deleted",
+        //     headerName: "Eliminado",
+        //     width: 150,
+        //     hideable: false,
+        //     headerAlign: "left",
+        //     renderCell: (cellValues: any) => {
+        //         return (
+        //             cellValues.row.Deleted===0?"Activo":"No Activo"
+        //         );
+        //     },
+        // }
     ];
 
     useEffect(() => {
@@ -153,66 +165,50 @@ export function Roles({ open, closeModal, idApp, app }: { open: boolean, closeMo
                 </Box>
                 :
                 <Grid container sx={{ width: "100%", height: "100%" }}>
-                    <Grid container item xl={12} sx={{ height: "8vh", display: "flex", justifyContent: "center", alignItems: "center", bgcolor: '#c4a57b' }}>
-                        <Grid item xl={1} sx={{ height: "8vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        </Grid>
-                        <Grid item xl={10} sx={{ height: "8vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+
+                    <Grid container item xl={12} sx={{ height: "10%", display: "flex", justifyContent: "flex-end", alignItems: "center", bgcolor: '#c4a57b' }}>
+                        <Grid item xl={10} sx={{display: "flex", justifyContent: "center", alignItems: "center" }}>
                             <Typography fontFamily={"Montserrat-Regular"} fontSize={50}> ROLES </Typography>
                         </Grid>
-                        <Grid item xl={1} sx={{ height: "8vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <Grid item xl={1} sx={{display: "flex", justifyContent: "center", alignItems: "center" }}>
                             <IconButton onClick={() => { closeModal() }}><CloseIcon style={{ fontSize: 50 }} /> </IconButton>
                         </Grid>
                     </Grid>
 
 
 
-                    <Grid container item xl={12} sx={{ height: "92vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <Card sx={{ height: "90%", width: "95%", boxShadow: 10 }}>
+                    <Grid container item xl={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "85%" }}>
+                        <Card sx={{ height: "100%", width: "95%", boxShadow: 10 }}>
                             {/* este box es la leyenda que se encuentra arriba a la izquierda */}
-                            <Grid container sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", height: "10%" }}>
 
-                                <Grid item xl={2} xs={12} md={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                            <Grid container item sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+
+                                <Grid item xl={2} xs={2} md={2} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                     <AppsIcon style={{ fontSize: "60px" }} />
                                 </Grid>
 
-                                <Grid item xl={8} xs={12} md={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                    <Typography fontFamily={"Montserrat-Bold"} fontSize={40}>{app}</Typography>
+                                <Grid item xl={8} xs={8} md={8} sx={{ height: "10vh", maxHeight: "10vh", overflow: "clip",display:"flex",alignItems:"center",justifyContent:"center" }} >
+                                    <Tooltip title={app} >
+                                        <Typography fontFamily={"Montserrat-Bold"} fontSize={40} sx={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                        {app}
+                                    </Typography>
+                                    </Tooltip>
+                                    
+
                                 </Grid>
 
-                                <Grid item xl={2} xs={12} md={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                    <Button
-                                        className="aceptar"
-                                        variant="text"
-                                    // onClick={(event) => handleNewBtnClick(event)}
-                                    // sx={{
-                                    //     fontFamily: "MontserratBold",
-                                    //     backgroundColor: "#DFA94F",
-                                    //     color: "#000001",
-                                    //     fontSize: "10px",
-                                    //     boxShadow: 4,
-                                    // }}
-                                    // startIcon={<AddIcon />}
-                                    >
-                                        Agragar Rol
-                                    </Button>
+                                <Grid item xl={2} xs={2} md={2} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                    <ButtonsAdd handleOpen={() => { setMovimiento("agregar"); setOpenDialogRoles(true) }} agregar={true} />
                                 </Grid>
 
 
                             </Grid>
 
-                            {roles.length === 0 ?
-                                <Box sx={{ width: "100%", height: "90%", display: "flex", justifyContent: "center", alignItems: "center", }}>
-                                    <Typography fontFamily={"Montserrat-Bold"} fontSize={50}>Sin Información registrada </Typography>
-                                </Box>
-                                :
-                                // roles[0].ControlInterno
-                                <Box sx={{ width: "100%", height: "90%", display: "flex", justifyContent: "center", alignItems: "flex-start", }}>
-                                    <MUIXDataGrid id={Math.random} columns={columns} rows={roles} camposCsv={camposCsv} />
-                                </Box>
 
+                            <Box sx={{ height: "85%", width: "100%", justifyContent: "center", display: "flex", paddingTop: '2vh' }}>
+                                <MUIXDataGrid id={Math.random} columns={columns} rows={roles} camposCsv={camposCsv} />
+                            </Box>
 
-
-                            }
 
                         </Card>
 
@@ -221,6 +217,7 @@ export function Roles({ open, closeModal, idApp, app }: { open: boolean, closeMo
                     </Grid>
                 </Grid>}
             {openMenus && <Menus open={openMenus} closeModal={() => { setOpenMenu(false) }} idRol={idRol} rol={rol} idApp={idApp} />}
+            {openDialogRoles && <DialogRoles open={openDialogRoles} closeDialog={setOpenDialogRoles} reloadData={registroData} movimiento={movimiento} IdApp={idApp} />}
         </Dialog>
     )
 }

@@ -9,13 +9,13 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { Menus } from "../menus/Menus";
 import { getPerfiles } from "./PerfilesServices";
 import ButtonsAdd from "../../screens/Componentes/ButtonsAdd";
-import { PerfilDialog } from "./Create";
+import { PerfilDialog } from "./DialogPerfiles";
 
 
 export interface IPerfil {
-    Id:string
-    Descripcion:string
-    Referencia:string
+    Id: string
+    Descripcion: string
+    Referencia: string
 }
 
 
@@ -25,12 +25,12 @@ const camposCsv = ["Id", "Descripcion", "Referencia"];
 export function Perfiles({ open, closeModal, idApp, app }: { open: boolean, closeModal: Function, idApp: string, app: string }) {
     document.title = "Perfiles";
 
-    
+
     const [bandera, setBandera] = useState(false);
     const [perfiles, setPerfiles] = useState<Array<IPerfil>>([]);
     const [openPerfilesDialog, setopenPerfilesDialog] = useState(false);
-    const [registroData,setRegistroData]=useState<IPerfil>({Id:"",Descripcion:"",Referencia:"",})
-    const [movimiento,setMovimiento]=useState("agregar");
+    const [registroData, setRegistroData] = useState<IPerfil>({ Id: "", Descripcion: "", Referencia: "", })
+    const [movimiento, setMovimiento] = useState("agregar");
 
 
 
@@ -57,7 +57,7 @@ export function Perfiles({ open, closeModal, idApp, app }: { open: boolean, clos
                                 <EditIcon />
                             </IconButton>
                         </Tooltip>
-                       
+
                         <Tooltip title={"Eliminar"}>
                             <IconButton sx={{ color: "black" }}
                                 onClick={(event) => {
@@ -75,14 +75,14 @@ export function Perfiles({ open, closeModal, idApp, app }: { open: boolean, clos
                 );
             },
         },
-        {
-            field: "Id",
-            headerName: "Id",
-            width: 300,
-            hideable: false,
-            headerAlign: "left",
+        // {
+        //     field: "Id",
+        //     headerName: "Id",
+        //     width: 300,
+        //     hideable: false,
+        //     headerAlign: "left",
 
-        },
+        // },
         {
             field: "Descripcion",
             headerName: "Descripcion",
@@ -100,9 +100,9 @@ export function Perfiles({ open, closeModal, idApp, app }: { open: boolean, clos
     ];
 
     useEffect(() => {
-        if(openPerfilesDialog===false){
-        getPerfiles(idApp, setPerfiles, () => setBandera(true))
-    }
+        if (openPerfilesDialog === false) {
+            getPerfiles(idApp, setPerfiles, () => setBandera(true))
+        }
     }, [openPerfilesDialog])
     return (
         <Dialog open={open} fullScreen>
@@ -112,50 +112,47 @@ export function Perfiles({ open, closeModal, idApp, app }: { open: boolean, clos
                 </Box>
                 :
                 <Grid container sx={{ width: "100%", height: "100%" }}>
-                    <Grid container item xl={12} sx={{ height: "8vh", display: "flex", justifyContent: "center", alignItems: "center", bgcolor: '#c4a57b' }}>
-                        <Grid item xl={1} sx={{ height: "8vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        </Grid>
-                        <Grid item xl={10} sx={{ height: "8vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+
+                    <Grid container item xl={12} sx={{ height: "10%", display: "flex", justifyContent: "flex-end", alignItems: "center", bgcolor: '#c4a57b' }}>
+                        <Grid item xl={10} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                             <Typography fontFamily={"Montserrat-Regular"} fontSize={50}> PERFILES </Typography>
                         </Grid>
-                        <Grid item xl={1} sx={{ height: "8vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <Grid item xl={1} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                             <IconButton onClick={() => { closeModal() }}><CloseIcon style={{ fontSize: 50 }} /> </IconButton>
                         </Grid>
                     </Grid>
 
 
 
-                    <Grid container item xl={12} sx={{ height: "92vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <Card sx={{ height: "90%", width: "95%", boxShadow: 10 }}>
+                    <Grid container item xl={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "85%" }}>
+                        <Card sx={{ height: "100%", width: "95%", boxShadow: 10 }}>
                             {/* este box es la leyenda que se encuentra arriba a la izquierda */}
-                            <Grid container sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", height: "10%" }}>
 
-                                <Grid item xl={2} xs={12} md={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                            <Grid container item sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+
+                                <Grid item xl={2} xs={2} md={2} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                     <AppsIcon style={{ fontSize: "60px" }} />
                                 </Grid>
 
-                                <Grid item xl={8} xs={12} md={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                    <Typography fontFamily={"Montserrat-Bold"} fontSize={40}>{app}</Typography>
+                                <Grid item xl={8} xs={8} md={8} sx={{ height: "10vh", maxHeight: "10vh", overflow: "clip", display: "flex", alignItems: "center",justifyContent:"center" }} >
+                                    <Tooltip title={app} >
+                                        <Typography fontFamily={"Montserrat-Bold"} fontSize={40} sx={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{app}</Typography>
+                                    </Tooltip>
                                 </Grid>
 
-                                <Grid item xl={2} xs={12} md={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                    <ButtonsAdd handleOpen={()=>{setMovimiento("agregar");setopenPerfilesDialog(true)}} agregar={true} />
+                                <Grid item xl={2} xs={2} md={2} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                    <ButtonsAdd handleOpen={() => { setMovimiento("agregar"); setopenPerfilesDialog(true) }} agregar={true} />
                                 </Grid>
-
-
                             </Grid>
 
-                                <Box sx={{ width: "100%", height: "90%", display: "flex", justifyContent: "center", alignItems: "flex-start", }}>
-                                    <MUIXDataGrid id={(row: any) => row.Id} columns={columns} rows={perfiles} camposCsv={camposCsv} />
-                                </Box>
+                            <Box sx={{ height: "85%", width: "100%", justifyContent: "center", display: "flex", paddingTop: '2vh' }}>
+                                <MUIXDataGrid id={(row: any) => row.Id} columns={columns} rows={perfiles} camposCsv={camposCsv} />
+                            </Box>
                         </Card>
-
-
-
                     </Grid>
                 </Grid>}
-               {openPerfilesDialog && <PerfilDialog open={openPerfilesDialog} closeDialog={setopenPerfilesDialog} movimiento={movimiento} reloadData={registroData} IdApp={idApp} />}
-        
+            {openPerfilesDialog && <PerfilDialog open={openPerfilesDialog} closeDialog={setopenPerfilesDialog} movimiento={movimiento} reloadData={registroData} IdApp={idApp} />}
+
         </Dialog>
     )
 }

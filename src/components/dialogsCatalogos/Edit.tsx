@@ -555,7 +555,7 @@ export const Edit = ({
             }}
           />
         )}
-        {["4"].includes(catalogo) && (
+        {["4","6"].includes(catalogo) && (
           <TextField
             multiline
             sx={{ mt: 3, width: "100%" }}

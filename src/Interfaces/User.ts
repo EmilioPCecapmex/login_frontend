@@ -35,4 +35,5 @@ export interface imagen {
    NombreCorto?: string
    ControlInterno?: string
    Referencia?: string
+   Direccion?:string
 }
