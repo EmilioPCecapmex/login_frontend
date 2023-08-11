@@ -100,7 +100,7 @@ export function Perfiles({ open, closeModal, idApp, app }: { open: boolean, clos
     ];
 
     useEffect(() => {
-        if (openPerfilesDialog === false) {
+        if (!openPerfilesDialog) {
             getPerfiles(idApp, setPerfiles, () => setBandera(true))
         }
     }, [openPerfilesDialog])

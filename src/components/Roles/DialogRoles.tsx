@@ -9,6 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import { alertaError } from "../alertas/toast";
 import { IRol } from "./Roles";
+import { createRol, deleteRol, modifyRol } from "./RolesServices";
 
 interface IElemento {
   Id: string,
@@ -56,13 +57,13 @@ export const DialogRoles = ({
   function sendRequest() {
     switch (movimiento) {
       case "editar":
-        // modifyPerfiles(nuevoElemento, closeDialog);
+        modifyRol(nuevoElemento, closeDialog);
         break;
       case "agregar":
-        // createPerfiles(nuevoElemento, closeDialog);
+        createRol(nuevoElemento, closeDialog);
         break;
       case "eliminar":
-        // deletePerfiles(nuevoElemento, closeDialog);
+        deleteRol(nuevoElemento, closeDialog);
         break;
       default:
         alertaError()
@@ -139,11 +140,11 @@ export const DialogRoles = ({
         </Button>
         <Button className="aceptar" onClick={() => {
           // createCatalogo(ruta, { ...nuevoElemento }, setOpen, reloadData)
-          // if (nuevoElemento.Descripcion === "" || nuevoElemento.Referencia === "") {
-          //   alertaError("Captura todos los datos");
-          // } else {
-          //   sendRequest();
-          // }
+          if (nuevoElemento.Descripcion === "" || nuevoElemento.Nombre === ""|| nuevoElemento.ControlInterno === "") {
+            alertaError("Captura todos los datos");
+          } else {
+            sendRequest();
+          }
         }}>{movimiento.toUpperCase()}</Button>
       </DialogActions>
     </Dialog>

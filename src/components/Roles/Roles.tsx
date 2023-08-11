@@ -149,8 +149,9 @@ export function Roles({ open, closeModal, idApp, app }: { open: boolean, closeMo
     ];
 
     useEffect(() => {
+        if(!openDialogRoles)
         getRoles(idApp, setRoles, () => setBandera(true))
-    }, [])
+    }, [openDialogRoles])
 
     useEffect(() => {
         console.log("roles", roles);
