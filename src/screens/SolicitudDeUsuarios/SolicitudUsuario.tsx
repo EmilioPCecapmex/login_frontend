@@ -1,11 +1,8 @@
 import {
   Autocomplete,
   Button,
-  FormControl,
   FormControlLabel,
   Grid,
-  MenuItem,
-  Select,
   Switch,
   TextField,
   Typography,
@@ -15,14 +12,7 @@ import Swal from "sweetalert2";
 import SelectValues from "../../Interfaces/SelectValues";
 import { UserServices } from "../../services/UserServices";
 import { getCatalogo } from "../../services/catalogosService";
-import {
-  IDepartamento,
-  IEntidadPadre,
-  IPerfil,
-  IRol,
-  ISecretaria,
-  IUResponsable,
-} from "./ICatalogos";
+import { IEntidadPadre, IPerfil, IRol, IUResponsable } from "./ICatalogos";
 
 export interface NewDialogProps {
   modoModal: boolean;
@@ -110,6 +100,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
         });
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apps]);
 
   const compruebaCelular = (value: number) => {
@@ -157,7 +148,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
   };
 
   const compruebaRfc = (value: string) => {
-    var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    var format = /[ ¬°`!@#$%^&*()_+\-=\\[\]{};':"\\|,.<>\\/?~]/;
     if (!format.test(value)) {
       setInfoUsuario({ ...infoUsuario, RFC: value });
     }
@@ -169,7 +160,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
   }
 
   const compruebaCurp = (value: string) => {
-    var format = /[ ¬°`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    var format = /[ ¬°`!@#$%^&*()_+\-=\\[\]{};':"\\|,.<>\\/?~]/;
     if (!format.test(value)) {
       setInfoUsuario({ ...infoUsuario, CURP: value });
     }

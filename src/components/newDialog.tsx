@@ -1,21 +1,17 @@
+import { ThemeProvider } from "@emotion/react";
 import {
   AppBar,
   Button,
   Dialog,
-  Grid,
-  IconButton,
-  Tooltip,
+  DialogContent,
+  Slide,
   Toolbar,
   Typography,
   createTheme,
-  Slide,
-  DialogContent,
 } from "@mui/material";
+import { TransitionProps } from "@mui/material/transitions";
 import { forwardRef, useEffect } from "react";
 import { SolicitudUsuario } from "../screens/SolicitudDeUsuarios/SolicitudUsuario";
-import { Close as CloseIcon } from "@mui/icons-material";
-import { ThemeProvider } from "@emotion/react";
-import { TransitionProps } from "@mui/material/transitions";
 
 export interface NewDialogProps {
   newDialogOpen: boolean;
