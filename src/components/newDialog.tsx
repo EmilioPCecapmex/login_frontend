@@ -1,68 +1,105 @@
 import {
-  Dialog, Grid, IconButton, Typography,
+  AppBar,
+  Button,
+  Dialog,
+  Grid,
+  IconButton,
+  Tooltip,
+  Toolbar,
+  Typography,
+  createTheme,
+  Slide,
+  DialogContent,
 } from "@mui/material";
-import { useEffect } from "react";
-import { SolicitudUsuario} from "../screens/SolicitudDeUsuarios/SolicitudUsuario";
+import { forwardRef, useEffect } from "react";
+import { SolicitudUsuario } from "../screens/SolicitudDeUsuarios/SolicitudUsuario";
 import { Close as CloseIcon } from "@mui/icons-material";
-
+import { ThemeProvider } from "@emotion/react";
+import { TransitionProps } from "@mui/material/transitions";
 
 export interface NewDialogProps {
   newDialogOpen: boolean;
   handleNewDialogClose: Function;
 }
 
+export const Transition = forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 export interface IUserTypes {
   Id: string;
   Nombre: string;
   Descripcion: string;
 }
-
-
+export const theme = createTheme({
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          "&.Mui-disabled": {
+            background: "#f3f3f3",
+            color: "#dadada",
+          },
+        },
+      },
+    },
+  },
+});
 
 export const NewDialog = (props: NewDialogProps) => {
-
-
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <Dialog
       open={props.newDialogOpen}
       fullScreen
-      onClose={() => props.handleNewDialogClose()
-      }
+      TransitionComponent={Transition}
+      onClose={() => props.handleNewDialogClose()}
     >
-      <div className="ContainerSolicitudesUsuario">
-        <Grid container item xs={12} justifyContent={"space-between"} paddingRight={1} paddingTop={1} paddingBottom={1} bgcolor={"#af8c55"}>
-          <Grid container item xs={1} justifyContent={"flex-end"}> 
+      <AppBar sx={{ position: "relative" }}>
+        <Toolbar sx={{ justifyContent: "space-between" }}>
+          <Typography sx={{ fontSize: "1.5rem" }}>
+            Registro de usuario
+          </Typography>
 
-          </Grid>
-          <Grid item xs={10} justifyContent={"center"}>
-            <Typography variant="h4" className="TituloContainerSolicitudesUsuario" style={{color:'white'}}>
-              Registro de Usuario
-
-            </Typography>
-          </Grid>
-          <Grid container item xs={1} justifyContent={"flex-end"}>
-
-            <IconButton
-              aria-label="close"
-              onClick={() => props.handleNewDialogClose()}
+          <ThemeProvider theme={theme}>
+            <Button
               sx={{
-                color: (theme) => theme.palette.grey[500],
+                backgroundColor: "white",
+                color: "black",
+                "&&:hover": {
+                  backgroundColor: "rgba(165, 161, 156, 0.9)",
+                  color: "white",
+                },
+                fontSize: "90%",
+                borderRadius: "0.8vh",
+                textTransform: "capitalize",
+              }}
+              onClick={() => {
+                props.handleNewDialogClose();
               }}
             >
-              <CloseIcon />
-            </IconButton>
-          </Grid>
-        </Grid>
-        <SolicitudUsuario handleDialogClose={props.handleNewDialogClose} modoModal={false} token={""} idUsuarioSolicitante={""} idApp={""} />
-
-      </div>
+              <Typography>Cancelar</Typography>
+            </Button>
+          </ThemeProvider>
+        </Toolbar>
+      </AppBar>
+      <DialogContent
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+      >
+        <SolicitudUsuario
+          handleDialogClose={props.handleNewDialogClose}
+          modoModal={false}
+          token={""}
+          idUsuarioSolicitante={""}
+          idApp={""}
+        />
+      </DialogContent>
     </Dialog>
   );
 };
-
-
-
-

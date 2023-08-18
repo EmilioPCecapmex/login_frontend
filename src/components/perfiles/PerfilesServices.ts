@@ -1,7 +1,11 @@
-import axios from "axios"
+import axios from "axios";
 import { alertaError, alertaExito } from "../alertas/toast";
 
-export const getPerfiles = (IdApp: string, setState: Function, bandera: Function) => {
+export const getPerfiles = (
+  IdApp: string,
+  setState: Function,
+  bandera: Function
+) => {
   axios({
     method: "get",
     url: process.env.REACT_APP_APPLICATION_DEV + "/api/perfiles",
@@ -10,18 +14,18 @@ export const getPerfiles = (IdApp: string, setState: Function, bandera: Function
       "Content-Type": "application/json",
       Authorization: localStorage.getItem("jwtToken") || "",
     },
-  }).then(
-    ({ data }) => {
-
+  })
+    .then(({ data }) => {
       if (data.data) {
-        setState(data.data)
+        setState(data.data);
       }
       bandera();
-    }
-  ).catch(
-    () => { bandera(); setState([]) }
-  )
-}
+    })
+    .catch(() => {
+      bandera();
+      setState([]);
+    });
+};
 
 export const createPerfiles = (datos: any, fnc: Function) => {
   axios({
@@ -32,18 +36,16 @@ export const createPerfiles = (datos: any, fnc: Function) => {
       "Content-Type": "application/json",
       Authorization: localStorage.getItem("jwtToken") || "",
     },
-  }).then(
-    ({ data }) => {
-      console.log("create", data.data.Respuesta);
+  })
+    .then(({ data }) => {
       if (data.data.Respuesta) {
-        alertaExito(fnc,data.data.Respuesta)
+        alertaExito(fnc, data.data.Respuesta);
       }
-    }
-
-  ).catch(
-    ({response}) => {console.log("e",response.data.error); alertaError(response.data.error) }
-  )
-}
+    })
+    .catch(({ response }) => {
+      alertaError(response.data.error);
+    });
+};
 
 export const modifyPerfiles = (datos: any, fnc: Function) => {
   axios({
@@ -54,20 +56,16 @@ export const modifyPerfiles = (datos: any, fnc: Function) => {
       "Content-Type": "application/json",
       Authorization: localStorage.getItem("jwtToken") || "",
     },
-  }).then(
-    ({ data }) => {
-      console.log("create", data);
-      alertaExito(fnc)
-    }
-  ).catch(
-    ({response}) => {console.log(response);
-     alertaError(response.data.error) }
-  )
-}
+  })
+    .then(({ data }) => {
+      alertaExito(fnc);
+    })
+    .catch(({ response }) => {
+      alertaError(response.data.error);
+    });
+};
 
 export const deletePerfiles = (datos: any, fnc: Function) => {
-  console.log("datos",datos);
-  
   axios({
     method: "delete",
     url: process.env.REACT_APP_APPLICATION_DEV + "/api/perfil",
@@ -76,13 +74,11 @@ export const deletePerfiles = (datos: any, fnc: Function) => {
       "Content-Type": "application/json",
       Authorization: localStorage.getItem("jwtToken") || "",
     },
-  }).then(
-    ({ data }) => {
-      console.log("create", data);
-      alertaExito(fnc)
-    }
-  ).catch(
-    ({response}) => {console.log(response);
-     alertaError(response.data.error) }
-  )
-}
+  })
+    .then(({ data }) => {
+      alertaExito(fnc);
+    })
+    .catch(({ response }) => {
+      alertaError(response.data.error);
+    });
+};

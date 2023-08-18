@@ -12,15 +12,13 @@ import { IRol } from "./Roles";
 import { createRol, deleteRol, modifyRol } from "./RolesServices";
 
 interface IElemento {
-  Id: string,
-  Nombre: string,
-  Descripcion: string,
-  ControlInterno: string,
+  Id: string;
+  Nombre: string;
+  Descripcion: string;
+  ControlInterno: string;
   IdUsuario: string;
-  IdApp: string
+  IdApp: string;
 }
-
-
 
 export const DialogRoles = ({
   open,
@@ -33,7 +31,7 @@ export const DialogRoles = ({
   closeDialog: Function;
   movimiento: string;
   reloadData: IRol;
-  IdApp: string
+  IdApp: string;
 }) => {
   const elementoVacio = {
     Id: "",
@@ -44,15 +42,21 @@ export const DialogRoles = ({
     IdApp: "",
   };
 
-  const [nuevoElemento, setNuevoElemento] = useState<IElemento>({ ...elementoVacio, IdUsuario: localStorage.getItem("IdUsuario") || "", IdApp: IdApp });
+  const [nuevoElemento, setNuevoElemento] = useState<IElemento>({
+    ...elementoVacio,
+    IdUsuario: localStorage.getItem("IdUsuario") || "",
+    IdApp: IdApp,
+  });
 
   useEffect(() => {
-    console.log("dialog", reloadData);
-
     if (reloadData && (movimiento === "editar" || movimiento === "eliminar")) {
-       setNuevoElemento({ ...reloadData, IdUsuario: localStorage.getItem("IdUsuario") || "", IdApp: IdApp })
+      setNuevoElemento({
+        ...reloadData,
+        IdUsuario: localStorage.getItem("IdUsuario") || "",
+        IdApp: IdApp,
+      });
     }
-  }, [])
+  }, []);
 
   function sendRequest() {
     switch (movimiento) {
@@ -66,14 +70,16 @@ export const DialogRoles = ({
         deleteRol(nuevoElemento, closeDialog);
         break;
       default:
-        alertaError()
+        alertaError();
     }
   }
 
   return (
     <Dialog
       open={open}
-      onClose={() => { closeDialog(false) }}
+      onClose={() => {
+        closeDialog(false);
+      }}
       fullWidth
       maxWidth={"sm"}
     >
@@ -100,7 +106,6 @@ export const DialogRoles = ({
           InputProps={{ readOnly: movimiento === "eliminar" }}
         />
 
-
         <TextField
           multiline
           sx={{ mt: 3, width: "100%" }}
@@ -111,7 +116,9 @@ export const DialogRoles = ({
           onChange={(v) => {
             setNuevoElemento({
               ...nuevoElemento,
-              Descripcion: v.target.value.replaceAll("'", "").replaceAll('"', ""),
+              Descripcion: v.target.value
+                .replaceAll("'", "")
+                .replaceAll('"', ""),
             });
           }}
           InputProps={{ readOnly: movimiento === "eliminar" }}
@@ -126,26 +133,35 @@ export const DialogRoles = ({
           onChange={(v) => {
             setNuevoElemento({
               ...nuevoElemento,
-              ControlInterno: v.target.value.replaceAll("'", "").replaceAll('"', ""),
+              ControlInterno: v.target.value
+                .replaceAll("'", "")
+                .replaceAll('"', ""),
             });
           }}
           InputProps={{ readOnly: movimiento === "eliminar" }}
         />
-
-
       </DialogContent>
       <DialogActions>
         <Button className="cancelar" onClick={() => closeDialog(false)}>
           Cancelar
         </Button>
-        <Button className="aceptar" onClick={() => {
-          // createCatalogo(ruta, { ...nuevoElemento }, setOpen, reloadData)
-          if (nuevoElemento.Descripcion === "" || nuevoElemento.Nombre === ""|| nuevoElemento.ControlInterno === "") {
-            alertaError("Captura todos los datos");
-          } else {
-            sendRequest();
-          }
-        }}>{movimiento.toUpperCase()}</Button>
+        <Button
+          className="aceptar"
+          onClick={() => {
+            // createCatalogo(ruta, { ...nuevoElemento }, setOpen, reloadData)
+            if (
+              nuevoElemento.Descripcion === "" ||
+              nuevoElemento.Nombre === "" ||
+              nuevoElemento.ControlInterno === ""
+            ) {
+              alertaError("Captura todos los datos");
+            } else {
+              sendRequest();
+            }
+          }}
+        >
+          {movimiento.toUpperCase()}
+        </Button>
       </DialogActions>
     </Dialog>
   );

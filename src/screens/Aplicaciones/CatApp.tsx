@@ -21,11 +21,11 @@ import { NewDialogApp } from "../../components/newApp";
 import { EditDialogApp } from "../../components/editApp";
 import MUIXDataGridApp from "../../components/MUIXDataGridApp";
 import { Header } from "../../components/header";
-import AppsIcon from '@mui/icons-material/Apps';
+import AppsIcon from "@mui/icons-material/Apps";
 import { TimerCounter } from "../../components/timer/timer";
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import { Roles } from "../../components/Roles/Roles";
-import PortraitIcon from '@mui/icons-material/Portrait';
+import PortraitIcon from "@mui/icons-material/Portrait";
 import { Perfiles } from "../../components/perfiles/Perfiles";
 
 // estructura que se va a llenar con la informacion que regresa el endpoint
@@ -55,10 +55,10 @@ const Toast = Swal.mixin({
 export default function CatApps() {
   const navigate = useNavigate();
   //Roles
-  const [openRoles,setOpenRoles]=useState(false)
-  const [openPerfiles,setOpenPerfiles]=useState(false)
-  const [idApp,setIdApp]=useState("")
-  const [app,setApp]=useState("")
+  const [openRoles, setOpenRoles] = useState(false);
+  const [openPerfiles, setOpenPerfiles] = useState(false);
+  const [idApp, setIdApp] = useState("");
+  const [app, setApp] = useState("");
   // Set columns and rows for DataGrid
   const columns = [
     // primer columna del grid donde ponemos los botones de editar y eliminar
@@ -87,24 +87,20 @@ export default function CatApps() {
                 onClick={(event) => {
                   setOpenPerfiles(!openPerfiles);
                   setIdApp(cellValues?.row?.Id);
-                  setApp(cellValues?.row?.Nombre)
-                  console.log('cellvalues',cellValues);
-                  
+                  setApp(cellValues?.row?.Nombre);
                 }}
               >
                 <PortraitIcon />
               </IconButton>
             </Tooltip>
-            
+
             <Tooltip title={"Administrar roles de " + cellValues.row.Nombre}>
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
                   setOpenRoles(!openRoles);
                   setIdApp(cellValues?.row?.Id);
-                  setApp(cellValues?.row?.Nombre)
-                  console.log('cellvalues',cellValues);
-                  
+                  setApp(cellValues?.row?.Nombre);
                 }}
               >
                 <ManageAccountsIcon />
@@ -154,10 +150,8 @@ export default function CatApps() {
       width: 100,
       headerAlign: "center",
     },
-
   ];
   const [rows, setRows] = useState([]);
-  
 
   // Set Edit App Dialog vars and functions
   const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -208,7 +202,6 @@ export default function CatApps() {
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-
         const data = { IdApp: cellValues.row.Id };
         axios({
           method: "delete",
@@ -265,7 +258,8 @@ export default function CatApps() {
         Swal.fire({
           icon: "error",
           title: "Mensaje",
-          text: "(" + error.response.status + ") " + error.response.data.message,
+          text:
+            "(" + error.response.status + ") " + error.response.data.message,
         }).then((r) => navigate("/config"));
       });
   };
@@ -279,15 +273,13 @@ export default function CatApps() {
     <Grid container sx={{ width: "100vw", height: "100vh" }}>
       {/* no se que es esto de la linea de arriba pero si lo quito no funciona*/}
       {/* este box es solo para que muestre la barra de arriba gris con las opciones */}
-      
-        <Header />
-      
 
+      <Header />
 
       {/* esta configuracion es del box que va a contener el card principal*/}
       <Grid
         sx={{
-          height: "88%",// aqui va 90vh
+          height: "88%", // aqui va 90vh
           width: "100%",
           display: "flex",
           alignItems: "center",
@@ -297,12 +289,28 @@ export default function CatApps() {
         {/* este componente es la card que se encuentra en el centro en donde vamos a meter todo lo de la pantalla */}
         <Card sx={{ height: "80%", width: "90%", boxShadow: 10 }}>
           {/* este box es la leyenda que se encuentra arriba a la izquierda */}
-          <Grid container sx={{ display:"flex",justifyContent:"space-between", alignItems:"center",width:"100%",height:"10%"}}>
-            <Grid item xl={4} xs={12} md={12} sx={{display:"flex",flexDirection:"row"}}>
-             
-                <AppsIcon style={{fontSize:"60px"}} />
-              
-              <Typography sx={{display:"flex",alignItems:"center",fontSize:"25px"}}>
+          <Grid
+            container
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              width: "100%",
+              height: "10%",
+            }}
+          >
+            <Grid
+              item
+              xl={4}
+              xs={12}
+              md={12}
+              sx={{ display: "flex", flexDirection: "row" }}
+            >
+              <AppsIcon style={{ fontSize: "60px" }} />
+
+              <Typography
+                sx={{ display: "flex", alignItems: "center", fontSize: "25px" }}
+              >
                 Catálogo de aplicaciones registradas.
               </Typography>
             </Grid>
@@ -323,7 +331,6 @@ export default function CatApps() {
                 registrar aplicación
               </Button>
             </Grid>
-
 
             {/* <Grid container item justifyContent="flex-end">
               
@@ -355,9 +362,22 @@ export default function CatApps() {
           app={editDialogApp}
         />
       )}
-      {openRoles && <Roles open={openRoles} closeModal={()=>setOpenRoles(false)} idApp={idApp} app={app}/>}
-      {openPerfiles && <Perfiles open={openPerfiles} closeModal={()=>setOpenPerfiles(false)} idApp={idApp} app={app}/>}
-
+      {openRoles && (
+        <Roles
+          open={openRoles}
+          closeModal={() => setOpenRoles(false)}
+          idApp={idApp}
+          app={app}
+        />
+      )}
+      {openPerfiles && (
+        <Perfiles
+          open={openPerfiles}
+          closeModal={() => setOpenPerfiles(false)}
+          idApp={idApp}
+          app={app}
+        />
+      )}
     </Grid>
   );
 }
