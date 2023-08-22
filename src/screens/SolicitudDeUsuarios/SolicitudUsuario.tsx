@@ -395,15 +395,14 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [infoUsuario.Aplicacion]);
+  }, []);
 
   return (
     <Grid
       container
-      height={"85%"}
-      width={"80%"}
       justifyContent={"space-evenly"}
       alignContent={"space-around"}
+      height={"90%"}
     >
       <Grid item xs={10} md={4.5}>
         <TextField
@@ -543,6 +542,8 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
                 ...infoUsuario,
                 Aplicacion: { value: v?.value, label: v?.label! },
               });
+              getCatalogo("roles", setRoles, v?.value);
+              getCatalogo("perfiles", setPerfiles, v?.value);
               setErrores({
                 ...errores,
                 aplicacion: {
@@ -555,6 +556,9 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           renderInput={(params) => (
             <TextField key={params.id} {...params} variant="outlined" />
           )}
+          isOptionEqualToValue={(option, value) =>
+            option.Descripcion === value.Descripcion || value.Descripcion === ""
+          }
         />
       </Grid>
 
@@ -592,6 +596,9 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           renderInput={(params) => (
             <TextField key={params.id} {...params} variant="outlined" />
           )}
+          isOptionEqualToValue={(option, value) =>
+            option.Nombre === value.Nombre || value.Nombre === ""
+          }
         />
       </Grid>
 
@@ -760,6 +767,9 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           renderInput={(params) => (
             <TextField key={params.id} {...params} variant="outlined" />
           )}
+          isOptionEqualToValue={(option, value) =>
+            option.Descripcion === value.Descripcion || value.Descripcion === ""
+          }
         />
       </Grid>
 
@@ -789,6 +799,9 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           renderInput={(params) => (
             <TextField key={params.id} {...params} variant="outlined" />
           )}
+          isOptionEqualToValue={(option, value) =>
+            option.Nombre === value.Nombre || value.Nombre === ""
+          }
         />
       </Grid>
 
@@ -819,6 +832,9 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           renderInput={(params) => (
             <TextField key={params.id} {...params} variant="outlined" />
           )}
+          isOptionEqualToValue={(option, value) =>
+            option.Descripcion === value.Descripcion || value.Descripcion === ""
+          }
         />
       </Grid>
 
@@ -849,6 +865,9 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           renderInput={(params) => (
             <TextField key={params.id} {...params} variant="outlined" />
           )}
+          isOptionEqualToValue={(option, value) =>
+            option.descripcion === value.descripcion || value.descripcion === ""
+          }
         />
       </Grid>
 
