@@ -182,7 +182,7 @@ export const Login = () => {
           };
           UserServices.userDetail(data, String(jwt)).then((resuserDetail) => {
             if (resuserDetail.status === 200) {
-              if ((res.data.data.exp - Date.now() / 1000) / 60 > 20) {
+              if ((res.data.data.exp - Date.now() / 1000) / 60 > 5) {
                 setOpensolicitudModal(true);
                 setIdUsuarioSolicitante(res?.data?.data?.IdUsuario);
                 setOpenSlider(false);

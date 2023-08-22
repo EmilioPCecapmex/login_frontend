@@ -400,10 +400,9 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
   return (
     <Grid
       container
-      height={"85%"}
-      width={"80%"}
       justifyContent={"space-evenly"}
       alignContent={"space-around"}
+      height={"90%"}
     >
       <Grid item xs={10} md={4.5}>
         <TextField
