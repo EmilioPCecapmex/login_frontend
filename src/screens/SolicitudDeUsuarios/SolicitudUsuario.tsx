@@ -385,17 +385,17 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     getCatalogo("entidad-padre", setEntidades, "");
     getCatalogo("uresponsables", setUResponsables, "");
 
-    // if (props.idApp !== "") {
-    //   let aux = apps.find((app) => (app.id = props.idApp));
-    //   if (aux) {
-    //     setInfoUsuario({
-    //       ...infoUsuario,
-    //       Aplicacion: { value: aux?.id!, label: aux?.label! },
-    //     });
-    //   }
-    // }
+    if (props.idApp !== "") {
+      let aux = apps.find((app) => (app.id = props.idApp));
+      if (aux) {
+        setInfoUsuario({
+          ...infoUsuario,
+          Aplicacion: { value: aux?.id!, label: aux?.label! },
+        });
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [infoUsuario.Aplicacion]);
+  }, []);
 
   return (
     <Grid
@@ -543,6 +543,8 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
                 ...infoUsuario,
                 Aplicacion: { value: v?.value, label: v?.label! },
               });
+              getCatalogo("roles", setRoles, v?.value);
+              getCatalogo("perfiles", setPerfiles, v?.value);
               setErrores({
                 ...errores,
                 aplicacion: {
