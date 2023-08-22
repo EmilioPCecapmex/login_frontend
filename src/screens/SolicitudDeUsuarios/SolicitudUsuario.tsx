@@ -90,18 +90,18 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     return patron.test(Nombre);
   }
 
-  useEffect(() => {
-    if (apps.length) {
-      let aux = apps.find((app) => app.value === props.idApp);
-      if (aux) {
-        setInfoUsuario({
-          ...infoUsuario,
-          Aplicacion: { value: aux?.id!, label: aux?.label! },
-        });
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [apps]);
+  // useEffect(() => {
+  //   if (apps.length) {
+  //     let aux = apps.find((app) => app.value === props.idApp);
+  //     if (aux) {
+  //       setInfoUsuario({
+  //         ...infoUsuario,
+  //         Aplicacion: { value: aux?.id!, label: aux?.label! },
+  //       });
+  //     }
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [apps]);
 
   const compruebaCelular = (value: number) => {
     if (value <= 9999999999) {
