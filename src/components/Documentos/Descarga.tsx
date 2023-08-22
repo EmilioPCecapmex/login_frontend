@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   IconButton,
@@ -32,24 +32,44 @@ export const DialogDescarga = ({
   Rfc: string;
   FechaFirma: string;
 }) => {
+  const IdApp = localStorage.getItem("IdApp") || "";
   const [phrase, setPhrase] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const [sendToken, setSendToken] = useState("");
+
+  const [necesitaToken, setNecesitaToken] = useState(true);
+
+  useEffect(() => {
+    let dataArray2 = new FormData();
+    dataArray2.append("IdApp", IdApp);
+    axios
+      .post(
+        process.env.REACT_APP_APPLICATION_FIRMA+"/api/configuracion/verconfigapp",
+        dataArray2
+      )
+      .then((response) => {
+        
+        setNecesitaToken(response.data === 1 ? true : false);
+      });
+  }, [IdApp]);
 
   const getPassword = (id: string) => {
     let dataArray = new FormData();
     dataArray.append("IdPathDoc", id);
 
     axios
-      .post(process.env.REACT_APP_APPLICATION_FIRMA + "/api/generarphrase", dataArray, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: localStorage.getItem("jwtToken") || "",
-        },
-      })
+      .post(
+        process.env.REACT_APP_APPLICATION_FIRMA + "/api/generarphrase",
+        dataArray,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: localStorage.getItem("jwtToken") || "",
+          },
+        }
+      )
       .then((r) => {
-        setErr(false);
         setSendToken(r.data);
         setLoading(false);
         setEnviado(true);
@@ -66,13 +86,17 @@ export const DialogDescarga = ({
     dataArray.append("phrase", password);
 
     axios
-      .post(process.env.REACT_APP_APPLICATION_FIRMA + "/api/getfpdf", dataArray, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: localStorage.getItem("jwtToken") || "",
-        },
-        responseType: "arraybuffer",
-      })
+      .post(
+        process.env.REACT_APP_APPLICATION_FIRMA + "/api/getfpdf",
+        dataArray,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: localStorage.getItem("jwtToken") || "",
+          },
+          responseType: "arraybuffer",
+        }
+      )
       .then((r) => {
         const a = window.URL || window.webkitURL;
 
@@ -82,8 +106,6 @@ export const DialogDescarga = ({
 
         let link = document.createElement("a");
 
-        setErr(false);
-        setSendToken("Token correcto, archivo descargado");
         link.setAttribute("download", `${rfc}-${fecha}.pdf`);
         link.setAttribute("href", url);
         document.body.appendChild(link);
@@ -107,7 +129,11 @@ export const DialogDescarga = ({
   const [err, setErr] = useState(false);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    if (necesitaToken) {
+      setOpen(true);
+    } else {
+      getPdf(Id, "", Rfc, FechaFirma);
+    }
   };
 
   const handleClose = () => {
@@ -133,20 +159,8 @@ export const DialogDescarga = ({
                   "&:hover": {
                     color: "orange",
                   },
-                  width: {
-                    xs: 30,
-                    sm: 30,
-                    md: "10",
-                    lg: "10",
-                    xl: "10",
-                  },
-                  height: {
-                    xs: 30,
-                    sm: 30,
-                    md: "10",
-                    lg: "10",
-                    xl: "10",
-                  },
+                  width: "10%",
+                  height: "auto",
                 },
               ]}
             />
@@ -210,7 +224,7 @@ export const DialogDescarga = ({
                   }}
                 >
                   <Typography>
-                    Es necesario un token de seguridad para descargar el
+                    Es necesario un token de seguridad para la descarga del
                     documento
                   </Typography>
                   <Button

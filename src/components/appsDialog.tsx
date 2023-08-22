@@ -1,15 +1,14 @@
-import { Close as CloseIcon } from "@mui/icons-material";
+import { Close as CloseIcon, Margin } from "@mui/icons-material";
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControlLabel,
-  FormGroup,
   Grid,
   IconButton,
-  Switch,
+  Typography,
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -20,6 +19,7 @@ export interface AppsDialogProps {
   appsDialogOpen: boolean;
   handleAppsDialogClose: Function;
   usuario: Usuario | any;
+  OpenModalEditar:Function;
 }
 
 export const AppsDialog = (props: AppsDialogProps) => {
@@ -29,7 +29,7 @@ export const AppsDialog = (props: AppsDialogProps) => {
     axios({
       method: "get",
       url: process.env.REACT_APP_APPLICATION_DEV + "/api/apps",
-      params: {IdUsuario: localStorage.getItem("IdUsuario")},
+      params: { IdUsuario: localStorage.getItem("IdUsuario") },
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",
@@ -139,7 +139,7 @@ export const AppsDialog = (props: AppsDialogProps) => {
         id="edit-dialog-title"
         sx={{ fontFamily: "MontserratSemiBold" }}
       >
-        Acceso a plataformas: {props.usuario.NombreUsuario}
+        Aplicaciones a las que tiene acceso {props.usuario.NombreUsuario}
         <IconButton
           aria-label="close"
           onClick={() => props.handleAppsDialogClose()}
@@ -153,33 +153,52 @@ export const AppsDialog = (props: AppsDialogProps) => {
           <CloseIcon />
         </IconButton>
       </DialogTitle>
+
       <DialogContent dividers>
-        <Grid container direction={"row"}>
-          {apps.map((app: any) => (
-            app.active?
-            <Grid
-              item
-              xs={6}
-              md={3}
-              key={app.Id}
-              justifyContent="center"
-              display="flex"
-            >
-              <FormGroup sx={{ width: '10vw'}}>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      
-                      defaultChecked={app.active}
-                      checked={app.active}
-                      // onChange={(v) => handleCheck(v.target.checked, app.Id)}
-                    />
-                  }
-                  label={app.Nombre}
-                />
-              </FormGroup>
-            </Grid>:null
-          ))}
+        <Grid container direction={"column"} justifyContent={'center'}>
+          {apps.map((app: any) =>
+            app.active ? (
+              <Grid
+                item
+                xs={10}
+                md={10}
+                key={app.Id}
+                justifyContent={"center"}
+                alignItems={"center"}
+                display={"flex"}
+              >
+                {/* <FormGroup sx={{ width: "100%" }}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        defaultChecked={app.active}
+                        checked={app.active}
+                        // onChange={(v) => handleCheck(v.target.checked, app.Id)}
+                      />
+                    }
+                    label={app.Nombre}
+                  />
+                </FormGroup> */}
+                <Box 
+               onClick={()=>{props.handleAppsDialogClose(); props.OpenModalEditar()}}
+                sx={{
+                  display:"flex",
+                  borderRadius:"10px",
+                  border:"solid 1px",
+                  width:"100%", 
+                  cursor:"pointer", 
+                  textAlign:"center" ,
+                  alignItems:"center",
+                  justifyContent:"center",mb:"2vh"
+                }} 
+              
+                >
+                  <Typography sx={{}}> {app.Nombre} </Typography>
+                
+                </Box>
+              </Grid>
+            ) : null
+          )}
         </Grid>
       </DialogContent>
       <DialogActions>

@@ -19,15 +19,18 @@ export default function MUIXDataGrid(props: any) {
         <DataGrid
         //  ColumnWidth="*"
           components={{ Toolbar: GridToolbar }}
+      
           componentsProps={{
             toolbar: {
+              printOptions: { disableToolbarButton: true },
+              csvOptions: { disableToolbarButton: true },
               label: "Buscar",
               showQuickFilter: true,
               quickFilterProps: { debounceMs: 500 },
-              csvOptions: {
-                fileName: props.modulo,
-                utf8WithBom: true,
-              }
+              // csvOptions: {
+              //   fileName: props.modulo,
+              //   utf8WithBom: true,
+              // }
             },
           }}
           localeText={{// Root

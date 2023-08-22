@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { continueSession, logout } from "../../funcs/validation";
+import { Box } from "@mui/material";
 
 export const TimerCounter = () => {
   const [actualDate, setActualDate] = useState(new Date());
@@ -20,7 +21,7 @@ export const TimerCounter = () => {
       "sessionT",
       (session.getTime() - actualDate.getTime()).toString()
     );
-    if ((rest<=0)) {
+    if ((rest<5)) {
       logout();
     }
   }, 1000);
@@ -89,24 +90,24 @@ export const TimerCounter = () => {
   };
 
   return ( 
-    null
-    // <Box
-    //   sx={{
-    //     fontFamily: "MontserratMedium",
-    //     fontSize: ".8vw",
-    //     width: "20vw",
-    //     height: "100%",
-    //     display: "flex",
-    //     alignItems: "center",
-    //     justifyContent: "center",
-    //     color: "#B70000",
-    //   }}
-    // >
-    //   La sesión finaliza en: {rest > 0
-    //     ? Math.floor(rest / 1000 / 60).toString() +
-    //       ":" +
-    //       Math.floor((rest / 1000) % 60).toString()
-    //     : "0:0"} minutos
-    // </Box>
+    // null
+    <Box
+      sx={{
+        fontFamily: "MontserratMedium",
+        fontSize: ".8vw",
+        width: "20vw",
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: "#B70000",
+      }}
+    >
+      La sesión finaliza en: {rest > 0
+        ? Math.floor(rest / 1000 / 60).toString() +
+          ":" +
+          Math.floor((rest / 1000) % 60).toString()
+        : "0:0"} minutos
+    </Box>
   );
 };
