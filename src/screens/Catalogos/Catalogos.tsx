@@ -13,7 +13,6 @@ import { Create } from "../../components/dialogsCatalogos/Create";
 import { Delete } from "../../components/dialogsCatalogos/Delete";
 const Catalogos = () => {
   const [valueTab, setValueTab] = useState<string>("1");
-  const [openSlider, setOpenSlider] = useState(true);
   const [secretarias, setSecretarias] = useState([]);
   const [roles, setRoles] = useState([]);
   const [uResponsable, setUResponsable] = useState([]);
@@ -28,6 +27,7 @@ const Catalogos = () => {
   const [HideNombreCorto, setHideNombreCorto] = useState(true);
   const [HideControlInterno, setHideControlInterno] = useState(true);
   const [HideReferencia, setHideReferencia] = useState(true);
+  const [HideDireccion, setHideDireccion] = useState(true);
   /////////////
 
   
@@ -133,9 +133,15 @@ const Catalogos = () => {
     {
       field: "ControlInterno",
       headerName: "Control Interno",
-      width: 100,
+      width: 300,
       headerAlign: "center",
       hide: HideControlInterno,
+    },{
+      field: "Direccion",
+      headerName: "Dirección",
+      width: 600,
+      headerAlign: "center",
+      hide: HideDireccion,
     },
   ];
 
@@ -153,7 +159,6 @@ const Catalogos = () => {
   };
 
   const consulta = (catalogo: string, opcion: string) => {
-    setOpenSlider(true);
     UserServices.consultaCatalogos(
       { cat: catalogo, opcion: opcion, tipo: "4" },
       String(localStorage.getItem("jwtToken"))
@@ -166,6 +171,7 @@ const Catalogos = () => {
         var NombreCorto = 0;
         var ControlInterno = 0;
         var Referencia = 0;
+        var Direccion = 0;
         
         user?.map((data) => {
           if (data?.Clave) {
@@ -186,6 +192,9 @@ const Catalogos = () => {
           if (data?.Referencia) {
             Referencia++;
           }
+          if (data?.Direccion) {
+            Direccion++;
+          }
         });
 
         if (clave != 0) {
@@ -205,6 +214,9 @@ const Catalogos = () => {
         }
         if (Referencia != 0) {
           setHideReferencia(false);
+        }
+        if (Direccion != 0) {
+          setHideDireccion(false);
         }
 
         if (catalogo === "1" && opcion === "catalogos") {
@@ -228,7 +240,6 @@ const Catalogos = () => {
         if (catalogo === "7" && opcion === "catalogos") {
           setTpoDependencias(res.data.data);
         }
-        setOpenSlider(false);
       }
     });
   };
@@ -244,13 +255,15 @@ const Catalogos = () => {
         <TabContext value={String(valueTab)}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <TabList onChange={handleChange} aria-label="lab API tabs example">
-              <Tab label="Secretarias" value="1" />
-              <Tab label="Unidad responsable" value="2" />
-              <Tab label="Departamentos" value="3" />
-              <Tab label="Roles" value="4" />
-              <Tab label="Perfiles" value="5" />
-              <Tab label="Dependencias" value="6" />
+              <Tab label="Secretarias" value="1" />\
               <Tab label="Tipo Dependencias" value="7" />
+              <Tab label="Dependencias" value="6" />
+              
+              <Tab label="SIREGOB" value="2" />
+              {/* <Tab label="Departamentos" value="3" /> */}
+              {/* <Tab label="Roles" value="4" /> */}
+              {/* <Tab label="Perfiles" value="5" /> */}
+              
             </TabList>
           </Box>
           <Grid item xs={12} paddingLeft={1}>

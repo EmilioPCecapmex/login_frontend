@@ -9,23 +9,25 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.svg";
-import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
-import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
-import AppsIcon from '@mui/icons-material/Apps';
-import PostAddIcon from '@mui/icons-material/PostAdd';
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
+import AppsIcon from "@mui/icons-material/Apps";
+import PostAddIcon from "@mui/icons-material/PostAdd";
 import axios from "axios";
-import DescriptionIcon from '@mui/icons-material/Description';
+import DescriptionIcon from "@mui/icons-material/Description";
 import { COLOR } from "../screens/styles/colors";
+import { TimerCounter } from "./timer/timer";
 
 export const Header = () => {
   const navigate = useNavigate();
   const logoutFnc = () => {
     localStorage.clear();
-    navigate("../");
+    window.location.assign(
+      process.env.REACT_APP_APPLICATION_FRONT || "https:google.com"
+    );
   };
 
-
-  const [solCount, setSolCount] = useState(0)
+  const [solCount, setSolCount] = useState(0);
 
   const getSolicitudes = () => {
     axios
@@ -39,69 +41,96 @@ export const Header = () => {
       })
       .then((r) => {
         if (r.status === 200) {
-          setSolCount(r.data.data.length)
+          setSolCount(r.data.data.length);
         }
       });
   };
 
-  useEffect(() => {
-    getSolicitudes()
-  }, [])
-
+  // useEffect(() => {
+  //   getSolicitudes()
+  // }, [])
 
   return (
     <div className="box">
-      <Grid container item xs={12}
+      <Grid
+        container
+        item
+        xs={12}
         direction="row"
         justifyContent="space-between"
         alignItems="center"
         sx={{
-          height: "110px",
-          border: "1px solid #b3afaf"
+          height: "12vh",
+          width: "100vw",
+          border: "1px solid #b3afaf",
         }}
       >
-
-        <Grid item xs={6} md={4} >
-          <Typography paddingLeft={3} variant="h5" > {localStorage.getItem("NombreUsuario")} </Typography>
+        <Grid container item xs={6} md={4} alignItems="center">
+          <Typography paddingLeft={3} variant="h5">
+            {" "}
+            {localStorage.getItem("NombreUsuario")}{" "}
+          </Typography>
         </Grid>
         <Hidden mdDown>
-          <Grid container item xs={3} md={4}
-            justifyContent="center"
-          >
-            <img alt="logo" src={logo}
+          <Grid container item xs={3} md={4} justifyContent="center">
+            <img
+              alt="logo"
+              src={logo}
               style={{
                 objectFit: "scale-down",
                 width: "60%",
                 height: "100%",
                 // borderRadius: '50%',
-              }} />
+              }}
+            />
           </Grid>
         </Hidden>
-        <Grid paddingRight={3} item container xs={6} md={4} justifyContent="flex-end" alignItems="center"
+        <Grid
+          paddingRight={3}
+          item
+          container
+          xs={6}
+          md={4}
+          justifyContent="flex-end"
+          alignItems="center"
           sx={{
             height: "50px",
-          }}>
+          }}
+        >
+          <TimerCounter />
           <Tooltip title="Catálogos">
-            <IconButton className="iconos-header" onClick={() => navigate("../catalogos")}>
+            <IconButton
+              className="iconos-header"
+              onClick={() => navigate("../catalogos")}
+            >
               <DescriptionIcon />
             </IconButton>
           </Tooltip>
           <Tooltip title="Solicitudes">
             <Badge badgeContent={solCount} color="primary">
-              <IconButton className="iconos-header" onClick={() => navigate("../solicitudes")}>
+              <IconButton
+                className="iconos-header"
+                onClick={() => navigate("../solicitudes")}
+              >
                 <PostAddIcon />
               </IconButton>
             </Badge>
           </Tooltip>
 
           <Tooltip title="Usuarios">
-            <IconButton className="iconos-header" onClick={() => navigate("../admin")}>
+            <IconButton
+              className="iconos-header"
+              onClick={() => navigate("../admin")}
+            >
               <PeopleOutlineIcon />
             </IconButton>
           </Tooltip>
 
           <Tooltip title="Aplicaciones">
-            <IconButton className="iconos-header" onClick={() => navigate("../app")}>
+            <IconButton
+              className="iconos-header"
+              onClick={() => navigate("../app")}
+            >
               <AppsIcon />
             </IconButton>
           </Tooltip>
@@ -111,10 +140,8 @@ export const Header = () => {
               <PowerSettingsNewIcon />
             </IconButton>
           </Tooltip>
-
         </Grid>
-
-      </Grid >
+      </Grid>
     </div>
   );
 };
