@@ -7,22 +7,19 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.svg";
 import AlertModal from "../../components/alertModal";
-import { ls } from "./strings/st";
-import "./style/Fonts.css";
-import { lstXl, lstLg, lstMd, lstSm, lstXs } from "./style/lst";
-import { useNavigate } from "react-router-dom";
 import AppsModal from "../../components/appsModal";
-import axios from "axios";
 import { JWT_Token, sessionValid } from "../../funcs/validation";
-import { UserLogin } from "../../Interfaces/User";
-import { SolicitudUsuario } from "../SolicitudDeUsuarios/SolicitudUsuario";
 import { UserServices } from "../../services/UserServices";
 import SliderProgress from "../Componentes/SliderProgress";
-import { Toast } from "../Componentes/Toast";
-import { AlertS } from "../Componentes/AlertS";
+import { SolicitudUsuario } from "../SolicitudDeUsuarios/SolicitudUsuario";
+import { ls } from "./strings/st";
+import "./style/Fonts.css";
+import { lstLg, lstMd, lstSm, lstXl, lstXs } from "./style/lst";
 
 interface IApps {
   IdApp: string;
@@ -194,18 +191,9 @@ export const Login = () => {
                 }
               } else {
                 setOpensolicitudModal(false);
-                // AlertS.fire({
-                //   title: "¡El Token es demaciado viejo. reintente con un Token nuevo!",
-                //   icon: "warning",
-
-                // });
                 setMensajeSlider(
-                  "¡El Token es demaciado viejo. reintente con un Token nuevo!"
+                  "¡El Token ha expirado. Vuelva a iniciar sesión!"
                 );
-                // Toast.fire({
-                // icon: "error",
-                // title: "El Token es demaciado viejo. reintente con un Token nuevo",
-                // });
               }
             }
           });

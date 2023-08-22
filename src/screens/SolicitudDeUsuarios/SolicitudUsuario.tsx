@@ -23,7 +23,7 @@ export interface NewDialogProps {
 }
 
 export interface IUserTypes {
-  value: string;
+  Id: string;
   Nombre: string;
   Descripcion: string;
 }
@@ -35,7 +35,7 @@ export interface IInfoUsuario {
   NombreUsuario: string;
   CorreoElectronico: string;
   Aplicacion: { value: string; label: string };
-  TipoUsuario: { Nombre: string; Descripcion: string };
+  TipoUsuario: { Id: string; Nombre: string };
   Puesto: string;
   CURP: string;
   RFC: string;
@@ -45,7 +45,7 @@ export interface IInfoUsuario {
   Perfiles: { Id: string; Descripcion: string }[];
   Roles: { Id: string; Nombre: string }[];
   UnidadResponsable: { Id: string; Descripcion: string };
-  Entidad: { tipo: string; descripcion: string };
+  Entidad: { value: string; descripcion: string };
   PuedeFirmar: boolean;
 }
 
@@ -69,7 +69,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     NombreUsuario: "",
     CorreoElectronico: "",
     Aplicacion: { value: props.idApp, label: "" },
-    TipoUsuario: { Nombre: "", Descripcion: "" },
+    TipoUsuario: { Id: "", Nombre: "" },
     Puesto: "",
     CURP: "",
     RFC: "",
@@ -79,7 +79,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     Perfiles: [],
     Roles: [],
     UnidadResponsable: { Id: "", Descripcion: "" },
-    Entidad: { tipo: "", descripcion: "" },
+    Entidad: { value: "", descripcion: "" },
     PuedeFirmar: false,
   });
 
@@ -167,76 +167,76 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
   };
 
   const handleStoreBtn = () => {
-    setErrores({
-      nombre: {
-        valid: infoUsuario.Nombre === "",
-        text: "Ingresa infoUsuario.Nombre ",
-      },
-      aPaterno: {
-        valid: infoUsuario.ApellidoPaterno === "",
-        text: "Ingresa apellido paterno ",
-      },
-      aMAterno: {
-        valid: infoUsuario.ApellidoMaterno === "",
-        text: "Ingresa apellido materno ",
-      },
-      nUsuario: {
-        valid: infoUsuario.NombreUsuario === "",
-        text: "Ingresa infoUsuario.Nombre de usuario valido",
-      },
-      email: {
-        valid: !isValidEmail(),
-        text: "Ingresa infoUsuario.CorreoElectronico electronico valido",
-      },
-      CURP: {
-        valid: infoUsuario.CURP === "",
-        text: "Ingresa CURP valido",
-      },
-      RFC: {
-        valid: infoUsuario.RFC === "",
-        text: "Ingresa RFC valido",
-      },
-      puesto: {
-        valid: infoUsuario.Puesto === "",
-        text: "Ingresa puesto valido",
-      },
-      Celular: {
-        valid: infoUsuario.Celular <= 0,
-        text: "Ingresa Celular valido",
-      },
-      Telefono: {
-        valid: infoUsuario.Telefono <= 0,
-        text: "Ingresa Telefono valido",
-      },
-      Ext: {
-        valid: infoUsuario.Ext <= 0,
-        text: "Ingresa extension valida",
-      },
-      tpoUsuario: {
-        valid: infoUsuario.TipoUsuario.Nombre === "",
-        text: "Selecciona tipo de usuario",
-      },
-      entidad: {
-        valid: infoUsuario.Entidad.descripcion === "",
-        text: "Selecciona departamento",
-      },
-      perfil: {
-        valid: infoUsuario.Perfiles.length === 0,
-        text: "Selecciona perfiles",
-      },
-      rol: {
-        valid: infoUsuario.Roles.length === 0,
-        text: "Selecciona roles",
-      },
-      uResponsable: {
-        valid: infoUsuario.UnidadResponsable.Id === "",
-        text: "Selecciona unidad resposnable",
-      },
-      aplicacion: {
-        valid: infoUsuario.Aplicacion.value === "",
-        text: "Selecciona aplicacion",
-      },
-    });
+    // setErrores({
+    //   nombre: {
+    //     valid: infoUsuario.Nombre === "",
+    //     text: "Ingresa infoUsuario.Nombre ",
+    //   },
+    //   aPaterno: {
+    //     valid: infoUsuario.ApellidoPaterno === "",
+    //     text: "Ingresa apellido paterno ",
+    //   },
+    //   aMAterno: {
+    //     valid: infoUsuario.ApellidoMaterno === "",
+    //     text: "Ingresa apellido materno ",
+    //   },
+    //   nUsuario: {
+    //     valid: infoUsuario.NombreUsuario === "",
+    //     text: "Ingresa infoUsuario.Nombre de usuario valido",
+    //   },
+    //   email: {
+    //     valid: !isValidEmail(),
+    //     text: "Ingresa infoUsuario.CorreoElectronico electronico valido",
+    //   },
+    //   CURP: {
+    //     valid: infoUsuario.CURP === "",
+    //     text: "Ingresa CURP valido",
+    //   },
+    //   RFC: {
+    //     valid: infoUsuario.RFC === "",
+    //     text: "Ingresa RFC valido",
+    //   },
+    //   puesto: {
+    //     valid: infoUsuario.Puesto === "",
+    //     text: "Ingresa puesto valido",
+    //   },
+    //   Celular: {
+    //     valid: infoUsuario.Celular <= 0,
+    //     text: "Ingresa Celular valido",
+    //   },
+    //   Telefono: {
+    //     valid: infoUsuario.Telefono <= 0,
+    //     text: "Ingresa Telefono valido",
+    //   },
+    //   Ext: {
+    //     valid: infoUsuario.Ext <= 0,
+    //     text: "Ingresa extension valida",
+    //   },
+    //   tpoUsuario: {
+    //     valid: infoUsuario.TipoUsuario.Nombre === "",
+    //     text: "Selecciona tipo de usuario",
+    //   },
+    //   entidad: {
+    //     valid: infoUsuario.Entidad.descripcion === "",
+    //     text: "Selecciona departamento",
+    //   },
+    //   perfil: {
+    //     valid: infoUsuario.Perfiles.length === 0,
+    //     text: "Selecciona perfiles",
+    //   },
+    //   rol: {
+    //     valid: infoUsuario.Roles.length === 0,
+    //     text: "Selecciona roles",
+    //   },
+    //   uResponsable: {
+    //     valid: infoUsuario.UnidadResponsable.Id === "",
+    //     text: "Selecciona unidad resposnable",
+    //   },
+    //   aplicacion: {
+    //     valid: infoUsuario.Aplicacion.value === "",
+    //     text: "Selecciona aplicacion",
+    //   },
+    // });
     if (
       infoUsuario.Nombre === "" ||
       infoUsuario.ApellidoMaterno === "" ||
@@ -262,6 +262,14 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
         text: "Completa todos los campos para continuar",
       });
     } else {
+      const IdPerfiles: any[] = [];
+      infoUsuario.Perfiles.forEach(function (item) {
+        IdPerfiles.push(item.Id);
+      });
+      const IdRoles: any[] = [];
+      infoUsuario.Roles.forEach(function (item) {
+        IdRoles.push(item.Id);
+      });
       const data = {
         Nombre: infoUsuario.Nombre,
         APaterno: infoUsuario.ApellidoPaterno,
@@ -270,22 +278,21 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
         Email: infoUsuario.CorreoElectronico,
         Curp: infoUsuario.CURP,
         RFC: infoUsuario.RFC,
-        Celular: infoUsuario.Celular,
-        Telefono: infoUsuario.Telefono,
-        Extencion: infoUsuario.Ext,
+        Celular: infoUsuario.Celular.toString(),
+        Telefono: infoUsuario.Telefono.toString(),
+        Extencion: infoUsuario.Ext.toString(),
         TipoSolicitud: "ALTA",
-        DatosAdicionales: "",
         IdApp: infoUsuario.Aplicacion.value,
         CreadoPor: props.idUsuarioSolicitante
           ? props.idUsuarioSolicitante
           : localStorage.getItem("IdUsuario"),
         IdUResponsable: infoUsuario.UnidadResponsable.Id,
-        IdPerfil: JSON.stringify({ Perfiles: infoUsuario.Perfiles }),
-        IdRol: JSON.stringify({ Roles: infoUsuario.Roles }),
-        IdDepartamento: infoUsuario.Entidad.descripcion,
-        IdTipoUsuario: infoUsuario.TipoUsuario.Nombre,
+        Perfiles: JSON.stringify({ Perfiles: IdPerfiles }),
+        Roles: JSON.stringify({ Roles: IdRoles }),
+        IdTipoUsuario: infoUsuario.TipoUsuario.Id,
         PuedeFirmar: infoUsuario.PuedeFirmar ? 1 : 0,
         Puesto: infoUsuario.Puesto,
+        Entidad: infoUsuario.Entidad.value,
       };
 
       UserServices.createsolicitud(
@@ -529,7 +536,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           onChange={(event, v) => {
             setInfoUsuario({
               ...infoUsuario,
-              TipoUsuario: { Nombre: "", Descripcion: "" },
+              TipoUsuario: { Nombre: "", Id: "" },
             });
             if (v != null) {
               setInfoUsuario({
@@ -563,14 +570,14 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           onChange={(event, v) => {
             setInfoUsuario({
               ...infoUsuario,
-              TipoUsuario: { Nombre: "", Descripcion: "" },
+              TipoUsuario: { Nombre: "", Id: "" },
             });
             if (v != null) {
               setInfoUsuario({
                 ...infoUsuario,
                 TipoUsuario: {
                   Nombre: v?.Nombre,
-                  Descripcion: v?.Descripcion!,
+                  Id: v?.Id!,
                 },
               });
               setErrores({
@@ -739,8 +746,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           getOptionLabel={(perfil) => perfil.Descripcion}
           value={infoUsuario.Perfiles}
           onChange={(event, newValue) => {
-            console.log(newValue);
-
             if (newValue != null) {
               setInfoUsuario({ ...infoUsuario, Perfiles: newValue });
               setErrores({
@@ -830,7 +835,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             if (v != null) {
               setInfoUsuario({
                 ...infoUsuario,
-                Entidad: { tipo: v.tipo, descripcion: v.descripcion },
+                Entidad: { value: v.value, descripcion: v.descripcion },
               });
               setErrores({
                 ...errores,
