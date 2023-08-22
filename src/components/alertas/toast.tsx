@@ -13,11 +13,11 @@ const Toast = Swal.mixin({
 });
 
 export function alertaExito(fnc: Function, titulo = "Movimiento exitoso") {
-  fnc(false)
-  return (Toast.fire({
+  fnc(false);
+  return Toast.fire({
     icon: "success",
     title: titulo,
-  }))
+  });
 }
 
 export function alertaError(titulo = "Movimiento fallido") {

@@ -1,8 +1,8 @@
 import axios from "axios";
 import Swal from "sweetalert2";
+import { alertaError } from "../components/alertas/toast";
 
 const Toast = Swal.mixin({
-
   toast: true,
 
   position: "top-end",
@@ -14,20 +14,22 @@ const Toast = Swal.mixin({
   timerProgressBar: true,
 
   didOpen: (toast) => {
-
     toast.addEventListener("mouseenter", Swal.stopTimer);
 
     toast.addEventListener("mouseleave", Swal.resumeTimer);
-
   },
-
 });
 
-export const getCatalogo = (path: string, setState: Function) => {
+export const getCatalogo = (
+  path: string,
+  setState: Function,
+  IdApp: string
+) => {
   axios({
     method: "get",
     params: {
-      IdUsuario: localStorage.getItem('IdUsuario')
+      IdApp: IdApp,
+      IdUsuario: localStorage.getItem("IdUsuario"),
     },
     url: process.env.REACT_APP_APPLICATION_DEV + `/api/${path}`,
     headers: {
@@ -36,18 +38,25 @@ export const getCatalogo = (path: string, setState: Function) => {
     },
   })
     // aqui se recibe lo del endpoint en response
-    .then(({ data }) => {
-      console.log(`catalogo ${path}`,data.data);
-      setState(data.data)
+    .then(async ({ data }) => {
+      if (data.data.length === 0) {
+        await alertaError("Sin registros de " + path);
+      }
+
+      setState(data.data);
     })
-    .catch(
-   
-  );
+    .catch(async () => {
+      setState([]);
+      await alertaError("Sin registros de " + path);
+    });
+};
 
-
-}
-
-export const modificarCatalogo = (path: string, data: any, setOpen: Function, reloadData: Function) => {
+export const modificarCatalogo = (
+  path: string,
+  data: any,
+  setOpen: Function,
+  reloadData: Function
+) => {
   axios({
     method: "put",
     data: data,
@@ -59,27 +68,32 @@ export const modificarCatalogo = (path: string, data: any, setOpen: Function, re
   })
     // aqui se recibe lo del endpoint en response
     .then((r) => {
-      reloadData(String(Math.random()))
+      reloadData(String(Math.random()));
       Toast.fire({
         icon: "success",
         title: `¡Registro Editado!`,
-
       });
-      setOpen(false)
+      setOpen(false);
     })
     .catch((e) => {
-      let mensaje = e.response.data.error === 'Ingrese IdModificador válido.' ? 'No se detectaron cambios' : e.response.data.error;
+      let mensaje =
+        e.response.data.error === "Ingrese IdModificador válido."
+          ? "No se detectaron cambios"
+          : e.response.data.error;
       Swal.fire({
         icon: "error",
         title: "Mensaje",
-        text: "( " + mensaje + " ) "
-      })
+        text: "( " + mensaje + " ) ",
+      });
+    });
+};
 
-    }
-    );
-}
-
-export const createCatalogo = (path: string, data: any, setOpen: Function, reloadData: Function) => {
+export const createCatalogo = (
+  path: string,
+  data: any,
+  setOpen: Function,
+  reloadData: Function
+) => {
   axios({
     method: "post",
     data: data,
@@ -91,27 +105,32 @@ export const createCatalogo = (path: string, data: any, setOpen: Function, reloa
   })
     // aqui se recibe lo del endpoint en response
     .then((r) => {
-      reloadData(String(Math.random()))
+      reloadData(String(Math.random()));
       Toast.fire({
         icon: "success",
         title: `¡Registro creado!`,
-
       });
-      setOpen(false)
+      setOpen(false);
     })
     .catch((e) => {
-      let mensaje = e.response.data.error === 'Ingrese IdModificador válido.' ? 'No se detectaron cambios' : e.response.data.error;
+      let mensaje =
+        e.response.data.error === "Ingrese IdModificador válido."
+          ? "No se detectaron cambios"
+          : e.response.data.error;
       Swal.fire({
         icon: "error",
         title: "Mensaje",
-        text: "( " + mensaje + " ) "
-      })
+        text: "( " + mensaje + " ) ",
+      });
+    });
+};
 
-    }
-    );
-}
-
-export const EliminarCatalogo = (path: string, Id: string, setOpen: Function, reloadData: Function) => {
+export const EliminarCatalogo = (
+  path: string,
+  Id: string,
+  setOpen: Function,
+  reloadData: Function
+) => {
   axios({
     method: "put",
     data: {
@@ -126,21 +145,22 @@ export const EliminarCatalogo = (path: string, Id: string, setOpen: Function, re
   })
     // aqui se recibe lo del endpoint en response
     .then((r) => {
-      reloadData(String(Math.random()))
+      reloadData(String(Math.random()));
       Toast.fire({
         icon: "success",
         title: `¡Registro eliminado!`,
-
       });
-      setOpen(false)
+      setOpen(false);
     })
     .catch((e) => {
-      let mensaje = e.response.data.error === 'Ingrese IdModificador válido.' ? 'No se detectaron cambios' : e.response.data.error;
+      let mensaje =
+        e.response.data.error === "Ingrese IdModificador válido."
+          ? "No se detectaron cambios"
+          : e.response.data.error;
       Swal.fire({
         icon: "error",
         title: "Mensaje",
-        text: "( " + mensaje + " ) "
+        text: "( " + mensaje + " ) ",
       });
-    }
-    );
-}
+    });
+};

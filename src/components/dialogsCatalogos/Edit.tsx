@@ -10,8 +10,21 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getCatalogo, modificarCatalogo } from "../../services/catalogosService";
-import { IDepartamento, IDependencia, IEntidadPadre, IPerfil, IRol, ISecretaria, ITpoDependencia, IUResponsable, IUsuarios } from "../../screens/SolicitudDeUsuarios/ICatalogos";
+import {
+  getCatalogo,
+  modificarCatalogo,
+} from "../../services/catalogosService";
+import {
+  IDepartamento,
+  IDependencia,
+  IEntidadPadre,
+  IPerfil,
+  IRol,
+  ISecretaria,
+  ITpoDependencia,
+  IUResponsable,
+  IUsuarios,
+} from "../../screens/SolicitudDeUsuarios/ICatalogos";
 
 export interface IModify {
   IdSecretaria: string;
@@ -40,13 +53,13 @@ export const Edit = ({
   setOpen,
   elemento,
   catalogo,
-  reloadData
+  reloadData,
 }: {
   open: boolean;
   setOpen: Function;
   elemento: IModify;
   catalogo: string;
-  reloadData: Function
+  reloadData: Function;
 }) => {
   const elementoVacio = {
     IdSecretaria: "", //elemento.IdSecretaria,
@@ -77,7 +90,7 @@ export const Edit = ({
     IdTitular: "", //elemento.IdTitular,
     PerteneceA: "", //elemento.PerteneceA,
     Direccion: "", //elemento.Direccion,
-    IdModificador: localStorage.getItem("IdUsuario") || '', //elemento.IdModificador,
+    IdModificador: localStorage.getItem("IdUsuario") || "", //elemento.IdModificador,
     IdUResponsable: "", //elemento.IdUResponsable,
     Clave: "", //elemento.Clave,
     Descripcion: "", //elemento.Descripcion,
@@ -96,19 +109,25 @@ export const Edit = ({
   // const [departamentos, setDepartamentos] = useState<Array<IDepartamento>>([]);
   // const [roles, setRoles] = useState<Array<IRol>>([]);
   const [dependencias, setDependencias] = useState<Array<IDependencia>>([]);
-  const [tpoDependencias, setTpoDependencias] = useState<Array<ITpoDependencia>>([]);
-  const [entidadesPadres, setEntidadesPadres] = useState<Array<IEntidadPadre>>([{tipo:"", descripcion:"",value:""}])
+  const [tpoDependencias, setTpoDependencias] = useState<
+    Array<ITpoDependencia>
+  >([]);
+  const [entidadesPadres, setEntidadesPadres] = useState<Array<IEntidadPadre>>([
+    { tipo: "", descripcion: "", value: "" },
+  ]);
   // const [perfiles, setPerfiles] = useState<Array<IPerfil>>([]);
   // const [secretarias, setSecretarias] = useState<Array<ISecretaria>>([]);
   // const [uResponsables, setUResponsables] = useState<Array<IUResponsable>>([]);
 
-  const [dependenciasFiltered, setDependenciasFiltered] = useState<Array<IDependencia>>([]);
+  const [dependenciasFiltered, setDependenciasFiltered] = useState<
+    Array<IDependencia>
+  >([]);
   // const [secretariasFiltered, setSecretariasFiltered] = useState<Array<ISecretaria>>([]);
-  const [usuarios, setUsuarios] = useState<Array<IUsuarios>>([])
+  const [usuarios, setUsuarios] = useState<Array<IUsuarios>>([]);
 
   useEffect(() => {
-    setDependenciasFiltered(dependencias)
-  }, [dependencias])
+    setDependenciasFiltered(dependencias);
+  }, [dependencias]);
   // useEffect(() => {
   //     setSecretariasFiltered(secretarias)
   // }, [secretarias])
@@ -128,26 +147,25 @@ export const Edit = ({
   //     Deleted:'',
   // });
   const [dependencia, setDependencia] = useState<IDependencia>({
-    Id: '',
-    Nombre: '',
-    Direccion: '',
-    Telefono: '',
-    IdTipoDependencia: '',
-    TipoDependencia: '',
-    IdTitular: '',
-    Titular: '',
-    IdPerteneceA: '',
-    PerteneceA: '',
-    Deleted: '',
+    Id: "",
+    Nombre: "",
+    Direccion: "",
+    Telefono: "",
+    IdTipoDependencia: "",
+    TipoDependencia: "",
+    IdTitular: "",
+    Titular: "",
+    IdPerteneceA: "",
+    PerteneceA: "",
+    Deleted: "",
   });
 
   const [tpoDependencia, setTpoDependencia] = useState<ITpoDependencia>({
-    Id: '',
-    Nombre: '',
-    Descripcion: '',
-    Deleted: '',
+    Id: "",
+    Nombre: "",
+    Descripcion: "",
+    Deleted: "",
   });
-
 
   // const [rol, setRol] = useState<IRol>({
   //     ControlInterno: '',
@@ -179,12 +197,16 @@ export const Edit = ({
   //   Titular: ''
   // })
 
-  const [entidadPadre, setEntidadPadre] = useState<IEntidadPadre>({ tipo: "", value: "", descripcion: "" })
+  const [entidadPadre, setEntidadPadre] = useState<IEntidadPadre>({
+    tipo: "",
+    value: "",
+    descripcion: "",
+  });
 
   const [titular, setTitular] = useState<IUsuarios>({
     Id: "",
-    Nombre: ""
-  })
+    Nombre: "",
+  });
   // useEffect(() => {
   //     if (dependencia.Id != '') {
   //         let aux = secretarias.find((sec) => sec.Id === dependencia.IdPerteneceA)
@@ -196,7 +218,6 @@ export const Edit = ({
   //     else { setSecretariasFiltered(secretarias) }
   // }, [dependencia.Id])
 
-
   // useEffect(() => {
   //     if (secretaria.Id !== '') {
   //         setDependenciasFiltered(dependencias.filter((obj) => obj.IdPerteneceA === secretaria.Id))
@@ -207,54 +228,50 @@ export const Edit = ({
   useEffect(() => {
     if (dependenciasFiltered.find((obj) => obj === dependencia) === undefined)
       setDependencia({
-        Id: '',
-        Nombre: '',
-        Direccion: '',
-        Telefono: '',
-        IdTipoDependencia: '',
-        TipoDependencia: '',
-        IdTitular: '',
-        Titular: '',
-        IdPerteneceA: '',
-        PerteneceA: '',
-        Deleted: '',
-      })
-
-  }, [dependenciasFiltered])
+        Id: "",
+        Nombre: "",
+        Direccion: "",
+        Telefono: "",
+        IdTipoDependencia: "",
+        TipoDependencia: "",
+        IdTitular: "",
+        Titular: "",
+        IdPerteneceA: "",
+        PerteneceA: "",
+        Deleted: "",
+      });
+  }, [dependenciasFiltered]);
 
   useEffect(() => {
     // getCatalogo("departamentos", setDepartamentos)
     // getCatalogo("roles", setRoles)
-    getCatalogo("dependencias", setDependencias)
+    getCatalogo("dependencias", setDependencias, "");
     // getCatalogo("perfiles", setPerfiles)
     // getCatalogo("secretarias", setSecretarias)
     // getCatalogo("uresponsables", setUResponsables)
-    getCatalogo("usuarios-asignables", setUsuarios)
-    getCatalogo("tipodependencias", setTpoDependencias)
-    getCatalogo("entidad-padre", setEntidadesPadres)
-  }, []); 
+    getCatalogo("usuarios-asignables", setUsuarios, "");
+    getCatalogo("tipodependencias", setTpoDependencias, "");
+    getCatalogo("entidad-padre", setEntidadesPadres, "");
+  }, []);
 
   useEffect(() => {
     let aux = usuarios.find((item) => item.Id === nuevoElemento.IdResponsable);
     if (aux !== undefined) {
-      setTitular(aux)
-    }
-    else {
+      setTitular(aux);
+    } else {
       aux = usuarios.find((item) => item.Id === nuevoElemento.IdTitular);
       if (aux !== undefined) {
-        setTitular(aux)
+        setTitular(aux);
       }
     }
-  }, [nuevoElemento.IdResponsable, nuevoElemento.IdTitular, usuarios])
-
+  }, [nuevoElemento.IdResponsable, nuevoElemento.IdTitular, usuarios]);
 
   useEffect(() => {
-    let aux = tpoDependencias.find((tpodep) => tpodep.Id === elemento.IdTipoDependencia)
-    if (aux)
-      setTpoDependencia(aux)
-  }, [elemento.IdTipoDependencia])
-
-
+    let aux = tpoDependencias.find(
+      (tpodep) => tpodep.Id === elemento.IdTipoDependencia
+    );
+    if (aux) setTpoDependencia(aux);
+  }, [elemento.IdTipoDependencia]);
 
   //------------------------CATALOGOS-------------------------------------------
 
@@ -289,28 +306,22 @@ export const Edit = ({
         setRuta("/");
         break;
     }
-    let aux=entidadesPadres.find((entidad)=>entidad.value===elemento.PerteneceA) 
-    if(aux!== null && aux !==undefined){
-      setEntidadPadre(aux)
+    let aux = entidadesPadres.find(
+      (entidad) => entidad.value === elemento.PerteneceA
+    );
+    if (aux !== null && aux !== undefined) {
+      setEntidadPadre(aux);
     }
-    
-
   }, [catalogo, open]);
-
-  
-  
 
   useEffect(() => {
     setNuevoElemento(elementoVacio);
   }, [catalogo]);
 
   useEffect(() => {
-    if(entidadPadre.value!=="")
-    setNuevoElemento({ ...nuevoElemento, PerteneceA: entidadPadre.value})
-  }, [entidadPadre])
-
-
-
+    if (entidadPadre.value !== "")
+      setNuevoElemento({ ...nuevoElemento, PerteneceA: entidadPadre.value });
+  }, [entidadPadre]);
 
   return (
     <Dialog
@@ -338,7 +349,8 @@ export const Edit = ({
             value={nuevoElemento.Nombre || ""}
             onChange={(v) => {
               setNuevoElemento({
-                ...nuevoElemento, IdModificador: localStorage.getItem("IdUsuario") || '',
+                ...nuevoElemento,
+                IdModificador: localStorage.getItem("IdUsuario") || "",
                 Nombre: v.target.value.replaceAll("'", "").replaceAll('"', ""),
               });
             }}
@@ -354,7 +366,8 @@ export const Edit = ({
             value={nuevoElemento.Clave || ""}
             onChange={(v) => {
               setNuevoElemento({
-                ...nuevoElemento, IdModificador: localStorage.getItem("IdUsuario") || '',
+                ...nuevoElemento,
+                IdModificador: localStorage.getItem("IdUsuario") || "",
                 Clave: v.target.value.replaceAll("'", "").replaceAll('"', ""),
               });
             }}
@@ -370,7 +383,8 @@ export const Edit = ({
             value={nuevoElemento.Descripcion || ""}
             onChange={(v) => {
               setNuevoElemento({
-                ...nuevoElemento, IdModificador: localStorage.getItem("IdUsuario") || '',
+                ...nuevoElemento,
+                IdModificador: localStorage.getItem("IdUsuario") || "",
                 Descripcion: v.target.value
                   .replaceAll("'", "")
                   .replaceAll('"', ""),
@@ -388,7 +402,8 @@ export const Edit = ({
             value={nuevoElemento.NombreCorto || ""}
             onChange={(v) => {
               setNuevoElemento({
-                ...nuevoElemento, IdModificador: localStorage.getItem("IdUsuario") || '',
+                ...nuevoElemento,
+                IdModificador: localStorage.getItem("IdUsuario") || "",
                 NombreCorto: v.target.value
                   .replaceAll("'", "")
                   .replaceAll('"', ""),
@@ -400,16 +415,23 @@ export const Edit = ({
           <Grid sx={{ mt: 3, width: "100%" }}>
             <Typography variant="body2"> Titular / Responsable: </Typography>
             <Autocomplete
-              noOptionsText='No se encontraron opciones'
+              noOptionsText="No se encontraron opciones"
               clearText="Borrar"
               closeText="Cerrar"
               options={usuarios}
-              getOptionLabel={(usuarios) => usuarios.Nombre || 'Seleccione titular'}
+              getOptionLabel={(usuarios) =>
+                usuarios.Nombre || "Seleccione titular"
+              }
               value={titular}
               onChange={(event, newValue) => {
                 if (newValue != null) {
                   setTitular(newValue);
-                  setNuevoElemento({ ...nuevoElemento, IdTitular: newValue.Id, IdResponsable: newValue.Id, IdModificador: localStorage.getItem("IdUsuario") || '' })
+                  setNuevoElemento({
+                    ...nuevoElemento,
+                    IdTitular: newValue.Id,
+                    IdResponsable: newValue.Id,
+                    IdModificador: localStorage.getItem("IdUsuario") || "",
+                  });
                   //         setErrores({...errores, secretaria:{
                   //         valid:false,
                   //         text:"Ingresa secretaria valida"
@@ -421,7 +443,7 @@ export const Edit = ({
                   key={params.id}
                   {...params}
                   variant="outlined"
-                // error={errores.secretaria.valid}
+                  // error={errores.secretaria.valid}
                 />
               )}
             />
@@ -443,67 +465,81 @@ export const Edit = ({
           //   }}
           // />
         )}
-        {["6"].includes(catalogo) && (<Grid sx={{ mt: 3, width: "100%" }}>
-          <Typography variant="body2">Tipo de dependencia:</Typography>
-          <Autocomplete
-            noOptionsText='No se encontraron opciones'
-            
-            clearText="Borrar"
-            closeText="Cerrar"
-            options={tpoDependencias}
-            getOptionLabel={(tpodependencia) => tpodependencia.Nombre || 'Seleccione tipo de dependencia'}
-            value={tpoDependencia}
-            onChange={(event, newValue) => {
-              if (newValue != null) {
-                setTpoDependencia(newValue);
-                setNuevoElemento({ ...nuevoElemento, IdModificador: localStorage.getItem("IdUsuario") || '', IdTipoDependencia: newValue.Id });
-                //         setErrores({...errores, secretaria:{
-                //         valid:false,
-                //         text:"Ingresa secretaria valida"
-                // }})
+        {["6"].includes(catalogo) && (
+          <Grid sx={{ mt: 3, width: "100%" }}>
+            <Typography variant="body2">Tipo de dependencia:</Typography>
+            <Autocomplete
+              noOptionsText="No se encontraron opciones"
+              clearText="Borrar"
+              closeText="Cerrar"
+              options={tpoDependencias}
+              getOptionLabel={(tpodependencia) =>
+                tpodependencia.Nombre || "Seleccione tipo de dependencia"
               }
-            }}
-            renderInput={(params) => (
-              <TextField
-                key={params.id}
-                {...params}
-                variant="outlined"
-              // error={errores.secretaria.valid}
-              />
-            )}
-          />
-        </Grid>
+              value={tpoDependencia}
+              onChange={(event, newValue) => {
+                if (newValue != null) {
+                  setTpoDependencia(newValue);
+                  setNuevoElemento({
+                    ...nuevoElemento,
+                    IdModificador: localStorage.getItem("IdUsuario") || "",
+                    IdTipoDependencia: newValue.Id,
+                  });
+                  //         setErrores({...errores, secretaria:{
+                  //         valid:false,
+                  //         text:"Ingresa secretaria valida"
+                  // }})
+                }
+              }}
+              renderInput={(params) => (
+                <TextField
+                  key={params.id}
+                  {...params}
+                  variant="outlined"
+                  // error={errores.secretaria.valid}
+                />
+              )}
+            />
+          </Grid>
         )}
-        {["6"].includes(catalogo) && (<Grid sx={{ mt: 3, width: "100%" }}>
-          <Typography variant="body2">Pertenece a:</Typography>
-          <Autocomplete
-            noOptionsText='No se encontraron opciones'
-            // groupBy={(options)=>options.tipo}
-            clearText="Borrar"
-            closeText="Cerrar"
-            options={entidadesPadres || {tipo:"",descripcion:"",value:""}}
-            getOptionLabel={(entidad) =>entidad.descripcion || 'Seleccione a quein pertenece'}
-            value={entidadPadre}
-            onChange={(event, newValue) => {
-              if (newValue != null) {
-                setEntidadPadre(newValue);
-                setNuevoElemento({ ...nuevoElemento, IdModificador: localStorage.getItem("IdUsuario") || '' });
-                //         setErrores({...errores, secretaria:{
-                //         valid:false,
-                //         text:"Ingresa secretaria valida"
-                // }})
+        {["6"].includes(catalogo) && (
+          <Grid sx={{ mt: 3, width: "100%" }}>
+            <Typography variant="body2">Pertenece a:</Typography>
+            <Autocomplete
+              noOptionsText="No se encontraron opciones"
+              // groupBy={(options)=>options.tipo}
+              clearText="Borrar"
+              closeText="Cerrar"
+              options={
+                entidadesPadres || { tipo: "", descripcion: "", value: "" }
               }
-            }}
-            renderInput={(params) => (
-              <TextField
-                key={params.id}
-                {...params}
-                variant="outlined"
-              // error={errores.secretaria.valid}
-              />
-            )}
-          />
-        </Grid>
+              getOptionLabel={(entidad) =>
+                entidad.descripcion || "Seleccione a quein pertenece"
+              }
+              value={entidadPadre}
+              onChange={(event, newValue) => {
+                if (newValue != null) {
+                  setEntidadPadre(newValue);
+                  setNuevoElemento({
+                    ...nuevoElemento,
+                    IdModificador: localStorage.getItem("IdUsuario") || "",
+                  });
+                  //         setErrores({...errores, secretaria:{
+                  //         valid:false,
+                  //         text:"Ingresa secretaria valida"
+                  // }})
+                }
+              }}
+              renderInput={(params) => (
+                <TextField
+                  key={params.id}
+                  {...params}
+                  variant="outlined"
+                  // error={errores.secretaria.valid}
+                />
+              )}
+            />
+          </Grid>
           // <TextField
           //   multiline
           //   sx={{ mt: 3, width: "100%" }}
@@ -531,7 +567,8 @@ export const Edit = ({
             value={nuevoElemento.Direccion || ""}
             onChange={(v) => {
               setNuevoElemento({
-                ...nuevoElemento, IdModificador: localStorage.getItem("IdUsuario") || '',
+                ...nuevoElemento,
+                IdModificador: localStorage.getItem("IdUsuario") || "",
                 Direccion: v.target.value
                   .replaceAll("'", "")
                   .replaceAll('"', ""),
@@ -549,13 +586,16 @@ export const Edit = ({
             value={nuevoElemento.Telefono || ""}
             onChange={(v) => {
               setNuevoElemento({
-                ...nuevoElemento, IdModificador: localStorage.getItem("IdUsuario") || '',
-                Telefono: v.target.value.replaceAll("'", "").replaceAll('"', ""),
+                ...nuevoElemento,
+                IdModificador: localStorage.getItem("IdUsuario") || "",
+                Telefono: v.target.value
+                  .replaceAll("'", "")
+                  .replaceAll('"', ""),
               });
             }}
           />
         )}
-        {["4"].includes(catalogo) && (
+        {["4", "6"].includes(catalogo) && (
           <TextField
             multiline
             sx={{ mt: 3, width: "100%" }}
@@ -565,7 +605,8 @@ export const Edit = ({
             value={nuevoElemento.ControlInterno || ""}
             onChange={(v) => {
               setNuevoElemento({
-                ...nuevoElemento, IdModificador: localStorage.getItem("IdUsuario") || '',
+                ...nuevoElemento,
+                IdModificador: localStorage.getItem("IdUsuario") || "",
                 ControlInterno: v.target.value
                   .replaceAll("'", "")
                   .replaceAll('"', ""),
@@ -583,7 +624,8 @@ export const Edit = ({
             value={nuevoElemento.Referencia || ""}
             onChange={(v) => {
               setNuevoElemento({
-                ...nuevoElemento, IdModificador: localStorage.getItem("IdUsuario") || '',
+                ...nuevoElemento,
+                IdModificador: localStorage.getItem("IdUsuario") || "",
                 Referencia: v.target.value
                   .replaceAll("'", "")
                   .replaceAll('"', ""),
@@ -596,9 +638,14 @@ export const Edit = ({
         <Button className="cancelar" onClick={() => setOpen(false)}>
           Cancelar
         </Button>
-        <Button className="aceptar" onClick={() => {
-          modificarCatalogo(ruta, { ...nuevoElemento }, setOpen, reloadData)
-        }}>Editar</Button>
+        <Button
+          className="aceptar"
+          onClick={() => {
+            modificarCatalogo(ruta, { ...nuevoElemento }, setOpen, reloadData);
+          }}
+        >
+          Editar
+        </Button>
       </DialogActions>
     </Dialog>
   );

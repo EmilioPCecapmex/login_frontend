@@ -27,6 +27,7 @@ const Catalogos = () => {
   const [HideNombreCorto, setHideNombreCorto] = useState(true);
   const [HideControlInterno, setHideControlInterno] = useState(true);
   const [HideReferencia, setHideReferencia] = useState(true);
+  const [HideDireccion, setHideDireccion] = useState(true);
   /////////////
 
   
@@ -132,9 +133,15 @@ const Catalogos = () => {
     {
       field: "ControlInterno",
       headerName: "Control Interno",
-      width: 100,
+      width: 300,
       headerAlign: "center",
       hide: HideControlInterno,
+    },{
+      field: "Direccion",
+      headerName: "Dirección",
+      width: 600,
+      headerAlign: "center",
+      hide: HideDireccion,
     },
   ];
 
@@ -164,6 +171,7 @@ const Catalogos = () => {
         var NombreCorto = 0;
         var ControlInterno = 0;
         var Referencia = 0;
+        var Direccion = 0;
         
         user?.map((data) => {
           if (data?.Clave) {
@@ -184,6 +192,9 @@ const Catalogos = () => {
           if (data?.Referencia) {
             Referencia++;
           }
+          if (data?.Direccion) {
+            Direccion++;
+          }
         });
 
         if (clave != 0) {
@@ -203,6 +214,9 @@ const Catalogos = () => {
         }
         if (Referencia != 0) {
           setHideReferencia(false);
+        }
+        if (Direccion != 0) {
+          setHideDireccion(false);
         }
 
         if (catalogo === "1" && opcion === "catalogos") {

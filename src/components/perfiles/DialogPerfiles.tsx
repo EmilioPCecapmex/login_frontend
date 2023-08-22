@@ -9,14 +9,18 @@ import {
 import { useEffect, useState } from "react";
 import { IPerfil } from "./Perfiles";
 import { alertaError } from "../alertas/toast";
-import { createPerfiles, deletePerfiles, modifyPerfiles } from "./PerfilesServices";
+import {
+  createPerfiles,
+  deletePerfiles,
+  modifyPerfiles,
+} from "./PerfilesServices";
 
 export interface IElemento {
   Id: string;
   Descripcion: string;
   Referencia: string;
   IdUsuario: string;
-  IdApp: string
+  IdApp: string;
 }
 
 export const PerfilDialog = ({
@@ -30,25 +34,31 @@ export const PerfilDialog = ({
   closeDialog: Function;
   movimiento: string;
   reloadData: IPerfil;
-  IdApp: string
+  IdApp: string;
 }) => {
   const elementoVacio = {
     Id: "",
     Descripcion: "",
     Referencia: "",
     IdUsuario: "",
-    IdApp: ""
+    IdApp: "",
   };
 
-  const [nuevoElemento, setNuevoElemento] = useState<IElemento>({ ...elementoVacio, IdUsuario: localStorage.getItem("IdUsuario") || "", IdApp: IdApp });
+  const [nuevoElemento, setNuevoElemento] = useState<IElemento>({
+    ...elementoVacio,
+    IdUsuario: localStorage.getItem("IdUsuario") || "",
+    IdApp: IdApp,
+  });
 
   useEffect(() => {
-    console.log("dialog", reloadData);
-
     if (reloadData && (movimiento === "editar" || movimiento === "eliminar")) {
-      setNuevoElemento({ ...reloadData, IdUsuario: localStorage.getItem("IdUsuario") || "", IdApp: IdApp })
+      setNuevoElemento({
+        ...reloadData,
+        IdUsuario: localStorage.getItem("IdUsuario") || "",
+        IdApp: IdApp,
+      });
     }
-  }, [])
+  }, []);
 
   function sendRequest() {
     switch (movimiento) {
@@ -62,14 +72,16 @@ export const PerfilDialog = ({
         deletePerfiles(nuevoElemento, closeDialog);
         break;
       default:
-        alertaError()
+        alertaError();
     }
   }
 
   return (
     <Dialog
       open={open}
-      onClose={() => { closeDialog(false) }}
+      onClose={() => {
+        closeDialog(false);
+      }}
       fullWidth
       maxWidth={"sm"}
     >
@@ -90,12 +102,13 @@ export const PerfilDialog = ({
           onChange={(v) => {
             setNuevoElemento({
               ...nuevoElemento,
-              Descripcion: v.target.value.replaceAll("'", "").replaceAll('"', ""),
+              Descripcion: v.target.value
+                .replaceAll("'", "")
+                .replaceAll('"', ""),
             });
           }}
           InputProps={{ readOnly: movimiento === "eliminar" }}
         />
-
 
         <TextField
           multiline
@@ -107,26 +120,34 @@ export const PerfilDialog = ({
           onChange={(v) => {
             setNuevoElemento({
               ...nuevoElemento,
-              Referencia: v.target.value.replaceAll("'", "").replaceAll('"', ""),
+              Referencia: v.target.value
+                .replaceAll("'", "")
+                .replaceAll('"', ""),
             });
           }}
           InputProps={{ readOnly: movimiento === "eliminar" }}
         />
-
-
       </DialogContent>
       <DialogActions>
         <Button className="cancelar" onClick={() => closeDialog(false)}>
           Cancelar
         </Button>
-        <Button className="aceptar" onClick={() => {
-          // createCatalogo(ruta, { ...nuevoElemento }, setOpen, reloadData)
-          if (nuevoElemento.Descripcion === "" || nuevoElemento.Referencia === "") {
-            alertaError("Captura todos los datos");
-          } else {
-            sendRequest();
-          }
-        }}>{movimiento.toUpperCase()}</Button>
+        <Button
+          className="aceptar"
+          onClick={() => {
+            // createCatalogo(ruta, { ...nuevoElemento }, setOpen, reloadData)
+            if (
+              nuevoElemento.Descripcion === "" ||
+              nuevoElemento.Referencia === ""
+            ) {
+              alertaError("Captura todos los datos");
+            } else {
+              sendRequest();
+            }
+          }}
+        >
+          {movimiento.toUpperCase()}
+        </Button>
       </DialogActions>
     </Dialog>
   );
