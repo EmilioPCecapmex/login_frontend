@@ -13,6 +13,7 @@ import SelectValues from "../../Interfaces/SelectValues";
 import { UserServices } from "../../services/UserServices";
 import { getCatalogo } from "../../services/catalogosService";
 import { IEntidadPadre, IPerfil, IRol, IUResponsable } from "./ICatalogos";
+import { useNavigate } from "react-router";
 
 export interface NewDialogProps {
   modoModal: boolean;
@@ -96,7 +97,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       if (aux) {
         setInfoUsuario({
           ...infoUsuario,
-          Aplicacion: { value: aux?.id!, label: aux?.label! },
+          Aplicacion: { value: aux?.value!, label: aux?.label! },
         });
       }
     }
@@ -166,77 +167,80 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     }
   };
 
+  const navigate = useNavigate();
+
   const handleStoreBtn = () => {
-    // setErrores({
-    //   nombre: {
-    //     valid: infoUsuario.Nombre === "",
-    //     text: "Ingresa infoUsuario.Nombre ",
-    //   },
-    //   aPaterno: {
-    //     valid: infoUsuario.ApellidoPaterno === "",
-    //     text: "Ingresa apellido paterno ",
-    //   },
-    //   aMAterno: {
-    //     valid: infoUsuario.ApellidoMaterno === "",
-    //     text: "Ingresa apellido materno ",
-    //   },
-    //   nUsuario: {
-    //     valid: infoUsuario.NombreUsuario === "",
-    //     text: "Ingresa infoUsuario.Nombre de usuario valido",
-    //   },
-    //   email: {
-    //     valid: !isValidEmail(),
-    //     text: "Ingresa infoUsuario.CorreoElectronico electronico valido",
-    //   },
-    //   CURP: {
-    //     valid: infoUsuario.CURP === "",
-    //     text: "Ingresa CURP valido",
-    //   },
-    //   RFC: {
-    //     valid: infoUsuario.RFC === "",
-    //     text: "Ingresa RFC valido",
-    //   },
-    //   puesto: {
-    //     valid: infoUsuario.Puesto === "",
-    //     text: "Ingresa puesto valido",
-    //   },
-    //   Celular: {
-    //     valid: infoUsuario.Celular <= 0,
-    //     text: "Ingresa Celular valido",
-    //   },
-    //   Telefono: {
-    //     valid: infoUsuario.Telefono <= 0,
-    //     text: "Ingresa Telefono valido",
-    //   },
-    //   Ext: {
-    //     valid: infoUsuario.Ext <= 0,
-    //     text: "Ingresa extension valida",
-    //   },
-    //   tpoUsuario: {
-    //     valid: infoUsuario.TipoUsuario.Nombre === "",
-    //     text: "Selecciona tipo de usuario",
-    //   },
-    //   entidad: {
-    //     valid: infoUsuario.Entidad.descripcion === "",
-    //     text: "Selecciona departamento",
-    //   },
-    //   perfil: {
-    //     valid: infoUsuario.Perfiles.length === 0,
-    //     text: "Selecciona perfiles",
-    //   },
-    //   rol: {
-    //     valid: infoUsuario.Roles.length === 0,
-    //     text: "Selecciona roles",
-    //   },
-    //   uResponsable: {
-    //     valid: infoUsuario.UnidadResponsable.Id === "",
-    //     text: "Selecciona unidad resposnable",
-    //   },
-    //   aplicacion: {
-    //     valid: infoUsuario.Aplicacion.value === "",
-    //     text: "Selecciona aplicacion",
-    //   },
-    // });
+    setErrores({
+      nombre: {
+        valid: infoUsuario.Nombre === "",
+        text: "Ingresa Nombre ",
+      },
+      aPaterno: {
+        valid: infoUsuario.ApellidoPaterno === "",
+        text: "Ingresa apellido paterno ",
+      },
+      aMAterno: {
+        valid: infoUsuario.ApellidoMaterno === "",
+        text: "Ingresa apellido materno ",
+      },
+      nUsuario: {
+        valid: infoUsuario.NombreUsuario === "",
+        text: "Ingresa Nombre de usuario valido",
+      },
+      email: {
+        valid: !isValidEmail(),
+        text: "Ingresa Correo Electronico electronico valido",
+      },
+      CURP: {
+        valid: infoUsuario.CURP === "",
+        text: "Ingresa CURP valido",
+      },
+      RFC: {
+        valid: infoUsuario.RFC === "",
+        text: "Ingresa RFC valido",
+      },
+      puesto: {
+        valid: infoUsuario.Puesto === "",
+        text: "Ingresa puesto valido",
+      },
+      Celular: {
+        valid: infoUsuario.Celular <= 0,
+        text: "Ingresa Celular valido",
+      },
+      Telefono: {
+        valid: infoUsuario.Telefono <= 0,
+        text: "Ingresa Telefono valido",
+      },
+      Ext: {
+        valid: infoUsuario.Ext <= 0,
+        text: "Ingresa extension valida",
+      },
+      tpoUsuario: {
+        valid: infoUsuario.TipoUsuario.Nombre === "",
+        text: "Selecciona tipo de usuario",
+      },
+      entidad: {
+        valid: infoUsuario.Entidad.descripcion === "",
+        text: "Selecciona departamento",
+      },
+      perfil: {
+        valid: infoUsuario.Perfiles.length === 0,
+        text: "Selecciona perfiles",
+      },
+      rol: {
+        valid: infoUsuario.Roles.length === 0,
+        text: "Selecciona roles",
+      },
+      uResponsable: {
+        valid: infoUsuario.UnidadResponsable.Id === "",
+        text: "Selecciona unidad resposnable",
+      },
+      aplicacion: {
+        valid: infoUsuario.Aplicacion.value === "",
+        text: "Selecciona aplicacion",
+      },
+    });
+
     if (
       infoUsuario.Nombre === "" ||
       infoUsuario.ApellidoMaterno === "" ||
@@ -319,6 +323,10 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
                 icon: "success",
                 title: "Mensaje",
                 text: res.data.data[0][0].Mensaje,
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  navigate(-1);
+                }
               });
             }
 
@@ -402,7 +410,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       container
       justifyContent={"space-evenly"}
       alignContent={"space-around"}
-      height={"90%"}
+      height={"90vh"}
     >
       <Grid item xs={10} md={4.5}>
         <TextField
