@@ -1,12 +1,11 @@
-import { Grid, Tooltip, IconButton, TextField, Badge } from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 import { useState } from "react";
+import { CommentsDialog } from "../../components/commentsDialog";
 import {
   IDetalleSolicitud,
   iDetalleUsuario,
   iOnChangeInfo,
 } from "./ISolicitud";
-import CommentIcon from "@mui/icons-material/Comment";
-import { CommentsDialog } from "../../components/commentsDialog";
 
 const VerSolicitudesModal = ({
   detalleSolicitud,

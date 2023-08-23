@@ -83,9 +83,6 @@ export default function Users() {
 
   const [editDialogOpen, setEditDialogOpen] = useState(false);
 
-  // const [editDialogUsuario, setEditDialogUsuario] = useState<Usuario>();
-  // const handleEditDialogOpen = () => setEditDialogOpen(true);
-
   const handleEditDialogClose = (changed: boolean) => {
     if (changed === true) {
       Toast.fire({
@@ -96,11 +93,6 @@ export default function Users() {
     }
     setEditDialogOpen(false);
   };
-
-  // const handleEditBtnClick = (event: any, cellValues: any) => {
-  //   setEditDialogUsuario(cellValues.row);
-  //   handleEditDialogOpen();
-  // };
 
   const getDatosDocumento = (nombreUsuario: any) => {
     axios
@@ -223,8 +215,6 @@ export default function Users() {
                 sx={{ color: "black" }}
                 onClick={(event) => {
                   getDatosDocumento(cellValues.row.NombreUsuario);
-                  //imprimirDocumento(event, cellValues);
-                  // handleAppsBtnClick(event, cellValues);
                 }}
               >
                 <FileDownloadIcon />
@@ -234,9 +224,6 @@ export default function Users() {
             <Tooltip title={"Editar - " + cellValues.row.NombreUsuario}>
               <IconButton
                 sx={{ color: "black" }}
-                // onClick={(event) => {
-                //   handleEditBtnClick(event, cellValues);
-                // }}
                 onClick={(event) => {
                   handleAppsBtnClick(event, cellValues);
                 }}
@@ -244,17 +231,6 @@ export default function Users() {
                 <EditIcon />
               </IconButton>
             </Tooltip>
-
-            {/* <Tooltip title={"Visualizar acceso a plataformas"}>
-              <IconButton
-                sx={{color:"black"}}
-                onClick={(event) => {
-                  handleAppsBtnClick(event, cellValues);
-                }}
-              >
-                <AccountTreeIcon />
-              </IconButton>
-            </Tooltip> */}
           </Box>
         );
       },
@@ -371,7 +347,7 @@ export default function Users() {
                 <Button
                   className="registrar-usuario"
                   variant="text"
-                  onClick={() => setNewDialogOpen(true)}
+                  onClick={() => navigate("../solicitud")}
                   sx={{
                     fontFamily: "MontserratBold",
                     backgroundColor: "#DFA94F",
@@ -393,19 +369,7 @@ export default function Users() {
             </CardContent>
           </Card>
         </Box>
-        {newDialogOpen ? (
-          <NewDialog
-            newDialogOpen={true}
-            handleNewDialogClose={handleNewDialogClose}
-          />
-        ) : null}
-        {/* (
-          <EditDialog
-            editDialogOpen={editDialogOpen}
-            handleEditDialogClose={handleEditDialogClose}
-            usuario={editDialogUsuario}
-          />
-        ) */}
+        {newDialogOpen ? <NewDialog /> : null}
         {appsDialogOpen ? (
           <AppsDialog
             appsDialogOpen={appsDialogOpen}
@@ -424,13 +388,6 @@ export default function Users() {
             token=""
           />
         )}
-        {/* {appsDialogOpen ? (
-          <AppsDialog
-            appsDialogOpen={appsDialogOpen}
-            handleAppsDialogClose={handleAppsDialogClose}
-            usuario={appsDialogUsuario}
-          />
-        ) : null} */}
       </Box>
     </Grid>
   );

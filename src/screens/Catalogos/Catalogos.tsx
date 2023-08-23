@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Grid, IconButton, Tab, Tooltip, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import ResponseCatalogos from "../../Interfaces/User";
@@ -30,11 +31,10 @@ const Catalogos = () => {
   const [HideDireccion, setHideDireccion] = useState(true);
   /////////////
 
-  
   const [openEdit, setOpenEdit] = useState(false);
   const [openCreate, setOpenCreate] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
-  const [selectId, setSelectId] = useState(String)
+  const [selectId, setSelectId] = useState(String);
   const [elemento, setElemento] = useState<IModify>({
     IdSecretaria: "",
     Nombre: "",
@@ -55,7 +55,6 @@ const Catalogos = () => {
     IdTipoDependencia: "",
     IdPerfil: "",
     Referencia: "",
-    
   });
 
   const columns = [
@@ -70,7 +69,7 @@ const Catalogos = () => {
           <Box>
             <Tooltip title={"Editar"}>
               <IconButton
-                sx={{color:"black"}}
+                sx={{ color: "black" }}
                 onClick={() => {
                   setElemento(cellValues.row);
                   setOpenEdit(true);
@@ -81,12 +80,12 @@ const Catalogos = () => {
             </Tooltip>
             <Tooltip title={"Eliminar"}>
               <IconButton
-                sx={{color:"black"}}
-                 onClick={(event) => {
+                sx={{ color: "black" }}
+                onClick={(event) => {
                   setSelectId(cellValues.row.Id);
                   setElemento(cellValues.row);
-                     setOpenDelete(true);
-                 }}
+                  setOpenDelete(true);
+                }}
               >
                 <DeleteIcon />
               </IconButton>
@@ -136,7 +135,8 @@ const Catalogos = () => {
       width: 300,
       headerAlign: "center",
       hide: HideControlInterno,
-    },{
+    },
+    {
       field: "Direccion",
       headerName: "Dirección",
       width: 600,
@@ -145,7 +145,7 @@ const Catalogos = () => {
     },
   ];
 
- const [reload,setReload]=useState("");
+  const [reload, setReload] = useState("");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setHideClave(true);
@@ -172,7 +172,7 @@ const Catalogos = () => {
         var ControlInterno = 0;
         var Referencia = 0;
         var Direccion = 0;
-        
+
         user?.map((data) => {
           if (data?.Clave) {
             clave++;
@@ -197,25 +197,25 @@ const Catalogos = () => {
           }
         });
 
-        if (clave != 0) {
+        if (clave !== 0) {
           setHideClave(false);
         }
-        if (Nombre != 0) {
+        if (Nombre !== 0) {
           setHideNombre(false);
         }
-        if (Descripcion != 0) {
+        if (Descripcion !== 0) {
           setHideDescripcion(false);
         }
-        if (NombreCorto != 0) {
+        if (NombreCorto !== 0) {
           setHideNombreCorto(false);
         }
-        if (ControlInterno != 0) {
+        if (ControlInterno !== 0) {
           setHideControlInterno(false);
         }
-        if (Referencia != 0) {
+        if (Referencia !== 0) {
           setHideReferencia(false);
         }
-        if (Direccion != 0) {
+        if (Direccion !== 0) {
           setHideDireccion(false);
         }
 
@@ -258,12 +258,10 @@ const Catalogos = () => {
               <Tab label="Secretarias" value="1" />\
               <Tab label="Tipo Dependencias" value="7" />
               <Tab label="Dependencias" value="6" />
-              
               <Tab label="SIREGOB" value="2" />
               {/* <Tab label="Departamentos" value="3" /> */}
               {/* <Tab label="Roles" value="4" /> */}
               {/* <Tab label="Perfiles" value="5" /> */}
-              
             </TabList>
           </Box>
           <Grid item xs={12} paddingLeft={1}>
@@ -332,12 +330,14 @@ const Catalogos = () => {
           catalogo={valueTab}
           reloadData={setReload}
         />
-        {openCreate && <Create
-          open={openCreate}
-          setOpen={setOpenCreate}
-          catalogo={valueTab}
-          reloadData={setReload}
-        />}
+        {openCreate && (
+          <Create
+            open={openCreate}
+            setOpen={setOpenCreate}
+            catalogo={valueTab}
+            reloadData={setReload}
+          />
+        )}
         <Delete
           open={openDelete}
           setOpen={setOpenDelete}
@@ -346,7 +346,6 @@ const Catalogos = () => {
           elemento={elemento}
           reloadData={setReload}
         />
-
       </div>
     </>
   );

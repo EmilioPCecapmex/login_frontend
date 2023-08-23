@@ -1,44 +1,42 @@
 /* eslint-disable array-callback-return */
-import { useEffect, useState } from "react";
-import axios from "axios";
+import InfoTwoToneIcon from "@mui/icons-material/InfoTwoTone";
+import SkipNextIcon from "@mui/icons-material/SkipNext";
+import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import {
   Box,
-  IconButton,
   Button,
-  Typography,
-  TextField,
-  List,
-  ListItemButton,
-  Divider,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Divider,
+  FormControl,
   FormControlLabel,
-  Checkbox,
   Grid,
   Hidden,
+  IconButton,
+  InputLabel,
+  List,
+  ListItemButton,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
 } from "@mui/material";
-import Swal from "sweetalert2";
-import { Header } from "../../components/header";
-import { IDetalleSolicitud, ISolicitud } from "./ISolicitud";
-import { IApps } from "./IApps";
-import InfoTwoToneIcon from "@mui/icons-material/InfoTwoTone";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import { CommentsDialog } from "../../components/commentsDialog";
 import CircularProgress from "@mui/material/CircularProgress";
+import axios from "axios";
 import moment from "moment";
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import { CommentsDialog } from "../../components/commentsDialog";
+import { Header } from "../../components/header";
 import { imprimirSolicitud } from "../Users/Users";
-import { TimerCounter } from "../../components/timer/timer";
 import { COLOR } from "../styles/colors";
+import { IApps } from "./IApps";
+import { IDetalleSolicitud, ISolicitud } from "./ISolicitud";
 import VerSolicitudesModal from "./VerSolicitudesModal";
-import CloseIcon from "@mui/icons-material/Close";
 export const Solicitudes = () => {
   const [solicitudes, setSolicitudes] = useState<Array<ISolicitud>>([]);
 
@@ -311,6 +309,7 @@ export const Solicitudes = () => {
   useEffect(() => {
     getApps();
     getSolicitudes();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //registro seleccionado
@@ -326,8 +325,6 @@ export const Solicitudes = () => {
   }, [detalleSolicitud]);
 
   const [comentCount, setComentCount] = useState(0);
-  /////////////////////// modal de Ver Solicitudes
-  const [openVerSolicitudesModal, setOpenVerSolicitudesModal] = useState(false);
 
   ///////////////////
   const getComentarios = () => {
@@ -565,7 +562,6 @@ export const Solicitudes = () => {
                           key={x}
                           onClick={() => {
                             itemSelected(x, item.Id);
-                            setOpenVerSolicitudesModal(true);
                           }}
                           sx={{
                             pl: 2,

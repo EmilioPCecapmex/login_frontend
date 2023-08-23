@@ -20,7 +20,6 @@ export interface NewDialogProps {
   token: string;
   idUsuarioSolicitante: string;
   idApp: string;
-  handleDialogClose: Function;
 }
 
 export interface IUserTypes {
@@ -318,7 +317,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
               });
 
             if (res.data.data[0][0].Respuesta === "201") {
-              props.handleDialogClose(false);
               Swal.fire({
                 icon: "success",
                 title: "Mensaje",
@@ -410,7 +408,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       container
       justifyContent={"space-evenly"}
       alignContent={"space-around"}
-      height={"90vh"}
+      height={"85vh"}
     >
       <Grid item xs={10} md={4.5}>
         <TextField
@@ -900,15 +898,26 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           }
           label={infoUsuario.PuedeFirmar ? "Puede firmar" : "No puede firmar"}
         />
-        <Button
-          className="aceptar"
-          onClick={() => {
-            handleStoreBtn();
-          }}
-          sx={{ fontFamily: "MontserratRegular" }}
-        >
-          Solicitar Usuario
-        </Button>
+        <Grid>
+          <Button
+            className="cancelar"
+            onClick={() => {
+              navigate(-1);
+            }}
+            sx={{ fontFamily: "MontserratRegular", mr: 2 }}
+          >
+            Cancelar
+          </Button>
+          <Button
+            className="aceptar"
+            onClick={() => {
+              handleStoreBtn();
+            }}
+            sx={{ fontFamily: "MontserratRegular" }}
+          >
+            Solicitar Usuario
+          </Button>
+        </Grid>
       </Grid>
     </Grid>
   );
