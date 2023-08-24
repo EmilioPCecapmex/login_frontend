@@ -304,7 +304,6 @@ export const Login = () => {
         if (localStorage.getItem("validation") === "true") checkApps();
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     setTimeout(() => {
@@ -323,9 +322,11 @@ export const Login = () => {
         <>
           {opensolicitudModal ? (
             <SolicitudUsuario
+              handleDialogClose={setOpensolicitudModal}
               modoModal={opensolicitudModal}
               token={String(jwt)}
               idUsuarioSolicitante={String(idUsuarioSolicitante)}
+              idUsuarioModificado={""}
               idApp={String(idAppSolicitante)}
             />
           ) : (

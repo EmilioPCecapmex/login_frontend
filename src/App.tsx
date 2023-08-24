@@ -10,7 +10,6 @@ import { SolicitudUsuario } from "./screens/SolicitudDeUsuarios/SolicitudUsuario
 import Users from "./screens/Users/Users";
 import { Documentos } from "./screens/ValidadorDE/Documentos";
 import Solicitudes from "./screens/solicitudes/Solicitudes";
-import { NewDialog } from "./components/newDialog";
 
 const App = () => {
   return (
@@ -28,14 +27,15 @@ const App = () => {
           path="/generarSolicitud"
           element={
             <SolicitudUsuario
+              handleDialogClose={() => {}}
               modoModal={false}
               token={""}
               idUsuarioSolicitante={""}
+              idUsuarioModificado={""}
               idApp={""}
             />
           }
         />
-        <Route path="/solicitud" element={<NewDialog />} />
       </Routes>
     </HashRouter>
   );

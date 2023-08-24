@@ -83,6 +83,9 @@ export default function Users() {
 
   const [editDialogOpen, setEditDialogOpen] = useState(false);
 
+  // const [editDialogUsuario, setEditDialogUsuario] = useState<Usuario>();
+  // const handleEditDialogOpen = () => setEditDialogOpen(true);
+
   const handleEditDialogClose = (changed: boolean) => {
     if (changed === true) {
       Toast.fire({
@@ -93,6 +96,11 @@ export default function Users() {
     }
     setEditDialogOpen(false);
   };
+
+  // const handleEditBtnClick = (event: any, cellValues: any) => {
+  //   setEditDialogUsuario(cellValues.row);
+  //   handleEditDialogOpen();
+  // };
 
   const getDatosDocumento = (nombreUsuario: any) => {
     axios
@@ -119,6 +127,7 @@ export default function Users() {
   const [appsDialogOpen, setAppsDialogOpen] = useState(false);
   const [appsDialogUsuario, setAppsDialogUsuario] = useState<Usuario>();
   const handleAppsDialogOpen = () => setAppsDialogOpen(true);
+
   const handleAppsDialogClose = (changed: boolean) => {
     if (changed === true) {
       Toast.fire({
@@ -129,6 +138,7 @@ export default function Users() {
     }
     setAppsDialogOpen(false);
   };
+
   const handleAppsBtnClick = (event: any, cellValues: any) => {
     setAppsDialogUsuario(cellValues.row);
     handleAppsDialogOpen();
@@ -199,6 +209,9 @@ export default function Users() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showAllUsers]);
 
+  const [idUsuario, setIdUsuario] = useState("");
+  const [idApp, setIdApp] = useState("");
+
   const columns = [
     {
       field: "acciones",
@@ -215,6 +228,8 @@ export default function Users() {
                 sx={{ color: "black" }}
                 onClick={(event) => {
                   getDatosDocumento(cellValues.row.NombreUsuario);
+                  //imprimirDocumento(event, cellValues);
+                  // handleAppsBtnClick(event, cellValues);
                 }}
               >
                 <FileDownloadIcon />
@@ -224,13 +239,29 @@ export default function Users() {
             <Tooltip title={"Editar - " + cellValues.row.NombreUsuario}>
               <IconButton
                 sx={{ color: "black" }}
+                // onClick={(event) => {
+                //   handleEditBtnClick(event, cellValues);
+                // }}
                 onClick={(event) => {
+                  setIdApp("");
                   handleAppsBtnClick(event, cellValues);
+                  setIdUsuario(cellValues.row.Id);
                 }}
               >
                 <EditIcon />
               </IconButton>
             </Tooltip>
+
+            {/* <Tooltip title={"Visualizar acceso a plataformas"}>
+              <IconButton
+                sx={{color:"black"}}
+                onClick={(event) => {
+                  handleAppsBtnClick(event, cellValues);
+                }}
+              >
+                <AccountTreeIcon />
+              </IconButton>
+            </Tooltip> */}
           </Box>
         );
       },
@@ -284,6 +315,12 @@ export default function Users() {
       headerAlign: "center",
     },
   ];
+
+  useEffect(() => {
+    if (idApp !== "") {
+      setNewDialogOpen(true);
+    }
+  }, [idApp]);
 
   return (
     <Grid container sx={{ width: "100vw", height: "100vh" }}>
@@ -347,7 +384,11 @@ export default function Users() {
                 <Button
                   className="registrar-usuario"
                   variant="text"
-                  onClick={() => navigate("../solicitud")}
+                  onClick={() => {
+                    setIdApp("");
+                    setIdUsuario("");
+                    setNewDialogOpen(true);
+                  }}
                   sx={{
                     fontFamily: "MontserratBold",
                     backgroundColor: "#DFA94F",
@@ -369,25 +410,37 @@ export default function Users() {
             </CardContent>
           </Card>
         </Box>
-        {newDialogOpen ? <NewDialog /> : null}
+        <NewDialog
+          newDialogOpen={newDialogOpen}
+          handleNewDialogClose={handleNewDialogClose}
+          idUsuario={idUsuario}
+          idApp={idApp}
+        />
+
+        {/* (
+          <EditDialog
+            editDialogOpen={editDialogOpen}
+            handleEditDialogClose={handleEditDialogClose}
+            usuario={editDialogUsuario}
+          />
+        ) */}
         {appsDialogOpen ? (
+          <AppsDialog
+            appsDialogOpen={appsDialogOpen}
+            handleAppsDialogClose={() => {
+              setAppsDialogOpen(false);
+            }}
+            usuario={appsDialogUsuario}
+            setIdApp={setIdApp}
+          />
+        ) : null}
+        {/* {appsDialogOpen ? (
           <AppsDialog
             appsDialogOpen={appsDialogOpen}
             handleAppsDialogClose={handleAppsDialogClose}
             usuario={appsDialogUsuario}
-            OpenModalEditar={() => setEditDialogOpen(true)}
           />
-        ) : null}
-        {editDialogOpen && (
-          <SolicitudModificarUsuario
-            idApp=""
-            idUsuario=""
-            idUsuarioSolicitante=""
-            handleDialogClose={handleEditDialogClose}
-            modoModal
-            token=""
-          />
-        )}
+        ) : null} */}
       </Box>
     </Grid>
   );

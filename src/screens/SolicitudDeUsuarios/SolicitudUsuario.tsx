@@ -14,12 +14,15 @@ import { UserServices } from "../../services/UserServices";
 import { getCatalogo } from "../../services/catalogosService";
 import { IEntidadPadre, IPerfil, IRol, IUResponsable } from "./ICatalogos";
 import { useNavigate } from "react-router";
+import axios from "axios";
 
 export interface NewDialogProps {
   modoModal: boolean;
   token: string;
   idUsuarioSolicitante: string;
+  idUsuarioModificado: string;
   idApp: string;
+  handleDialogClose: Function;
 }
 
 export interface IUserTypes {
@@ -98,6 +101,64 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           ...infoUsuario,
           Aplicacion: { value: aux?.value!, label: aux?.label! },
         });
+
+        axios
+          .post(
+            process.env.REACT_APP_APPLICATION_DEV + "/api/userapp-detail",
+            {
+              IdUsuario: props.idUsuarioModificado,
+              IdApp: props.idApp,
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+                authorization: localStorage.getItem("jwtToken") || "",
+              },
+            }
+          )
+          .then((r) => {
+            console.log(r);
+            const data = r.data.data;
+            const roles = r.data.roles[0];
+            const perfiles = r.data.perfiles[0];
+            console.log(r.data.roles[0]);
+
+            setInfoUsuario({
+              ...infoUsuario,
+              Nombre: data.Nombre,
+              ApellidoPaterno: data.ApellidoPaterno,
+              ApellidoMaterno: data.ApellidoMaterno,
+              NombreUsuario: data.NombreUsuario,
+              CorreoElectronico: data.CorreoElectronico,
+              Aplicacion: {
+                value: props.idApp || "",
+                label: data.Aplicacion || "",
+              },
+              TipoUsuario: {
+                Id: data.IdTipoUsuario || "",
+                Nombre: data.TipoUsuario || "",
+              },
+              Puesto: data.Puesto,
+              CURP: data.Curp,
+              RFC: data.Rfc,
+              Celular: data.Celular,
+              Telefono: data.Telefono,
+              Ext: data.Ext,
+              Perfiles: perfiles || [],
+              Roles: roles || [],
+              UnidadResponsable: {
+                Id: data.IdUnidadResponsable || "",
+                Descripcion: data.UnidadResponsable || "",
+              },
+              Entidad: {
+                value: data.IdEntidad || "",
+                descripcion:
+                  entidades.find((ent) => ent.value === data.IdEntidad)
+                    ?.descripcion! || "",
+              },
+              PuedeFirmar: data.PuedeFirmar === 1,
+            });
+          });
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -284,7 +345,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
         Celular: infoUsuario.Celular.toString(),
         Telefono: infoUsuario.Telefono.toString(),
         Extencion: infoUsuario.Ext.toString(),
-        TipoSolicitud: "ALTA",
+        TipoSolicitud: props.idUsuarioModificado ? "MODIFICACION" : "ALTA",
         IdApp: infoUsuario.Aplicacion.value,
         CreadoPor: props.idUsuarioSolicitante
           ? props.idUsuarioSolicitante
@@ -323,7 +384,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
                 text: res.data.data[0][0].Mensaje,
               }).then((result) => {
                 if (result.isConfirmed) {
-                  navigate(-1);
+                  props.handleDialogClose(false);
                 }
               });
             }
@@ -351,10 +412,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
 
   const getAllUserTypes = () => {
     const data = {
-      IdUsuario:
-        props.modoModal && props.token && props.idUsuarioSolicitante
-          ? props.idUsuarioSolicitante
-          : localStorage.getItem("IdUsuario"),
+      IdApp: props.idApp,
     };
     UserServices.usertypes(
       data,
@@ -385,6 +443,9 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
 
   useEffect(() => {
     getAllUserTypes();
+  }, [infoUsuario.Aplicacion]);
+
+  useEffect(() => {
     consulta("2", "select");
     getCatalogo("roles", setRoles, infoUsuario.Aplicacion.value);
     getCatalogo("perfiles", setPerfiles, infoUsuario.Aplicacion.value);
@@ -408,7 +469,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       container
       justifyContent={"space-evenly"}
       alignContent={"space-around"}
-      height={"85vh"}
+      height={"90vh"}
     >
       <Grid item xs={10} md={4.5}>
         <TextField
@@ -747,7 +808,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
         />
       </Grid>
 
-      <Grid item xs={10} md={4.5}>
+      {/* <Grid item xs={10} md={4.5}>
         <Typography variant="body2"> Perfiles: </Typography>
         <Autocomplete
           multiple
@@ -777,7 +838,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             option.Descripcion === value.Descripcion || value.Descripcion === ""
           }
         />
-      </Grid>
+      </Grid> */}
 
       <Grid item xs={10} md={4.5}>
         <Typography variant="body2"> Roles: </Typography>
@@ -899,7 +960,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           label={infoUsuario.PuedeFirmar ? "Puede firmar" : "No puede firmar"}
         />
         <Grid>
-          <Button
+          {/* <Button
             className="cancelar"
             onClick={() => {
               navigate(-1);
@@ -907,7 +968,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             sx={{ fontFamily: "MontserratRegular", mr: 2 }}
           >
             Cancelar
-          </Button>
+          </Button> */}
           <Button
             className="aceptar"
             onClick={() => {
@@ -915,7 +976,9 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             }}
             sx={{ fontFamily: "MontserratRegular" }}
           >
-            Solicitar Usuario
+            {props.idUsuarioSolicitante
+              ? "Solicitar Modificación"
+              : "Solicitar Usuario"}
           </Button>
         </Grid>
       </Grid>
