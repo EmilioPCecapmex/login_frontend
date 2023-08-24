@@ -1,24 +1,33 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { Box, Card, CardContent, IconButton, Tooltip, Button, Typography, FormGroup, FormControlLabel, Switch, Grid, } from "@mui/material";
 import {
-  AccountTree as AccountTreeIcon,
   Edit as EditIcon,
   PersonAdd as PersonAddIcon,
 } from "@mui/icons-material";
-import MUIXDataGrid from "../../components/MUIXDataGrid";
-import "./style/Fonts.css";
-import { EditDialog } from "../../components/editDialog";
-import { NewDialog } from "../../components/newDialog";
-import Swal from "sweetalert2";
-import { AppsDialog } from "../../components/appsDialog";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  FormControlLabel,
+  FormGroup,
+  Grid,
+  IconButton,
+  Switch,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { isAdmin, sessionValid } from "../../funcs/validation";
+import Swal from "sweetalert2";
+import MUIXDataGrid from "../../components/MUIXDataGrid";
+import { AppsDialog } from "../../components/appsDialog";
 import { Header } from "../../components/header";
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import { TimerCounter } from "../../components/timer/timer";
-
+import { NewDialog } from "../../components/newDialog";
+import { isAdmin, sessionValid } from "../../funcs/validation";
+import { SolicitudModificarUsuario } from "../SolicitudDeUsuarios/SolicitudModificarUsuario";
+import "./style/Fonts.css";
 
 export interface Usuario {
   EstaActivoLabel: string;
@@ -56,10 +65,11 @@ export default function Users() {
     },
   });
   const [rows, setRows] = useState<Array<IUsuarios>>([]);
-  const [showAllUsers, setShowAllUsers] = useState(false)
+
+  const [showAllUsers, setShowAllUsers] = useState(false);
 
   const [newDialogOpen, setNewDialogOpen] = useState(false);
-  const handleNewDialogOpen = () => setNewDialogOpen(true);
+
   const handleNewDialogClose = (changed: boolean) => {
     if (changed === true) {
       Toast.fire({
@@ -70,13 +80,12 @@ export default function Users() {
     }
     setNewDialogOpen(false);
   };
-  const handleNewBtnClick = (event: any) => {
-    handleNewDialogOpen();
-  };
 
   const [editDialogOpen, setEditDialogOpen] = useState(false);
-  const [editDialogUsuario, setEditDialogUsuario] = useState<Usuario>();
-  const handleEditDialogOpen = () => setEditDialogOpen(true);
+
+  // const [editDialogUsuario, setEditDialogUsuario] = useState<Usuario>();
+  // const handleEditDialogOpen = () => setEditDialogOpen(true);
+
   const handleEditDialogClose = (changed: boolean) => {
     if (changed === true) {
       Toast.fire({
@@ -87,20 +96,17 @@ export default function Users() {
     }
     setEditDialogOpen(false);
   };
-  const handleEditBtnClick = (event: any, cellValues: any) => {
-    setEditDialogUsuario(cellValues.row);
-    handleEditDialogOpen();
-  };
 
-
-
-
+  // const handleEditBtnClick = (event: any, cellValues: any) => {
+  //   setEditDialogUsuario(cellValues.row);
+  //   handleEditDialogOpen();
+  // };
 
   const getDatosDocumento = (nombreUsuario: any) => {
     axios
       .get(process.env.REACT_APP_APPLICATION_DEV + "/api/docSolicitudUsuario", {
         params: {
-          NombreUsuario: nombreUsuario
+          NombreUsuario: nombreUsuario,
         },
         headers: {
           Authorization: localStorage.getItem("jwtToken") || "",
@@ -116,11 +122,12 @@ export default function Users() {
           });
         }
       });
-  }
+  };
 
   const [appsDialogOpen, setAppsDialogOpen] = useState(false);
   const [appsDialogUsuario, setAppsDialogUsuario] = useState<Usuario>();
   const handleAppsDialogOpen = () => setAppsDialogOpen(true);
+
   const handleAppsDialogClose = (changed: boolean) => {
     if (changed === true) {
       Toast.fire({
@@ -131,6 +138,7 @@ export default function Users() {
     }
     setAppsDialogOpen(false);
   };
+
   const handleAppsBtnClick = (event: any, cellValues: any) => {
     setAppsDialogUsuario(cellValues.row);
     handleAppsDialogOpen();
@@ -169,36 +177,40 @@ export default function Users() {
         let rows = response.data.data.map((row: any) => {
           const estaActivoLabel = row.EstaActivo ? "Activo" : "Inactivo";
           const rowTemp = { EstaActivoLabel: estaActivoLabel, ...row };
-          return rowTemp
+          return rowTemp;
         });
 
         if (!showAllUsers) {
-          rows = rows?.filter((x: { EstaActivoLabel: string | string[]; }) => x.EstaActivoLabel.includes('Activo'));
+          rows = rows?.filter((x: { EstaActivoLabel: string | string[] }) =>
+            x.EstaActivoLabel.includes("Activo")
+          );
         }
 
         setRows(rows);
         setTimeout(() => {
           getAllUsers();
         }, 60000);
-
       })
       .catch(function (error) {
         Swal.fire({
           icon: "error",
           title: "Mensaje",
           text:
-            "(" + error.response.status + ") " + error.response.data.message,
+            "(" +
+            error?.response?.status +
+            ") " +
+            error?.response?.data?.message,
         }).then((r) => navigate("../"));
       });
   };
 
   useEffect(() => {
     getAllUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showAllUsers]);
 
-
-
-
+  const [idUsuario, setIdUsuario] = useState("");
+  const [idApp, setIdApp] = useState("");
 
   const columns = [
     {
@@ -209,9 +221,11 @@ export default function Users() {
       renderCell: (cellValues: any) => {
         return (
           <Box>
-            <Tooltip title={"Descargar solicitud - " + cellValues.row.NombreUsuario}>
+            <Tooltip
+              title={"Descargar solicitud - " + cellValues.row.NombreUsuario}
+            >
               <IconButton
-                color="info"
+                sx={{ color: "black" }}
                 onClick={(event) => {
                   getDatosDocumento(cellValues.row.NombreUsuario);
                   //imprimirDocumento(event, cellValues);
@@ -224,26 +238,30 @@ export default function Users() {
 
             <Tooltip title={"Editar - " + cellValues.row.NombreUsuario}>
               <IconButton
-                color="warning"
+                sx={{ color: "black" }}
+                // onClick={(event) => {
+                //   handleEditBtnClick(event, cellValues);
+                // }}
                 onClick={(event) => {
-                  handleEditBtnClick(event, cellValues);
+                  setIdApp("");
+                  handleAppsBtnClick(event, cellValues);
+                  setIdUsuario(cellValues.row.Id);
                 }}
               >
                 <EditIcon />
               </IconButton>
             </Tooltip>
 
-            <Tooltip title={"Visualizar acceso a plataformas"}>
+            {/* <Tooltip title={"Visualizar acceso a plataformas"}>
               <IconButton
-                color="info"
+                sx={{color:"black"}}
                 onClick={(event) => {
                   handleAppsBtnClick(event, cellValues);
                 }}
               >
                 <AccountTreeIcon />
               </IconButton>
-            </Tooltip>
-
+            </Tooltip> */}
           </Box>
         );
       },
@@ -298,12 +316,16 @@ export default function Users() {
     },
   ];
 
+  useEffect(() => {
+    if (idApp !== "") {
+      setNewDialogOpen(true);
+    }
+  }, [idApp]);
+
   return (
-    <Box>
+    <Grid container sx={{ width: "100vw", height: "100vh" }}>
       <Header />
-      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-        <TimerCounter />
-      </Box>
+
       <Box
         sx={{
           height: "87vh",
@@ -315,28 +337,46 @@ export default function Users() {
       >
         <Box>
           <Card sx={{ height: "80vh", width: "80vw", boxShadow: 10 }}>
-            <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Grid container   justifyContent="space-between" >
-                <Grid container item xs={12} md={6}   direction="row" justifyContent="flex-start"  alignItems="flex-start" >
-                  <PeopleAltIcon  />
-                  < Typography  className="h6">
+            <Box
+              sx={{
+                p: 2,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Grid container justifyContent="space-between">
+                <Grid
+                  container
+                  item
+                  xs={12}
+                  md={6}
+                  direction="row"
+                  justifyContent="flex-start"
+                  alignItems="flex-start"
+                >
+                  <PeopleAltIcon />
+                  <Typography className="h6">
                     Listado de usuarios con acceso a plataformas.
                   </Typography>
                 </Grid>
-                <Grid item container  xs={12} md={6}  justifyContent="flex-end">
+                <Grid item container xs={12} md={6} justifyContent="flex-end">
                   <FormGroup>
-                    <FormControlLabel control={<Switch onChange={(v) => setShowAllUsers(v.target.checked)} />} label={
-                      <Typography className="h5">
-                        Usuarios Inactivos
-                      </Typography>
-                    } />
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          onChange={(v) => setShowAllUsers(v.target.checked)}
+                        />
+                      }
+                      label={
+                        <Typography className="h5">
+                          Usuarios Inactivos
+                        </Typography>
+                      }
+                    />
                   </FormGroup>
                 </Grid>
-
               </Grid>
-
-
-
             </Box>
 
             <CardContent>
@@ -344,7 +384,11 @@ export default function Users() {
                 <Button
                   className="registrar-usuario"
                   variant="text"
-                  onClick={(event) => handleNewBtnClick(event)}
+                  onClick={() => {
+                    setIdApp("");
+                    setIdUsuario("");
+                    setNewDialogOpen(true);
+                  }}
                   sx={{
                     fontFamily: "MontserratBold",
                     backgroundColor: "#DFA94F",
@@ -362,36 +406,45 @@ export default function Users() {
                 id={(row: any) => row.Id}
                 columns={columns}
                 rows={rows}
-
               />
             </CardContent>
           </Card>
         </Box>
-        {newDialogOpen ? (
-          <NewDialog
-            newDialogOpen={newDialogOpen}
-            handleNewDialogClose={handleNewDialogClose}
-          />
-        ) : null}
-        {editDialogOpen ? (
+        <NewDialog
+          newDialogOpen={newDialogOpen}
+          handleNewDialogClose={handleNewDialogClose}
+          idUsuario={idUsuario}
+          idApp={idApp}
+        />
+
+        {/* (
           <EditDialog
             editDialogOpen={editDialogOpen}
             handleEditDialogClose={handleEditDialogClose}
             usuario={editDialogUsuario}
           />
-        ) : null}
+        ) */}
         {appsDialogOpen ? (
+          <AppsDialog
+            appsDialogOpen={appsDialogOpen}
+            handleAppsDialogClose={() => {
+              setAppsDialogOpen(false);
+            }}
+            usuario={appsDialogUsuario}
+            setIdApp={setIdApp}
+          />
+        ) : null}
+        {/* {appsDialogOpen ? (
           <AppsDialog
             appsDialogOpen={appsDialogOpen}
             handleAppsDialogClose={handleAppsDialogClose}
             usuario={appsDialogUsuario}
           />
-        ) : null}
+        ) : null} */}
       </Box>
-    </Box>
+    </Grid>
   );
 }
-
 
 export interface IUsuarios {
   EstaActivoLabel: string;
@@ -407,31 +460,40 @@ export interface IUsuarios {
 }
 
 export const imprimirSolicitud = (datos: any) => {
-
-
-  const objeto = ({
-    "Fecha": datos?.Fecha,
-    "TipoDeMovimiento": datos?.TipoDeMovimiento,
-    "Nombre": datos?.Nombre,
-    "ApellidoPaterno": datos?.ApellidoPaterno,
-    "ApellidoMaterno": datos?.ApellidoMaterno,
-    "NombreUsuario": datos?.NombreUsuario,
-    "Correo": datos?.Correo,
-    "CURP": datos?.CURP,
-    "RFC": datos?.RFC,
-    "Telefono": datos?.Telefono,
-    "Extension": datos?.Extension,
-    "Celular": datos?.Celular,
-    "Tipo": datos?.TpoUsuario,
-    "Plataforma": datos?.AccesoApp,
-    "Puesto": datos?.Puesto,
-    "Estado": datos?.Estatus === 0 ? "PENDIENTE" : datos?.Estatus === 1 ? "ACEPTADA" : datos?.Estatus === 2 ? "RECHAZADA" : datos?.Estatus === 3 ? "SE SOLICITO MODIFICACIÓN" : "SE DESCONOCE",
-  })
+  const objeto = {
+    Fecha: datos?.Fecha,
+    TipoDeMovimiento: datos?.TipoDeMovimiento,
+    Nombre: datos?.Nombre,
+    ApellidoPaterno: datos?.ApellidoPaterno,
+    ApellidoMaterno: datos?.ApellidoMaterno,
+    NombreUsuario: datos?.NombreUsuario,
+    Correo: datos?.Correo,
+    CURP: datos?.CURP,
+    RFC: datos?.RFC,
+    Telefono: datos?.Telefono,
+    Extension: datos?.Extension,
+    Celular: datos?.Celular,
+    Tipo: datos?.TpoUsuario,
+    Plataforma: datos?.AccesoApp,
+    Puesto: datos?.Puesto,
+    Estado:
+      datos?.Estatus === 0
+        ? "PENDIENTE"
+        : datos?.Estatus === 1
+        ? "ACEPTADA"
+        : datos?.Estatus === 2
+        ? "RECHAZADA"
+        : datos?.Estatus === 3
+        ? "SE SOLICITO MODIFICACIÓN"
+        : "SE DESCONOCE",
+  };
   let dataArray = new FormData();
-  dataArray.append("data", JSON.stringify(objeto))
+  dataArray.append("data", JSON.stringify(objeto));
   axios
     .post(
-      process.env.REACT_APP_APPLICATION_GENERASOLICITUD + "/api/generasolicitud", dataArray,
+      process.env.REACT_APP_APPLICATION_GENERASOLICITUD +
+        "/api/generasolicitud",
+      dataArray,
       {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -448,11 +510,13 @@ export const imprimirSolicitud = (datos: any) => {
 
       let link = document.createElement("a");
 
-      link.setAttribute("download", `Solicitud ${datos?.TipoDeMovimiento}-${datos?.NombreUsuario}.pdf`);
+      link.setAttribute(
+        "download",
+        `Solicitud ${datos?.TipoDeMovimiento}-${datos?.NombreUsuario}.pdf`
+      );
       link.setAttribute("href", url);
       document.body.appendChild(link);
       link.click();
     })
-    .catch((r) => {
-    });
-}
+    .catch((r) => {});
+};
