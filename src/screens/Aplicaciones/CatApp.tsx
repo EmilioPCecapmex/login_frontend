@@ -289,7 +289,7 @@ export default function CatApps() {
       <Grid
         sx={{
           height: "88%", // aqui va 90vh
-          width: "100%",
+          width: "80%",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",

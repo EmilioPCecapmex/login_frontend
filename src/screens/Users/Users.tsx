@@ -294,7 +294,7 @@ export default function Users() {
     {
       field: "CorreoElectronico",
       headerName: "Correo Electrónico",
-      width: 230,
+      width: 300,
      // headerAlign: "center",
     },
     {
@@ -312,7 +312,7 @@ export default function Users() {
     {
       field: "EstaActivoLabel",
       headerName: "Estatus",
-      width: 180,
+      width: 100,
       //headerAlign: "center",
     },
   ];
@@ -337,7 +337,29 @@ export default function Users() {
         }}
       >
         <Box>
-          <Card sx={{ height: "80vh", width: "96vw", boxShadow: 10 }}>
+          <Card 
+          sx={{ 
+            height: "82vh", width: "90vw", boxShadow: 10,
+            "@media (min-width: 480px)": {
+              width: "90vw"
+            },
+        
+            "@media (min-width: 768px)": {
+              width: "90vw"
+            },
+        
+            "@media (min-width: 1140px)": {
+              width: "90vw"
+            },
+        
+            "@media (min-width: 1400px)": {
+              width: "95vw"
+            },
+        
+            "@media (min-width: 1870px)": {
+              width: "77vw"
+            },
+            }}>
             <Grid
               sx={{
                 display: "flex",
