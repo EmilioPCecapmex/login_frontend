@@ -16,7 +16,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AppInterface } from "../screens/Aplicaciones/CatApp";
-
+import { queries } from "../queries";
 export interface EditDialogProps {
   editDialogOpen: boolean;
   handleEditDialogClose: Function;
@@ -97,7 +97,8 @@ export const EditDialogApp = (props: EditDialogProps) => {
     >
       {/* esta es la pantalla modal que se abre al darle editar un registro */}
       <DialogTitle id="edit-dialog-title">
-        Editar Aplicación {props.app.row.Nombre}
+        Editar Aplicación 
+        {/* {props.app.row.Nombre} */}
         <IconButton
           aria-label="close"
           onClick={() => props.handleEditDialogClose()}
@@ -178,10 +179,10 @@ export const EditDialogApp = (props: EditDialogProps) => {
 
       {/* botones que se muestran en el modal */}
       <DialogActions>
-        <Button color="error" onClick={() => props.handleEditDialogClose()}>
+        <Button className="cancelar" variant="contained" onClick={() => props.handleEditDialogClose()}>
           Cancelar
         </Button>
-        <Button onClick={() => handleUpdateBtn()}>Actualizar</Button>
+        <Button className="aceptar" variant="contained" onClick={() => handleUpdateBtn()}>Actualizar</Button>
       </DialogActions>
     </Dialog>
   );

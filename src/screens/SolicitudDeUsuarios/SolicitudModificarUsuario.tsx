@@ -619,6 +619,7 @@ export const SolicitudModificarUsuario = (props: NewDialogProps) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        
       }}
     >
       <SliderProgress open={false} texto={""} />
@@ -630,6 +631,7 @@ export const SolicitudModificarUsuario = (props: NewDialogProps) => {
           mt: "2vh",
           bgcolor: "#fefdfc",
           overflow: "auto",
+          
         }}
       >
         <Grid
@@ -638,6 +640,7 @@ export const SolicitudModificarUsuario = (props: NewDialogProps) => {
           width={"100%"}
           display={"flex"}
           justifyContent={"space-evenly"}
+         
         >
           <Grid item xs={10} height={"10%"} md={4.5}>
             <TextField

@@ -441,8 +441,8 @@ export const Create = ({
           <TextField
             multiline
             sx={{ mt: 3, width: "100%" }}
-            title="Teléfono"
-            label="Teléfono"
+            title="Teléfon0"
+            label="Teléfon"
             placeholder="Teléfono"
             value={nuevoElemento.Telefono || ""}
             onChange={(v) => {
@@ -450,8 +450,8 @@ export const Create = ({
                 ...nuevoElemento,
                 CreadoPor: localStorage.getItem("IdUsuario") || "",
                 Telefono: v.target.value
-                  .replaceAll("'", "")
-                  .replaceAll('"', ""),
+                .replace(/[^\d]/g, "")  // Elimina todos los caracteres que no sean dígitos
+                .slice(0, 10),  
               });
             }}
           />

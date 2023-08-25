@@ -64,8 +64,10 @@ export const NewDialogApp = (props: NewDialogProps) => {
         .catch(function (error) {
           Swal.fire({
             icon: "error",
-            title: "Mensaje",
+            title: "Error",
             text: "(" + error.response.status + ") " + error.response.data.msg,
+            confirmButtonColor: "#2f2f2f"
+
           });
         });
     }
