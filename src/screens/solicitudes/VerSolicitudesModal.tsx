@@ -311,7 +311,7 @@ const VerSolicitudesModal = ({
           />
         )}
       </Grid>
-      <Grid item width={"90%"}>
+      {/* <Grid item width={"90%"}>
         <label className="textoGridSolicitudes">PERFILES</label>
         {JSON.parse(detalleSolicitud[0]?.Perfiles)?.map(
           (perfil: any, index: number) => (
@@ -341,7 +341,7 @@ const VerSolicitudesModal = ({
             variant="standard"
           />
         )}
-      </Grid>
+      </Grid> */}
       <Grid item width={"90%"}>
         <label className="textoGridSolicitudes">Unidad responsable</label>
         <TextField
@@ -350,11 +350,13 @@ const VerSolicitudesModal = ({
           sx={{
             fontFamily: "MontserratSemiBold",
             fontSize: "1.5vw",
-            backgroundColor: onChangeInfo.Ext ? "#fde6a2" : null,
+            backgroundColor: onChangeInfo.UResponsable ? "#fde6a2" : null,
           }}
           value={detalleSolicitud[0]?.UResponsable || ""}
           variant="standard"
-          helperText={onChangeInfo.Ext ? detalleUsuario.Ext : null}
+          helperText={
+            onChangeInfo.UResponsable ? detalleUsuario.UResponsable : null
+          }
         />
       </Grid>
     </Grid>

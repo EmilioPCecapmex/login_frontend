@@ -35,7 +35,7 @@ import { Header } from "../../components/header";
 import { imprimirSolicitud } from "../Users/Users";
 import { COLOR } from "../styles/colors";
 import { IApps } from "./IApps";
-import { IDetalleSolicitud, ISolicitud } from "./ISolicitud";
+import { IDetalleSolicitud, ISolicitud, iOnChangeInfo } from "./ISolicitud";
 import VerSolicitudesModal from "./VerSolicitudesModal";
 export const Solicitudes = () => {
   const [solicitudes, setSolicitudes] = useState<Array<ISolicitud>>([]);
@@ -87,20 +87,29 @@ export const Solicitudes = () => {
     Ext: "",
     Celular: "",
     IdTipoUsuario: "",
+    UResponsable: "",
   });
 
-  const [onChangeInfo, setOnChangeInfo] = useState({
-    Nombre: false,
-    ApellidoPaterno: false,
+  const [onChangeInfo, setOnChangeInfo] = useState<iOnChangeInfo>({
     ApellidoMaterno: false,
-    NombreUsuario: false,
-    CorreoElectronico: false,
-    Puesto: false,
-    Curp: false,
-    Rfc: false,
-    Telefono: false,
-    Ext: false,
+    ApellidoPaterno: false,
     Celular: false,
+    CorreoElectronico: false,
+    Curp: false,
+    Ext: false,
+    Id: false,
+    IdTipoUsuario: false,
+    Nombre: false,
+    NombreApp: false,
+    NombreSolicitante: false,
+    NombreUsuario: false,
+    PuedeFirmar: false,
+    Puesto: false,
+    Rfc: false,
+    Roles: false,
+    Telefono: false,
+    TpoUsuario: false,
+    UResponsable: false,
   });
 
   const [apps, setApps] = useState<Array<IApps>>([]);
@@ -431,17 +440,25 @@ export const Solicitudes = () => {
       getDetalleUsuario();
     else {
       setOnChangeInfo({
-        Nombre: false,
-        ApellidoPaterno: false,
         ApellidoMaterno: false,
-        NombreUsuario: false,
-        Puesto: false,
+        ApellidoPaterno: false,
+        Celular: false,
         CorreoElectronico: false,
         Curp: false,
-        Rfc: false,
-        Telefono: false,
         Ext: false,
-        Celular: false,
+        Id: false,
+        IdTipoUsuario: false,
+        Nombre: false,
+        NombreApp: false,
+        NombreSolicitante: false,
+        NombreUsuario: false,
+        PuedeFirmar: false,
+        Puesto: false,
+        Rfc: false,
+        Roles: false,
+        Telefono: false,
+        TpoUsuario: false,
+        UResponsable: false,
       });
     }
   };
@@ -571,6 +588,15 @@ export const Solicitudes = () => {
                             "&.Mui-selected:hover": {
                               backgroundColor: "#cbcbcb",
                             },
+                            backgroundColor:
+                              item?.tipoSoli.toUpperCase() === "ALTA"
+                                ? "#fbffae8a"
+                                : item?.tipoSoli.toUpperCase() === "BAJA"
+                                ? "#ffbcbc6e"
+                                : item?.tipoSoli.toUpperCase() ===
+                                  "MODIFICACION"
+                                ? "#c3e3ffa8"
+                                : "#dcffc8a1",
                           }}
                           selected={selectedIndex === x ? true : false}
                         >
@@ -579,6 +605,7 @@ export const Solicitudes = () => {
                             direction="column"
                             justifyContent="center"
                             alignItems="center"
+                            sx={{}}
                           >
                             <Grid item container xs={12}>
                               <Grid item xs={12} md={6}>

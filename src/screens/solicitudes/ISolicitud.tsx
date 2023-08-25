@@ -44,17 +44,25 @@ export interface IDetalleSolicitud {
 }
 
 export interface iOnChangeInfo {
-  Nombre: boolean;
-  ApellidoPaterno: boolean;
   ApellidoMaterno: boolean;
-  NombreUsuario: boolean;
-  CorreoElectronico: boolean;
-  Puesto: boolean;
-  Curp: boolean;
-  Rfc: boolean;
-  Telefono: boolean;
-  Ext: boolean;
+  ApellidoPaterno: boolean;
   Celular: boolean;
+  CorreoElectronico: boolean;
+  Curp: boolean;
+  Ext: boolean;
+  Id: boolean;
+  IdTipoUsuario: boolean;
+  Nombre: boolean;
+  NombreApp: boolean;
+  NombreSolicitante: boolean;
+  NombreUsuario: boolean;
+  PuedeFirmar: boolean;
+  Puesto: boolean;
+  Rfc: boolean;
+  Roles: boolean;
+  Telefono: boolean;
+  TpoUsuario: boolean;
+  UResponsable: boolean;
 }
 export interface iDetalleUsuario {
   Id: string;
@@ -70,4 +78,5 @@ export interface iDetalleUsuario {
   Ext: string;
   Celular: string;
   IdTipoUsuario: string;
+  UResponsable: string;
 }
