@@ -489,12 +489,3 @@ div.RowsUsers {
   text-align: "center";
   align-items: "center";
 }
-
-.table-container{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  width: "200px";
-  font-family: "MontserratMedium",
-}
