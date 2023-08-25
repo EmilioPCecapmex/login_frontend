@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Grid, IconButton, Tab, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Grid, IconButton, Tab, Tooltip, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import ResponseCatalogos from "../../Interfaces/User";
 import { UserServices } from "../../services/UserServices";
@@ -264,17 +264,22 @@ const Catalogos = () => {
               {/* <Tab label="Perfiles" value="5" /> */}
             </TabList>
           </Box>
-          <Grid item xs={12} paddingLeft={1}>
-            <ButtonsAdd handleOpen={setOpenCreate} agregar={true} />
+          <Grid  item xs={12} paddingLeft={1}>
+            
+            <ButtonsAdd
+              
+              handleOpen={setOpenCreate}
+              agregar={true}
+            />
           </Grid>
           <TabPanel value="1">
             <Grid item xs={12} className="ContainerMUIXDataGridCatalogos">
-              <MUIXDataGrid columns={columns} rows={secretarias} />
+              <MUIXDataGrid  sx ={{alignItems: "center", backgroundColor: "blue"}} columns={columns} rows={secretarias} />
             </Grid>
           </TabPanel>
           <TabPanel value="2">
             <Grid item xs={12} className="ContainerMUIXDataGridCatalogos">
-              <MUIXDataGrid columns={columns} rows={uResponsable} />
+              <MUIXDataGrid sx ={{alignItems: "center", backgroundColor: "blue"}} columns={columns} rows={uResponsable} />
             </Grid>
           </TabPanel>
           <TabPanel value="3">
