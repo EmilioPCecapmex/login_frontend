@@ -42,7 +42,7 @@ export interface AppInterface {
 //componente de sweetalert2 para el uso de los mensajes de alertas
 const Toast = Swal.mixin({
   toast: true,
-  position: "bottom-end",
+  position: "top-end",
   showConfirmButton: false,
   timer: 2000,
   timerProgressBar: false,
@@ -71,7 +71,9 @@ export default function CatApps() {
       renderCell: (cellValues: any) => {
         return (
           <Box>
-            <Tooltip title={"Editar App " + cellValues.row.Nombre}>
+            <Tooltip title={"Editar App " 
+            //+ cellValues.row.Nombre
+            }>
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
@@ -81,7 +83,9 @@ export default function CatApps() {
                 <EditIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title={"Administrar perfiles de " + cellValues.row.Nombre}>
+            <Tooltip title={"Administrar perfiles  "
+            // + cellValues.row.Nombre
+             }>
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
@@ -94,7 +98,9 @@ export default function CatApps() {
               </IconButton>
             </Tooltip>
 
-            <Tooltip title={"Administrar roles de " + cellValues.row.Nombre}>
+            <Tooltip title={"Administrar roles " 
+            //+ cellValues.row.Nombre
+            }>
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
@@ -106,7 +112,9 @@ export default function CatApps() {
                 <ManageAccountsIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title={"Eliminar App " + cellValues.row.Nombre}>
+            <Tooltip title={"Eliminar App " 
+            //+ cellValues.row.Nombre
+            }>
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
@@ -161,7 +169,7 @@ export default function CatApps() {
     if (changed === true) {
       Toast.fire({
         icon: "success",
-        title: "Aplicación actualizada exitosamente",
+        title: "¡Aplicación Editada!" ,
       });
       getAllApps();
     }

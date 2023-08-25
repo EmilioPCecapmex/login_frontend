@@ -160,8 +160,8 @@ export function Perfiles({
                 justifyContent: "center",
                 alignItems: "center",
               }}
-            >
-              <Typography fontFamily={"Montserrat-Regular"} fontSize={50}>
+            >  
+              <Typography fontFamily={"'Montserrat', sans-serif"} fontSize={50}>
                 {" "}
                 PERFILES{" "}
               </Typography>
@@ -175,13 +175,15 @@ export function Perfiles({
                 alignItems: "center",
               }}
             >
+              <Tooltip title={"SALIR"}>
               <IconButton
                 onClick={() => {
                   closeModal();
                 }}
               >
-                <CloseIcon style={{ fontSize: 50 }} />{" "}
+                <CloseIcon style={{ fontSize: 30 }} />{" "}
               </IconButton>
+              </Tooltip>
             </Grid>
           </Grid>
 
@@ -239,7 +241,7 @@ export function Perfiles({
                 >
                   <Tooltip title={app}>
                     <Typography
-                      fontFamily={"Montserrat-Bold"}
+                      fontFamily={"'Montserrat', sans-serif"}
                       fontSize={40}
                       sx={{
                         overflow: "hidden",
