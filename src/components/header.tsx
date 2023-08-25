@@ -65,9 +65,9 @@ export const Header = () => {
           border: "1px solid #b3afaf",
         }}
       >
-        <Grid container item xs={6} md={4} alignItems="center">
-          <Typography paddingLeft={3} variant="h5">
-            {" "}
+        <Grid  container item xs={6} md={4} alignItems="center">
+          <Typography sx={{width:"400px", whiteSpace: "nowrap" , overflow:"hidden" , textOverflow:"ellipsis"}} paddingLeft={3} fontSize={"35%"}>
+            {" "} 
             {localStorage.getItem("NombreUsuario")}{" "}
           </Typography>
         </Grid>

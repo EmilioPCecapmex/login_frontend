@@ -289,14 +289,14 @@ export default function CatApps() {
       <Grid
         sx={{
           height: "88%", // aqui va 90vh
-          width: "80%",
+          width: "100%",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
         {/* este componente es la card que se encuentra en el centro en donde vamos a meter todo lo de la pantalla */}
-        <Card sx={{ height: "80%", width: "90%", boxShadow: 10 }}>
+        <Card sx={{ height: "80%", width: "95%", boxShadow: 10 }}>
           {/* este box es la leyenda que se encuentra arriba a la izquierda */}
           <Grid
             container
@@ -308,27 +308,24 @@ export default function CatApps() {
               height: "10%",
             }}
           >
-            <Grid
-              item
-              xl={4}
-              xs={12}
-              md={12}
-              sx={{ display: "flex", flexDirection: "row" }}
+            <Grid container xl={4} xs={4} md={4}
+              width={"100%"}
+              sx={{ display: "flex" }}
             >
-              <AppsIcon style={{ fontSize: "60px" }} />
-
+              <AppsIcon sx={{ fontSize: "50px" }} />
               <Typography
                 sx={{ display: "flex", alignItems: "center", fontSize: "25px" }}
               >
                 Catálogo de aplicaciones registradas.
               </Typography>
             </Grid>
-            <Grid item xl={2} xs={12} md={12}>
+            <Grid  xl={2}>
               <Button
                 className="aceptar"
                 variant="text"
                 onClick={(event) => handleNewBtnClick(event)}
                 sx={{
+                  
                   fontFamily: "MontserratBold",
                   backgroundColor: "#DFA94F",
                   color: "#000001",
