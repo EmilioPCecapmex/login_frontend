@@ -47,8 +47,10 @@ export const EditDialogApp = (props: EditDialogProps) => {
     if (Nombre === "" || Path === ""||descripcion==="") {
       Swal.fire({
         icon: "error",
-        title: "Mensaje",
-        text: "Completa todos los campos para continuar",
+        title: "Aviso",
+        text: "Favor de completar todos los campos para continuar",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#15212f",
       });
     } else {
       const data = {
@@ -120,7 +122,7 @@ export const EditDialogApp = (props: EditDialogProps) => {
               label="Nombre"
               type="text"
               fullWidth
-              variant="outlined"
+              variant="standard"
               size="small"
               value={Nombre}
               onChange={(v) => setNombre(v.target.value)}
@@ -135,7 +137,7 @@ export const EditDialogApp = (props: EditDialogProps) => {
               label="Path"
               type="text"
               fullWidth
-              variant="outlined"
+              variant="standard"
               size="small"
 
               value={Path}
@@ -150,7 +152,7 @@ export const EditDialogApp = (props: EditDialogProps) => {
               label="Descripción"
               type="text"
               fullWidth
-              variant="outlined"
+              variant="standard"
               multiline
               rows={4}
               value={descripcion}

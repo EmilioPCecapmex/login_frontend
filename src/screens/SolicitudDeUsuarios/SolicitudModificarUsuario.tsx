@@ -480,8 +480,10 @@ export const SolicitudModificarUsuario = (props: NewDialogProps) => {
     ) {
       Swal.fire({
         icon: "error",
-        title: "Mensaje",
-        text: "Completa todos los campos para continuar",
+        title: "Aviso",
+        text: "Favor de completar todos los campos para continuar",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#15212f",
       });
     } else {
       const data = {

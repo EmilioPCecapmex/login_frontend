@@ -1,6 +1,6 @@
 import * as React from "react";
 import { DataGrid, GridToolbar, esES as gridEsES } from "@mui/x-data-grid";
-import { createTheme, ThemeProvider } from "@mui/material";
+import { createTheme, ThemeProvider, Grid } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
 
 const theme = createTheme(coreEsES, gridEsES);
@@ -13,14 +13,17 @@ export default function MUIXDataGrid(props: any) {
   const changePageSize = (v: number) => {
     setPageSize(v);
   };
+
+
+
   return (
-    <div style={{ height: "60vh", width: "100%" }}>
+    <div style={{ height: "70vh", width: "100%", display:"flex", justifyContent:"center" }}>
       <ThemeProvider theme={theme}>
         <DataGrid
         //  ColumnWidth="*"
           components={{ Toolbar: GridToolbar }}
-      
           componentsProps={{
+            
             toolbar: {
               printOptions: { disableToolbarButton: true },
               csvOptions: { disableToolbarButton: true },
@@ -183,18 +186,19 @@ export default function MUIXDataGrid(props: any) {
           }}
           columns={props.columns}
           rows={props.rows}
-          getRowId={(row) => row.Id ? row.Id : row.id}
 
+          getRowId={(row) => row.Id ? row.Id : row.id}
           pageSize={pageSize}
           rowsPerPageOptions={[25, 50, 100]}
           onPageSizeChange={(v) => changePageSize(v)}
 
-          sx={{
+       
+          style={{
+            width:"250px",
             fontFamily: "MontserratMedium",
-
-
           }}
 
+          
         />
       </ThemeProvider>
     </div>

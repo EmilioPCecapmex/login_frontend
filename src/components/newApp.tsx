@@ -21,6 +21,7 @@ export interface NewDialogProps {
 export const NewDialogApp = (props: NewDialogProps) => {
   const [nombre, setNombre] = useState("");
   const [path, setPath] = useState("");
+  const [descripcion, setDescripcion] = useState("");
 
   const handleKeyDown = (event: { key: string }) => {
     if (event.key === "Enter") {
@@ -32,8 +33,10 @@ export const NewDialogApp = (props: NewDialogProps) => {
     if (nombre === "" || path === "") {
       Swal.fire({
         icon: "error",
-        title: "Mensaje",
-        text: "Completa todos los campos para continuar",
+        title: "Aviso",
+        text: "Favor de completar todos los campos para continuar",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#15212f",
       });
     } else {
       //setIDUsuarioModifica("c18fc135-3a89-11ed-aed0-040300000000");
@@ -41,6 +44,7 @@ export const NewDialogApp = (props: NewDialogProps) => {
       const data = {
         Nombre: nombre,
         Path: path,
+        Descripcion:descripcion,
         IdUsuarioModificador: localStorage.getItem("IdUsuario"),
       };
       axios({
@@ -54,6 +58,7 @@ export const NewDialogApp = (props: NewDialogProps) => {
         data: data,
       })
         .then(function (response) {
+          console.log("Esta es la descripcion",data.Descripcion)
           props.handleNewDialogClose(true);
         })
         .catch(function (error) {
@@ -122,6 +127,21 @@ export const NewDialogApp = (props: NewDialogProps) => {
               required
               onChange={(v) => setPath(v.target.value)}
               onKeyDown={handleKeyDown}
+            />
+          </Grid>
+          <Grid item xs={12} >
+            <TextField
+              autoFocus
+              margin="dense"
+              id="descripcion"
+              label="Descripción"
+              type="text"
+              fullWidth
+              variant="standard"
+              multiline
+              rows={4}
+              value={descripcion}
+              onChange={(v) => setDescripcion(v.target.value)}
             />
           </Grid>
         </Grid>
