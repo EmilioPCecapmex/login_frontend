@@ -32,8 +32,11 @@ export const NewDialogApp = (props: NewDialogProps) => {
     if (nombre === "" || path === "") {
       Swal.fire({
         icon: "error",
-        title: "Mensaje",
-        text: "Completa todos los campos para continuar",
+        title: "Error",
+        text: "Completa todos los campos para continuar", 
+        confirmButtonColor: "#2f2f2f"
+        
+
       });
     } else {
       //setIDUsuarioModifica("c18fc135-3a89-11ed-aed0-040300000000");
@@ -59,8 +62,10 @@ export const NewDialogApp = (props: NewDialogProps) => {
         .catch(function (error) {
           Swal.fire({
             icon: "error",
-            title: "Mensaje",
+            title: "Error",
             text: "(" + error.response.status + ") " + error.response.data.msg,
+            confirmButtonColor: "#2f2f2f"
+
           });
         });
     }

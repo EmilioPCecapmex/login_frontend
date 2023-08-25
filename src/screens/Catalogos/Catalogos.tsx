@@ -124,7 +124,7 @@ const Catalogos = () => {
     },
     {
       field: "Descripcion",
-      headerName: "Descripcion",
+      headerName: "Descripción",
       width: 600,
       headerAlign: "center",
       hide: HideDescripcion,

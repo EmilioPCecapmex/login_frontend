@@ -176,10 +176,10 @@ export const EditDialogApp = (props: EditDialogProps) => {
 
       {/* botones que se muestran en el modal */}
       <DialogActions>
-        <Button color="error" onClick={() => props.handleEditDialogClose()}>
+        <Button className="cancelar" variant="contained" onClick={() => props.handleEditDialogClose()}>
           Cancelar
         </Button>
-        <Button onClick={() => handleUpdateBtn()}>Actualizar</Button>
+        <Button className="aceptar" variant="contained" onClick={() => handleUpdateBtn()}>Actualizar</Button>
       </DialogActions>
     </Dialog>
   );

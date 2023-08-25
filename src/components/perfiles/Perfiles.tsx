@@ -23,6 +23,7 @@ import { Menus } from "../menus/Menus";
 import { getPerfiles } from "./PerfilesServices";
 import ButtonsAdd from "../../screens/Componentes/ButtonsAdd";
 import { PerfilDialog } from "./DialogPerfiles";
+import { Description } from "@mui/icons-material";
 
 export interface IPerfil {
   Id: string;
@@ -104,7 +105,7 @@ export function Perfiles({
     // },
     {
       field: "Descripcion",
-      headerName: "Descripcion",
+      headerName: "Descripción",
       width: 300,
       hideable: false,
       headerAlign: "left",
@@ -175,13 +176,16 @@ export function Perfiles({
                 alignItems: "center",
               }}
             >
+              <Tooltip title= "Cerrar">
               <IconButton
                 onClick={() => {
                   closeModal();
                 }}
               >
-                <CloseIcon style={{ fontSize: 50 }} />{" "}
+                <CloseIcon style={{ fontSize: 50 }}  />{" "}
+                
               </IconButton>
+              </Tooltip>
             </Grid>
           </Grid>
 
@@ -220,7 +224,13 @@ export function Perfiles({
                     alignItems: "center",
                   }}
                 >
-                  <AppsIcon style={{ fontSize: "60px" }} />
+                  <ButtonsAdd
+                    handleOpen={() => {
+                      setMovimiento("agregar");
+                      setopenPerfilesDialog(true);
+                    }}
+                    agregar={true}
+                  />
                 </Grid>
 
                 <Grid
@@ -263,13 +273,13 @@ export function Perfiles({
                     alignItems: "center",
                   }}
                 >
-                  <ButtonsAdd
+                  {/* <ButtonsAdd
                     handleOpen={() => {
                       setMovimiento("agregar");
                       setopenPerfilesDialog(true);
                     }}
                     agregar={true}
-                  />
+                  /> */}
                 </Grid>
               </Grid>
 

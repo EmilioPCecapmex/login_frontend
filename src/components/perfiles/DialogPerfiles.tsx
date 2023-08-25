@@ -96,8 +96,8 @@ export const PerfilDialog = ({
         <TextField
           sx={{ mt: 3, width: "100%" }}
           title="Descripcion"
-          label="Descripcion"
-          placeholder="Descripcion"
+          label="Descripción"
+          placeholder="Descripción"
           value={nuevoElemento.Descripcion || ""}
           onChange={(v) => {
             setNuevoElemento({
