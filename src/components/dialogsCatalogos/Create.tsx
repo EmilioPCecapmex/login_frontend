@@ -441,8 +441,8 @@ export const Create = ({
           <TextField
             multiline
             sx={{ mt: 3, width: "100%" }}
-            title="Teléfon0"
-            label="Teléfon"
+            title="Teléfono"
+            label="Teléfono"
             placeholder="Teléfono"
             value={nuevoElemento.Telefono || ""}
             onChange={(v) => {
