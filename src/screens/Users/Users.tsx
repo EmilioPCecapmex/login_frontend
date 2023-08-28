@@ -371,6 +371,7 @@ export default function Users() {
               <Grid
                 width={"100%"}
                 container
+                
               >
                 <Grid width={"55%"} display={"flex"} justifyContent={"space-evenly"} alignItems={"center"}>
                   <PeopleAltIcon sx={{ fontSize: "2rem" }} />
@@ -378,9 +379,10 @@ export default function Users() {
                     whiteSpace: "nowrap" , 
                     overflow:"hidden" , 
                     textOverflow:"ellipsis",
+                    
                     "@media (min-width: 480px)": {
-                      width:"65%", 
-                      fontSize: "1rem",
+                      width:"60%", 
+                      fontSize: "2rem",
                     },
 
                     "@media (min-width: 768px)": {
@@ -403,13 +405,45 @@ export default function Users() {
                       fontSize: "2rem",
                     },
                   }}>
-                    Listado de usuarios con acceso a plataformas.
+                    Usuarios
                   </Typography>
 
                 </Grid>
 
 
-                <Grid width={"45%"} display={"flex"} justifyContent={"end"} alignItems={"center"}>
+                <Grid width={"45%"}
+                  sx={{
+                    "@media (min-width: 480px)": {
+                      flexDirection:"column",
+                      display:"flex",
+                      justifyContent:"center"
+                    },
+
+                    "@media (min-width: 768px)": {
+                      flexDirection:"row",
+                      justifyContent:"end",
+                      alignItems:"center"
+                    },
+
+                    "@media (min-width: 1140px)": {
+                      flexDirection:"row",
+                      justifyContent:"end",
+                      alignItems:"center"
+                    },
+
+                    "@media (min-width: 1400px)": {
+                      flexDirection:"row",
+                      justifyContent:"end",
+                      alignItems:"center"
+                    },
+
+                    "@media (min-width: 1870px)": {
+                      display:"flex",
+                      justifyContent:"end",
+                      alignItems:"center"
+                    },
+                  }}
+                >
                   <Grid >
                     <FormGroup>
                       <FormControlLabel

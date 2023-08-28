@@ -28,7 +28,7 @@ export default function MUIXDataGridApp(props: any) {
 	  setPageSize(v);
 	};
 	return (
-		<div style={{ height: "60vh", width: "100%" }}>
+		<div style={{ height: "75vh", width: "100%" }}>
 			<ThemeProvider theme={theme}>
 				<DataGrid
 					localeText={{// Root
