@@ -158,7 +158,7 @@ export const EditDialog = (props: EditDialogProps) => {
           {"Eliminar registro"}
         </DialogTitle>
         <DialogContent sx={{ fontFamily: "MontserratLight" }}>
-          ¿Esta seguro de que desea eliminar el registro?
+          ¿Estás seguro(a) de que desea eliminar el registro?
         </DialogContent>
         <DialogActions>
           <Button
@@ -239,8 +239,10 @@ export const EditDialog = (props: EditDialogProps) => {
     if (nombre === "" || apellidoPaterno === "" || apellidoMaterno === "") {
       Swal.fire({
         icon: "error",
-        title: "Mensaje",
-        text: "Completa todos los campos para continuar",
+        title: "Aviso",
+        text: "Favor de completar todos los campos para continuar",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#15212f",
       });
     } else {
       const data = {

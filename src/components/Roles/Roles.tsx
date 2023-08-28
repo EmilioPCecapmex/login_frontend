@@ -204,9 +204,12 @@ export function Roles({
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                
               }}
             >
-              <Typography fontFamily={"Montserrat-Regular"} fontSize={50}>
+              <Typography  
+              fontFamily={"'Montserrat', sans-serif"} 
+              fontSize={50}>
                 {" "}
                 ROLES{" "}
               </Typography>
@@ -218,15 +221,18 @@ export function Roles({
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+              
               }}
             >
+              <Tooltip title={"SALIR"}>
               <IconButton
                 onClick={() => {
                   closeModal();
                 }}
               >
-                <CloseIcon style={{ fontSize: 50 }} />{" "}
+                <CloseIcon style={{ fontSize: 30 }} />{" "}
               </IconButton>
+              </Tooltip>
             </Grid>
           </Grid>
 
@@ -239,6 +245,7 @@ export function Roles({
               justifyContent: "center",
               alignItems: "center",
               height: "85%",
+            
             }}
           >
             <Card sx={{ height: "100%", width: "95%", boxShadow: 10 }}>
@@ -252,6 +259,7 @@ export function Roles({
                   justifyContent: "space-between",
                   alignItems: "center",
                   width: "100%",
+                 
                 }}
               >
                 <Grid
@@ -263,7 +271,9 @@ export function Roles({
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
+                    
                   }}
+                 
                 >
                   <AppsIcon style={{ fontSize: "60px" }} />
                 </Grid>
@@ -280,17 +290,26 @@ export function Roles({
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
+                    
+                    
                   }}
+                  
                 >
-                  <Tooltip title={app}>
+                  <Tooltip 
+                  //sx={{ fontFamily: "Montserrat-Bold"}}
+                  
+                  title={app}>
                     <Typography
-                      fontFamily={"Montserrat-Bold"}
+                      fontFamily={"'Montserrat', sans-serif"}
                       fontSize={40}
+                     
                       sx={{
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                         whiteSpace: "nowrap",
+                        fontFamily: "MontserratMedium"
                       }}
+                      
                     >
                       {app}
                     </Typography>
@@ -336,6 +355,7 @@ export function Roles({
               </Box>
             </Card>
           </Grid>
+          
         </Grid>
       )}
       {openMenus && (
@@ -361,3 +381,5 @@ export function Roles({
     </Dialog>
   );
 }
+
+

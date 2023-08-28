@@ -42,7 +42,7 @@ export interface AppInterface {
 //componente de sweetalert2 para el uso de los mensajes de alertas
 const Toast = Swal.mixin({
   toast: true,
-  position: "bottom-end",
+  position: "top-end",
   showConfirmButton: false,
   timer: 2000,
   timerProgressBar: false,
@@ -71,7 +71,9 @@ export default function CatApps() {
       renderCell: (cellValues: any) => {
         return (
           <Box>
-            <Tooltip title={"Editar App " + cellValues.row.Nombre}>
+            <Tooltip title={"Editar App " 
+            //+ cellValues.row.Nombre
+            }>
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
@@ -81,7 +83,9 @@ export default function CatApps() {
                 <EditIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title={"Administrar perfiles de " + cellValues.row.Nombre}>
+            <Tooltip title={"Administrar perfiles  "
+            // + cellValues.row.Nombre
+             }>
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
@@ -94,7 +98,9 @@ export default function CatApps() {
               </IconButton>
             </Tooltip>
 
-            <Tooltip title={"Administrar roles de " + cellValues.row.Nombre}>
+            <Tooltip title={"Administrar roles " 
+            //+ cellValues.row.Nombre
+            }>
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
@@ -106,7 +112,9 @@ export default function CatApps() {
                 <ManageAccountsIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title={"Eliminar App " + cellValues.row.Nombre}>
+            <Tooltip title={"Eliminar App " 
+            //+ cellValues.row.Nombre
+            }>
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
@@ -161,7 +169,7 @@ export default function CatApps() {
     if (changed === true) {
       Toast.fire({
         icon: "success",
-        title: "Aplicación actualizada exitosamente",
+        title: "¡Aplicación Editada!" ,
       });
       getAllApps();
     }
@@ -179,7 +187,9 @@ export default function CatApps() {
     if (changed === true) {
       Toast.fire({
         icon: "success",
+        iconColor: "#af8c55",
         title: "Aplicación Creada Exitosamente",
+        color: "#af8c55",
       });
       getAllApps();
     }
@@ -192,13 +202,14 @@ export default function CatApps() {
   // Handle delete App
   const handleDeleteBtnClick = (event: any, cellValues: any) => {
     Swal.fire({
-      title: "Estas Seguro(a)?",
-      text: `Estas a punto de eliminar un registro (${cellValues.row.Nombre})`,
+      title: "¿Estás seguro(a) de eliminar este registro?",
+      //Estas a punto de eliminar un registro
+      text: ` ${cellValues.row.Nombre}`,
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Eliminar",
-      confirmButtonColor: "#dc3545",
-      cancelButtonColor: "#0d6efd",
+      confirmButtonColor: "#15212f",
+      cancelButtonColor: "#af8c55",
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
@@ -215,14 +226,18 @@ export default function CatApps() {
           .then(function (response) {
             Toast.fire({
               icon: "success",
+              iconColor: "#af8c55",
               title: "Aplicación Eliminada Exitosamente",
+              color: "#af8c55",
             });
             getAllApps();
           })
           .catch(function (error) {
             Swal.fire({
               icon: "error",
+              iconColor: "#af8c55",
               title: "Mensaje",
+              color: "#af8c55",
               text:
                 "(" + error.response.status + ") " + error.response.data.msg,
             });
@@ -280,7 +295,7 @@ export default function CatApps() {
       <Grid
         sx={{
           height: "88%", // aqui va 90vh
-          width: "100%",
+          width: "80%",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
