@@ -329,7 +329,7 @@ export default function Users() {
 
       <Box
         sx={{
-          height: "87vh",
+          height: "88vh",
           width: "100vw",
           display: "flex",
           alignItems: "center",
@@ -353,11 +353,11 @@ export default function Users() {
               },
 
               "@media (min-width: 1400px)": {
-                width: "95vw"
+                width: "90vw"
               },
 
               "@media (min-width: 1870px)": {
-                width: "77vw"
+                width: "90vw"
               },
             }}>
             <Grid
@@ -371,10 +371,18 @@ export default function Users() {
               <Grid
                 width={"100%"}
                 container
-                
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                  width: "100%",
+                  height: "10%",
+                }}
               >
                 <Grid width={"55%"} display={"flex"} justifyContent={"space-evenly"} alignItems={"center"}>
+                <CardContent>
                   <PeopleAltIcon sx={{ fontSize: "2rem" }} />
+                </CardContent>
                   <Typography sx={{
                     whiteSpace: "nowrap" , 
                     overflow:"hidden" , 

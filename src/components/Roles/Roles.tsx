@@ -173,8 +173,8 @@ export function Roles({
       {!bandera ? (
         <Box
           sx={{
-            width: "100%",
-            height: "100%",
+            width: "100vw",
+            height: "100vh",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -184,7 +184,7 @@ export function Roles({
           <CircularProgress size={300} />
         </Box>
       ) : (
-        <Grid container sx={{ width: "100%", height: "100%" }}>
+        <Grid container sx={{ width: "100vw", height: "100vh" }}>
           <Grid
             container
             item
@@ -194,12 +194,17 @@ export function Roles({
               display: "flex",
               justifyContent: "flex-end",
               alignItems: "center",
-              bgcolor: "#c4a57b",
+              border:"1px solid"
+              // bgcolor: "#c4a57b",
             }}
           >
             <Grid
               item
               xl={10}
+              xs={10}
+              lg={10}
+              md={10}
+              sm={10}
               sx={{
                 display: "flex",
                 justifyContent: "center",
@@ -209,14 +214,48 @@ export function Roles({
             >
               <Typography  
               fontFamily={"'Montserrat', sans-serif"} 
-              fontSize={50}>
-                {" "}
-                ROLES{" "}
+              sx={{
+                whiteSpace: "nowrap" , 
+                overflow:"hidden" , 
+                textOverflow:"ellipsis",
+                textAlign:"center",
+                
+                "@media (min-width: 480px)": {
+                  width:"60%", 
+                  fontSize: "2rem",
+                },
+
+                "@media (min-width: 768px)": {
+                  width:"85%", 
+                  fontSize: "1.2rem",
+                },
+
+                "@media (min-width: 1140px)": {
+                  width:"85%", 
+                  fontSize: "1.5rem",
+                },
+
+                "@media (min-width: 1400px)": {
+                  width:"100%", 
+                  fontSize: "2rem",
+                },
+
+                "@media (min-width: 1870px)": {
+                  width:"100%", 
+                  fontSize: "2rem",
+                },
+              }}>
+              
+                ROLES
               </Typography>
             </Grid>
             <Grid
               item
               xl={1}
+              xs={1}
+              lg={1}
+              md={1}
+              sm={1}
               sx={{
                 display: "flex",
                 justifyContent: "center",
@@ -304,10 +343,35 @@ export function Roles({
                       fontSize={40}
                      
                       sx={{
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                        fontFamily: "MontserratMedium"
+                        whiteSpace: "nowrap" , 
+                        overflow:"hidden" , 
+                        textOverflow:"ellipsis",
+                        textAlign:"center",
+                        
+                        "@media (min-width: 480px)": {
+                          width:"60%", 
+                          fontSize: "2rem",
+                        },
+    
+                        "@media (min-width: 768px)": {
+                          width:"85%", 
+                          fontSize: "1.2rem",
+                        },
+    
+                        "@media (min-width: 1140px)": {
+                          width:"85%", 
+                          fontSize: "1.5rem",
+                        },
+    
+                        "@media (min-width: 1400px)": {
+                          width:"100%", 
+                          fontSize: "2rem",
+                        },
+    
+                        "@media (min-width: 1870px)": {
+                          width:"100%", 
+                          fontSize: "2rem",
+                        },
                       }}
                       
                     >

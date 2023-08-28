@@ -295,14 +295,35 @@ export default function CatApps() {
       <Grid
         sx={{
           height: "88%", // aqui va 90vh
-          width: "100%",
+          width: "100vw",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
         {/* este componente es la card que se encuentra en el centro en donde vamos a meter todo lo de la pantalla */}
-        <Card sx={{ height: "95%", width: "95%", boxShadow: 10 }}>
+        <Card sx={{
+              height: "82vh", width: "90vw", boxShadow: 10,
+              "@media (min-width: 480px)": {
+                width: "90vw"
+              },
+
+              "@media (min-width: 768px)": {
+                width: "90vw"
+              },
+
+              "@media (min-width: 1140px)": {
+                width: "90vw"
+              },
+
+              "@media (min-width: 1400px)": {
+                width: "90vw"
+              },
+
+              "@media (min-width: 1870px)": {
+                width: "90vw"
+              },
+            }}>
           {/* este box es la leyenda que se encuentra arriba a la izquierda */}
           <Grid
             container
@@ -319,7 +340,8 @@ export default function CatApps() {
               sx={{ display: "flex",
               "@media (min-width: 480px)": {
                 width:"50%", 
-               
+               display:"flex",
+               alignItems:"center"
               },
 
               "@media (min-width: 768px)": {
@@ -343,9 +365,40 @@ export default function CatApps() {
               },
             }}
             >
-              <AppsIcon sx={{ fontSize: "40px" }} />
+              <CardContent>
+                <AppsIcon sx={{ fontSize: "2rem" }} />
+              </CardContent>
               <Typography
-                sx={{ display: "flex", alignItems: "center", fontSize: "25px" }}
+                sx={{
+                  whiteSpace: "nowrap" , 
+                  overflow:"hidden" , 
+                  textOverflow:"ellipsis",
+                  
+                  "@media (min-width: 480px)": {
+                    width:"60%", 
+                    fontSize: "2rem",
+                  },
+
+                  "@media (min-width: 768px)": {
+                    width:"85%", 
+                    fontSize: "1.2rem",
+                  },
+
+                  "@media (min-width: 1140px)": {
+                    width:"85%", 
+                    fontSize: "1.5rem",
+                  },
+
+                  "@media (min-width: 1400px)": {
+                    width:"100%", 
+                    fontSize: "2rem",
+                  },
+
+                  "@media (min-width: 1870px)": {
+                    width:"100%", 
+                    fontSize: "2rem",
+                  },
+                }}
               >
                 Aplicaciones
               </Typography>
@@ -356,30 +409,31 @@ export default function CatApps() {
               sx={{
                 "@media (min-width: 480px)": {
                   width:"50%", 
-                 
+                  justifyContent:"end",display:"flex",
                 },
   
                 "@media (min-width: 768px)": {
                   width:"30%", 
-                 
+                  justifyContent:"end",display:"flex",
                 },
   
                 "@media (min-width: 1140px)": {
                   width:"22%", 
-                  
+                  justifyContent:"end",display:"flex",
                 },
   
                 "@media (min-width: 1400px)": {
                   width:"20%", 
-                 
+                  justifyContent:"end",display:"flex",
                 },
   
                 "@media (min-width: 1870px)": {
                   width:"15%", 
-                  
+                  justifyContent:"end",display:"flex",
                 },
               }}
             >
+              <CardContent>
               <Button
                 className="aceptar"
                 onClick={(event) => handleNewBtnClick(event)}
@@ -391,6 +445,7 @@ export default function CatApps() {
               >
                 registrar aplicación
               </Button>
+              </CardContent>
             </Grid>
 
             {/* <Grid container item justifyContent="flex-end">
