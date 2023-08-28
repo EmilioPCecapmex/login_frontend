@@ -296,50 +296,97 @@ export default function CatApps() {
         sx={{
           height: "88%", // aqui va 90vh
           width: "100%",
+          width: "100%",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
         {/* este componente es la card que se encuentra en el centro en donde vamos a meter todo lo de la pantalla */}
-        <Card sx={{ height: "80%", width: "95%", boxShadow: 10 }}>
+        <Card sx={{ height: "95%", width: "95%", boxShadow: 10 }}>
           {/* este box es la leyenda que se encuentra arriba a la izquierda */}
           <Grid
             container
             sx={{
               display: "flex",
-              justifyContent: "space-between",
+              justifyContent: "space-around",
               alignItems: "center",
               width: "100%",
               height: "10%",
             }}
           >
-            <Grid
-              item
-              xl={4}
-              xs={12}
-              md={12}
-              sx={{ display: "flex", flexDirection: "row" }}
-            >
-              <AppsIcon style={{ fontSize: "60px" }} />
 
+            <Grid item
+              sx={{ display: "flex",
+              "@media (min-width: 480px)": {
+                width:"50%", 
+               
+              },
+
+              "@media (min-width: 768px)": {
+                width:"60%", 
+               
+              },
+
+              "@media (min-width: 1140px)": {
+                width:"76%", 
+                
+              },
+
+              "@media (min-width: 1400px)": {
+                width:"80%", 
+               
+              },
+
+              "@media (min-width: 1870px)": {
+                width:"80%", 
+                
+              },
+            }}
+            >
+              <AppsIcon sx={{ fontSize: "40px" }} />
               <Typography
                 sx={{ display: "flex", alignItems: "center", fontSize: "25px" }}
               >
-                Catálogo de aplicaciones registradas.
+                Aplicaciones
               </Typography>
             </Grid>
-            <Grid item xl={2} xs={12} md={12}>
+
+
+            <Grid item
+              sx={{
+                "@media (min-width: 480px)": {
+                  width:"50%", 
+                 
+                },
+  
+                "@media (min-width: 768px)": {
+                  width:"30%", 
+                 
+                },
+  
+                "@media (min-width: 1140px)": {
+                  width:"22%", 
+                  
+                },
+  
+                "@media (min-width: 1400px)": {
+                  width:"20%", 
+                 
+                },
+  
+                "@media (min-width: 1870px)": {
+                  width:"15%", 
+                  
+                },
+              }}
+            >
               <Button
                 className="aceptar"
-                variant="text"
                 onClick={(event) => handleNewBtnClick(event)}
                 sx={{
-                  fontFamily: "MontserratBold",
-                  backgroundColor: "#DFA94F",
-                  color: "#000001",
-                  fontSize: "10px",
                   boxShadow: 4,
+                  fontSize:"12px"
                 }}
                 startIcon={<AddIcon />}
               >
@@ -352,7 +399,7 @@ export default function CatApps() {
             </Grid> */}
           </Grid>
           {/* aqui es el contenido del card,y ponemos primero un box y estamos dibujando el boton para agregar un nuevo registro */}
-          <CardContent>
+         
             {/* boton a la derecha para agregar una aplicacion nueva */}
 
             {/* Grid del listado,aqui se asigna el id unico que tiene que tener cada renglon, asi que asignamos el campo ID que se obtiene del endpoint */}
@@ -361,7 +408,7 @@ export default function CatApps() {
               columns={columns}
               rows={rows}
             />
-          </CardContent>
+          
         </Card>
       </Grid>
       {newDialogOpen && (

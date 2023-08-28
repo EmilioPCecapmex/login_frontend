@@ -295,7 +295,7 @@ export default function Users() {
       field: "CorreoElectronico",
       headerName: "Correo Electrónico",
       width: 300,
-     // headerAlign: "center",
+      // headerAlign: "center",
     },
     {
       field: "NombreCreadoPor",
@@ -307,7 +307,7 @@ export default function Users() {
       field: "NombreModificadoPor",
       headerName: "Actualizado Por",
       width: 150,
-     // headerAlign: "center",
+      // headerAlign: "center",
     },
     {
       field: "EstaActivoLabel",
@@ -337,28 +337,28 @@ export default function Users() {
         }}
       >
         <Box>
-          <Card 
-          sx={{ 
-            height: "82vh", width: "90vw", boxShadow: 10,
-            "@media (min-width: 480px)": {
-              width: "90vw"
-            },
-        
-            "@media (min-width: 768px)": {
-              width: "90vw"
-            },
-        
-            "@media (min-width: 1140px)": {
-              width: "90vw"
-            },
-        
-            "@media (min-width: 1400px)": {
-              width: "95vw"
-            },
-        
-            "@media (min-width: 1870px)": {
-              width: "77vw"
-            },
+          <Card
+            sx={{
+              height: "82vh", width: "90vw", boxShadow: 10,
+              "@media (min-width: 480px)": {
+                width: "90vw"
+              },
+
+              "@media (min-width: 768px)": {
+                width: "90vw"
+              },
+
+              "@media (min-width: 1140px)": {
+                width: "90vw"
+              },
+
+              "@media (min-width: 1400px)": {
+                width: "95vw"
+              },
+
+              "@media (min-width: 1870px)": {
+                width: "77vw"
+              },
             }}>
             <Grid
               sx={{
@@ -371,17 +371,79 @@ export default function Users() {
               <Grid
                 width={"100%"}
                 container
+                
               >
-                <Grid width={"53%"} display={"flex"} justifyContent={"space-evenly"} alignItems={"center"}>
+                <Grid width={"55%"} display={"flex"} justifyContent={"space-evenly"} alignItems={"center"}>
                   <PeopleAltIcon sx={{ fontSize: "2rem" }} />
-                  <Typography sx={{ fontSize: "2rem" }}>
-                    Listado de usuarios con acceso a plataformas.
+                  <Typography sx={{
+                    whiteSpace: "nowrap" , 
+                    overflow:"hidden" , 
+                    textOverflow:"ellipsis",
+                    
+                    "@media (min-width: 480px)": {
+                      width:"60%", 
+                      fontSize: "2rem",
+                    },
+
+                    "@media (min-width: 768px)": {
+                      width:"85%", 
+                      fontSize: "1.2rem",
+                    },
+
+                    "@media (min-width: 1140px)": {
+                      width:"85%", 
+                      fontSize: "1.5rem",
+                    },
+
+                    "@media (min-width: 1400px)": {
+                      width:"100%", 
+                      fontSize: "2rem",
+                    },
+
+                    "@media (min-width: 1870px)": {
+                      width:"100%", 
+                      fontSize: "2rem",
+                    },
+                  }}>
+                    Usuarios
                   </Typography>
 
                 </Grid>
 
 
-                <Grid width={"47%"} display={"flex"} justifyContent={"end"} alignItems={"center"}>
+                <Grid width={"45%"}
+                  sx={{
+                    "@media (min-width: 480px)": {
+                      flexDirection:"column",
+                      display:"flex",
+                      justifyContent:"center"
+                    },
+
+                    "@media (min-width: 768px)": {
+                      flexDirection:"row",
+                      justifyContent:"end",
+                      alignItems:"center"
+                    },
+
+                    "@media (min-width: 1140px)": {
+                      flexDirection:"row",
+                      justifyContent:"end",
+                      alignItems:"center"
+                    },
+
+                    "@media (min-width: 1400px)": {
+                      flexDirection:"row",
+                      justifyContent:"end",
+                      alignItems:"center"
+                    },
+
+                    "@media (min-width: 1870px)": {
+                      display:"flex",
+                      justifyContent:"end",
+                      alignItems:"center"
+                    },
+                  }}
+                >
                   <Grid >
                     <FormGroup>
                       <FormControlLabel
@@ -427,14 +489,14 @@ export default function Users() {
             </Grid>
             <div >
               <MUIXDataGrid
-              
+
                 id={(row: any) => row.Id}
                 columns={columns}
                 rows={rows}
               />
             </div>
-              
-          
+
+
 
           </Card>
         </Box>
