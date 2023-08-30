@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
 import {
-  Edit as EditIcon,
   Add as AddIcon,
   Delete as DeleteIcon,
+  Edit as EditIcon,
 } from "@mui/icons-material";
-import Swal from "sweetalert2";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import AppsIcon from "@mui/icons-material/Apps";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import {
   Box,
   Button,
@@ -17,16 +15,15 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { NewDialogApp } from "../../components/newApp";
-import { EditDialogApp } from "../../components/editApp";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import MUIXDataGridApp from "../../components/MUIXDataGridApp";
-import { Header } from "../../components/header";
-import AppsIcon from "@mui/icons-material/Apps";
-import { TimerCounter } from "../../components/timer/timer";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import { Roles } from "../../components/Roles/Roles";
-import PortraitIcon from "@mui/icons-material/Portrait";
-import { Perfiles } from "../../components/perfiles/Perfiles";
+import { EditDialogApp } from "../../components/editApp";
+import { Header } from "../../components/header";
+import { NewDialogApp } from "../../components/newApp";
 
 // estructura que se va a llenar con la informacion que regresa el endpoint
 // tiene que tener el mismo nombre que regresa el endpoint
@@ -56,7 +53,6 @@ export default function CatApps() {
   const navigate = useNavigate();
   //Roles
   const [openRoles, setOpenRoles] = useState(false);
-  const [openPerfiles, setOpenPerfiles] = useState(false);
   const [idApp, setIdApp] = useState("");
   const [app, setApp] = useState("");
   // Set columns and rows for DataGrid
@@ -79,18 +75,6 @@ export default function CatApps() {
                 }}
               >
                 <EditIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={"Administrar perfiles de " + cellValues.row.Nombre}>
-              <IconButton
-                sx={{ color: "black" }}
-                onClick={(event) => {
-                  setOpenPerfiles(!openPerfiles);
-                  setIdApp(cellValues?.row?.Id);
-                  setApp(cellValues?.row?.Nombre);
-                }}
-              >
-                <PortraitIcon />
               </IconButton>
             </Tooltip>
 
@@ -366,14 +350,6 @@ export default function CatApps() {
         <Roles
           open={openRoles}
           closeModal={() => setOpenRoles(false)}
-          idApp={idApp}
-          app={app}
-        />
-      )}
-      {openPerfiles && (
-        <Perfiles
-          open={openPerfiles}
-          closeModal={() => setOpenPerfiles(false)}
           idApp={idApp}
           app={app}
         />

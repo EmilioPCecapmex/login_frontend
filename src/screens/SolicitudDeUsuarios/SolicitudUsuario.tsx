@@ -45,7 +45,6 @@ export interface IInfoUsuario {
   Celular: number;
   Telefono: number;
   Ext: number;
-  Perfiles: { Id: string; Descripcion: string }[];
   Roles: { Id: string; Nombre: string }[];
   UnidadResponsable: { Id: string; Descripcion: string };
   Entidad: { value: string; descripcion: string };
@@ -59,7 +58,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
   //------------------------CATALOGOS-------------------------------------------
 
   const [roles, setRoles] = useState<Array<IRol>>([]);
-  const [perfiles, setPerfiles] = useState<Array<IPerfil>>([]);
   const [uResponsables, setUResponsables] = useState<Array<IUResponsable>>([]);
   const [entidades, setEntidades] = useState<Array<IEntidadPadre>>([]);
   const [apps, setApps] = useState<Array<SelectValues>>([]);
@@ -79,7 +77,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     Celular: 0,
     Telefono: 0,
     Ext: 0,
-    Perfiles: [],
     Roles: [],
     UnidadResponsable: { Id: "", Descripcion: "" },
     Entidad: { value: "", descripcion: "" },
@@ -120,7 +117,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             console.log(r);
             const data = r.data.data;
             const roles = r.data.roles[0];
-            const perfiles = r.data.perfiles[0];
             console.log(r.data.roles[0]);
 
             setInfoUsuario({
@@ -144,7 +140,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
               Celular: data.Celular,
               Telefono: data.Telefono,
               Ext: data.Ext,
-              Perfiles: perfiles || [],
               Roles: roles || [],
               UnidadResponsable: {
                 Id: data.IdUnidadResponsable || "",
@@ -283,10 +278,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
         valid: infoUsuario.Entidad.descripcion === "",
         text: "Selecciona departamento",
       },
-      perfil: {
-        valid: infoUsuario.Perfiles.length === 0,
-        text: "Selecciona perfiles",
-      },
       rol: {
         valid: infoUsuario.Roles.length === 0,
         text: "Selecciona roles",
@@ -315,7 +306,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       infoUsuario.Telefono <= 0 ||
       infoUsuario.Ext <= 0 ||
       infoUsuario.Entidad.descripcion === "" ||
-      infoUsuario.Perfiles.length === 0 ||
       infoUsuario.Roles.length === 0 ||
       infoUsuario.UnidadResponsable.Id === "" ||
       infoUsuario.Aplicacion.value === ""
@@ -326,10 +316,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
         text: "Completa todos los campos para continuar",
       });
     } else {
-      const IdPerfiles: any[] = [];
-      infoUsuario.Perfiles.forEach(function (item) {
-        IdPerfiles.push(item.Id);
-      });
       const IdRoles: any[] = [];
       infoUsuario.Roles.forEach(function (item) {
         IdRoles.push(item.Id);
@@ -351,7 +337,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           ? props.idUsuarioSolicitante
           : localStorage.getItem("IdUsuario"),
         IdUResponsable: infoUsuario.UnidadResponsable.Id,
-        Perfiles: JSON.stringify({ Perfiles: IdPerfiles }),
         Roles: JSON.stringify({ Roles: IdRoles }),
         IdTipoUsuario: infoUsuario.TipoUsuario.Id,
         PuedeFirmar: infoUsuario.PuedeFirmar ? 1 : 0,
@@ -448,7 +433,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
   useEffect(() => {
     consulta("2", "select");
     getCatalogo("roles", setRoles, infoUsuario.Aplicacion.value);
-    getCatalogo("perfiles", setPerfiles, infoUsuario.Aplicacion.value);
     getCatalogo("entidad-padre", setEntidades, "");
     getCatalogo("uresponsables", setUResponsables, "");
 
@@ -610,7 +594,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
                 Aplicacion: { value: v?.value, label: v?.label! },
               });
               getCatalogo("roles", setRoles, v?.value);
-              getCatalogo("perfiles", setPerfiles, v?.value);
               setErrores({
                 ...errores,
                 aplicacion: {
@@ -807,38 +790,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           }}
         />
       </Grid>
-
-      {/* <Grid item xs={10} md={4.5}>
-        <Typography variant="body2"> Perfiles: </Typography>
-        <Autocomplete
-          multiple
-          disabled={perfiles.length === 0}
-          noOptionsText="No se encontraron opciones"
-          clearText="Borrar"
-          closeText="Cerrar"
-          options={perfiles}
-          getOptionLabel={(perfil) => perfil.Descripcion}
-          value={infoUsuario.Perfiles}
-          onChange={(event, newValue) => {
-            if (newValue != null) {
-              setInfoUsuario({ ...infoUsuario, Perfiles: newValue });
-              setErrores({
-                ...errores,
-                perfil: {
-                  valid: false,
-                  text: "Selecciona perfil valido",
-                },
-              });
-            }
-          }}
-          renderInput={(params) => (
-            <TextField key={params.id} {...params} variant="outlined" />
-          )}
-          isOptionEqualToValue={(option, value) =>
-            option.Descripcion === value.Descripcion || value.Descripcion === ""
-          }
-        />
-      </Grid> */}
 
       <Grid item xs={10} md={4.5}>
         <Typography variant="body2"> Roles: </Typography>

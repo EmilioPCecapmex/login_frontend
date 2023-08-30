@@ -311,37 +311,7 @@ const VerSolicitudesModal = ({
           />
         )}
       </Grid>
-      <Grid item width={"90%"}>
-        <label className="textoGridSolicitudes">PERFILES</label>
-        {JSON.parse(detalleSolicitud[0]?.Perfiles)?.map(
-          (perfil: any, index: number) => (
-            <TextField
-              key={index}
-              fullWidth
-              inputProps={{ style: { fontSize: "0.9rem" } }}
-              sx={{
-                fontFamily: "MontserratSemiBold",
-                fontSize: "1.5vw",
-                backgroundColor: onChangeInfo.Ext ? "#fde6a2" : null,
-              }}
-              value={perfil.Descripcion || ""}
-              variant="standard"
-            />
-          )
-        ) || (
-          <TextField
-            fullWidth
-            inputProps={{ style: { fontSize: "0.9rem" } }}
-            sx={{
-              fontFamily: "MontserratSemiBold",
-              fontSize: "1.5vw",
-              backgroundColor: onChangeInfo.Ext ? "#fde6a2" : null,
-            }}
-            value={"No Aplica"}
-            variant="standard"
-          />
-        )}
-      </Grid>
+
       <Grid item width={"90%"}>
         <label className="textoGridSolicitudes">Unidad responsable</label>
         <TextField
