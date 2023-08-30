@@ -33,7 +33,6 @@ export interface IDetalleSolicitud {
   NombreApp: string;
   NombreSolicitante: string;
   NombreUsuario: string;
-  Perfiles: string;
   PuedeFirmar: number;
   Puesto: string;
   Rfc: string;
