@@ -242,7 +242,7 @@ const Catalogos = () => {
       </Grid>
 
       <div className="FooterLogin">
-        <Box sx={{ position: "absolute", right: 5, bottom: 5 }}>
+        {/* <Box sx={{ position: "absolute", right: 5, bottom: 5 }}>
           <Typography
             sx={{
               fontFamily: "MontserratBold",
@@ -252,7 +252,7 @@ const Catalogos = () => {
           >
             v.{process.env.REACT_APP_APPLICATION_VERSION}
           </Typography>
-        </Box>
+        </Box> */}
         {/* <Edit
           open={openEdit}
           setOpen={setOpenEdit}
