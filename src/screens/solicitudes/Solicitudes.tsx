@@ -144,35 +144,6 @@ export const Solicitudes = () => {
       });
   };
 
-  // const createComentarios = () => {
-  //   axios
-  //     .post(
-  //       process.env.REACT_APP_APPLICATION_DEV + "/api/create-comentario",
-  //       {
-  //         CreadoPor: localStorage.getItem("IdUsuario"),
-  //         IdSolicitud: detalleSolicitud[0].Id,
-  //         Comentario: comentario,
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: localStorage.getItem("jwtToken") || "",
-  //         },
-  //       }
-  //     )
-  //     .then((r) => {
-  //       if (r.status === 201) {
-  //         Toast.fire({
-  //           icon: "success",
-  //           title: "¡Registro exitoso!",
-  //         });
-  //       }
-  //     })
-  //     .catch((r) => {
-  //       if (r.response.status === 409) {
-  //       }
-  //     });
-  // };
-
   const modificarSolicitud = (estado: string, tipoSoli: string) => {
     axios
       .put(
@@ -199,10 +170,6 @@ export const Solicitudes = () => {
           } else setSelectedIndex(-1);
           filtroXApp(idApp);
           getSolicitudes();
-
-          // if ((estado === "2" || estado === "3") && comentario !== "") {
-          //   createComentarios();
-          // }
         }
       });
   };
