@@ -64,6 +64,8 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
   const urlParams = window.location.search;
   const query = new URLSearchParams(urlParams);
   const jwt = query.get("jwt");
+  const IdUsuario =
+    props.idUsuarioModificado || query.get("idUsuarioModificado") || "";
 
   const [bajaUsuario, setBajaUsuario] = useState(false);
 
@@ -103,6 +105,8 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
   }
 
   useEffect(() => {
+    console.log(query.get("IdUsuario"));
+
     if (apps.length) {
       let aux = apps.find((app) => app.Id === props.idApp);
       if (aux) {
@@ -111,12 +115,12 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           Aplicacion: { Id: aux?.Id!, Nombre: aux?.Nombre! },
         });
 
-        if (props.idUsuarioModificado) {
+        if (IdUsuario) {
           axios
             .post(
               process.env.REACT_APP_APPLICATION_DEV + "/api/userapp-detail",
               {
-                IdUsuario: props.idUsuarioModificado,
+                IdUsuario: IdUsuario,
                 IdApp: props.idApp,
               },
               {
@@ -289,7 +293,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
         ? "BAJA"
         : existeCorreo
         ? "VINCULACION"
-        : props.idUsuarioModificado
+        : IdUsuario
         ? "MODIFICACION"
         : "ALTA",
       IdApp: infoUsuario.Aplicacion.Id,
@@ -503,7 +507,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     >
       <Grid item xs={10} md={4.5}>
         <TextField
-          disabled={props.idUsuarioModificado !== ""}
+          disabled={IdUsuario !== ""}
           label="Correo Electrónico"
           type="text"
           fullWidth
@@ -528,7 +532,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       </Grid>
       <Grid item xs={10} md={4.5}>
         <TextField
-          disabled={existeCorreo || props.idUsuarioModificado !== ""}
+          disabled={existeCorreo || IdUsuario !== ""}
           error={existeNUsuario}
           autoFocus
           label="Nombre de Usuario"
@@ -733,7 +737,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           noOptionsText="No se encontraron opciones"
           clearText="Borrar"
           closeText="Cerrar"
-          disabled={props.idApp !== "" || props.idUsuarioModificado !== ""}
+          disabled={props.idApp !== "" || IdUsuario !== ""}
           options={apps}
           getOptionLabel={(app) => app.Nombre || "Seleccione aplicacion"}
           value={infoUsuario.Aplicacion}
@@ -854,7 +858,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           label={infoUsuario.PuedeFirmar ? "Puede firmar" : "No puede firmar"}
         />
         <Grid>
-          {props.idUsuarioModificado && (
+          {IdUsuario && (
             <Button
               className="cancelar"
               onClick={() => {
@@ -875,9 +879,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             }}
             sx={{ fontFamily: "MontserratRegular" }}
           >
-            {props.idUsuarioModificado
-              ? "Solicitar Modificación"
-              : "Solicitar Usuario"}
+            {IdUsuario ? "Solicitar Modificación" : "Solicitar Usuario"}
           </Button>
         </Grid>
       </Grid>
