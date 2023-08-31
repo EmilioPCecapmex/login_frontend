@@ -219,7 +219,7 @@ const Catalogos = () => {
       <Grid container item xs={12} justifyContent="center" paddingTop={3}>
         <TabContext value={String(valueTab)}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab label="Tipo Entidades" value="TipoEntidades" />
+            <Tab label="Tipo Entidades " value="TipoEntidades" />
             <Tab label="Entidades" value="Entidades" />
           </TabList>
 
