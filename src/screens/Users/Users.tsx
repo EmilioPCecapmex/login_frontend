@@ -347,8 +347,8 @@ export default function Users() {
             >
               <Grid container justifyContent="space-between">
                 <Grid
-                  container
                   item
+                  container
                   xs={12}
                   md={6}
                   direction="row"
@@ -360,7 +360,7 @@ export default function Users() {
                     Listado de usuarios con acceso a plataformas.
                   </Typography>
                 </Grid>
-                <Grid item container xs={12} md={6} justifyContent="flex-end">
+                <Grid item xs={12} md={6} justifyContent="flex-end">
                   <FormGroup>
                     <FormControlLabel
                       control={

@@ -5,8 +5,6 @@ import { esES as coreEsES } from "@mui/material/locale";
 
 const theme = createTheme(coreEsES, gridEsES);
 
-
-
 export default function MUIXDataGrid(props: any) {
   const [pageSize, setPageSize] = React.useState(25);
 
@@ -14,12 +12,10 @@ export default function MUIXDataGrid(props: any) {
     setPageSize(v);
   };
   return (
-    <div style={{ height: "60vh", width: "100%" }}>
+    <div style={{ height: "70vh" }}>
       <ThemeProvider theme={theme}>
         <DataGrid
-        //  ColumnWidth="*"
           components={{ Toolbar: GridToolbar }}
-      
           componentsProps={{
             toolbar: {
               printOptions: { disableToolbarButton: true },
@@ -27,101 +23,96 @@ export default function MUIXDataGrid(props: any) {
               label: "Buscar",
               showQuickFilter: true,
               quickFilterProps: { debounceMs: 500 },
-              // csvOptions: {
-              //   fileName: props.modulo,
-              //   utf8WithBom: true,
-              // }
             },
           }}
-          localeText={{// Root
-            noRowsLabel: 'Sin filas',
-            noResultsOverlayLabel: 'Resultados no encontrados',
-            errorOverlayDefaultLabel: 'Ha ocurrido un error.',
-            // Density selector toolbar button text
-            toolbarDensity: 'Densidad',
-            toolbarDensityLabel: 'Densidad',
-            toolbarDensityCompact: 'Compacta',
-            toolbarDensityStandard: 'Standard',
-            toolbarDensityComfortable: 'Comoda',
+          localeText={{
+            noRowsLabel: "Sin filas",
+            noResultsOverlayLabel: "Resultados no encontrados",
+            errorOverlayDefaultLabel: "Ha ocurrido un error.",
+            toolbarDensity: "Densidad",
+            toolbarDensityLabel: "Densidad",
+            toolbarDensityCompact: "Compacta",
+            toolbarDensityStandard: "Standard",
+            toolbarDensityComfortable: "Comoda",
 
             // Columns selector toolbar button text
-            toolbarColumns: 'Columnas',
-            toolbarColumnsLabel: 'Seleccionar columnas',
+            toolbarColumns: "Columnas",
+            toolbarColumnsLabel: "Seleccionar columnas",
 
             // Filters toolbar button text
-            toolbarFilters: 'Filtros',
-            toolbarFiltersLabel: 'Mostrar filtros',
-            toolbarFiltersTooltipHide: 'Ocultar filtros',
-            toolbarFiltersTooltipShow: 'Mostrar filtros',
+            toolbarFilters: "Filtros",
+            toolbarFiltersLabel: "Mostrar filtros",
+            toolbarFiltersTooltipHide: "Ocultar filtros",
+            toolbarFiltersTooltipShow: "Mostrar filtros",
             toolbarFiltersTooltipActive: (count) =>
               count > 1 ? `${count} filtros activos` : `${count} filtro activo`,
 
             // Quick filter toolbar field
-            toolbarQuickFilterPlaceholder: 'Buscar…',
-            toolbarQuickFilterLabel: 'Buscar',
-            toolbarQuickFilterDeleteIconLabel: 'Limpiar',
+            toolbarQuickFilterPlaceholder: "Buscar…",
+            toolbarQuickFilterLabel: "Buscar",
+            toolbarQuickFilterDeleteIconLabel: "Limpiar",
 
             // Export selector toolbar button text
-            toolbarExport: 'Exportar',
-            toolbarExportLabel: 'Exportar',
-            toolbarExportCSV: 'Descargar como CSV',
-            toolbarExportPrint: 'Imprimir',
-            toolbarExportExcel: 'Descargar como Excel',
+            toolbarExport: "Exportar",
+            toolbarExportLabel: "Exportar",
+            toolbarExportCSV: "Descargar como CSV",
+            toolbarExportPrint: "Imprimir",
+            toolbarExportExcel: "Descargar como Excel",
 
             // Columns panel text
-            columnsPanelTextFieldLabel: 'Columna de búsqueda',
-            columnsPanelTextFieldPlaceholder: 'Título de columna',
-            columnsPanelDragIconLabel: 'Reorder columna',
-            columnsPanelShowAllButton: 'Mostrar todo',
-            columnsPanelHideAllButton: 'Ocultar todo',
+            columnsPanelTextFieldLabel: "Columna de búsqueda",
+            columnsPanelTextFieldPlaceholder: "Título de columna",
+            columnsPanelDragIconLabel: "Reorder columna",
+            columnsPanelShowAllButton: "Mostrar todo",
+            columnsPanelHideAllButton: "Ocultar todo",
 
             // Filter panel text
-            filterPanelAddFilter: 'Agregar filtro',
-            filterPanelDeleteIconLabel: 'Borrar',
-            filterPanelLinkOperator: 'Operador lógico',
-            filterPanelOperators: 'Operadores',
+            filterPanelAddFilter: "Agregar filtro",
+            filterPanelDeleteIconLabel: "Borrar",
+            filterPanelLinkOperator: "Operador lógico",
+            filterPanelOperators: "Operadores",
 
             // TODO v6: rename to filterPanelOperator
-            filterPanelOperatorAnd: 'Y',
-            filterPanelOperatorOr: 'O',
-            filterPanelColumns: 'Columnas',
-            filterPanelInputLabel: 'Valor',
-            filterPanelInputPlaceholder: 'Valor de filtro',
+            filterPanelOperatorAnd: "Y",
+            filterPanelOperatorOr: "O",
+            filterPanelColumns: "Columnas",
+            filterPanelInputLabel: "Valor",
+            filterPanelInputPlaceholder: "Valor de filtro",
 
             // Filter operators text
-            filterOperatorContains: 'contiene',
-            filterOperatorEquals: 'es igual',
-            filterOperatorStartsWith: 'comienza con',
-            filterOperatorEndsWith: 'termina con',
-            filterOperatorIs: 'es',
-            filterOperatorNot: 'no es',
-            filterOperatorAfter: 'es posterior',
-            filterOperatorOnOrAfter: 'es en o posterior',
-            filterOperatorBefore: 'es anterior',
-            filterOperatorOnOrBefore: 'es en o anterior',
-            filterOperatorIsEmpty: 'está vacío',
-            filterOperatorIsNotEmpty: 'no esta vacío',
-            filterOperatorIsAnyOf: 'es cualquiera de',
+            filterOperatorContains: "contiene",
+            filterOperatorEquals: "es igual",
+            filterOperatorStartsWith: "comienza con",
+            filterOperatorEndsWith: "termina con",
+            filterOperatorIs: "es",
+            filterOperatorNot: "no es",
+            filterOperatorAfter: "es posterior",
+            filterOperatorOnOrAfter: "es en o posterior",
+            filterOperatorBefore: "es anterior",
+            filterOperatorOnOrBefore: "es en o anterior",
+            filterOperatorIsEmpty: "está vacío",
+            filterOperatorIsNotEmpty: "no esta vacío",
+            filterOperatorIsAnyOf: "es cualquiera de",
 
             // Filter values text
-            filterValueAny: 'cualquiera',
-            filterValueTrue: 'verdadero',
-            filterValueFalse: 'falso',
+            filterValueAny: "cualquiera",
+            filterValueTrue: "verdadero",
+            filterValueFalse: "falso",
 
             // Column menu text
-            columnMenuLabel: 'Menú',
-            columnMenuShowColumns: 'Mostrar columnas',
-            columnMenuFilter: 'Filtro',
-            columnMenuHideColumn: 'Ocultar',
-            columnMenuUnsort: 'Desordenar',
-            columnMenuSortAsc: 'Ordenar ASC',
-            columnMenuSortDesc: 'Ordenar DESC',
+            columnMenuLabel: "Menú",
+            columnMenuShowColumns: "Mostrar columnas",
+            columnMenuFilter: "Filtro",
+            columnMenuHideColumn: "Ocultar",
+            columnMenuUnsort: "Desordenar",
+            columnMenuSortAsc: "Ordenar ASC",
+            columnMenuSortDesc: "Ordenar DESC",
 
             // Column header text
             columnHeaderFiltersTooltipActive: (count) =>
               count > 1 ? `${count} filtros activos` : `${count} filtro activo`,
-            columnHeaderFiltersLabel: 'Mostrar filtros',
-            columnHeaderSortIconLabel: 'Ordenar',
+            columnHeaderFiltersLabel: "Mostrar filtros",
+            columnHeaderSortIconLabel: "Ordenar",
 
             // Rows selected footer text
             footerRowSelected: (count) =>
@@ -130,71 +121,66 @@ export default function MUIXDataGrid(props: any) {
                 : `${count.toLocaleString()} fila seleccionada`,
 
             // Total row amount footer text
-            footerTotalRows: 'Filas Totales:',
+            footerTotalRows: "Filas Totales:",
 
             // Total visible row amount footer text
             footerTotalVisibleRows: (visibleCount, totalCount) =>
               `${visibleCount.toLocaleString()} de ${totalCount.toLocaleString()}`,
 
             // Checkbox selection text
-            checkboxSelectionHeaderName: 'Seleccionar casilla',
-            checkboxSelectionSelectAllRows: 'Seleccionar todas las filas',
-            checkboxSelectionUnselectAllRows: 'Deseleccionar todas las filas',
-            checkboxSelectionSelectRow: 'Seleccionar fila',
-            checkboxSelectionUnselectRow: 'Deseleccionar fila',
+            checkboxSelectionHeaderName: "Seleccionar casilla",
+            checkboxSelectionSelectAllRows: "Seleccionar todas las filas",
+            checkboxSelectionUnselectAllRows: "Deseleccionar todas las filas",
+            checkboxSelectionSelectRow: "Seleccionar fila",
+            checkboxSelectionUnselectRow: "Deseleccionar fila",
 
             // Boolean cell text
-            booleanCellTrueLabel: 'si',
-            booleanCellFalseLabel: 'no',
+            booleanCellTrueLabel: "si",
+            booleanCellFalseLabel: "no",
 
             // Actions cell more text
-            actionsCellMore: 'más',
+            actionsCellMore: "más",
 
             // Column pinning text
-            pinToLeft: 'Anclar a la izquierda',
-            pinToRight: 'Anclar a la derecha',
-            unpin: 'Desanclar',
+            pinToLeft: "Anclar a la izquierda",
+            pinToRight: "Anclar a la derecha",
+            unpin: "Desanclar",
 
             // Tree Data
-            treeDataGroupingHeaderName: 'Grupo',
-            treeDataExpand: 'mostrar hijos',
-            treeDataCollapse: 'ocultar hijos',
+            treeDataGroupingHeaderName: "Grupo",
+            treeDataExpand: "mostrar hijos",
+            treeDataCollapse: "ocultar hijos",
 
             // Grouping columns
-            groupingColumnHeaderName: 'Grupo',
+            groupingColumnHeaderName: "Grupo",
             groupColumn: (name) => `Agrupar por ${name}`,
             unGroupColumn: (name) => `No agrupar por ${name}`,
 
             // Master/detail
-            detailPanelToggle: 'Alternar detalle',
-            expandDetailPanel: 'Expandir',
-            collapseDetailPanel: 'Contraer',
+            detailPanelToggle: "Alternar detalle",
+            expandDetailPanel: "Expandir",
+            collapseDetailPanel: "Contraer",
 
             // Row reordering text
-            rowReorderingHeaderName: 'Reordenar filas',
+            rowReorderingHeaderName: "Reordenar filas",
 
             // Aggregation
-            aggregationMenuItemHeader: 'Agregación',
-            aggregationFunctionLabelSum: 'sum',
-            aggregationFunctionLabelAvg: 'avg',
-            aggregationFunctionLabelMin: 'min',
-            aggregationFunctionLabelMax: 'max',
-            aggregationFunctionLabelSize: 'tamaño',
+            aggregationMenuItemHeader: "Agregación",
+            aggregationFunctionLabelSum: "sum",
+            aggregationFunctionLabelAvg: "avg",
+            aggregationFunctionLabelMin: "min",
+            aggregationFunctionLabelMax: "max",
+            aggregationFunctionLabelSize: "tamaño",
           }}
           columns={props.columns}
           rows={props.rows}
-          getRowId={(row) => row.Id ? row.Id : row.id}
-
+          getRowId={(row) => (row.Id ? row.Id : row.id)}
           pageSize={pageSize}
           rowsPerPageOptions={[25, 50, 100]}
           onPageSizeChange={(v) => changePageSize(v)}
-
           sx={{
             fontFamily: "MontserratMedium",
-
-
           }}
-
         />
       </ThemeProvider>
     </div>

@@ -132,7 +132,7 @@ export const EliminarCatalogo = (
   reloadData: Function
 ) => {
   axios({
-    method: "put",
+    method: "delete",
     data: {
       Id: Id,
       IdUsuario: localStorage.getItem("IdUsuario"),

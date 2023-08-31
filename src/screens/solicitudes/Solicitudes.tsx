@@ -145,34 +145,34 @@ export const Solicitudes = () => {
       });
   };
 
-  const createComentarios = () => {
-    axios
-      .post(
-        process.env.REACT_APP_APPLICATION_DEV + "/api/create-comentario",
-        {
-          CreadoPor: localStorage.getItem("IdUsuario"),
-          IdSolicitud: detalleSolicitud[0].Id,
-          Comentario: comentario,
-        },
-        {
-          headers: {
-            Authorization: localStorage.getItem("jwtToken") || "",
-          },
-        }
-      )
-      .then((r) => {
-        if (r.status === 201) {
-          Toast.fire({
-            icon: "success",
-            title: "¡Registro exitoso!",
-          });
-        }
-      })
-      .catch((r) => {
-        if (r.response.status === 409) {
-        }
-      });
-  };
+  // const createComentarios = () => {
+  //   axios
+  //     .post(
+  //       process.env.REACT_APP_APPLICATION_DEV + "/api/create-comentario",
+  //       {
+  //         CreadoPor: localStorage.getItem("IdUsuario"),
+  //         IdSolicitud: detalleSolicitud[0].Id,
+  //         Comentario: comentario,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: localStorage.getItem("jwtToken") || "",
+  //         },
+  //       }
+  //     )
+  //     .then((r) => {
+  //       if (r.status === 201) {
+  //         Toast.fire({
+  //           icon: "success",
+  //           title: "¡Registro exitoso!",
+  //         });
+  //       }
+  //     })
+  //     .catch((r) => {
+  //       if (r.response.status === 409) {
+  //       }
+  //     });
+  // };
 
   const modificarSolicitud = (estado: string, tipoSoli: string) => {
     axios
@@ -201,9 +201,9 @@ export const Solicitudes = () => {
           filtroXApp(idApp);
           getSolicitudes();
 
-          if ((estado === "2" || estado === "3") && comentario !== "") {
-            createComentarios();
-          }
+          // if ((estado === "2" || estado === "3") && comentario !== "") {
+          //   createComentarios();
+          // }
         }
       });
   };
@@ -259,33 +259,33 @@ export const Solicitudes = () => {
       });
   };
 
-  const getDetalleUsuario = () => {
-    axios
-      .post(
-        process.env.REACT_APP_APPLICATION_DEV + "/api/user-detail",
-        {
-          IdUsuario: detalleSolicitud[0].CorreoElectronico,
-        },
-        {
-          headers: {
-            Authorization: localStorage.getItem("jwtToken") || "",
-          },
-        }
-      )
-      .then((r) => {
-        if (r.status === 200) {
-          setDetalleUsuario(r.data.data);
-        }
-      })
-      .catch((r) => {
-        if (r.response.status === 409) {
-          Toast.fire({
-            icon: "error",
-            title: "Busqueda Fallida!",
-          });
-        }
-      });
-  };
+  // const getDetalleUsuario = () => {
+  //   axios
+  //     .post(
+  //       process.env.REACT_APP_APPLICATION_DEV + "/api/user-detail",
+  //       {
+  //         IdUsuario: detalleSolicitud[0].Id,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: localStorage.getItem("jwtToken") || "",
+  //         },
+  //       }
+  //     )
+  //     .then((r) => {
+  //       if (r.status === 200) {
+  //         setDetalleUsuario(r.data.data);
+  //       }
+  //     })
+  //     .catch((r) => {
+  //       if (r.response.status === 409) {
+  //         Toast.fire({
+  //           icon: "error",
+  //           title: "Busqueda Fallida!",
+  //         });
+  //       }
+  //     });
+  // };
 
   const [IdSolicitud, setIdSolicitud] = useState("");
 
@@ -333,34 +333,34 @@ export const Solicitudes = () => {
     setPuedeFirmar(detalleSolicitud[0].PuedeFirmar === 1);
   }, [detalleSolicitud]);
 
-  const [comentCount, setComentCount] = useState(0);
+  // const [comentCount, setComentCount] = useState(0);
 
   ///////////////////
-  const getComentarios = () => {
-    axios({
-      method: "get",
-      url:
-        process.env.REACT_APP_APPLICATION_DEV + "/api/comentarios-solicitudes",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("jwtToken") || "",
-      },
-      params: {
-        IdUsuario: localStorage.getItem("IdUsuario"),
-        IdSolicitud: solicitudSeleccionada,
-      },
-    })
-      .then(function (response) {
-        setComentCount(response.data.data.length);
-      })
-      .catch(function (error) {
-        Swal.fire({
-          icon: "error",
-          title: "Mensaje",
-          text: "(" + error.response.status + ") " + error.response.data.msg,
-        });
-      });
-  };
+  // const getComentarios = () => {
+  //   axios({
+  //     method: "get",
+  //     url:
+  //       process.env.REACT_APP_APPLICATION_DEV + "/api/comentarios-solicitudes",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: localStorage.getItem("jwtToken") || "",
+  //     },
+  //     params: {
+  //       IdUsuario: localStorage.getItem("IdUsuario"),
+  //       IdSolicitud: solicitudSeleccionada,
+  //     },
+  //   })
+  //     .then(function (response) {
+  //       setComentCount(response.data.data.length);
+  //     })
+  //     .catch(function (error) {
+  //       Swal.fire({
+  //         icon: "error",
+  //         title: "Mensaje",
+  //         text: "(" + error.response.status + ") " + error.response.data.msg,
+  //       });
+  //     });
+  // };
 
   const itemSelected = (x: number, id: string) => {
     setSelectedIndex(x);
@@ -436,9 +436,9 @@ export const Solicitudes = () => {
     if (
       solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() ===
       "MODIFICACION"
-    )
-      getDetalleUsuario();
-    else {
+    ) {
+      // getDetalleUsuario();
+    } else {
       setOnChangeInfo({
         ApellidoMaterno: false,
         ApellidoPaterno: false,
@@ -467,7 +467,7 @@ export const Solicitudes = () => {
     if (selectedIndex >= 0) {
       setSolicitudSeleccionada(solicitudesFiltered[selectedIndex].Id);
       getDetalleSolicitud();
-      getComentarios();
+      // getComentarios();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -975,7 +975,7 @@ export const Solicitudes = () => {
                   >
                     <VerSolicitudesModal
                       detalleSolicitud={detalleSolicitud}
-                      comentCount={comentCount}
+                      // comentCount={comentCount}
                       onChangeInfo={onChangeInfo}
                       detalleUsuario={detalleUsuario}
                       solicitudSeleccionada={solicitudSeleccionada}
