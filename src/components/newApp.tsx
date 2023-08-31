@@ -44,7 +44,7 @@ export const NewDialogApp = (props: NewDialogProps) => {
       const data = {
         Nombre: nombre,
         Path: path,
-        Descripcion:descripcion,
+        Descripcion: descripcion,
         IdUsuarioModificador: localStorage.getItem("IdUsuario"),
       };
       axios({
@@ -58,7 +58,6 @@ export const NewDialogApp = (props: NewDialogProps) => {
         data: data,
       })
         .then(function (response) {
-          console.log("Esta es la descripcion",data.Descripcion)
           props.handleNewDialogClose(true);
         })
         .catch(function (error) {
@@ -66,8 +65,7 @@ export const NewDialogApp = (props: NewDialogProps) => {
             icon: "error",
             title: "Error",
             text: "(" + error.response.status + ") " + error.response.data.msg,
-            confirmButtonColor: "#2f2f2f"
-
+            confirmButtonColor: "#2f2f2f",
           });
         });
     }
@@ -131,7 +129,7 @@ export const NewDialogApp = (props: NewDialogProps) => {
               onKeyDown={handleKeyDown}
             />
           </Grid>
-          <Grid item xs={12} >
+          <Grid item xs={12}>
             <TextField
               autoFocus
               margin="dense"
@@ -150,10 +148,15 @@ export const NewDialogApp = (props: NewDialogProps) => {
       </DialogContent>
 
       <DialogActions>
-        <Button className="cancelar" onClick={() => props.handleNewDialogClose()}>
+        <Button
+          className="cancelar"
+          onClick={() => props.handleNewDialogClose()}
+        >
           Cancelar
         </Button>
-        <Button className="aceptar" onClick={() => handleStoreBtn()}>Crear</Button>
+        <Button className="aceptar" onClick={() => handleStoreBtn()}>
+          Crear
+        </Button>
       </DialogActions>
     </Dialog>
   );

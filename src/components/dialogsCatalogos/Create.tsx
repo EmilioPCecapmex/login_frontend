@@ -91,7 +91,6 @@ export const Create = ({
     getCatalogo("usuarios-asignables", setUsuarios, "");
     getCatalogo("lista-entidades", setEntidades, "");
     getCatalogo("lista-tipo-entidades", setTipoEntidades, "");
-    console.log(data);
   }, []);
 
   //------------------------CATALOGOS-------------------------------------------
@@ -193,8 +192,8 @@ export const Create = ({
               setNuevoElemento({
                 ...nuevoElemento,
                 Telefono: v.target.value
-                .replace(/[^\d]/g, "")  // Elimina todos los caracteres que no sean dígitos
-                .slice(0, 10),  
+                  .replace(/[^\d]/g, "") // Elimina todos los caracteres que no sean dígitos
+                  .slice(0, 10),
               });
             }}
           />
@@ -343,8 +342,6 @@ export const Create = ({
         <Button
           className="aceptar"
           onClick={() => {
-            console.log(data.Id);
-
             data.Id !== ""
               ? modificarCatalogo(
                   ruta,
