@@ -402,8 +402,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       ApellidoMaterno: "",
       NombreUsuario: usuario,
       CorreoElectronico: CorreoElectronico,
-      Aplicacion: { Id: props.idApp, Nombre: "" },
-      TipoUsuario: { Id: "", Nombre: "" },
       Puesto: "",
       CURP: "",
       RFC: "",
@@ -411,7 +409,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       Telefono: "",
       Ext: "",
       Roles: [],
-      Entidad: { Id: "", Nombre: "" },
       PuedeFirmar: false,
     });
   };
