@@ -62,7 +62,6 @@ export const Solicitudes = () => {
       NombreApp: "",
       NombreSolicitante: "",
       NombreUsuario: "",
-      Perfiles: "",
       PuedeFirmar: 1,
       Puesto: "",
       Rfc: "",
