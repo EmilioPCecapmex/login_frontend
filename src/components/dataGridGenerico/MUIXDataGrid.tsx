@@ -258,6 +258,7 @@ export default function MUIXDataGrid(props: any) {
           rowsPerPageOptions={[10, 25, 50, 100]}
           pageSize={10}
           getRowId={props.id}
+          
         />
       </ThemeProvider>
     </div>

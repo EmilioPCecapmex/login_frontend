@@ -480,8 +480,10 @@ export const SolicitudModificarUsuario = (props: NewDialogProps) => {
     ) {
       Swal.fire({
         icon: "error",
-        title: "Mensaje",
-        text: "Completa todos los campos para continuar",
+        title: "Aviso",
+        text: "Favor de completar todos los campos para continuar",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#15212f",
       });
     } else {
       const data = {
@@ -617,6 +619,7 @@ export const SolicitudModificarUsuario = (props: NewDialogProps) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        
       }}
     >
       <SliderProgress open={false} texto={""} />
@@ -628,6 +631,7 @@ export const SolicitudModificarUsuario = (props: NewDialogProps) => {
           mt: "2vh",
           bgcolor: "#fefdfc",
           overflow: "auto",
+          
         }}
       >
         <Grid
@@ -636,6 +640,7 @@ export const SolicitudModificarUsuario = (props: NewDialogProps) => {
           width={"100%"}
           display={"flex"}
           justifyContent={"space-evenly"}
+         
         >
           <Grid item xs={10} height={"10%"} md={4.5}>
             <TextField

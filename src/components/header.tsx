@@ -54,93 +54,148 @@ export const Header = () => {
     <div className="box">
       <Grid
         container
-        item
-        xs={12}
-        direction="row"
-        justifyContent="space-between"
+        display={"flex"}
         alignItems="center"
         sx={{
           height: "12vh",
-          width: "100vw",
+          width: "100%",
           border: "1px solid #b3afaf",
         }}
       >
-        <Grid container item xs={6} md={4} alignItems="center">
-          <Typography paddingLeft={3} variant="h5">
-            {" "}
-            {localStorage.getItem("NombreUsuario")}{" "}
-          </Typography>
-        </Grid>
-        <Hidden mdDown>
-          <Grid container item xs={3} md={4} justifyContent="center">
-            <img
-              alt="logo"
-              src={logo}
-              style={{
-                objectFit: "scale-down",
-                width: "60%",
-                height: "100%",
-                // borderRadius: '50%',
-              }}
-            />
+        <Grid container width="100%" display={"flex"} justifyContent={"space-between"} alignItems="center">
+          <Grid item sx={{
+              "@media (min-width: 480px)": {
+                width: "50%",
+              },
+
+              "@media (min-width: 768px)": {
+                width: "30%",
+              },
+
+              "@media (min-width: 1140px)": {
+                width: "20%",
+              },
+
+              "@media (min-width: 1400px)": {
+                width: "20%",
+              },
+
+              "@media (min-width: 1870px)": {
+                width: "20%",
+              },
+
+          }} >
+            <Typography sx={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} paddingLeft={3} fontSize={"35%"}>
+              {" "}
+              {localStorage.getItem("NombreUsuario")}{" "}
+            </Typography>
           </Grid>
-        </Hidden>
-        <Grid
-          paddingRight={3}
-          item
-          container
-          xs={6}
-          md={4}
-          justifyContent="flex-end"
-          alignItems="center"
-          sx={{
-            height: "50px",
-          }}
-        >
-          <TimerCounter />
-          <Tooltip title="Catálogos">
-            <IconButton
-              className="iconos-header"
-              onClick={() => navigate("../catalogos")}
-            >
-              <DescriptionIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Solicitudes">
-            <Badge badgeContent={solCount} color="primary">
-              <IconButton
-                className="iconos-header"
-                onClick={() => navigate("../solicitudes")}
-              >
-                <PostAddIcon />
-              </IconButton>
-            </Badge>
-          </Tooltip>
 
-          <Tooltip title="Usuarios">
-            <IconButton
-              className="iconos-header"
-              onClick={() => navigate("../admin")}
-            >
-              <PeopleOutlineIcon />
-            </IconButton>
-          </Tooltip>
+          <Grid item display={"flex"} justifyContent="center">
+            <Hidden mdDown>
+              <img
+                alt="logo"
+                src={logo}
+                style={{
+                  objectFit: "scale-down",
+                  width: "60%",
+                  height: "100%",
+                  // borderRadius: '50%',
+                }}
+              />
+            </Hidden>
+          </Grid>
 
-          <Tooltip title="Aplicaciones">
-            <IconButton
-              className="iconos-header"
-              onClick={() => navigate("../app")}
-            >
-              <AppsIcon />
-            </IconButton>
-          </Tooltip>
 
-          <Tooltip title="Cerrar sesión ">
-            <IconButton className="iconos-header" onClick={() => logoutFnc()}>
-              <PowerSettingsNewIcon />
-            </IconButton>
-          </Tooltip>
+          <Grid
+            item
+            direction={"row"}
+            sx={{
+              height: "40px",
+              alignItems: "center",
+              justifyContent: "center",
+
+              "@media (min-width: 480px)": {
+                width: "50%",
+              },
+
+              "@media (min-width: 768px)": {
+                width: "30%",
+              },
+
+              "@media (min-width: 1140px)": {
+                width: "25%",
+              },
+
+              "@media (min-width: 1400px)": {
+                width: "20%",
+              },
+
+              "@media (min-width: 1870px)": {
+                width: "20%",
+              },
+            }}
+          >
+
+            <Grid>
+              <TimerCounter />
+            </Grid>
+
+
+            <Grid container width={"100%"} sx={{
+              alignItems: "center",
+              justifyContent: "center",
+            }}>
+              <Tooltip title="Catálogos">
+                <IconButton
+                  //className="iconos-header"
+                  onClick={() => navigate("../catalogos")}
+                >
+                  <DescriptionIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Solicitudes">
+                <Badge badgeContent={solCount} color="primary">
+                  <IconButton
+                    className="iconos-header"
+                    onClick={() => navigate("../solicitudes")}
+                  >
+                    <PostAddIcon />
+                  </IconButton>
+                </Badge>
+              </Tooltip>
+
+              <Tooltip title="Usuarios">
+                <IconButton
+                  className="iconos-header"
+                  onClick={() => navigate("../admin")}
+                >
+                  <PeopleOutlineIcon />
+                </IconButton>
+              </Tooltip>
+
+              <Tooltip title="Aplicaciones">
+                <IconButton
+                  className="iconos-header"
+                  onClick={() => navigate("../app")}
+                >
+                  <AppsIcon />
+                </IconButton>
+              </Tooltip>
+
+              <Tooltip title="Cerrar sesión ">
+                <IconButton className="iconos-header" onClick={() => logoutFnc()}>
+                  <PowerSettingsNewIcon />
+                </IconButton>
+              </Tooltip>
+            </Grid>
+
+          </Grid>
+
         </Grid>
+
+
+
       </Grid>
     </div>
   );

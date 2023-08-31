@@ -193,8 +193,8 @@ export const Create = ({
               setNuevoElemento({
                 ...nuevoElemento,
                 Telefono: v.target.value
-                  .replaceAll("'", "")
-                  .replaceAll('"', ""),
+                .replace(/[^\d]/g, "")  // Elimina todos los caracteres que no sean dígitos
+                .slice(0, 10),  
               });
             }}
           />

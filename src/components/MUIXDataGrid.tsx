@@ -1,6 +1,6 @@
 import * as React from "react";
 import { DataGrid, GridToolbar, esES as gridEsES } from "@mui/x-data-grid";
-import { createTheme, ThemeProvider } from "@mui/material";
+import { createTheme, ThemeProvider, Grid } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
 
 const theme = createTheme(coreEsES, gridEsES);
@@ -11,6 +11,7 @@ export default function MUIXDataGrid(props: any) {
   const changePageSize = (v: number) => {
     setPageSize(v);
   };
+
   return (
     <div style={{ height: "70vh" }}>
       <ThemeProvider theme={theme}>

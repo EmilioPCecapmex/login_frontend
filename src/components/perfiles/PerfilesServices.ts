@@ -39,7 +39,7 @@ export const createPerfiles = (datos: any, fnc: Function) => {
   })
     .then(({ data }) => {
       if (data.data.Respuesta) {
-        alertaExito(fnc, data.data.Respuesta);
+        alertaExito(fnc);
       }
     })
     .catch(({ response }) => {

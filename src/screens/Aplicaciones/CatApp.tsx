@@ -42,7 +42,7 @@ export interface AppInterface {
 //componente de sweetalert2 para el uso de los mensajes de alertas
 const Toast = Swal.mixin({
   toast: true,
-  position: "bottom-end",
+  position: "top-end",
   showConfirmButton: false,
   timer: 2000,
   timerProgressBar: false,
@@ -71,7 +71,9 @@ export default function CatApps() {
       renderCell: (cellValues: any) => {
         return (
           <Box>
-            <Tooltip title={"Editar App " + cellValues.row.Nombre}>
+            <Tooltip title={"Editar App " 
+            //+ cellValues.row.Nombre
+            }>
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
@@ -81,7 +83,9 @@ export default function CatApps() {
                 <EditIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title={"Administrar perfiles de " + cellValues.row.Nombre}>
+            <Tooltip title={"Administrar perfiles  "
+            // + cellValues.row.Nombre
+             }>
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
@@ -94,7 +98,9 @@ export default function CatApps() {
               </IconButton>
             </Tooltip>
 
-            <Tooltip title={"Administrar roles de " + cellValues.row.Nombre}>
+            <Tooltip title={"Administrar roles " 
+            //+ cellValues.row.Nombre
+            }>
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
@@ -106,7 +112,9 @@ export default function CatApps() {
                 <ManageAccountsIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title={"Eliminar App " + cellValues.row.Nombre}>
+            <Tooltip title={"Eliminar App " 
+            //+ cellValues.row.Nombre
+            }>
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
@@ -161,7 +169,7 @@ export default function CatApps() {
     if (changed === true) {
       Toast.fire({
         icon: "success",
-        title: "Aplicación actualizada exitosamente",
+        title: "¡Aplicación Editada!" ,
       });
       getAllApps();
     }
@@ -179,7 +187,9 @@ export default function CatApps() {
     if (changed === true) {
       Toast.fire({
         icon: "success",
+        iconColor: "#af8c55",
         title: "Aplicación Creada Exitosamente",
+        color: "#af8c55",
       });
       getAllApps();
     }
@@ -192,13 +202,14 @@ export default function CatApps() {
   // Handle delete App
   const handleDeleteBtnClick = (event: any, cellValues: any) => {
     Swal.fire({
-      title: "Estas Seguro(a)?",
-      text: `Estas a punto de eliminar un registro (${cellValues.row.Nombre})`,
+      title: "¿Estás seguro(a) de eliminar este registro?",
+      //Estas a punto de eliminar un registro
+      text: ` ${cellValues.row.Nombre}`,
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Eliminar",
-      confirmButtonColor: "#dc3545",
-      cancelButtonColor: "#0d6efd",
+      confirmButtonColor: "#15212f",
+      cancelButtonColor: "#af8c55",
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
@@ -215,14 +226,18 @@ export default function CatApps() {
           .then(function (response) {
             Toast.fire({
               icon: "success",
+              iconColor: "#af8c55",
               title: "Aplicación Eliminada Exitosamente",
+              color: "#af8c55",
             });
             getAllApps();
           })
           .catch(function (error) {
             Swal.fire({
               icon: "error",
+              iconColor: "#af8c55",
               title: "Mensaje",
+              color: "#af8c55",
               text:
                 "(" + error.response.status + ") " + error.response.data.msg,
             });
@@ -280,56 +295,157 @@ export default function CatApps() {
       <Grid
         sx={{
           height: "88%", // aqui va 90vh
-          width: "100%",
+          width: "100vw",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
         {/* este componente es la card que se encuentra en el centro en donde vamos a meter todo lo de la pantalla */}
-        <Card sx={{ height: "80%", width: "90%", boxShadow: 10 }}>
+        <Card sx={{
+              height: "82vh", width: "90vw", boxShadow: 10,
+              "@media (min-width: 480px)": {
+                width: "90vw"
+              },
+
+              "@media (min-width: 768px)": {
+                width: "90vw"
+              },
+
+              "@media (min-width: 1140px)": {
+                width: "90vw"
+              },
+
+              "@media (min-width: 1400px)": {
+                width: "90vw"
+              },
+
+              "@media (min-width: 1870px)": {
+                width: "90vw"
+              },
+            }}>
           {/* este box es la leyenda que se encuentra arriba a la izquierda */}
           <Grid
             container
             sx={{
               display: "flex",
-              justifyContent: "space-between",
+              justifyContent: "space-around",
               alignItems: "center",
               width: "100%",
               height: "10%",
             }}
           >
-            <Grid
-              item
-              xl={4}
-              xs={12}
-              md={12}
-              sx={{ display: "flex", flexDirection: "row" }}
-            >
-              <AppsIcon style={{ fontSize: "60px" }} />
 
+            <Grid item
+              sx={{ display: "flex",
+              "@media (min-width: 480px)": {
+                width:"50%", 
+               display:"flex",
+               alignItems:"center"
+              },
+
+              "@media (min-width: 768px)": {
+                width:"60%", 
+               
+              },
+
+              "@media (min-width: 1140px)": {
+                width:"76%", 
+                
+              },
+
+              "@media (min-width: 1400px)": {
+                width:"80%", 
+               
+              },
+
+              "@media (min-width: 1870px)": {
+                width:"80%", 
+                
+              },
+            }}
+            >
+              <CardContent>
+                <AppsIcon sx={{ fontSize: "2rem" }} />
+              </CardContent>
               <Typography
-                sx={{ display: "flex", alignItems: "center", fontSize: "25px" }}
+                sx={{
+                  whiteSpace: "nowrap" , 
+                  overflow:"hidden" , 
+                  textOverflow:"ellipsis",
+                  
+                  "@media (min-width: 480px)": {
+                    width:"60%", 
+                    fontSize: "2rem",
+                  },
+
+                  "@media (min-width: 768px)": {
+                    width:"85%", 
+                    fontSize: "1.2rem",
+                  },
+
+                  "@media (min-width: 1140px)": {
+                    width:"85%", 
+                    fontSize: "1.5rem",
+                  },
+
+                  "@media (min-width: 1400px)": {
+                    width:"100%", 
+                    fontSize: "2rem",
+                  },
+
+                  "@media (min-width: 1870px)": {
+                    width:"100%", 
+                    fontSize: "2rem",
+                  },
+                }}
               >
-                Catálogo de aplicaciones registradas.
+                Aplicaciones
               </Typography>
             </Grid>
-            <Grid item xl={2} xs={12} md={12}>
+
+
+            <Grid item
+              sx={{
+                "@media (min-width: 480px)": {
+                  width:"50%", 
+                  justifyContent:"end",display:"flex",
+                },
+  
+                "@media (min-width: 768px)": {
+                  width:"30%", 
+                  justifyContent:"end",display:"flex",
+                },
+  
+                "@media (min-width: 1140px)": {
+                  width:"22%", 
+                  justifyContent:"end",display:"flex",
+                },
+  
+                "@media (min-width: 1400px)": {
+                  width:"20%", 
+                  justifyContent:"end",display:"flex",
+                },
+  
+                "@media (min-width: 1870px)": {
+                  width:"15%", 
+                  justifyContent:"end",display:"flex",
+                },
+              }}
+            >
+              <CardContent>
               <Button
                 className="aceptar"
-                variant="text"
                 onClick={(event) => handleNewBtnClick(event)}
                 sx={{
-                  fontFamily: "MontserratBold",
-                  backgroundColor: "#DFA94F",
-                  color: "#000001",
-                  fontSize: "10px",
                   boxShadow: 4,
+                  fontSize:"12px"
                 }}
                 startIcon={<AddIcon />}
               >
                 registrar aplicación
               </Button>
+              </CardContent>
             </Grid>
 
             {/* <Grid container item justifyContent="flex-end">
@@ -337,7 +453,7 @@ export default function CatApps() {
             </Grid> */}
           </Grid>
           {/* aqui es el contenido del card,y ponemos primero un box y estamos dibujando el boton para agregar un nuevo registro */}
-          <CardContent>
+         
             {/* boton a la derecha para agregar una aplicacion nueva */}
 
             {/* Grid del listado,aqui se asigna el id unico que tiene que tener cada renglon, asi que asignamos el campo ID que se obtiene del endpoint */}
@@ -346,7 +462,7 @@ export default function CatApps() {
               columns={columns}
               rows={rows}
             />
-          </CardContent>
+          
         </Card>
       </Grid>
       {newDialogOpen && (

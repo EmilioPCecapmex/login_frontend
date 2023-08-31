@@ -23,6 +23,7 @@ import { Menus } from "../menus/Menus";
 import { getPerfiles } from "./PerfilesServices";
 import ButtonsAdd from "../../screens/Componentes/ButtonsAdd";
 import { PerfilDialog } from "./DialogPerfiles";
+import { Description } from "@mui/icons-material";
 
 export interface IPerfil {
   Id: string;
@@ -104,7 +105,7 @@ export function Perfiles({
     // },
     {
       field: "Descripcion",
-      headerName: "Descripcion",
+      headerName: "Descripción",
       width: 300,
       hideable: false,
       headerAlign: "left",
@@ -149,21 +150,56 @@ export function Perfiles({
               display: "flex",
               justifyContent: "flex-end",
               alignItems: "center",
-              bgcolor: "#c4a57b",
+              border:"1px solid"
+              // bgcolor: "#c4a57b",
             }}
           >
             <Grid
               item
               xl={10}
+              xs={10}
+              lg={10}
+              md={10}
+              sm={10}
               sx={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
               }}
-            >
-              <Typography fontFamily={"Montserrat-Regular"} fontSize={50}>
-                {" "}
-                PERFILES{" "}
+            >  
+              <Typography fontFamily={"'Montserrat', sans-serif"}  sx={{
+                        whiteSpace: "nowrap" , 
+                        overflow:"hidden" , 
+                        textOverflow:"ellipsis",
+                        textAlign:"center",
+                        
+                        "@media (min-width: 480px)": {
+                          width:"60%", 
+                          fontSize: "2rem",
+                        },
+    
+                        "@media (min-width: 768px)": {
+                          width:"85%", 
+                          fontSize: "1.2rem",
+                        },
+    
+                        "@media (min-width: 1140px)": {
+                          width:"85%", 
+                          fontSize: "1.5rem",
+                        },
+    
+                        "@media (min-width: 1400px)": {
+                          width:"100%", 
+                          fontSize: "2rem",
+                        },
+    
+                        "@media (min-width: 1870px)": {
+                          width:"100%", 
+                          fontSize: "2rem",
+                        },
+                      }}>
+               
+                PERFILES
               </Typography>
             </Grid>
             <Grid
@@ -175,13 +211,16 @@ export function Perfiles({
                 alignItems: "center",
               }}
             >
+              <Tooltip title= "Cerrar">
               <IconButton
                 onClick={() => {
                   closeModal();
                 }}
               >
-                <CloseIcon style={{ fontSize: 50 }} />{" "}
+                <CloseIcon style={{ fontSize: 50 }}  />{" "}
+                
               </IconButton>
+              </Tooltip>
             </Grid>
           </Grid>
 
@@ -220,7 +259,13 @@ export function Perfiles({
                     alignItems: "center",
                   }}
                 >
-                  <AppsIcon style={{ fontSize: "60px" }} />
+                  <ButtonsAdd
+                    handleOpen={() => {
+                      setMovimiento("agregar");
+                      setopenPerfilesDialog(true);
+                    }}
+                    agregar={true}
+                  />
                 </Grid>
 
                 <Grid
@@ -239,12 +284,37 @@ export function Perfiles({
                 >
                   <Tooltip title={app}>
                     <Typography
-                      fontFamily={"Montserrat-Bold"}
-                      fontSize={40}
+                      fontFamily={"'Montserrat', sans-serif"}
                       sx={{
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
+                        whiteSpace: "nowrap" , 
+                        overflow:"hidden" , 
+                        textOverflow:"ellipsis",
+                        textAlign:"center",
+                        
+                        "@media (min-width: 480px)": {
+                          width:"60%", 
+                          fontSize: "2rem",
+                        },
+    
+                        "@media (min-width: 768px)": {
+                          width:"85%", 
+                          fontSize: "1.2rem",
+                        },
+    
+                        "@media (min-width: 1140px)": {
+                          width:"85%", 
+                          fontSize: "1.5rem",
+                        },
+    
+                        "@media (min-width: 1400px)": {
+                          width:"100%", 
+                          fontSize: "2rem",
+                        },
+    
+                        "@media (min-width: 1870px)": {
+                          width:"100%", 
+                          fontSize: "2rem",
+                        },
                       }}
                     >
                       {app}
@@ -254,22 +324,24 @@ export function Perfiles({
 
                 <Grid
                   item
-                  xl={2}
-                  xs={2}
-                  md={2}
+                  xl={1}
+              xs={1}
+              lg={1}
+              md={1}
+              sm={1}
                   sx={{
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
                   }}
                 >
-                  <ButtonsAdd
+                  {/* <ButtonsAdd
                     handleOpen={() => {
                       setMovimiento("agregar");
                       setopenPerfilesDialog(true);
                     }}
                     agregar={true}
-                  />
+                  /> */}
                 </Grid>
               </Grid>
 

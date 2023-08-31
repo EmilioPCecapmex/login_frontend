@@ -10,7 +10,7 @@ const Toast = Swal.mixin({
   showConfirmButton: false,
 
   timer: 3000,
-
+  confirmButtonColor: "#000E4E",
   timerProgressBar: true,
 
   didOpen: (toast) => {
@@ -19,6 +19,8 @@ const Toast = Swal.mixin({
     toast.addEventListener("mouseleave", Swal.resumeTimer);
   },
 });
+
+
 
 export const getCatalogo = (
   path: string,
@@ -72,6 +74,7 @@ export const modificarCatalogo = (
       Toast.fire({
         icon: "success",
         title: `¡Registro Editado!`,
+        confirmButtonColor: "#000E4E",
       });
       setOpen(false);
     })
@@ -82,6 +85,7 @@ export const modificarCatalogo = (
           : e.response.data.error;
       Swal.fire({
         icon: "error",
+        confirmButtonColor: "#000E4E",
         title: "Mensaje",
         text: "( " + mensaje + " ) ",
       });
@@ -118,12 +122,15 @@ export const createCatalogo = (
           ? "No se detectaron cambios"
           : e.response.data.error;
       Swal.fire({
+        
         icon: "error",
         title: "Mensaje",
         text: "( " + mensaje + " ) ",
       });
     });
 };
+
+
 
 export const EliminarCatalogo = (
   path: string,
