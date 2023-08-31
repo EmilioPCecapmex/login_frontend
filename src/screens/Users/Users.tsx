@@ -217,7 +217,7 @@ export default function Users() {
       field: "acciones",
       headerName: "Acciones",
       width: 150,
-      //headerAlign: "center",
+      headerAlign: "center",
       renderCell: (cellValues: any) => {
         return (
           <Box>
@@ -271,49 +271,48 @@ export default function Users() {
       headerName: "Nombre",
       width: 150,
       hideable: false,
-      //headerAlign: "center",
+      headerAlign: "center",
     },
     {
       field: "ApellidoPaterno",
       headerName: "Apellido Paterno",
-      width: 150,
-      //headerAlign: "center",
+      width: 130,
+      headerAlign: "center",
     },
     {
       field: "ApellidoMaterno",
       headerName: "Apellido Materno",
-      width: 150,
-      //headerAlign: "center",
+      width: 140,
+      headerAlign: "center",
     },
     {
       field: "NombreUsuario",
       headerName: "Nombre Usuario",
-      width: 150,
-      //headerAlign: "center",
+      width: 130,
+      headerAlign: "center",
     },
     {
       field: "CorreoElectronico",
       headerName: "Correo Electrónico",
       width: 300,
-      // headerAlign: "center",
     },
     {
       field: "NombreCreadoPor",
       headerName: "Creador",
       width: 150,
-      //headerAlign: "center",
+      headerAlign: "center",
     },
     {
       field: "NombreModificadoPor",
       headerName: "Actualizado Por",
       width: 150,
-      // headerAlign: "center",
+      headerAlign: "center",
     },
     {
       field: "EstaActivoLabel",
       headerName: "Estatus",
-      width: 100,
-      //headerAlign: "center",
+      width: 110,
+      headerAlign: "center",
     },
   ];
 
@@ -329,7 +328,7 @@ export default function Users() {
 
       <Box
         sx={{
-          height: "88vh",
+          height: "87vh",
           width: "100vw",
           display: "flex",
           alignItems: "center",
@@ -337,34 +336,10 @@ export default function Users() {
         }}
       >
         <Box>
-          <Card
-            sx={{
-              height: "82vh",
-              width: "90vw",
-              boxShadow: 10,
-              "@media (min-width: 480px)": {
-                width: "90vw",
-              },
-
-              "@media (min-width: 768px)": {
-                width: "90vw",
-              },
-
-              "@media (min-width: 1140px)": {
-                width: "90vw",
-              },
-
-              "@media (min-width: 1400px)": {
-                width: "90vw",
-              },
-
-              "@media (min-width: 1870px)": {
-                width: "90vw",
-              },
-            }}
-          >
-            <Grid
+          <Card sx={{ height: "80vh", width: "80vw", boxShadow: 10 }}>
+            <Box
               sx={{
+                p: 2,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
@@ -372,8 +347,8 @@ export default function Users() {
             >
               <Grid container justifyContent="space-between">
                 <Grid
-                  item
                   container
+                  item
                   xs={12}
                   md={6}
                   direction="row"
@@ -385,7 +360,7 @@ export default function Users() {
                     Listado de usuarios con acceso a plataformas.
                   </Typography>
                 </Grid>
-                <Grid item xs={12} md={6} justifyContent="flex-end">
+                <Grid item container xs={12} md={6} justifyContent="flex-end">
                   <FormGroup>
                     <FormControlLabel
                       control={
@@ -402,14 +377,37 @@ export default function Users() {
                   </FormGroup>
                 </Grid>
               </Grid>
-            </Grid>
-            <div>
+            </Box>
+
+            <CardContent>
+              <Box display="flex" justifyContent="flex-end">
+                <Button
+                  className="registrar-usuario"
+                  variant="text"
+                  onClick={() => {
+                    setIdApp("");
+                    setIdUsuario("");
+                    setNewDialogOpen(true);
+                  }}
+                  sx={{
+                    fontFamily: "MontserratBold",
+                    backgroundColor: "#DFA94F",
+                    color: "#000001",
+                    fontSize: "10px",
+                    mb: "1vh",
+                    boxShadow: 4,
+                  }}
+                  startIcon={<PersonAddIcon />}
+                >
+                  Registrar Usuario
+                </Button>
+              </Box>
               <MUIXDataGrid
                 id={(row: any) => row.Id}
                 columns={columns}
                 rows={rows}
               />
-            </div>
+            </CardContent>
           </Card>
         </Box>
         <NewDialog

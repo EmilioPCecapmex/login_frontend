@@ -380,6 +380,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           Aplicacion: { Id: aux?.Id!, Nombre: aux?.Nombre! },
         });
       }
+      getCatalogo("roles", setRoles, props.idApp);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
