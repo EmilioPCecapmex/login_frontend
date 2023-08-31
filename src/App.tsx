@@ -32,7 +32,7 @@ const App = () => {
               token={""}
               idUsuarioSolicitante={""}
               idUsuarioModificado={""}
-              idApp={""}
+              idApp={localStorage.getItem("IdApp")!}
             />
           }
         />

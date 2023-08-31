@@ -81,7 +81,10 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     ApellidoMaterno: "",
     NombreUsuario: "",
     CorreoElectronico: "",
-    Aplicacion: { Id: props.idApp, Nombre: "" },
+    Aplicacion: {
+      Id: props.idApp || localStorage.getItem("IdApp")!,
+      Nombre: "",
+    },
     TipoUsuario: { Id: "", Nombre: "" },
     Puesto: "",
     CURP: "",
@@ -108,55 +111,57 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           Aplicacion: { Id: aux?.Id!, Nombre: aux?.Nombre! },
         });
 
-        axios
-          .post(
-            process.env.REACT_APP_APPLICATION_DEV + "/api/userapp-detail",
-            {
-              IdUsuario: props.idUsuarioModificado,
-              IdApp: props.idApp,
-            },
-            {
-              headers: {
-                "Content-Type": "application/json",
-                authorization: localStorage.getItem("jwtToken") || "",
+        if (props.idUsuarioModificado) {
+          axios
+            .post(
+              process.env.REACT_APP_APPLICATION_DEV + "/api/userapp-detail",
+              {
+                IdUsuario: props.idUsuarioModificado,
+                IdApp: props.idApp,
               },
-            }
-          )
-          .then((r) => {
-            const data = r.data.data;
-            const roles = r.data.roles[0];
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  authorization: localStorage.getItem("jwtToken") || "",
+                },
+              }
+            )
+            .then((r) => {
+              const data = r.data.data;
+              const roles = r.data.roles[0];
 
-            setInfoUsuario({
-              ...infoUsuario,
-              Nombre: data.Nombre,
-              ApellidoPaterno: data.ApellidoPaterno,
-              ApellidoMaterno: data.ApellidoMaterno,
-              NombreUsuario: data.NombreUsuario,
-              CorreoElectronico: data.CorreoElectronico,
-              Aplicacion: {
-                Id: props.idApp || "",
-                Nombre: data.Aplicacion || "",
-              },
-              TipoUsuario: {
-                Id: data.IdTipoUsuario || "",
-                Nombre: data.TipoUsuario || "",
-              },
-              Puesto: data.Puesto,
-              CURP: data.CURP,
-              RFC: data.RFC,
-              Celular: data.Celular,
-              Telefono: data.Telefono,
-              Ext: data.Ext,
-              Roles: roles || [],
-              Entidad: {
-                Id: data.IdEntidad || "",
-                Nombre:
-                  entidades.find((ent) => ent.Id === data.IdEntidad)?.Nombre! ||
-                  "",
-              },
-              PuedeFirmar: data.PuedeFirmar === 1,
+              setInfoUsuario({
+                ...infoUsuario,
+                Nombre: data.Nombre,
+                ApellidoPaterno: data.ApellidoPaterno,
+                ApellidoMaterno: data.ApellidoMaterno,
+                NombreUsuario: data.NombreUsuario,
+                CorreoElectronico: data.CorreoElectronico,
+                Aplicacion: {
+                  Id: props.idApp || "",
+                  Nombre: data.Aplicacion || "",
+                },
+                TipoUsuario: {
+                  Id: data.IdTipoUsuario || "",
+                  Nombre: data.TipoUsuario || "",
+                },
+                Puesto: data.Puesto,
+                CURP: data.CURP,
+                RFC: data.RFC,
+                Celular: data.Celular,
+                Telefono: data.Telefono,
+                Ext: data.Ext,
+                Roles: roles || [],
+                Entidad: {
+                  Id: data.IdEntidad || "",
+                  Nombre:
+                    entidades.find((ent) => ent.Id === data.IdEntidad)
+                      ?.Nombre! || "",
+                },
+                PuedeFirmar: data.PuedeFirmar === 1,
+              });
             });
-          });
+        }
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -369,21 +374,25 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
   }, [infoUsuario.Aplicacion]);
 
   useEffect(() => {
-    getCatalogo("apps", setApps, "");
-    getCatalogo("lista-entidades", setEntidades, "");
+    getCatalogo("apps", setApps, "", props.token);
+    getCatalogo("lista-entidades", setEntidades, "", props.token);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (props.idApp !== "") {
-      let aux = apps.find((app) => (app.Id = props.idApp));
+      let aux = apps.find((app) => app.Id === props.idApp);
+
       if (aux) {
         setInfoUsuario({
           ...infoUsuario,
           Aplicacion: { Id: aux?.Id!, Nombre: aux?.Nombre! },
         });
       }
-      getCatalogo("roles", setRoles, props.idApp);
+      getCatalogo("roles", setRoles, props.idApp, props.token);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [apps]);
 
   const cleanData = (CorreoElectronico: string, usuario: string) => {
     setInfoUsuario({
@@ -739,7 +748,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
                 Roles: [],
                 Aplicacion: { Id: v?.Id, Nombre: v?.Nombre! },
               });
-              getCatalogo("roles", setRoles, v?.Id);
+              getCatalogo("roles", setRoles, v?.Id, props.token);
             }
           }}
           renderInput={(params) => (

@@ -82,8 +82,8 @@ const Catalogos = () => {
   });
 
   useEffect(() => {
-    getCatalogo("lista-entidades", setEntidades, "");
-    getCatalogo("lista-tipo-entidades", setTipoEntidades, "");
+    getCatalogo("lista-entidades", setEntidades, "", "");
+    getCatalogo("lista-tipo-entidades", setTipoEntidades, "", "");
 
     openCreate === false &&
       setElemento({

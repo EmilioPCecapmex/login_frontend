@@ -81,27 +81,6 @@ export default function Users() {
     setNewDialogOpen(false);
   };
 
-  const [editDialogOpen, setEditDialogOpen] = useState(false);
-
-  // const [editDialogUsuario, setEditDialogUsuario] = useState<Usuario>();
-  // const handleEditDialogOpen = () => setEditDialogOpen(true);
-
-  const handleEditDialogClose = (changed: boolean) => {
-    if (changed === true) {
-      Toast.fire({
-        icon: "success",
-        title: "Cambios realizados exitosamente",
-      });
-      getAllUsers();
-    }
-    setEditDialogOpen(false);
-  };
-
-  // const handleEditBtnClick = (event: any, cellValues: any) => {
-  //   setEditDialogUsuario(cellValues.row);
-  //   handleEditDialogOpen();
-  // };
-
   const getDatosDocumento = (nombreUsuario: any) => {
     axios
       .get(process.env.REACT_APP_APPLICATION_DEV + "/api/docSolicitudUsuario", {
@@ -127,17 +106,6 @@ export default function Users() {
   const [appsDialogOpen, setAppsDialogOpen] = useState(false);
   const [appsDialogUsuario, setAppsDialogUsuario] = useState<Usuario>();
   const handleAppsDialogOpen = () => setAppsDialogOpen(true);
-
-  const handleAppsDialogClose = (changed: boolean) => {
-    if (changed === true) {
-      Toast.fire({
-        icon: "success",
-        title: "Plataformas de usuario actualizadas exitosamente",
-      });
-      getAllUsers();
-    }
-    setAppsDialogOpen(false);
-  };
 
   const handleAppsBtnClick = (event: any, cellValues: any) => {
     setAppsDialogUsuario(cellValues.row);

@@ -88,9 +88,9 @@ export const Create = ({
   const [tipoEntidades, setTipoEntidades] = useState<Array<IEntidad>>([]);
 
   useEffect(() => {
-    getCatalogo("usuarios-asignables", setUsuarios, "");
-    getCatalogo("lista-entidades", setEntidades, "");
-    getCatalogo("lista-tipo-entidades", setTipoEntidades, "");
+    getCatalogo("usuarios-asignables", setUsuarios, "", "");
+    getCatalogo("lista-entidades", setEntidades, "", "");
+    getCatalogo("lista-tipo-entidades", setTipoEntidades, "", "");
   }, []);
 
   //------------------------CATALOGOS-------------------------------------------
