@@ -138,7 +138,9 @@ export const Create = ({
       fullWidth
       maxWidth={"sm"}
     >
-      <DialogTitle>Crear elemento:</DialogTitle>
+      <DialogTitle>
+        {data.Id !== "" ? "Editar elemento:" : "Crear elemento:"}
+      </DialogTitle>
       <DialogContent
         sx={{
           display: "flex",
