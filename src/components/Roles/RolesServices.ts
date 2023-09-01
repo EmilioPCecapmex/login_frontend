@@ -40,8 +40,8 @@ export const createRol = (datos: any, fnc: Function) => {
     },
   })
     .then(({ data }) => {
-      if (data.data.Respuesta) {
-        alertaExito(fnc, data.data.Respuesta);
+      if (data.data) {
+        alertaExito(fnc, data.data);
       }
     })
     .catch(({ response }) => {

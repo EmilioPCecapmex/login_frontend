@@ -326,6 +326,7 @@ export const Login = () => {
               modoModal={opensolicitudModal}
               token={String(jwt)}
               idUsuarioSolicitante={String(idUsuarioSolicitante)}
+              idUsuarioModificado={""}
               idApp={String(idAppSolicitante)}
             />
           ) : (

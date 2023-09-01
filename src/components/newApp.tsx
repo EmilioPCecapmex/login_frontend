@@ -21,6 +21,7 @@ export interface NewDialogProps {
 export const NewDialogApp = (props: NewDialogProps) => {
   const [nombre, setNombre] = useState("");
   const [path, setPath] = useState("");
+  const [descripcion, setDescripcion] = useState("");
 
   const handleKeyDown = (event: { key: string }) => {
     if (event.key === "Enter") {
@@ -32,8 +33,10 @@ export const NewDialogApp = (props: NewDialogProps) => {
     if (nombre === "" || path === "") {
       Swal.fire({
         icon: "error",
-        title: "Mensaje",
-        text: "Completa todos los campos para continuar",
+        title: "Aviso",
+        text: "Favor de completar todos los campos para continuar",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#15212f",
       });
     } else {
       //setIDUsuarioModifica("c18fc135-3a89-11ed-aed0-040300000000");
@@ -41,6 +44,7 @@ export const NewDialogApp = (props: NewDialogProps) => {
       const data = {
         Nombre: nombre,
         Path: path,
+        Descripcion: descripcion,
         IdUsuarioModificador: localStorage.getItem("IdUsuario"),
       };
       axios({
@@ -59,8 +63,9 @@ export const NewDialogApp = (props: NewDialogProps) => {
         .catch(function (error) {
           Swal.fire({
             icon: "error",
-            title: "Mensaje",
+            title: "Error",
             text: "(" + error.response.status + ") " + error.response.data.msg,
+            confirmButtonColor: "#2f2f2f",
           });
         });
     }
@@ -124,14 +129,34 @@ export const NewDialogApp = (props: NewDialogProps) => {
               onKeyDown={handleKeyDown}
             />
           </Grid>
+          <Grid item xs={12}>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="descripcion"
+              label="Descripción"
+              type="text"
+              fullWidth
+              variant="standard"
+              multiline
+              rows={4}
+              value={descripcion}
+              onChange={(v) => setDescripcion(v.target.value)}
+            />
+          </Grid>
         </Grid>
       </DialogContent>
 
       <DialogActions>
-        <Button className="cancelar" onClick={() => props.handleNewDialogClose()}>
+        <Button
+          className="cancelar"
+          onClick={() => props.handleNewDialogClose()}
+        >
           Cancelar
         </Button>
-        <Button className="aceptar" onClick={() => handleStoreBtn()}>Crear</Button>
+        <Button className="aceptar" onClick={() => handleStoreBtn()}>
+          Crear
+        </Button>
       </DialogActions>
     </Dialog>
   );

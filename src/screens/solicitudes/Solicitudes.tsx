@@ -1,44 +1,42 @@
 /* eslint-disable array-callback-return */
-import { useEffect, useState } from "react";
-import axios from "axios";
+import InfoTwoToneIcon from "@mui/icons-material/InfoTwoTone";
+import SkipNextIcon from "@mui/icons-material/SkipNext";
+import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import {
   Box,
-  IconButton,
   Button,
-  Typography,
-  TextField,
-  List,
-  ListItemButton,
-  Divider,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Divider,
+  FormControl,
   FormControlLabel,
-  Checkbox,
   Grid,
   Hidden,
+  IconButton,
+  InputLabel,
+  List,
+  ListItemButton,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
 } from "@mui/material";
-import Swal from "sweetalert2";
-import { Header } from "../../components/header";
-import { IDetalleSolicitud, ISolicitud } from "./ISolicitud";
-import { IApps } from "./IApps";
-import InfoTwoToneIcon from "@mui/icons-material/InfoTwoTone";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import { CommentsDialog } from "../../components/commentsDialog";
 import CircularProgress from "@mui/material/CircularProgress";
+import axios from "axios";
 import moment from "moment";
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import { CommentsDialog } from "../../components/commentsDialog";
+import { Header } from "../../components/header";
 import { imprimirSolicitud } from "../Users/Users";
-import { TimerCounter } from "../../components/timer/timer";
 import { COLOR } from "../styles/colors";
+import { IApps } from "./IApps";
+import { IDetalleSolicitud, ISolicitud, iOnChangeInfo } from "./ISolicitud";
 import VerSolicitudesModal from "./VerSolicitudesModal";
-import CloseIcon from "@mui/icons-material/Close";
 export const Solicitudes = () => {
   const [solicitudes, setSolicitudes] = useState<Array<ISolicitud>>([]);
 
@@ -64,7 +62,6 @@ export const Solicitudes = () => {
       NombreApp: "",
       NombreSolicitante: "",
       NombreUsuario: "",
-      Perfiles: "",
       PuedeFirmar: 1,
       Puesto: "",
       Rfc: "",
@@ -89,20 +86,29 @@ export const Solicitudes = () => {
     Ext: "",
     Celular: "",
     IdTipoUsuario: "",
+    UResponsable: "",
   });
 
-  const [onChangeInfo, setOnChangeInfo] = useState({
-    Nombre: false,
-    ApellidoPaterno: false,
+  const [onChangeInfo, setOnChangeInfo] = useState<iOnChangeInfo>({
     ApellidoMaterno: false,
-    NombreUsuario: false,
-    CorreoElectronico: false,
-    Puesto: false,
-    Curp: false,
-    Rfc: false,
-    Telefono: false,
-    Ext: false,
+    ApellidoPaterno: false,
     Celular: false,
+    CorreoElectronico: false,
+    Curp: false,
+    Ext: false,
+    Id: false,
+    IdTipoUsuario: false,
+    Nombre: false,
+    NombreApp: false,
+    NombreSolicitante: false,
+    NombreUsuario: false,
+    PuedeFirmar: false,
+    Puesto: false,
+    Rfc: false,
+    Roles: false,
+    Telefono: false,
+    TpoUsuario: false,
+    UResponsable: false,
   });
 
   const [apps, setApps] = useState<Array<IApps>>([]);
@@ -138,35 +144,6 @@ export const Solicitudes = () => {
       });
   };
 
-  const createComentarios = () => {
-    axios
-      .post(
-        process.env.REACT_APP_APPLICATION_DEV + "/api/create-comentario",
-        {
-          CreadoPor: localStorage.getItem("IdUsuario"),
-          IdSolicitud: detalleSolicitud[0].Id,
-          Comentario: comentario,
-        },
-        {
-          headers: {
-            Authorization: localStorage.getItem("jwtToken") || "",
-          },
-        }
-      )
-      .then((r) => {
-        if (r.status === 201) {
-          Toast.fire({
-            icon: "success",
-            title: "¡Registro exitoso!",
-          });
-        }
-      })
-      .catch((r) => {
-        if (r.response.status === 409) {
-        }
-      });
-  };
-
   const modificarSolicitud = (estado: string, tipoSoli: string) => {
     axios
       .put(
@@ -193,10 +170,6 @@ export const Solicitudes = () => {
           } else setSelectedIndex(-1);
           filtroXApp(idApp);
           getSolicitudes();
-
-          if ((estado === "2" || estado === "3") && comentario !== "") {
-            createComentarios();
-          }
         }
       });
   };
@@ -252,33 +225,33 @@ export const Solicitudes = () => {
       });
   };
 
-  const getDetalleUsuario = () => {
-    axios
-      .post(
-        process.env.REACT_APP_APPLICATION_DEV + "/api/user-detail",
-        {
-          IdUsuario: detalleSolicitud[0].CorreoElectronico,
-        },
-        {
-          headers: {
-            Authorization: localStorage.getItem("jwtToken") || "",
-          },
-        }
-      )
-      .then((r) => {
-        if (r.status === 200) {
-          setDetalleUsuario(r.data.data);
-        }
-      })
-      .catch((r) => {
-        if (r.response.status === 409) {
-          Toast.fire({
-            icon: "error",
-            title: "Busqueda Fallida!",
-          });
-        }
-      });
-  };
+  // const getDetalleUsuario = () => {
+  //   axios
+  //     .post(
+  //       process.env.REACT_APP_APPLICATION_DEV + "/api/user-detail",
+  //       {
+  //         IdUsuario: detalleSolicitud[0].Id,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: localStorage.getItem("jwtToken") || "",
+  //         },
+  //       }
+  //     )
+  //     .then((r) => {
+  //       if (r.status === 200) {
+  //         setDetalleUsuario(r.data.data);
+  //       }
+  //     })
+  //     .catch((r) => {
+  //       if (r.response.status === 409) {
+  //         Toast.fire({
+  //           icon: "error",
+  //           title: "Busqueda Fallida!",
+  //         });
+  //       }
+  //     });
+  // };
 
   const [IdSolicitud, setIdSolicitud] = useState("");
 
@@ -311,6 +284,7 @@ export const Solicitudes = () => {
   useEffect(() => {
     getApps();
     getSolicitudes();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //registro seleccionado
@@ -325,36 +299,34 @@ export const Solicitudes = () => {
     setPuedeFirmar(detalleSolicitud[0].PuedeFirmar === 1);
   }, [detalleSolicitud]);
 
-  const [comentCount, setComentCount] = useState(0);
-  /////////////////////// modal de Ver Solicitudes
-  const [openVerSolicitudesModal, setOpenVerSolicitudesModal] = useState(false);
+  // const [comentCount, setComentCount] = useState(0);
 
   ///////////////////
-  const getComentarios = () => {
-    axios({
-      method: "get",
-      url:
-        process.env.REACT_APP_APPLICATION_DEV + "/api/comentarios-solicitudes",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("jwtToken") || "",
-      },
-      params: {
-        IdUsuario: localStorage.getItem("IdUsuario"),
-        IdSolicitud: solicitudSeleccionada,
-      },
-    })
-      .then(function (response) {
-        setComentCount(response.data.data.length);
-      })
-      .catch(function (error) {
-        Swal.fire({
-          icon: "error",
-          title: "Mensaje",
-          text: "(" + error.response.status + ") " + error.response.data.msg,
-        });
-      });
-  };
+  // const getComentarios = () => {
+  //   axios({
+  //     method: "get",
+  //     url:
+  //       process.env.REACT_APP_APPLICATION_DEV + "/api/comentarios-solicitudes",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: localStorage.getItem("jwtToken") || "",
+  //     },
+  //     params: {
+  //       IdUsuario: localStorage.getItem("IdUsuario"),
+  //       IdSolicitud: solicitudSeleccionada,
+  //     },
+  //   })
+  //     .then(function (response) {
+  //       setComentCount(response.data.data.length);
+  //     })
+  //     .catch(function (error) {
+  //       Swal.fire({
+  //         icon: "error",
+  //         title: "Mensaje",
+  //         text: "(" + error.response.status + ") " + error.response.data.msg,
+  //       });
+  //     });
+  // };
 
   const itemSelected = (x: number, id: string) => {
     setSelectedIndex(x);
@@ -430,21 +402,29 @@ export const Solicitudes = () => {
     if (
       solicitudesFiltered[selectedIndex]?.tipoSoli.toUpperCase() ===
       "MODIFICACION"
-    )
-      getDetalleUsuario();
-    else {
+    ) {
+      // getDetalleUsuario();
+    } else {
       setOnChangeInfo({
-        Nombre: false,
-        ApellidoPaterno: false,
         ApellidoMaterno: false,
-        NombreUsuario: false,
-        Puesto: false,
+        ApellidoPaterno: false,
+        Celular: false,
         CorreoElectronico: false,
         Curp: false,
-        Rfc: false,
-        Telefono: false,
         Ext: false,
-        Celular: false,
+        Id: false,
+        IdTipoUsuario: false,
+        Nombre: false,
+        NombreApp: false,
+        NombreSolicitante: false,
+        NombreUsuario: false,
+        PuedeFirmar: false,
+        Puesto: false,
+        Rfc: false,
+        Roles: false,
+        Telefono: false,
+        TpoUsuario: false,
+        UResponsable: false,
       });
     }
   };
@@ -453,7 +433,7 @@ export const Solicitudes = () => {
     if (selectedIndex >= 0) {
       setSolicitudSeleccionada(solicitudesFiltered[selectedIndex].Id);
       getDetalleSolicitud();
-      getComentarios();
+      // getComentarios();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -565,7 +545,6 @@ export const Solicitudes = () => {
                           key={x}
                           onClick={() => {
                             itemSelected(x, item.Id);
-                            setOpenVerSolicitudesModal(true);
                           }}
                           sx={{
                             pl: 2,
@@ -575,6 +554,15 @@ export const Solicitudes = () => {
                             "&.Mui-selected:hover": {
                               backgroundColor: "#cbcbcb",
                             },
+                            backgroundColor:
+                              item?.tipoSoli.toUpperCase() === "ALTA"
+                                ? "#fbffae8a"
+                                : item?.tipoSoli.toUpperCase() === "BAJA"
+                                ? "#ffbcbc6e"
+                                : item?.tipoSoli.toUpperCase() ===
+                                  "MODIFICACION"
+                                ? "#c3e3ffa8"
+                                : "#dcffc8a1",
                           }}
                           selected={selectedIndex === x ? true : false}
                         >
@@ -583,6 +571,7 @@ export const Solicitudes = () => {
                             direction="column"
                             justifyContent="center"
                             alignItems="center"
+                            sx={{}}
                           >
                             <Grid item container xs={12}>
                               <Grid item xs={12} md={6}>
@@ -952,7 +941,7 @@ export const Solicitudes = () => {
                   >
                     <VerSolicitudesModal
                       detalleSolicitud={detalleSolicitud}
-                      comentCount={comentCount}
+                      // comentCount={comentCount}
                       onChangeInfo={onChangeInfo}
                       detalleUsuario={detalleUsuario}
                       solicitudSeleccionada={solicitudSeleccionada}

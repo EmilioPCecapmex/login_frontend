@@ -1,25 +1,38 @@
 import {
   Autocomplete,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   FormControlLabel,
   Grid,
   Switch,
   TextField,
   Typography,
 } from "@mui/material";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import SelectValues from "../../Interfaces/SelectValues";
 import { UserServices } from "../../services/UserServices";
 import { getCatalogo } from "../../services/catalogosService";
-import { IEntidadPadre, IPerfil, IRol, IUResponsable } from "./ICatalogos";
+import { IEntidadPadre, IRol } from "./ICatalogos";
 
 export interface NewDialogProps {
   modoModal: boolean;
   token: string;
   idUsuarioSolicitante: string;
+  idUsuarioModificado: string;
   idApp: string;
   handleDialogClose: Function;
+}
+
+export interface IApps {
+  Id: string;
+  Nombre: string;
+  Descripcion: string;
+  EstaActivo: string;
+  Path: string;
 }
 
 export interface IUserTypes {
@@ -34,18 +47,16 @@ export interface IInfoUsuario {
   ApellidoMaterno: string;
   NombreUsuario: string;
   CorreoElectronico: string;
-  Aplicacion: { value: string; label: string };
+  Aplicacion: { Id: string; Nombre: string };
   TipoUsuario: { Id: string; Nombre: string };
   Puesto: string;
   CURP: string;
   RFC: string;
-  Celular: number;
-  Telefono: number;
-  Ext: number;
-  Perfiles: { Id: string; Descripcion: string }[];
+  Celular: string;
+  Telefono: string;
+  Ext: string;
   Roles: { Id: string; Nombre: string }[];
-  UnidadResponsable: { Id: string; Descripcion: string };
-  Entidad: { value: string; descripcion: string };
+  Entidad: { Id: string; Nombre: string };
   PuedeFirmar: boolean;
 }
 
@@ -53,37 +64,40 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
   const urlParams = window.location.search;
   const query = new URLSearchParams(urlParams);
   const jwt = query.get("jwt");
-  //------------------------CATALOGOS-------------------------------------------
+  const IdUsuario =
+    props.idUsuarioModificado || query.get("idUsuarioModificado") || "";
 
+  const [bajaUsuario, setBajaUsuario] = useState(false);
+
+  const [apps, setApps] = useState<Array<IApps>>([]);
+  const [usertypes, setUserTypes] = useState<Array<IUserTypes>>([]);
   const [roles, setRoles] = useState<Array<IRol>>([]);
-  const [perfiles, setPerfiles] = useState<Array<IPerfil>>([]);
-  const [uResponsables, setUResponsables] = useState<Array<IUResponsable>>([]);
   const [entidades, setEntidades] = useState<Array<IEntidadPadre>>([]);
-  const [apps, setApps] = useState<Array<SelectValues>>([]);
 
-  //elementos seleccionados
+  const [existeCorreo, setExisteCorreo] = useState(false);
+  const [existeNUsuario, setExisteNUsuario] = useState(false);
+
   const [infoUsuario, setInfoUsuario] = useState<IInfoUsuario>({
     Nombre: "",
     ApellidoPaterno: "",
     ApellidoMaterno: "",
     NombreUsuario: "",
     CorreoElectronico: "",
-    Aplicacion: { value: props.idApp, label: "" },
+    Aplicacion: {
+      Id: props.idApp || localStorage.getItem("IdApp")!,
+      Nombre: "",
+    },
     TipoUsuario: { Id: "", Nombre: "" },
     Puesto: "",
     CURP: "",
     RFC: "",
-    Celular: 0,
-    Telefono: 0,
-    Ext: 0,
-    Perfiles: [],
+    Celular: "",
+    Telefono: "",
+    Ext: "",
     Roles: [],
-    UnidadResponsable: { Id: "", Descripcion: "" },
-    Entidad: { value: "", descripcion: "" },
+    Entidad: { Id: "", Nombre: "" },
     PuedeFirmar: false,
   });
-
-  const [errores, setErrores] = useState({});
 
   function validarCadena(Nombre: string): boolean {
     const patron = /^(?!.*\s{2})[a-zA-ZáÁéÉíÍóÓúÚñÑ0-9\s']*$/;
@@ -91,61 +105,82 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
   }
 
   useEffect(() => {
+    console.log(query.get("IdUsuario"));
+
     if (apps.length) {
-      let aux = apps.find((app) => app.value === props.idApp);
+      let aux = apps.find((app) => app.Id === props.idApp);
       if (aux) {
         setInfoUsuario({
           ...infoUsuario,
-          Aplicacion: { value: aux?.id!, label: aux?.label! },
+          Aplicacion: { Id: aux?.Id!, Nombre: aux?.Nombre! },
         });
+
+        if (IdUsuario) {
+          axios
+            .post(
+              process.env.REACT_APP_APPLICATION_DEV + "/api/userapp-detail",
+              {
+                IdUsuario: IdUsuario,
+                IdApp: props.idApp,
+              },
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  authorization: localStorage.getItem("jwtToken") || "",
+                },
+              }
+            )
+            .then((r) => {
+              const data = r.data.data;
+              const roles = r.data.roles[0];
+
+              setInfoUsuario({
+                ...infoUsuario,
+                Nombre: data.Nombre,
+                ApellidoPaterno: data.ApellidoPaterno,
+                ApellidoMaterno: data.ApellidoMaterno,
+                NombreUsuario: data.NombreUsuario,
+                CorreoElectronico: data.CorreoElectronico,
+                Aplicacion: {
+                  Id: props.idApp || "",
+                  Nombre: data.Aplicacion || "",
+                },
+                TipoUsuario: {
+                  Id: data.IdTipoUsuario || "",
+                  Nombre: data.TipoUsuario || "",
+                },
+                Puesto: data.Puesto,
+                CURP: data.CURP,
+                RFC: data.RFC,
+                Celular: data.Celular,
+                Telefono: data.Telefono,
+                Ext: data.Ext,
+                Roles: roles || [],
+                Entidad: {
+                  Id: data.IdEntidad || "",
+                  Nombre:
+                    entidades.find((ent) => ent.Id === data.IdEntidad)
+                      ?.Nombre! || "",
+                },
+                PuedeFirmar: data.PuedeFirmar === 1,
+              });
+            });
+        }
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apps]);
 
-  const compruebaCelular = (value: number) => {
-    if (value <= 9999999999) {
-      setInfoUsuario({ ...infoUsuario, Celular: value });
-      setErrores({
-        ...errores,
-        Celular: {
-          valid: false,
-          text: "Ingresa Celular valido",
-        },
-      });
-    } else if (value.toString() === "NaN") {
-      setInfoUsuario({ ...infoUsuario, Celular: 0 });
-    }
-  };
-  const compruebaTelefono = (value: number) => {
-    if (value <= 9999999999) {
-      setInfoUsuario({ ...infoUsuario, Telefono: value });
-      setErrores({
-        ...errores,
-        Telefono: {
-          valid: false,
-          text: "Ingresa Telefono valido",
-        },
-      });
-    } else if (value.toString() === "NaN") {
-      setInfoUsuario({ ...infoUsuario, Telefono: 0 });
-    }
-  };
-
-  const compruebaExt = (value: number) => {
-    if (value <= 9999) {
-      setInfoUsuario({ ...infoUsuario, Ext: value });
-      setErrores({
-        ...errores,
-        Ext: {
-          valid: false,
-          text: "Ingresa extension valida",
-        },
-      });
-    } else if (value.toString() === "NaN") {
-      setInfoUsuario({ ...infoUsuario, Ext: 0 });
-    }
-  };
+  const Toast = Swal.mixin({
+    toast: false,
+    position: "center",
+    showConfirmButton: true,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
 
   const compruebaRfc = (value: string) => {
     var format = /[ ¬°`!@#$%^&*()_+\-=\\[\]{};':"\\|,.<>\\/?~]/;
@@ -166,189 +201,164 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     }
   };
 
-  const handleStoreBtn = () => {
-    // setErrores({
-    //   nombre: {
-    //     valid: infoUsuario.Nombre === "",
-    //     text: "Ingresa infoUsuario.Nombre ",
-    //   },
-    //   aPaterno: {
-    //     valid: infoUsuario.ApellidoPaterno === "",
-    //     text: "Ingresa apellido paterno ",
-    //   },
-    //   aMAterno: {
-    //     valid: infoUsuario.ApellidoMaterno === "",
-    //     text: "Ingresa apellido materno ",
-    //   },
-    //   nUsuario: {
-    //     valid: infoUsuario.NombreUsuario === "",
-    //     text: "Ingresa infoUsuario.Nombre de usuario valido",
-    //   },
-    //   email: {
-    //     valid: !isValidEmail(),
-    //     text: "Ingresa infoUsuario.CorreoElectronico electronico valido",
-    //   },
-    //   CURP: {
-    //     valid: infoUsuario.CURP === "",
-    //     text: "Ingresa CURP valido",
-    //   },
-    //   RFC: {
-    //     valid: infoUsuario.RFC === "",
-    //     text: "Ingresa RFC valido",
-    //   },
-    //   puesto: {
-    //     valid: infoUsuario.Puesto === "",
-    //     text: "Ingresa puesto valido",
-    //   },
-    //   Celular: {
-    //     valid: infoUsuario.Celular <= 0,
-    //     text: "Ingresa Celular valido",
-    //   },
-    //   Telefono: {
-    //     valid: infoUsuario.Telefono <= 0,
-    //     text: "Ingresa Telefono valido",
-    //   },
-    //   Ext: {
-    //     valid: infoUsuario.Ext <= 0,
-    //     text: "Ingresa extension valida",
-    //   },
-    //   tpoUsuario: {
-    //     valid: infoUsuario.TipoUsuario.Nombre === "",
-    //     text: "Selecciona tipo de usuario",
-    //   },
-    //   entidad: {
-    //     valid: infoUsuario.Entidad.descripcion === "",
-    //     text: "Selecciona departamento",
-    //   },
-    //   perfil: {
-    //     valid: infoUsuario.Perfiles.length === 0,
-    //     text: "Selecciona perfiles",
-    //   },
-    //   rol: {
-    //     valid: infoUsuario.Roles.length === 0,
-    //     text: "Selecciona roles",
-    //   },
-    //   uResponsable: {
-    //     valid: infoUsuario.UnidadResponsable.Id === "",
-    //     text: "Selecciona unidad resposnable",
-    //   },
-    //   aplicacion: {
-    //     valid: infoUsuario.Aplicacion.value === "",
-    //     text: "Selecciona aplicacion",
-    //   },
-    // });
-    if (
-      infoUsuario.Nombre === "" ||
-      infoUsuario.ApellidoMaterno === "" ||
-      infoUsuario.ApellidoPaterno === "" ||
-      infoUsuario.NombreUsuario === "" ||
-      !isValidEmail() ||
-      infoUsuario.TipoUsuario.Nombre === "" ||
-      infoUsuario.CURP === "" ||
-      infoUsuario.RFC === "" ||
-      infoUsuario.Puesto === "" ||
-      infoUsuario.Celular <= 0 ||
-      infoUsuario.Telefono <= 0 ||
-      infoUsuario.Ext <= 0 ||
-      infoUsuario.Entidad.descripcion === "" ||
-      infoUsuario.Perfiles.length === 0 ||
-      infoUsuario.Roles.length === 0 ||
-      infoUsuario.UnidadResponsable.Id === "" ||
-      infoUsuario.Aplicacion.value === ""
-    ) {
-      Swal.fire({
+  const checkFill = () => {
+    let err = [];
+    if (infoUsuario.NombreUsuario.length < 4 || existeNUsuario) {
+      err.push(
+        `Ingresa <strong style="color: red;">Nombre Usuario</strong> válido`
+      );
+    }
+    if (!isValidEmail()) {
+      err.push(
+        `Ingresa <strong style="color: red;">Correo Electrónico</strong> válido`
+      );
+    }
+    if (infoUsuario.Nombre === "") {
+      err.push(`Ingresa <strong style="color: red;">Nombre</strong>`);
+    }
+    if (infoUsuario.ApellidoPaterno === "") {
+      err.push(`Ingresa <strong style="color: red;">Apellido Paterno</strong>`);
+    }
+    if (infoUsuario.ApellidoMaterno === "") {
+      err.push(`Ingresa <strong style="color: red;">Apellido Materno</strong>`);
+    }
+    if (infoUsuario.Puesto === "") {
+      err.push(`Ingresa <strong style="color: red;">Puesto</strong>`);
+    }
+    if (infoUsuario.CURP === "") {
+      err.push(`Ingresa <strong style="color: red;">CURP</strong>`);
+    }
+    if (infoUsuario.RFC === "") {
+      err.push(`Ingresa <strong style="color: red;">RFC</strong>`);
+    }
+    if (infoUsuario.Celular.length < 10) {
+      err.push(
+        `Ingresa número de <strong style="color: red;">Celular</strong> válido`
+      );
+    }
+    if (infoUsuario.Telefono.length < 10) {
+      err.push(
+        `Ingresa número de <strong style="color: red;">Teléfono</strong> válido`
+      );
+    }
+    if (infoUsuario.Aplicacion.Id === "") {
+      err.push(`Ingresa <strong style="color: red;">Aplicación</strong>`);
+    }
+    if (infoUsuario.TipoUsuario.Nombre === "") {
+      err.push(`Ingresa <strong style="color: red;">Tipo Usuario</strong>`);
+    }
+    if (infoUsuario.Roles.length === 0) {
+      err.push(`Ingresa <strong style="color: red;">Roles</strong>`);
+    }
+    if (infoUsuario.Entidad.Nombre === "") {
+      err.push(`Ingresa <strong style="color: red;">Entidad</strong>`);
+    }
+
+    if (err.length > 0) {
+      Toast.fire({
         icon: "error",
-        title: "Mensaje",
-        text: "Completa todos los campos para continuar",
+        html: `
+        <div style="height:50%; width:100%;">
+        <h3>Se han encontrado los siguientes errores:</h3>
+        <div style="text-align: left; margin-left: 10px; color: black; height: auto; overflow: auto;">
+      <small>
+      <strong>
+      *</strong>${err.join("<br><strong>*</strong>")}
+      </small>
+      </div>
+      </div>`,
       });
     } else {
-      const IdPerfiles: any[] = [];
-      infoUsuario.Perfiles.forEach(function (item) {
-        IdPerfiles.push(item.Id);
-      });
-      const IdRoles: any[] = [];
-      infoUsuario.Roles.forEach(function (item) {
-        IdRoles.push(item.Id);
-      });
-      const data = {
-        Nombre: infoUsuario.Nombre,
-        APaterno: infoUsuario.ApellidoPaterno,
-        AMaterno: infoUsuario.ApellidoMaterno,
-        NombreUsuario: infoUsuario.NombreUsuario,
-        Email: infoUsuario.CorreoElectronico,
-        Curp: infoUsuario.CURP,
-        RFC: infoUsuario.RFC,
-        Celular: infoUsuario.Celular.toString(),
-        Telefono: infoUsuario.Telefono.toString(),
-        Extencion: infoUsuario.Ext.toString(),
-        TipoSolicitud: "ALTA",
-        IdApp: infoUsuario.Aplicacion.value,
-        CreadoPor: props.idUsuarioSolicitante
-          ? props.idUsuarioSolicitante
-          : localStorage.getItem("IdUsuario"),
-        IdUResponsable: infoUsuario.UnidadResponsable.Id,
-        Perfiles: JSON.stringify({ Perfiles: IdPerfiles }),
-        Roles: JSON.stringify({ Roles: IdRoles }),
-        IdTipoUsuario: infoUsuario.TipoUsuario.Id,
-        PuedeFirmar: infoUsuario.PuedeFirmar ? 1 : 0,
-        Puesto: infoUsuario.Puesto,
-        Entidad: infoUsuario.Entidad.value,
-      };
-
-      UserServices.createsolicitud(
-        data,
-        String(jwt) !== "null"
-          ? String(jwt)
-          : String(localStorage.getItem("jwtToken"))
-      )
-        .then((res) => {
-          if (res.status === 200) {
-            if (
-              res.data.data[0][0].Respuesta === "406" ||
-              res.data.data[0][0].Respuesta === "403"
-            )
-              Swal.fire({
-                icon: "error",
-                title: "Mensaje",
-                text: res.data.data[0][0].Mensaje,
-              });
-
-            if (res.data.data[0][0].Respuesta === "201") {
-              props.handleDialogClose(false);
-              Swal.fire({
-                icon: "success",
-                title: "Mensaje",
-                text: res.data.data[0][0].Mensaje,
-              });
-            }
-
-            // setUserTypes(res?.data?.data);
-          } else {
-            Swal.fire({
-              icon: "error",
-              title: "Mensaje",
-              text: "(" + res.response.status + ") ",
-            });
-          }
-        })
-        .catch((error) => {
-          Swal.fire({
-            icon: "error",
-            title: "Mensaje",
-            text: "Error al realizar el registro",
-          });
-        });
+      handleStoreBtn();
     }
   };
 
-  const [usertypes, setUserTypes] = useState<Array<IUserTypes>>([]);
+  const handleStoreBtn = () => {
+    const IdRoles: any[] = [];
+    infoUsuario.Roles.forEach(function (item) {
+      IdRoles.push(item.Id);
+    });
+    const data = {
+      Nombre: infoUsuario.Nombre,
+      APaterno: infoUsuario.ApellidoPaterno,
+      AMaterno: infoUsuario.ApellidoMaterno,
+      NombreUsuario: infoUsuario.NombreUsuario,
+      Email: infoUsuario.CorreoElectronico,
+      Curp: infoUsuario.CURP,
+      RFC: infoUsuario.RFC,
+      Celular: infoUsuario.Celular.toString(),
+      Telefono: infoUsuario.Telefono.toString(),
+      Extencion: infoUsuario.Ext.toString(),
+      TipoSolicitud: bajaUsuario
+        ? "BAJA"
+        : existeCorreo
+        ? "VINCULACION"
+        : IdUsuario
+        ? "MODIFICACION"
+        : "ALTA",
+      IdApp: infoUsuario.Aplicacion.Id,
+      CreadoPor: props.idUsuarioSolicitante
+        ? props.idUsuarioSolicitante
+        : localStorage.getItem("IdUsuario"),
+      Roles: JSON.stringify({ Roles: IdRoles }),
+      IdTipoUsuario: infoUsuario.TipoUsuario.Id,
+      PuedeFirmar: infoUsuario.PuedeFirmar ? 1 : 0,
+      Puesto: infoUsuario.Puesto,
+      Entidad: infoUsuario.Entidad.Id,
+    };
+
+    UserServices.createsolicitud(
+      data,
+      String(jwt) !== "null"
+        ? String(jwt)
+        : String(localStorage.getItem("jwtToken"))
+    )
+      .then((res) => {
+        if (res.status === 200) {
+          if (
+            res.data.data[0][0].Respuesta === "406" ||
+            res.data.data[0][0].Respuesta === "403"
+          )
+            Swal.fire({
+              icon: "error",
+              title: "Mensaje",
+              text: res.data.data[0][0].Mensaje,
+            });
+
+          if (res.data.data[0][0].Respuesta === "201") {
+            Swal.fire({
+              icon: "success",
+              title: "Mensaje",
+              text: res.data.data[0][0].Mensaje,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                props.handleDialogClose(false);
+              }
+            });
+          }
+
+          // setUserTypes(res?.data?.data);
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Mensaje",
+            text: "(" + res.response.status + ") ",
+          });
+          setBajaUsuario(false);
+        }
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Mensaje",
+          text: "Error al realizar el registro",
+        });
+      });
+  };
 
   const getAllUserTypes = () => {
     const data = {
-      IdUsuario:
-        props.modoModal && props.token && props.idUsuarioSolicitante
-          ? props.idUsuarioSolicitante
-          : localStorage.getItem("IdUsuario"),
+      IdApp: props.idApp,
     };
     UserServices.usertypes(
       data,
@@ -362,50 +372,195 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     });
   };
 
-  const consulta = (catalogo: string, opcion: string) => {
-    UserServices.consultaCatalogos(
-      { cat: catalogo, opcion: opcion },
-      String(jwt) !== "null"
-        ? String(jwt)
-        : String(localStorage.getItem("jwtToken"))
-    ).then((res) => {
-      if (res.status === 200) {
-        if (catalogo === "2" && opcion === "select") {
-          setApps(res.data.data);
-        }
-      }
-    });
-  };
-
   useEffect(() => {
     getAllUserTypes();
-    consulta("2", "select");
-    getCatalogo("roles", setRoles, infoUsuario.Aplicacion.value);
-    getCatalogo("perfiles", setPerfiles, infoUsuario.Aplicacion.value);
-    getCatalogo("entidad-padre", setEntidades, "");
-    getCatalogo("uresponsables", setUResponsables, "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [infoUsuario.Aplicacion]);
 
+  useEffect(() => {
+    getCatalogo("apps", setApps, "", props.token);
+    getCatalogo("lista-entidades", setEntidades, "", props.token);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (props.idApp !== "") {
-      let aux = apps.find((app) => (app.id = props.idApp));
+      let aux = apps.find((app) => app.Id === props.idApp);
+
       if (aux) {
         setInfoUsuario({
           ...infoUsuario,
-          Aplicacion: { value: aux?.id!, label: aux?.label! },
+          Aplicacion: { Id: aux?.Id!, Nombre: aux?.Nombre! },
         });
       }
+      getCatalogo("roles", setRoles, props.idApp, props.token);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [apps]);
+
+  const cleanData = (CorreoElectronico: string, usuario: string) => {
+    setInfoUsuario({
+      ...infoUsuario,
+      Nombre: "",
+      ApellidoPaterno: "",
+      ApellidoMaterno: "",
+      NombreUsuario: usuario,
+      CorreoElectronico: CorreoElectronico,
+      Puesto: "",
+      CURP: "",
+      RFC: "",
+      Celular: "",
+      Telefono: "",
+      Ext: "",
+      Roles: [],
+      PuedeFirmar: false,
+    });
+  };
+
+  const existeEmail = (CorreoElectronico: string) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (emailRegex.test(CorreoElectronico)) {
+      axios
+        .post(
+          process.env.REACT_APP_APPLICATION_DEV + "/api/validar-email",
+          {
+            Email: CorreoElectronico,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: localStorage.getItem("jwtToken") || "",
+            },
+          }
+        )
+        .then((r) => {
+          const data = r.data.result[0];
+
+          if (data) {
+            setExisteCorreo(true);
+            setInfoUsuario({
+              ...infoUsuario,
+              Nombre: data.Nombre,
+              ApellidoPaterno: data.ApellidoPaterno,
+              ApellidoMaterno: data.ApellidoMaterno,
+              NombreUsuario: data.NombreUsuario,
+              CorreoElectronico: CorreoElectronico,
+              Puesto: data.Puesto,
+              CURP: data.Curp,
+              RFC: data.Rfc,
+              Celular: data.Celular,
+              Telefono: data.Telefono,
+              Ext: data.Ext,
+              PuedeFirmar: data.PuedeFirmar === 1,
+            });
+          } else {
+            setExisteCorreo(false);
+            cleanData(CorreoElectronico, "");
+          }
+        })
+        .catch((err) => {
+          setExisteCorreo(false);
+          cleanData(CorreoElectronico, "");
+        });
+    } else {
+      setExisteCorreo(false);
+      cleanData(CorreoElectronico, "");
+    }
+  };
+
+  const existeUName = (uName: string) => {
+    if (uName.length > 4) {
+      axios
+        .post(
+          process.env.REACT_APP_APPLICATION_DEV + "/api/validar-username",
+          {
+            UserName: uName,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: localStorage.getItem("jwtToken") || "",
+            },
+          }
+        )
+        .then((r) => {
+          const data = r.data.result[0];
+          if (data.Existe !== 0) {
+            setExisteNUsuario(true);
+          } else {
+            setExisteNUsuario(false);
+          }
+        })
+        .catch((err) => {});
+    } else {
+      setExisteNUsuario(false);
+    }
+  };
 
   return (
     <Grid
       container
       justifyContent={"space-evenly"}
       alignContent={"space-around"}
-      height={"90%"}
+      height={"90vh"}
     >
       <Grid item xs={10} md={4.5}>
         <TextField
+          disabled={IdUsuario !== ""}
+          label="Correo Electrónico"
+          type="text"
+          fullWidth
+          variant="standard"
+          helperText={
+            !isValidEmail() && infoUsuario.CorreoElectronico.length > 0
+              ? "Ingresa correo válido: correo@correo.com | correo@correo.com.mx"
+              : isValidEmail() && infoUsuario.CorreoElectronico.length > 0
+              ? "Correo válido"
+              : ""
+          }
+          value={infoUsuario.CorreoElectronico}
+          inputProps={{ maxLength: 100 }}
+          onChange={(v) => {
+            setInfoUsuario({
+              ...infoUsuario,
+              CorreoElectronico: v.target.value,
+            });
+            existeEmail(v.target.value);
+          }}
+        />
+      </Grid>
+      <Grid item xs={10} md={4.5}>
+        <TextField
+          disabled={existeCorreo || IdUsuario !== ""}
+          error={existeNUsuario}
+          autoFocus
+          label="Nombre de Usuario"
+          type="text"
+          fullWidth
+          variant="standard"
+          helperText={
+            infoUsuario.NombreUsuario.length > 0 &&
+            infoUsuario.NombreUsuario.length < 4
+              ? "Ingresa nombre de usuario de entre 4 a 30 dígitos"
+              : existeNUsuario
+              ? "Nombre de usuario actualmente en uso"
+              : ""
+          }
+          value={infoUsuario.NombreUsuario}
+          inputProps={{ minLength: 4, maxLength: 30 }}
+          onChange={(v) => {
+            if (/^[^$%&|<>#'"]*$/.test(v.target.value)) {
+              existeUName(v.target.value);
+              setInfoUsuario({ ...infoUsuario, NombreUsuario: v.target.value });
+            }
+          }}
+        />
+      </Grid>
+
+      <Grid item xs={10} md={4.5}>
+        <TextField
+          disabled={existeCorreo}
           label="Nombre(s)"
           fullWidth
           variant="standard"
@@ -420,6 +575,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
 
       <Grid item xs={10} md={4.5}>
         <TextField
+          disabled={existeCorreo}
           label="Apellido Paterno"
           type="text"
           fullWidth
@@ -432,14 +588,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
                 ...infoUsuario,
                 ApellidoPaterno: v.target.value,
               });
-              if (infoUsuario.ApellidoPaterno.length >= 3)
-                setErrores({
-                  ...errores,
-                  aPaterno: {
-                    valid: false,
-                    text: "Ingresa apellido paterno",
-                  },
-                });
             }
           }}
         />
@@ -447,6 +595,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
 
       <Grid item xs={10} md={4.5}>
         <TextField
+          disabled={existeCorreo}
           label="Apellido Materno"
           type="text"
           fullWidth
@@ -459,14 +608,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
                 ...infoUsuario,
                 ApellidoMaterno: v.target.value,
               });
-              if (infoUsuario.ApellidoMaterno.length >= 3)
-                setErrores({
-                  ...errores,
-                  aMAterno: {
-                    valid: false,
-                    text: "Ingresa apellido materno",
-                  },
-                });
             }
           }}
         />
@@ -474,136 +615,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
 
       <Grid item xs={10} md={4.5}>
         <TextField
-          autoFocus
-          label="Nombre de Usuario"
-          type="text"
-          fullWidth
-          variant="standard"
-          value={infoUsuario.NombreUsuario}
-          inputProps={{ minLength: 4, maxLength: 30 }} //validacion de longuitud  de texto
-          onChange={(v) => {
-            if (validarCadena(v.target.value)) {
-              setInfoUsuario({ ...infoUsuario, NombreUsuario: v.target.value });
-              if (infoUsuario.NombreUsuario.length >= 3)
-                setErrores({
-                  ...errores,
-                  nUsuario: {
-                    valid: false,
-                    text: "Ingresa infoUsuario.Nombre de usuario valido",
-                  },
-                });
-            }
-          }}
-        />
-      </Grid>
-
-      <Grid item xs={10} md={4.5}>
-        <TextField
-          label="Correo Electrónico"
-          type="text"
-          fullWidth
-          variant="standard"
-          value={infoUsuario.CorreoElectronico}
-          inputProps={{ maxLength: 100 }}
-          onChange={(v) => {
-            setInfoUsuario({
-              ...infoUsuario,
-              CorreoElectronico: v.target.value,
-            });
-            if (infoUsuario.CorreoElectronico.length >= 3)
-              setErrores({
-                ...errores,
-                email: {
-                  valid: false,
-                  text: "Ingresa Correo Electronico electronico valido",
-                },
-              });
-          }}
-        />
-      </Grid>
-
-      <Grid item xs={10} md={4.5}>
-        <Typography variant="body2"> Aplicación: </Typography>
-        <Autocomplete
-          noOptionsText="No se encontraron opciones"
-          clearText="Borrar"
-          closeText="Cerrar"
-          disabled={props.idApp !== ""}
-          options={apps}
-          getOptionLabel={(app) => app.label || "Seleccione aplicacion"}
-          value={infoUsuario.Aplicacion}
-          onChange={(event, v) => {
-            setInfoUsuario({
-              ...infoUsuario,
-              TipoUsuario: { Nombre: "", Id: "" },
-            });
-            if (v != null) {
-              setInfoUsuario({
-                ...infoUsuario,
-                Aplicacion: { value: v?.value, label: v?.label! },
-              });
-              getCatalogo("roles", setRoles, v?.value);
-              getCatalogo("perfiles", setPerfiles, v?.value);
-              setErrores({
-                ...errores,
-                aplicacion: {
-                  valid: false,
-                  text: "Ingresa aplicacion valido",
-                },
-              });
-            }
-          }}
-          renderInput={(params) => (
-            <TextField key={params.id} {...params} variant="outlined" />
-          )}
-          isOptionEqualToValue={(option, value) =>
-            option.Descripcion === value.Descripcion || value.Descripcion === ""
-          }
-        />
-      </Grid>
-
-      <Grid item xs={10} md={4.5}>
-        <Typography variant="body2"> Tipo de usuario: </Typography>
-        <Autocomplete
-          noOptionsText="No se encontraron opciones"
-          clearText="Borrar"
-          closeText="Cerrar"
-          options={usertypes}
-          getOptionLabel={(ut) => ut.Nombre}
-          value={infoUsuario.TipoUsuario}
-          onChange={(event, v) => {
-            setInfoUsuario({
-              ...infoUsuario,
-              TipoUsuario: { Nombre: "", Id: "" },
-            });
-            if (v != null) {
-              setInfoUsuario({
-                ...infoUsuario,
-                TipoUsuario: {
-                  Nombre: v?.Nombre,
-                  Id: v?.Id!,
-                },
-              });
-              setErrores({
-                ...errores,
-                aplicacion: {
-                  valid: false,
-                  text: "Ingresa aplicacion valido",
-                },
-              });
-            }
-          }}
-          renderInput={(params) => (
-            <TextField key={params.id} {...params} variant="outlined" />
-          )}
-          isOptionEqualToValue={(option, value) =>
-            option.Nombre === value.Nombre || value.Nombre === ""
-          }
-        />
-      </Grid>
-
-      <Grid item xs={10} md={4.5}>
-        <TextField
+          disabled={existeCorreo}
           label="Puesto"
           type="text"
           fullWidth
@@ -613,14 +625,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           onChange={(v) => {
             if (validarCadena(v.target.value)) {
               setInfoUsuario({ ...infoUsuario, Puesto: v.target.value });
-              if (infoUsuario.Puesto.length >= 3)
-                setErrores({
-                  ...errores,
-                  puesto: {
-                    valid: false,
-                    text: "Ingresa puesto",
-                  },
-                });
             }
           }}
         />
@@ -628,6 +632,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
 
       <Grid item xs={10} md={4.5}>
         <TextField
+          disabled={existeCorreo}
           label="CURP"
           type="text"
           fullWidth
@@ -637,14 +642,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           onChange={(v) => {
             if (validarCadena(v.target.value)) {
               compruebaCurp(v.target.value.toUpperCase());
-              if (infoUsuario.CURP.length >= 3)
-                setErrores({
-                  ...errores,
-                  CURP: {
-                    valid: false,
-                    text: "Ingresa CURP valido",
-                  },
-                });
             }
           }}
         />
@@ -652,6 +649,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
 
       <Grid item xs={10} md={4.5}>
         <TextField
+          disabled={existeCorreo}
           label="RFC"
           type="text"
           fullWidth
@@ -661,14 +659,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           onChange={(v) => {
             if (validarCadena(v.target.value)) {
               compruebaRfc(v.target.value.toUpperCase());
-              if (infoUsuario.RFC.length >= 12)
-                setErrores({
-                  ...errores,
-                  RFC: {
-                    valid: false,
-                    text: "Ingresa RFC valido",
-                  },
-                });
             }
           }}
         />
@@ -676,22 +666,23 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
 
       <Grid item xs={10} md={4.5}>
         <TextField
+          disabled={existeCorreo}
           fullWidth
           sx={{ mr: 4 }}
           label="Celular"
-          value={infoUsuario.Celular === 0 ? "" : infoUsuario.Celular}
+          value={infoUsuario.Celular}
           inputProps={{ maxLength: 10 }}
           variant="standard"
+          helperText={
+            infoUsuario.Celular.length > 0 && infoUsuario.Celular.length < 10
+              ? "Ingresa número a 10 dígitos"
+              : ""
+          }
           onChange={(v) => {
-            compruebaCelular(parseInt(v.target.value));
-            if (infoUsuario.Celular > 1)
-              setErrores({
-                ...errores,
-                Celular: {
-                  valid: false,
-                  text: "Ingresa Celular valido",
-                },
-              });
+            setInfoUsuario({
+              ...infoUsuario,
+              Celular: /^[0-9]+$/.test(v.target.value) ? v.target.value : "",
+            });
           }}
         />
       </Grid>
@@ -704,71 +695,92 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
         justifyContent={"space-between"}
       >
         <TextField
+          disabled={existeCorreo}
           sx={{ width: "60%" }}
           label="Teléfono"
-          value={infoUsuario.Telefono === 0 ? "" : infoUsuario.Telefono}
+          value={infoUsuario.Telefono}
           inputProps={{ maxLength: 10 }}
           variant="standard"
+          helperText={
+            infoUsuario.Telefono.length > 0 && infoUsuario.Telefono.length < 10
+              ? "Ingresa número a 10 dígitos"
+              : ""
+          }
           onChange={(v) => {
-            compruebaTelefono(parseInt(v.target.value));
-            if (infoUsuario.Celular > 1)
-              setErrores({
-                ...errores,
-                Telefono: {
-                  valid: false,
-                  text: "Ingresa Telefono valido",
-                },
-              });
+            setInfoUsuario({
+              ...infoUsuario,
+              Telefono: /^[0-9]+$/.test(v.target.value) ? v.target.value : "",
+            });
           }}
         />
+
         <TextField
+          disabled={existeCorreo}
           sx={{ width: "30%" }}
           label="Extensión"
-          value={infoUsuario.Ext === 0 ? "" : infoUsuario.Ext}
+          value={infoUsuario.Ext}
           variant="standard"
-          inputProps={{ maxLength: 40 }}
+          type="tel"
+          inputProps={{ maxLength: 4 }}
           onChange={(v) => {
-            compruebaExt(parseInt(v.target.value));
-            if (infoUsuario.Celular > 1)
-              setErrores({
-                ...errores,
-                Ext: {
-                  valid: false,
-                  text: "Ingresa extencion valido",
-                },
-              });
+            setInfoUsuario({
+              ...infoUsuario,
+              Ext: /^[0-9]+$/.test(v.target.value) ? v.target.value : "",
+            });
           }}
         />
       </Grid>
 
       <Grid item xs={10} md={4.5}>
-        <Typography variant="body2"> Perfiles: </Typography>
+        <Typography variant="body2"> Aplicación: </Typography>
         <Autocomplete
-          multiple
-          disabled={perfiles.length === 0}
           noOptionsText="No se encontraron opciones"
           clearText="Borrar"
           closeText="Cerrar"
-          options={perfiles}
-          getOptionLabel={(perfil) => perfil.Descripcion}
-          value={infoUsuario.Perfiles}
-          onChange={(event, newValue) => {
-            if (newValue != null) {
-              setInfoUsuario({ ...infoUsuario, Perfiles: newValue });
-              setErrores({
-                ...errores,
-                perfil: {
-                  valid: false,
-                  text: "Selecciona perfil valido",
-                },
+          disabled={props.idApp !== "" || IdUsuario !== ""}
+          options={apps}
+          getOptionLabel={(app) => app.Nombre || "Seleccione aplicacion"}
+          value={infoUsuario.Aplicacion}
+          onChange={(event, v) => {
+            if (v !== null) {
+              setInfoUsuario({
+                ...infoUsuario,
+                TipoUsuario: { Nombre: "", Id: "" },
+                Roles: [],
+                Aplicacion: { Id: v?.Id, Nombre: v?.Nombre! },
               });
+              getCatalogo("roles", setRoles, v?.Id, props.token);
             }
           }}
           renderInput={(params) => (
             <TextField key={params.id} {...params} variant="outlined" />
           )}
           isOptionEqualToValue={(option, value) =>
-            option.Descripcion === value.Descripcion || value.Descripcion === ""
+            option.Nombre === value.Nombre || value.Nombre === ""
+          }
+        />
+      </Grid>
+
+      <Grid item xs={10} md={4.5}>
+        <Typography variant="body2"> Tipo de usuario: </Typography>
+        <Autocomplete
+          noOptionsText="No se encontraron opciones"
+          clearText="Borrar"
+          closeText="Cerrar"
+          options={usertypes}
+          getOptionLabel={(ut) => ut.Nombre || "Seleccione Tipo de usuario"}
+          value={infoUsuario.TipoUsuario}
+          onChange={(event, v) => {
+            setInfoUsuario({
+              ...infoUsuario,
+              TipoUsuario: { Nombre: v?.Nombre!, Id: v?.Id! },
+            });
+          }}
+          renderInput={(params) => (
+            <TextField key={params.id} {...params} variant="outlined" />
+          )}
+          isOptionEqualToValue={(option, value) =>
+            option.Nombre === value.Nombre || value.Nombre === ""
           }
         />
       </Grid>
@@ -782,18 +794,11 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           clearText="Borrar"
           closeText="Cerrar"
           options={roles}
-          getOptionLabel={(rol) => rol.Nombre}
+          getOptionLabel={(rol) => rol.Nombre || "Seleccione Roles"}
           value={infoUsuario.Roles}
           onChange={(event, newValue) => {
             if (newValue != null) {
               setInfoUsuario({ ...infoUsuario, Roles: newValue });
-              setErrores({
-                ...errores,
-                rol: {
-                  valid: false,
-                  text: "Ingresa extencion valido",
-                },
-              });
             }
           }}
           renderInput={(params) => (
@@ -806,59 +811,19 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       </Grid>
 
       <Grid item xs={10} md={4.5}>
-        <Typography variant="body2"> Unidad Responsable: </Typography>
-        <Autocomplete
-          noOptionsText="No se encontraron opciones"
-          clearText="Borrar"
-          closeText="Cerrar"
-          options={uResponsables}
-          getOptionLabel={(uresponsable) => uresponsable.Descripcion}
-          value={infoUsuario.UnidadResponsable}
-          onChange={(event, v) => {
-            if (v != null) {
-              setInfoUsuario({
-                ...infoUsuario,
-                UnidadResponsable: { Id: v?.Id!, Descripcion: v?.Descripcion! },
-              });
-              setErrores({
-                ...errores,
-                uResponsable: {
-                  valid: false,
-                  text: "Ingresa unidad responsable valido",
-                },
-              });
-            }
-          }}
-          renderInput={(params) => (
-            <TextField key={params.id} {...params} variant="outlined" />
-          )}
-          isOptionEqualToValue={(option, value) =>
-            option.Descripcion === value.Descripcion || value.Descripcion === ""
-          }
-        />
-      </Grid>
-
-      <Grid item xs={10} md={4.5}>
         <Typography variant="body2">Entidad: </Typography>
         <Autocomplete
           noOptionsText="No se encontraron opciones"
           clearText="Borrar"
           closeText="Cerrar"
           options={entidades}
-          getOptionLabel={(entidad) => entidad.descripcion}
+          getOptionLabel={(entidad) => entidad.Nombre || "Seleccione entidad"}
           value={infoUsuario.Entidad}
           onChange={(event, v) => {
             if (v != null) {
               setInfoUsuario({
                 ...infoUsuario,
-                Entidad: { value: v.value, descripcion: v.descripcion },
-              });
-              setErrores({
-                ...errores,
-                entidades: {
-                  valid: false,
-                  text: "Ingresa entidad valido",
-                },
+                Entidad: { Id: v.Id, Nombre: v.Nombre },
               });
             }
           }}
@@ -866,7 +831,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             <TextField key={params.id} {...params} variant="outlined" />
           )}
           isOptionEqualToValue={(option, value) =>
-            option.descripcion === value.descripcion || value.descripcion === ""
+            option.Nombre === value.Nombre || value.Nombre === ""
           }
         />
       </Grid>
@@ -892,16 +857,62 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           }
           label={infoUsuario.PuedeFirmar ? "Puede firmar" : "No puede firmar"}
         />
-        <Button
-          className="aceptar"
-          onClick={() => {
-            handleStoreBtn();
-          }}
-          sx={{ fontFamily: "MontserratRegular" }}
-        >
-          Solicitar Usuario
-        </Button>
+        <Grid>
+          {IdUsuario && (
+            <Button
+              className="cancelar"
+              onClick={() => {
+                // navigate(-1);
+                setBajaUsuario(true);
+              }}
+              sx={{ fontFamily: "MontserratRegular", mr: 2 }}
+            >
+              Eliminar Usuario
+            </Button>
+          )}
+
+          <Button
+            className="aceptar"
+            onClick={() => {
+              // handleStoreBtn();
+              checkFill();
+            }}
+            sx={{ fontFamily: "MontserratRegular" }}
+          >
+            {IdUsuario ? "Solicitar Modificación" : "Solicitar Usuario"}
+          </Button>
+        </Grid>
       </Grid>
+      <Dialog open={bajaUsuario} onClose={() => setBajaUsuario(false)}>
+        <DialogTitle sx={{ fontFamily: "MontserratSemiBold" }}>
+          Baja de usuario
+        </DialogTitle>
+        <DialogContent sx={{ fontFamily: "MontserratRegular" }}>
+          ¿Está seguro que desea solicitar la baja de este usuario?
+        </DialogContent>
+        <DialogActions>
+          <Button
+            className="cancelar"
+            onClick={() => {
+              // navigate(-1);
+              setBajaUsuario(false);
+            }}
+            sx={{ fontFamily: "MontserratRegular", mr: 2 }}
+          >
+            Cancelar
+          </Button>
+          <Button
+            className="aceptar"
+            onClick={() => {
+              // checkFill();
+              handleStoreBtn();
+            }}
+            sx={{ fontFamily: "MontserratRegular" }}
+          >
+            Aceptar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Grid>
   );
 };

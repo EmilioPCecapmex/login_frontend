@@ -31,7 +31,8 @@ const App = () => {
               modoModal={false}
               token={""}
               idUsuarioSolicitante={""}
-              idApp={""}
+              idUsuarioModificado={""}
+              idApp={localStorage.getItem("IdApp")!}
             />
           }
         />

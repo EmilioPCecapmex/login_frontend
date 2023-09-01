@@ -1,62 +1,110 @@
-import { Box, Grid, IconButton, Tab, Tooltip, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import ResponseCatalogos from "../../Interfaces/User";
-import { UserServices } from "../../services/UserServices";
-import { Header } from "../../components/header";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
-import MUIXDataGrid from "../../components/MUIXDataGrid";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ButtonsAdd from "../Componentes/ButtonsAdd";
-import { Edit, IModify } from "../../components/dialogsCatalogos/Edit";
-import { Create } from "../../components/dialogsCatalogos/Create";
-import { Delete } from "../../components/dialogsCatalogos/Delete";
-const Catalogos = () => {
-  const [valueTab, setValueTab] = useState<string>("1");
-  const [secretarias, setSecretarias] = useState([]);
-  const [roles, setRoles] = useState([]);
-  const [uResponsable, setUResponsable] = useState([]);
-  const [departamentos, setDepartamentos] = useState([]);
-  const [perfiles, setPerfiles] = useState([]);
-  const [dependencias, setDependencias] = useState([]);
-  const [tpoDependencias, setTpoDependencias] = useState([]);
-  ////////////// ocuplat columnas
-  const [HideClave, setHideClave] = useState(true);
-  const [HideNombre, setHideNombre] = useState(true);
-  const [HideDescripcion, setHideDescripcion] = useState(true);
-  const [HideNombreCorto, setHideNombreCorto] = useState(true);
-  const [HideControlInterno, setHideControlInterno] = useState(true);
-  const [HideReferencia, setHideReferencia] = useState(true);
-  const [HideDireccion, setHideDireccion] = useState(true);
-  /////////////
+/* eslint-disable react-hooks/exhaustive-deps */
 
-  
-  const [openEdit, setOpenEdit] = useState(false);
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { Box, Grid, IconButton, Tab, Tooltip, Typography } from "@mui/material";
+import { useState, useEffect } from "react";
+import MUIXDataGrid from "../../components/MUIXDataGrid";
+import { Create, IModify } from "../../components/dialogsCatalogos/Create";
+import { Delete } from "../../components/dialogsCatalogos/Delete";
+import { Header } from "../../components/header";
+import ButtonsAdd from "../Componentes/ButtonsAdd";
+import { getCatalogo } from "../../services/catalogosService";
+
+export interface IEntidad {
+  ClaveSiregob: string;
+  ControlInterno: string;
+  Direccion: string;
+  EntidadPerteneceA: string;
+  FechaCreacion: string;
+  Id: string;
+  IdEntidadPerteneceA: string;
+  IdTipoEntidad: string;
+  Nombre: string;
+  NombreTipoEntidad: string;
+  Telefono: string;
+  Titular: string;
+  UltimaActualizacion: string;
+}
+
+export interface ITipoEntidad {
+  Nombre: string;
+  Descripcion: string;
+}
+
+export interface IModifica {
+  ClaveSiregob: string;
+  ControlInterno: string;
+  Direccion: string;
+  EntidadPerteneceA: string;
+  FechaCreacion: string;
+  Id: string;
+  IdEntidadPerteneceA: string;
+  IdTipoEntidad: string;
+  IdTitular: string;
+  Nombre: string;
+  NombreTipoEntidad: string;
+  Telefono: string;
+  Titular: string;
+  UltimaActualizacion: string;
+  Descripcion: string;
+  IdUsuario: string;
+}
+
+const Catalogos = () => {
+  const [valueTab, setValueTab] = useState<string>("TipoEntidades");
+  const [tipoEntidades, setTipoEntidades] = useState<Array<ITipoEntidad>>([]);
+  const [entidades, setEntidades] = useState<Array<IEntidad>>([]);
+
   const [openCreate, setOpenCreate] = useState(false);
+
   const [openDelete, setOpenDelete] = useState(false);
-  const [selectId, setSelectId] = useState(String)
-  const [elemento, setElemento] = useState<IModify>({
-    IdSecretaria: "",
-    Nombre: "",
-    NombreCorto: "",
-    IdTitular: "",
-    PerteneceA: "",
-    Direccion: "",
-    IdModificador: "",
-    IdUResponsable: "",
-    Clave: "",
-    Descripcion: "",
-    IdDepartamento: "",
-    IdResponsable: "",
-    IdRol: "",
+  const [selectId, setSelectId] = useState(String);
+
+  const [elemento, setElemento] = useState<IModifica>({
+    ClaveSiregob: "",
     ControlInterno: "",
-    IdDependencia: "",
+    Direccion: "",
+    EntidadPerteneceA: "",
+    FechaCreacion: "",
+    Id: "",
+    IdEntidadPerteneceA: "",
+    IdTitular: "",
+    IdTipoEntidad: "",
+    Nombre: "",
+    NombreTipoEntidad: "",
     Telefono: "",
-    IdTipoDependencia: "",
-    IdPerfil: "",
-    Referencia: "",
-    
+    Titular: "",
+    UltimaActualizacion: "",
+    Descripcion: "",
+    IdUsuario: localStorage.getItem("IdUsuario") || "",
   });
+
+  useEffect(() => {
+    getCatalogo("lista-entidades", setEntidades, "", "");
+    getCatalogo("lista-tipo-entidades", setTipoEntidades, "", "");
+
+    openCreate === false &&
+      setElemento({
+        ClaveSiregob: "",
+        ControlInterno: "",
+        Direccion: "",
+        EntidadPerteneceA: "",
+        FechaCreacion: "",
+        Id: "",
+        IdTitular: "",
+        IdEntidadPerteneceA: "",
+        IdTipoEntidad: "",
+        Nombre: "",
+        NombreTipoEntidad: "",
+        Telefono: "",
+        Titular: "",
+        UltimaActualizacion: "",
+        Descripcion: "",
+        IdUsuario: localStorage.getItem("IdUsuario") || "",
+      });
+  }, [openCreate, openDelete]);
 
   const columns = [
     {
@@ -70,10 +118,10 @@ const Catalogos = () => {
           <Box>
             <Tooltip title={"Editar"}>
               <IconButton
-                sx={{color:"black"}}
+                sx={{ color: "black" }}
                 onClick={() => {
                   setElemento(cellValues.row);
-                  setOpenEdit(true);
+                  setOpenCreate(true);
                 }}
               >
                 <EditIcon />
@@ -81,12 +129,12 @@ const Catalogos = () => {
             </Tooltip>
             <Tooltip title={"Eliminar"}>
               <IconButton
-                sx={{color:"black"}}
-                 onClick={(event) => {
+                sx={{ color: "black" }}
+                onClick={(event) => {
                   setSelectId(cellValues.row.Id);
                   setElemento(cellValues.row);
-                     setOpenDelete(true);
-                 }}
+                  setOpenDelete(true);
+                }}
               >
                 <DeleteIcon />
               </IconButton>
@@ -96,225 +144,105 @@ const Catalogos = () => {
       },
     },
     {
-      field: "Clave",
-      headerName: "Clave",
-      width: 200,
+      field: "ClaveSiregob",
+      headerName: "Clave Siregob",
+      width: 100,
       headerAlign: "center",
-      hide: HideClave,
+      hide: valueTab !== "Entidades",
     },
     {
       field: "Nombre",
       headerName: "Nombre",
-      width: 400,
+      width: valueTab === "Entidades" ? 600 : 250,
       headerAlign: "center",
-      hide: HideNombre,
-    },
-    {
-      field: "NombreCorto",
-      headerName: "Nombre Corto",
-      width: 150,
-      headerAlign: "center",
-      hide: HideNombreCorto,
-    },
-    {
-      field: "Referencia",
-      headerName: "Referencia",
-      width: 150,
-      headerAlign: "center",
-      hide: HideReferencia,
-    },
-    {
-      field: "Descripcion",
-      headerName: "Descripcion",
-      width: 600,
-      headerAlign: "center",
-      hide: HideDescripcion,
     },
     {
       field: "ControlInterno",
       headerName: "Control Interno",
-      width: 300,
+      width: 150,
       headerAlign: "center",
-      hide: HideControlInterno,
-    },{
+      hide: valueTab !== "Entidades",
+    },
+    {
+      field: "Descripcion",
+      headerName: "Descripcion",
+      width: 200,
+      headerAlign: "center",
+      hide: valueTab === "Entidades",
+    },
+    {
       field: "Direccion",
       headerName: "Dirección",
+      width: 400,
+      headerAlign: "center",
+      hide: valueTab !== "Entidades",
+    },
+    {
+      field: "Telefono",
+      headerName: "Teléfono",
+      width: 150,
+      headerAlign: "center",
+      hide: valueTab !== "Entidades",
+    },
+    {
+      field: "NombreTipoEntidad",
+      headerName: "Tipo Entidad",
+      width: 200,
+      headerAlign: "center",
+      hide: valueTab !== "Entidades",
+    },
+    {
+      field: "Titular",
+      headerName: "Titular",
+      width: 300,
+      headerAlign: "center",
+      hide: valueTab !== "Entidades",
+    },
+    {
+      field: "EntidadPerteneceA",
+      headerName: "Pertenece A",
       width: 600,
       headerAlign: "center",
-      hide: HideDireccion,
+      hide: valueTab !== "Entidades",
     },
   ];
 
- const [reload,setReload]=useState("");
+  const [reload, setReload] = useState("");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setHideClave(true);
-    setHideNombre(true);
-    setHideDescripcion(true);
-    setHideNombreCorto(true);
-    setHideControlInterno(true);
-    setHideReferencia(true);
     setValueTab(newValue);
-    consulta(newValue, "catalogos");
   };
-
-  const consulta = (catalogo: string, opcion: string) => {
-    UserServices.consultaCatalogos(
-      { cat: catalogo, opcion: opcion, tipo: "4" },
-      String(localStorage.getItem("jwtToken"))
-    ).then((res) => {
-      if (res.status === 200) {
-        const user: Array<ResponseCatalogos> = res.data.data;
-        var clave = 0;
-        var Nombre = 0;
-        var Descripcion = 0;
-        var NombreCorto = 0;
-        var ControlInterno = 0;
-        var Referencia = 0;
-        var Direccion = 0;
-        
-        user?.map((data) => {
-          if (data?.Clave) {
-            clave++;
-          }
-          if (data?.Nombre) {
-            Nombre++;
-          }
-          if (data?.Descripcion) {
-            Descripcion++;
-          }
-          if (data?.NombreCorto) {
-            NombreCorto++;
-          }
-          if (data?.ControlInterno) {
-            ControlInterno++;
-          }
-          if (data?.Referencia) {
-            Referencia++;
-          }
-          if (data?.Direccion) {
-            Direccion++;
-          }
-        });
-
-        if (clave != 0) {
-          setHideClave(false);
-        }
-        if (Nombre != 0) {
-          setHideNombre(false);
-        }
-        if (Descripcion != 0) {
-          setHideDescripcion(false);
-        }
-        if (NombreCorto != 0) {
-          setHideNombreCorto(false);
-        }
-        if (ControlInterno != 0) {
-          setHideControlInterno(false);
-        }
-        if (Referencia != 0) {
-          setHideReferencia(false);
-        }
-        if (Direccion != 0) {
-          setHideDireccion(false);
-        }
-
-        if (catalogo === "1" && opcion === "catalogos") {
-          setSecretarias(res.data.data);
-        }
-        if (catalogo === "2" && opcion === "catalogos") {
-          setUResponsable(res.data.data);
-        }
-        if (catalogo === "3" && opcion === "catalogos") {
-          setDepartamentos(res.data.data);
-        }
-        if (catalogo === "4" && opcion === "catalogos") {
-          setRoles(res.data.data);
-        }
-        if (catalogo === "5" && opcion === "catalogos") {
-          setPerfiles(res.data.data);
-        }
-        if (catalogo === "6" && opcion === "catalogos") {
-          setDependencias(res.data.data);
-        }
-        if (catalogo === "7" && opcion === "catalogos") {
-          setTpoDependencias(res.data.data);
-        }
-      }
-    });
-  };
-
-  useEffect(() => {
-    consulta(valueTab, "catalogos");
-  }, [reload]);
 
   return (
     <>
       <Header />
       <Grid container item xs={12} justifyContent="center" paddingTop={3}>
         <TabContext value={String(valueTab)}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <TabList onChange={handleChange} aria-label="lab API tabs example">
-              <Tab label="Secretarias" value="1" />\
-              <Tab label="Tipo Dependencias" value="7" />
-              <Tab label="Dependencias" value="6" />
-              
-              <Tab label="SIREGOB" value="2" />
-              {/* <Tab label="Departamentos" value="3" /> */}
-              {/* <Tab label="Roles" value="4" /> */}
-              {/* <Tab label="Perfiles" value="5" /> */}
-              
-            </TabList>
-          </Box>
+          <TabList onChange={handleChange} aria-label="lab API tabs example">
+            <Tab label="Tipo Entidades " value="TipoEntidades" />
+            <Tab label="Entidades" value="Entidades" />
+          </TabList>
+
           <Grid item xs={12} paddingLeft={1}>
             <ButtonsAdd handleOpen={setOpenCreate} agregar={true} />
           </Grid>
-          <TabPanel value="1">
+
+          <TabPanel value="TipoEntidades" sx={{ pl: 0, pr: 0 }}>
             <Grid item xs={12} className="ContainerMUIXDataGridCatalogos">
-              <MUIXDataGrid columns={columns} rows={secretarias} />
+              <MUIXDataGrid columns={columns} rows={tipoEntidades} />
             </Grid>
           </TabPanel>
-          <TabPanel value="2">
+
+          <TabPanel value="Entidades" sx={{ pl: 0, pr: 0 }}>
             <Grid item xs={12} className="ContainerMUIXDataGridCatalogos">
-              <MUIXDataGrid columns={columns} rows={uResponsable} />
-            </Grid>
-          </TabPanel>
-          <TabPanel value="3">
-            <Grid item xs={12} className="ContainerMUIXDataGridCatalogos">
-              <MUIXDataGrid columns={columns} rows={departamentos} />
-            </Grid>
-          </TabPanel>
-          <TabPanel value="4">
-            <Grid item xs={12} className="ContainerMUIXDataGridCatalogos">
-              <MUIXDataGrid columns={columns} rows={roles} />
-            </Grid>
-          </TabPanel>
-          <TabPanel value="5">
-            <Grid item xs={12} className="ContainerMUIXDataGridCatalogos">
-              <MUIXDataGrid columns={columns} rows={perfiles} />
-            </Grid>
-          </TabPanel>
-          <TabPanel value="6">
-            <Grid item xs={12} className="ContainerMUIXDataGridCatalogos">
-              <MUIXDataGrid columns={columns} rows={dependencias} />
-            </Grid>
-          </TabPanel>
-          <TabPanel value="7">
-            <Grid item xs={12} className="ContainerMUIXDataGridCatalogos">
-              <MUIXDataGrid columns={columns} rows={tpoDependencias} />
+              <MUIXDataGrid columns={columns} rows={entidades} />
             </Grid>
           </TabPanel>
         </TabContext>
       </Grid>
-      <div className="FooterLogin">
-        {/* <Grid
-          paddingTop={2}
-          container
-          direction="row"
-          justifyContent="center"
-        ></Grid> */}
 
-        <Box sx={{ position: "absolute", right: 5, bottom: 5 }}>
+      <div className="FooterLogin">
+        {/* <Box sx={{ position: "absolute", right: 5, bottom: 5 }}>
           <Typography
             sx={{
               fontFamily: "MontserratBold",
@@ -324,29 +252,33 @@ const Catalogos = () => {
           >
             v.{process.env.REACT_APP_APPLICATION_VERSION}
           </Typography>
-        </Box>
-        <Edit
+        </Box> */}
+        {/* <Edit
           open={openEdit}
           setOpen={setOpenEdit}
           elemento={elemento}
           catalogo={valueTab}
           reloadData={setReload}
-        />
-        {openCreate && <Create
-          open={openCreate}
-          setOpen={setOpenCreate}
-          catalogo={valueTab}
-          reloadData={setReload}
-        />}
-        <Delete
-          open={openDelete}
-          setOpen={setOpenDelete}
-          Id={selectId}
-          catalogo={valueTab}
-          elemento={elemento}
-          reloadData={setReload}
-        />
+        /> */}
+        {openCreate && (
+          <Create
+            open={openCreate}
+            setOpen={setOpenCreate}
+            catalogo={valueTab}
+            reloadData={setReload}
+            data={elemento}
+          />
+        )}
 
+        {openDelete && (
+          <Delete
+            open={openDelete}
+            setOpen={setOpenDelete}
+            Id={selectId}
+            catalogo={valueTab}
+            reloadData={setReload}
+          />
+        )}
       </div>
     </>
   );

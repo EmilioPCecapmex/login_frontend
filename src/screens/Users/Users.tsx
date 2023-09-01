@@ -81,27 +81,6 @@ export default function Users() {
     setNewDialogOpen(false);
   };
 
-  const [editDialogOpen, setEditDialogOpen] = useState(false);
-
-  // const [editDialogUsuario, setEditDialogUsuario] = useState<Usuario>();
-  // const handleEditDialogOpen = () => setEditDialogOpen(true);
-
-  const handleEditDialogClose = (changed: boolean) => {
-    if (changed === true) {
-      Toast.fire({
-        icon: "success",
-        title: "Cambios realizados exitosamente",
-      });
-      getAllUsers();
-    }
-    setEditDialogOpen(false);
-  };
-
-  // const handleEditBtnClick = (event: any, cellValues: any) => {
-  //   setEditDialogUsuario(cellValues.row);
-  //   handleEditDialogOpen();
-  // };
-
   const getDatosDocumento = (nombreUsuario: any) => {
     axios
       .get(process.env.REACT_APP_APPLICATION_DEV + "/api/docSolicitudUsuario", {
@@ -127,16 +106,7 @@ export default function Users() {
   const [appsDialogOpen, setAppsDialogOpen] = useState(false);
   const [appsDialogUsuario, setAppsDialogUsuario] = useState<Usuario>();
   const handleAppsDialogOpen = () => setAppsDialogOpen(true);
-  const handleAppsDialogClose = (changed: boolean) => {
-    if (changed === true) {
-      Toast.fire({
-        icon: "success",
-        title: "Plataformas de usuario actualizadas exitosamente",
-      });
-      getAllUsers();
-    }
-    setAppsDialogOpen(false);
-  };
+
   const handleAppsBtnClick = (event: any, cellValues: any) => {
     setAppsDialogUsuario(cellValues.row);
     handleAppsDialogOpen();
@@ -207,6 +177,9 @@ export default function Users() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showAllUsers]);
 
+  const [idUsuario, setIdUsuario] = useState("");
+  const [idApp, setIdApp] = useState("");
+
   const columns = [
     {
       field: "acciones",
@@ -238,7 +211,9 @@ export default function Users() {
                 //   handleEditBtnClick(event, cellValues);
                 // }}
                 onClick={(event) => {
+                  setIdApp("");
                   handleAppsBtnClick(event, cellValues);
+                  setIdUsuario(cellValues.row.Id);
                 }}
               >
                 <EditIcon />
@@ -309,6 +284,12 @@ export default function Users() {
     },
   ];
 
+  useEffect(() => {
+    if (idApp !== "") {
+      setNewDialogOpen(true);
+    }
+  }, [idApp]);
+
   return (
     <Grid container sx={{ width: "100vw", height: "100vh" }}>
       <Header />
@@ -371,7 +352,11 @@ export default function Users() {
                 <Button
                   className="registrar-usuario"
                   variant="text"
-                  onClick={() => setNewDialogOpen(true)}
+                  onClick={() => {
+                    setIdApp("");
+                    setIdUsuario("");
+                    setNewDialogOpen(true);
+                  }}
                   sx={{
                     fontFamily: "MontserratBold",
                     backgroundColor: "#DFA94F",
@@ -393,12 +378,13 @@ export default function Users() {
             </CardContent>
           </Card>
         </Box>
-        {newDialogOpen ? (
-          <NewDialog
-            newDialogOpen={true}
-            handleNewDialogClose={handleNewDialogClose}
-          />
-        ) : null}
+        <NewDialog
+          newDialogOpen={newDialogOpen}
+          handleNewDialogClose={handleNewDialogClose}
+          idUsuario={idUsuario}
+          idApp={idApp}
+        />
+
         {/* (
           <EditDialog
             editDialogOpen={editDialogOpen}
@@ -409,21 +395,13 @@ export default function Users() {
         {appsDialogOpen ? (
           <AppsDialog
             appsDialogOpen={appsDialogOpen}
-            handleAppsDialogClose={handleAppsDialogClose}
+            handleAppsDialogClose={() => {
+              setAppsDialogOpen(false);
+            }}
             usuario={appsDialogUsuario}
-            OpenModalEditar={() => setEditDialogOpen(true)}
+            setIdApp={setIdApp}
           />
         ) : null}
-        {editDialogOpen && (
-          <SolicitudModificarUsuario
-            idApp=""
-            idUsuario=""
-            idUsuarioSolicitante=""
-            handleDialogClose={handleEditDialogClose}
-            modoModal
-            token=""
-          />
-        )}
         {/* {appsDialogOpen ? (
           <AppsDialog
             appsDialogOpen={appsDialogOpen}

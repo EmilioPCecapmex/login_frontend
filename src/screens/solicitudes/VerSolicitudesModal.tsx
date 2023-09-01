@@ -1,31 +1,23 @@
-import { Grid, Tooltip, IconButton, TextField, Badge } from "@mui/material";
-import { useState } from "react";
+import { Grid, TextField } from "@mui/material";
 import {
   IDetalleSolicitud,
   iDetalleUsuario,
   iOnChangeInfo,
 } from "./ISolicitud";
-import CommentIcon from "@mui/icons-material/Comment";
-import { CommentsDialog } from "../../components/commentsDialog";
 
 const VerSolicitudesModal = ({
   detalleSolicitud,
-  comentCount,
+  // comentCount,
   onChangeInfo,
   detalleUsuario,
   solicitudSeleccionada,
 }: {
   detalleSolicitud: Array<IDetalleSolicitud>;
-  comentCount: number;
+  // comentCount: number;
   onChangeInfo: iOnChangeInfo;
   detalleUsuario: iDetalleUsuario;
   solicitudSeleccionada: string;
 }) => {
-  const [openComments, setOpenComments] = useState(false);
-  const handleCloseComments = () => {
-    setOpenComments(false);
-  };
-
   return (
     <Grid
       container
@@ -35,31 +27,6 @@ const VerSolicitudesModal = ({
       alignItems={"center"}
       height={"70%"}
     >
-      <CommentsDialog
-        open={openComments}
-        close={handleCloseComments}
-        solicitud={solicitudSeleccionada}
-      />
-
-      {/* <Tooltip
-        title="Ver comentarios"
-        sx={{ gridRow: "1", gridColumn: "1/4", justifyContent: "center" }}
-      >
-        <Badge
-          className="BotonColorPrimario"
-          badgeContent={comentCount}
-          color="primary"
-        >
-          <IconButton
-            className="iconos-header"
-            onClick={() => setOpenComments(true)}
-            color={comentCount !== 0 ? "secondary" : "default"}
-          >
-            <CommentIcon fontSize="large" />
-          </IconButton>
-        </Badge>
-      </Tooltip> */}
-
       <Grid item width={"90%"}>
         <label>APLICACIÓN</label>
         <TextField
@@ -311,52 +278,6 @@ const VerSolicitudesModal = ({
             variant="standard"
           />
         )}
-      </Grid>
-      <Grid item width={"90%"}>
-        <label className="textoGridSolicitudes">PERFILES</label>
-        {JSON.parse(detalleSolicitud[0]?.Perfiles)?.map(
-          (perfil: any, index: number) => (
-            <TextField
-              key={index}
-              fullWidth
-              inputProps={{ style: { fontSize: "0.9rem" } }}
-              sx={{
-                fontFamily: "MontserratSemiBold",
-                fontSize: "1.5vw",
-                backgroundColor: onChangeInfo.Ext ? "#fde6a2" : null,
-              }}
-              value={perfil.Descripcion || ""}
-              variant="standard"
-            />
-          )
-        ) || (
-          <TextField
-            fullWidth
-            inputProps={{ style: { fontSize: "0.9rem" } }}
-            sx={{
-              fontFamily: "MontserratSemiBold",
-              fontSize: "1.5vw",
-              backgroundColor: onChangeInfo.Ext ? "#fde6a2" : null,
-            }}
-            value={"No Aplica"}
-            variant="standard"
-          />
-        )}
-      </Grid>
-      <Grid item width={"90%"}>
-        <label className="textoGridSolicitudes">Unidad responsable</label>
-        <TextField
-          fullWidth
-          inputProps={{ style: { fontSize: "0.9rem" } }}
-          sx={{
-            fontFamily: "MontserratSemiBold",
-            fontSize: "1.5vw",
-            backgroundColor: onChangeInfo.Ext ? "#fde6a2" : null,
-          }}
-          value={detalleSolicitud[0]?.UResponsable || ""}
-          variant="standard"
-          helperText={onChangeInfo.Ext ? detalleUsuario.Ext : null}
-        />
       </Grid>
     </Grid>
   );

@@ -10,7 +10,7 @@ const Toast = Swal.mixin({
   showConfirmButton: false,
 
   timer: 3000,
-
+  confirmButtonColor: "#000E4E",
   timerProgressBar: true,
 
   didOpen: (toast) => {
@@ -23,7 +23,8 @@ const Toast = Swal.mixin({
 export const getCatalogo = (
   path: string,
   setState: Function,
-  IdApp: string
+  IdApp: string,
+  jwt: string
 ) => {
   axios({
     method: "get",
@@ -34,7 +35,7 @@ export const getCatalogo = (
     url: process.env.REACT_APP_APPLICATION_DEV + `/api/${path}`,
     headers: {
       "Content-Type": "application/json",
-      Authorization: localStorage.getItem("jwtToken") || "",
+      Authorization: localStorage.getItem("jwtToken") || jwt,
     },
   })
     // aqui se recibe lo del endpoint en response
@@ -45,7 +46,7 @@ export const getCatalogo = (
 
       setState(data.data);
     })
-    .catch(async () => {
+    .catch(async (r) => {
       setState([]);
       await alertaError("Sin registros de " + path);
     });
@@ -72,6 +73,7 @@ export const modificarCatalogo = (
       Toast.fire({
         icon: "success",
         title: `¡Registro Editado!`,
+        confirmButtonColor: "#000E4E",
       });
       setOpen(false);
     })
@@ -82,6 +84,7 @@ export const modificarCatalogo = (
           : e.response.data.error;
       Swal.fire({
         icon: "error",
+        confirmButtonColor: "#000E4E",
         title: "Mensaje",
         text: "( " + mensaje + " ) ",
       });
@@ -132,7 +135,7 @@ export const EliminarCatalogo = (
   reloadData: Function
 ) => {
   axios({
-    method: "put",
+    method: "delete",
     data: {
       Id: Id,
       IdUsuario: localStorage.getItem("IdUsuario"),

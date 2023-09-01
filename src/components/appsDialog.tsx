@@ -19,7 +19,7 @@ export interface AppsDialogProps {
   appsDialogOpen: boolean;
   handleAppsDialogClose: Function;
   usuario: Usuario | any;
-  OpenModalEditar:Function;
+  setIdApp: Function;
 }
 
 export const AppsDialog = (props: AppsDialogProps) => {
@@ -115,7 +115,7 @@ export const AppsDialog = (props: AppsDialogProps) => {
       data: data,
     })
       .then(function (response) {
-        props.handleAppsDialogClose(true);
+        props.handleAppsDialogClose();
       })
       .catch(function (error) {
         Swal.fire({
@@ -155,7 +155,7 @@ export const AppsDialog = (props: AppsDialogProps) => {
       </DialogTitle>
 
       <DialogContent dividers>
-        <Grid container direction={"column"} justifyContent={'center'}>
+        <Grid container direction={"column"} justifyContent={"center"}>
           {apps.map((app: any) =>
             app.active ? (
               <Grid
@@ -179,22 +179,24 @@ export const AppsDialog = (props: AppsDialogProps) => {
                     label={app.Nombre}
                   />
                 </FormGroup> */}
-                <Box 
-               onClick={()=>{props.handleAppsDialogClose(); props.OpenModalEditar()}}
-                sx={{
-                  display:"flex",
-                  borderRadius:"10px",
-                  border:"solid 1px",
-                  width:"100%", 
-                  cursor:"pointer", 
-                  textAlign:"center" ,
-                  alignItems:"center",
-                  justifyContent:"center",mb:"2vh"
-                }} 
-              
+                <Box
+                  onClick={(v) => {
+                    props.handleAppsDialogClose();
+                    props.setIdApp(app.Id);
+                  }}
+                  sx={{
+                    display: "flex",
+                    borderRadius: "10px",
+                    border: "solid 1px",
+                    width: "100%",
+                    cursor: "pointer",
+                    textAlign: "center",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mb: "2vh",
+                  }}
                 >
                   <Typography sx={{}}> {app.Nombre} </Typography>
-                
                 </Box>
               </Grid>
             ) : null

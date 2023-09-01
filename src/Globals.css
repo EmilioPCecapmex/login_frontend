@@ -270,13 +270,10 @@ button.AceptarAppLogin:hover {
 }
 
 button.aceptar {
-
   font-family: 'Montserrat', sans-serif;
   background-color: #15212f;
   color: #fff;
-  font-size: 14px;
-
-
+   font-size: 14px; 
 }
 
 button.aceptar:hover {
@@ -309,7 +306,6 @@ button.Solicitudes-cancelar-usuario {
   font-family: 'Montserrat', sans-serif;
   background-color: rgb(21, 33, 47);
   color: #ffffff;
-  font-size: 12px;
 
 }
 
@@ -486,7 +482,9 @@ h5.DescripcionApp {
   color: rgb(21, 33, 47);
   text-align: justify;
   font-weight: 500;
-
-
-
+}
+div.RowsUsers {
+  width: "100%";
+  text-align: "center";
+  align-items: "center";
 }

@@ -4,6 +4,7 @@ import {
   Button,
   Dialog,
   DialogContent,
+  Grid,
   Slide,
   Toolbar,
   Typography,
@@ -12,10 +13,13 @@ import {
 import { TransitionProps } from "@mui/material/transitions";
 import { forwardRef, useEffect } from "react";
 import { SolicitudUsuario } from "../screens/SolicitudDeUsuarios/SolicitudUsuario";
+import { Header } from "./header";
 
 export interface NewDialogProps {
   newDialogOpen: boolean;
   handleNewDialogClose: Function;
+  idUsuario: string;
+  idApp: string;
 }
 
 export const Transition = forwardRef(function Transition(
@@ -93,9 +97,23 @@ export const NewDialog = (props: NewDialogProps) => {
           modoModal={false}
           token={""}
           idUsuarioSolicitante={""}
-          idApp={""}
+          idUsuarioModificado={props.idUsuario}
+          idApp={props.idApp}
         />
       </DialogContent>
     </Dialog>
+    // <Grid>
+    //   <Header />
+
+    //   <Grid container justifyContent="center" height={"85vh"}>
+    //     <SolicitudUsuario
+    //       handleDialogClose={props.handleNewDialogClose}
+    //       modoModal={false}
+    //       token={""}
+    //       idUsuarioSolicitante={""}
+    //       idApp={""}
+    //     />
+    //   </Grid>
+    // </Grid>
   );
 };

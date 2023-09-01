@@ -65,7 +65,6 @@ interface IObjectError {
   secretaria: IError;
   dependencia: IError;
   departamento: IError;
-  perfil: IError;
   rol: IError;
   uResponsable: IError;
   aplicacion: IError;
@@ -80,7 +79,6 @@ export const SolicitudModificarUsuario = (props: NewDialogProps) => {
   const [departamentos, setDepartamentos] = useState<Array<IDepartamento>>([]);
   const [roles, setRoles] = useState<Array<IRol>>([]);
   const [dependencias, setDependencias] = useState<Array<IDependencia>>([]);
-  const [perfiles, setPerfiles] = useState<Array<IPerfil>>([]);
   const [secretarias, setSecretarias] = useState<Array<ISecretaria>>([]);
   const [uResponsables, setUResponsables] = useState<Array<IUResponsable>>([]);
 
@@ -255,10 +253,7 @@ export const SolicitudModificarUsuario = (props: NewDialogProps) => {
       valid: false,
       text: "Selecciona departamento",
     },
-    perfil: {
-      valid: false,
-      text: "Selecciona perfiles",
-    },
+
     rol: {
       valid: false,
       text: "Selecciona roles",
@@ -440,10 +435,6 @@ export const SolicitudModificarUsuario = (props: NewDialogProps) => {
         valid: departamento.Id === "",
         text: "Selecciona departamento",
       },
-      perfil: {
-        valid: perfil.Id === "",
-        text: "Selecciona perfiles",
-      },
       rol: {
         valid: rol.Id === "",
         text: "Selecciona roles",
@@ -480,8 +471,10 @@ export const SolicitudModificarUsuario = (props: NewDialogProps) => {
     ) {
       Swal.fire({
         icon: "error",
-        title: "Mensaje",
-        text: "Completa todos los campos para continuar",
+        title: "Aviso",
+        text: "Favor de completar todos los campos para continuar",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#15212f",
       });
     } else {
       const data = {
@@ -597,12 +590,11 @@ export const SolicitudModificarUsuario = (props: NewDialogProps) => {
     getAllUserTypes();
     consulta("2", "select");
     // getCatalogo("tipodependencias", setTpoDependencia)
-    getCatalogo("departamentos", setDepartamentos, "");
-    getCatalogo("roles", setRoles, "");
-    getCatalogo("dependencias", setDependencias, "");
-    getCatalogo("perfiles", setPerfiles, "");
-    getCatalogo("secretarias", setSecretarias, "");
-    getCatalogo("uresponsables", setUResponsables, "");
+    getCatalogo("departamentos", setDepartamentos, "", props.token);
+    getCatalogo("roles", setRoles, "", props.token);
+    getCatalogo("dependencias", setDependencias, "", props.token);
+    getCatalogo("secretarias", setSecretarias, "", props.token);
+    getCatalogo("uresponsables", setUResponsables, "", props.token);
 
     if (props.idApp !== "") {
       let aux = apps.find((app) => (app.id = props.idApp));
@@ -1106,39 +1098,7 @@ export const SolicitudModificarUsuario = (props: NewDialogProps) => {
               )}
             />
           </Grid>
-          <Grid item xs={10} height={"10%"} md={4.5}>
-            <Typography variant="body2"> Perfiles: </Typography>
-            <Autocomplete
-              noOptionsText="No se encontraron opciones"
-              clearText="Borrar"
-              closeText="Cerrar"
-              options={perfiles}
-              getOptionLabel={(perfil) =>
-                perfil.Descripcion || "Seleccione departamento"
-              }
-              value={perfil}
-              onChange={(event, newValue) => {
-                if (newValue != null) {
-                  setPerfil(newValue);
-                  setErrores({
-                    ...errores,
-                    perfil: {
-                      valid: false,
-                      text: "Selecciona perfil valido",
-                    },
-                  });
-                }
-              }}
-              renderInput={(params) => (
-                <TextField
-                  key={params.id}
-                  {...params}
-                  variant="outlined"
-                  error={errores.perfil.valid}
-                />
-              )}
-            />
-          </Grid>
+          <Grid item xs={10} height={"10%"} md={4.5}></Grid>
           <Grid item xs={10} height={"10%"} md={4.5}>
             <Typography variant="body2"> Roles: </Typography>
             <Autocomplete
