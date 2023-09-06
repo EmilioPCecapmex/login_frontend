@@ -590,11 +590,11 @@ export const SolicitudModificarUsuario = (props: NewDialogProps) => {
     getAllUserTypes();
     consulta("2", "select");
     // getCatalogo("tipodependencias", setTpoDependencia)
-    getCatalogo("departamentos", setDepartamentos, "");
-    getCatalogo("roles", setRoles, "");
-    getCatalogo("dependencias", setDependencias, "");
-    getCatalogo("secretarias", setSecretarias, "");
-    getCatalogo("uresponsables", setUResponsables, "");
+    getCatalogo("departamentos", setDepartamentos, "", props.token);
+    getCatalogo("roles", setRoles, "", props.token);
+    getCatalogo("dependencias", setDependencias, "", props.token);
+    getCatalogo("secretarias", setSecretarias, "", props.token);
+    getCatalogo("uresponsables", setUResponsables, "", props.token);
 
     if (props.idApp !== "") {
       let aux = apps.find((app) => (app.id = props.idApp));
@@ -609,7 +609,6 @@ export const SolicitudModificarUsuario = (props: NewDialogProps) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        
       }}
     >
       <SliderProgress open={false} texto={""} />
@@ -621,7 +620,6 @@ export const SolicitudModificarUsuario = (props: NewDialogProps) => {
           mt: "2vh",
           bgcolor: "#fefdfc",
           overflow: "auto",
-          
         }}
       >
         <Grid
@@ -630,7 +628,6 @@ export const SolicitudModificarUsuario = (props: NewDialogProps) => {
           width={"100%"}
           display={"flex"}
           justifyContent={"space-evenly"}
-         
         >
           <Grid item xs={10} height={"10%"} md={4.5}>
             <TextField

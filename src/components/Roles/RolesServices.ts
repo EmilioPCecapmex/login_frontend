@@ -40,7 +40,6 @@ export const createRol = (datos: any, fnc: Function) => {
     },
   })
     .then(({ data }) => {
-      console.log(data);
       if (data.data) {
         alertaExito(fnc, data.data);
       }

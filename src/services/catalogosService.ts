@@ -20,12 +20,11 @@ const Toast = Swal.mixin({
   },
 });
 
-
-
 export const getCatalogo = (
   path: string,
   setState: Function,
-  IdApp: string
+  IdApp: string,
+  jwt: string
 ) => {
   axios({
     method: "get",
@@ -36,7 +35,7 @@ export const getCatalogo = (
     url: process.env.REACT_APP_APPLICATION_DEV + `/api/${path}`,
     headers: {
       "Content-Type": "application/json",
-      Authorization: localStorage.getItem("jwtToken") || "",
+      Authorization: localStorage.getItem("jwtToken") || jwt,
     },
   })
     // aqui se recibe lo del endpoint en response
@@ -47,7 +46,7 @@ export const getCatalogo = (
 
       setState(data.data);
     })
-    .catch(async () => {
+    .catch(async (r) => {
       setState([]);
       await alertaError("Sin registros de " + path);
     });
@@ -112,7 +111,7 @@ export const createCatalogo = (
       reloadData(String(Math.random()));
       Toast.fire({
         icon: "success",
-        title: `¡Registro creado!`,
+        title: `¡Registro Creado!`,
       });
       setOpen(false);
     })
@@ -122,15 +121,12 @@ export const createCatalogo = (
           ? "No se detectaron cambios"
           : e.response.data.error;
       Swal.fire({
-        
         icon: "error",
         title: "Mensaje",
         text: "( " + mensaje + " ) ",
       });
     });
 };
-
-
 
 export const EliminarCatalogo = (
   path: string,
@@ -139,7 +135,7 @@ export const EliminarCatalogo = (
   reloadData: Function
 ) => {
   axios({
-    method: "put",
+    method: "delete",
     data: {
       Id: Id,
       IdUsuario: localStorage.getItem("IdUsuario"),
@@ -155,7 +151,7 @@ export const EliminarCatalogo = (
       reloadData(String(Math.random()));
       Toast.fire({
         icon: "success",
-        title: `¡Registro eliminado!`,
+        title: `¡Registro Eliminado!`,
       });
       setOpen(false);
     })
