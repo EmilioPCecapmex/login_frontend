@@ -291,93 +291,73 @@ export default function Users() {
   }, [idApp]);
 
   return (
-    <Grid container sx={{ width: "100vw", height: "100vh" }}>
+    <Grid container sx={{ width: "100%", height: "100vh" }}>
       <Header />
-
-      <Box
+      <Grid
         sx={{
-          height: "87vh",
-          width: "100vw",
+          width: "100%",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <Box>
-          <Card sx={{ height: "80vh", width: "80vw", boxShadow: 10 }}>
-            <Box
-              sx={{
-                p: 2,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <Grid container justifyContent="space-between">
-                <Grid
-                  container
-                  item
-                  xs={12}
-                  md={6}
-                  direction="row"
-                  justifyContent="flex-start"
-                  alignItems="flex-start"
-                >
-                  <PeopleAltIcon />
-                  <Typography className="h6">
-                    Listado de usuarios con acceso a plataformas.
-                  </Typography>
-                </Grid>
-                <Grid item container xs={12} md={6} justifyContent="flex-end">
-                  <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          onChange={(v) => setShowAllUsers(v.target.checked)}
-                        />
-                      }
-                      label={
-                        <Typography className="h5">
-                          Usuarios Inactivos
-                        </Typography>
-                      }
+        <Card sx={{ height: "85vh", width: "80vw", boxShadow: 10 }}>
+    
+            <Grid item display={"flex"}>
+              <PeopleAltIcon />
+              <Typography >
+                Usuarios
+              </Typography>
+            </Grid>
+            <Grid item>
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      onChange={(v) => setShowAllUsers(v.target.checked)}
                     />
-                  </FormGroup>
-                </Grid>
-              </Grid>
-            </Box>
+                  }
+                  label={
+                    <Typography>
+                      Usuarios Inactivos
+                    </Typography>
+                  }
+                />
+              </FormGroup>
+            </Grid>
 
-            <CardContent>
-              <Box display="flex" justifyContent="flex-end">
-                <Button
-                  className="registrar-usuario"
-                  variant="text"
-                  onClick={() => {
-                    setIdApp("");
-                    setIdUsuario("");
-                    setNewDialogOpen(true);
-                  }}
-                  sx={{
-                    fontFamily: "MontserratBold",
-                    backgroundColor: "#DFA94F",
-                    color: "#000001",
-                    fontSize: "10px",
-                    mb: "1vh",
-                    boxShadow: 4,
-                  }}
-                  startIcon={<PersonAddIcon />}
-                >
-                  Registrar Usuario
-                </Button>
-              </Box>
-              <MUIXDataGrid
-                id={(row: any) => row.Id}
-                columns={columns}
-                rows={rows}
-              />
-            </CardContent>
-          </Card>
-        </Box>
+          
+          <CardContent>
+            <Grid display="flex">
+              <Button
+                className="registrar-usuario"
+                variant="text"
+                onClick={() => {
+                  setIdApp("");
+                  setIdUsuario("");
+                  setNewDialogOpen(true);
+                }}
+                sx={{
+                  fontFamily: "MontserratBold",
+                  backgroundColor: "#DFA94F",
+                  color: "#000001",
+                  fontSize: "10px",
+                  mb: "1vh",
+                  boxShadow: 4,
+                }}
+                startIcon={<PersonAddIcon />}
+              >
+                Registrar Usuario
+              </Button>
+            </Grid>
+
+          </CardContent>
+          <MUIXDataGrid
+            id={(row: any) => row.Id}
+            columns={columns}
+            rows={rows}
+          />
+        </Card>
         <NewDialog
           newDialogOpen={newDialogOpen}
           handleNewDialogClose={handleNewDialogClose}
@@ -409,7 +389,7 @@ export default function Users() {
             usuario={appsDialogUsuario}
           />
         ) : null} */}
-      </Box>
+      </Grid>
     </Grid>
   );
 }
@@ -448,19 +428,19 @@ export const imprimirSolicitud = (datos: any) => {
       datos?.Estatus === 0
         ? "PENDIENTE"
         : datos?.Estatus === 1
-        ? "ACEPTADA"
-        : datos?.Estatus === 2
-        ? "RECHAZADA"
-        : datos?.Estatus === 3
-        ? "SE SOLICITO MODIFICACIÓN"
-        : "SE DESCONOCE",
+          ? "ACEPTADA"
+          : datos?.Estatus === 2
+            ? "RECHAZADA"
+            : datos?.Estatus === 3
+              ? "SE SOLICITO MODIFICACIÓN"
+              : "SE DESCONOCE",
   };
   let dataArray = new FormData();
   dataArray.append("data", JSON.stringify(objeto));
   axios
     .post(
       process.env.REACT_APP_APPLICATION_GENERASOLICITUD +
-        "/api/generasolicitud",
+      "/api/generasolicitud",
       dataArray,
       {
         headers: {
@@ -486,5 +466,5 @@ export const imprimirSolicitud = (datos: any) => {
       document.body.appendChild(link);
       link.click();
     })
-    .catch((r) => {});
+    .catch((r) => { });
 };
