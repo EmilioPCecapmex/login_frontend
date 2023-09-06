@@ -57,35 +57,53 @@ export const Header = () => {
         display={"flex"}
         alignItems="center"
         sx={{
-          height: "12vh",
+          height: "10vh",
           width: "100%",
           border: "1px solid #b3afaf",
         }}
       >
-        <Grid container width="100%" display={"flex"} justifyContent={"space-between"} alignItems="center">
+        <Grid container width="100%"
+          display={"flex"}
+          justifyContent={"space-between"}
+          alignItems="center"
+        >
+
           <Grid item sx={{
-              "@media (min-width: 480px)": {
-                width: "50%",
-              },
+            "@media (min-width: 480px)": {
+              width: "50%",
+            },
 
-              "@media (min-width: 768px)": {
-                width: "30%",
-              },
+            "@media (min-width: 768px)": {
+              width: "30%",
+            },
 
-              "@media (min-width: 1140px)": {
-                width: "20%",
-              },
+            "@media (min-width: 1140px)": {
+              width: "20%",
+            },
 
-              "@media (min-width: 1400px)": {
-                width: "20%",
-              },
+            "@media (min-width: 1400px)": {
+              width: "20%",
+            },
 
-              "@media (min-width: 1870px)": {
-                width: "20%",
-              },
+            "@media (min-width: 1870px)": {
+              width: "20%",
+            },
 
           }} >
-            <Typography sx={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} paddingLeft={3} fontSize={"35%"}>
+            <Typography
+              paddingLeft={3}
+              sx={{
+                width: "100%",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                fontSize: "25%",
+                "@media (min-width: 480px)": {
+                  fontSize: "1.5rem"
+                },
+              }}
+
+            >
               {" "}
               {localStorage.getItem("NombreUsuario")}{" "}
             </Typography>

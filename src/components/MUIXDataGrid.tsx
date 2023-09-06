@@ -13,7 +13,9 @@ export default function MUIXDataGrid(props: any) {
   };
 
   return (
-    <div style={{ height: "70vh" }}>
+    <Grid sx={{ 
+      height:"77vh",
+       }}>
       <ThemeProvider theme={theme}>
         <DataGrid
           components={{ Toolbar: GridToolbar }}
@@ -184,6 +186,6 @@ export default function MUIXDataGrid(props: any) {
           }}
         />
       </ThemeProvider>
-    </div>
+    </Grid>
   );
 }

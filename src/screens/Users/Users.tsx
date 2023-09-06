@@ -186,7 +186,7 @@ export default function Users() {
     {
       field: "acciones",
       headerName: "Acciones",
-      width: 150,
+      width: 110,
       headerAlign: "center",
       renderCell: (cellValues: any) => {
         return (
@@ -297,69 +297,125 @@ export default function Users() {
       <Header />
       <Grid
         sx={{
+          height: "88%",
           width: "100%",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+
         }}
       >
-        <Card sx={{ height: "85vh", width: "80vw", boxShadow: 10 }}>
-    
-            <Grid item display={"flex"}>
-              <PeopleAltIcon />
-              <Typography >
+        <Grid sx={{ height: "84vh", width: "100vw" }}>
+          <Grid 
+            display={"flex"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+            width={"100%"}
+            sx={{
+              "@media (min-width: 480px)": {
+                height:"14%"
+              },
+              "@media (min-width: 768px)": {
+                height:"11.5%"
+              },
+            }}
+          >
+            <Grid item
+              sx={{
+                display: "flex",
+                alignItems: "center"
+              }}>
+
+              <CardContent>
+                <PeopleAltIcon sx={{ fontSize: "2rem" }} />
+              </CardContent>
+
+              <Typography
+                sx={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  fontSize: "1.5rem"
+                }}>
                 Usuarios
               </Typography>
             </Grid>
-            <Grid item>
-              <FormGroup>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      onChange={(v) => setShowAllUsers(v.target.checked)}
-                    />
-                  }
-                  label={
-                    <Typography>
-                      Usuarios Inactivos
-                    </Typography>
-                  }
-                />
-              </FormGroup>
-            </Grid>
 
-          
-          <CardContent>
-            <Grid display="flex">
-              <Button
-                className="registrar-usuario"
-                variant="text"
-                onClick={() => {
-                  setIdApp("");
-                  setIdUsuario("");
-                  setNewDialogOpen(true);
-                }}
-                sx={{
-                  fontFamily: "MontserratBold",
-                  backgroundColor: "#DFA94F",
-                  color: "#000001",
-                  fontSize: "10px",
-                  mb: "1vh",
-                  boxShadow: 4,
-                }}
-                startIcon={<PersonAddIcon />}
-              >
-                Registrar Usuario
-              </Button>
-            </Grid>
+            <CardContent sx={{
+              "@media (min-width: 480px)": {
+                flexDirection: "column",
+              },
+              "@media (min-width: 768px)": {
+                flexDirection: "row",
+                display: "flex"
+              },
 
-          </CardContent>
+            }}>
+              <Grid item>
+                <FormGroup>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        onChange={(v) => setShowAllUsers(v.target.checked)}
+                      />
+                    }
+                    label={
+                      <Typography sx={{
+                        fontSize: ".7rem",
+                        "@media (min-width: 480px)": {
+                          fontSize: ".7rem",
+                        },
+                        "@media (min-width: 768px)": {
+                          fontSize: "1rem",
+                        },
+                      }}>
+                        Usuarios Inactivos
+                      </Typography>
+                    }
+                  />
+                </FormGroup>
+              </Grid>
+
+              <Grid >
+                <Button
+                  className="aceptar"
+                  variant="text"
+                  onClick={() => {
+                    setIdApp("");
+                    setIdUsuario("");
+                    setNewDialogOpen(true);
+                  }}
+                  sx={{
+                    fontFamily: "MontserratBold",
+                    backgroundColor: "#DFA94F",
+                    color: "#000001",
+                    boxShadow: 4,
+                  }}
+                  startIcon={<PersonAddIcon />}
+                >
+                  <Typography sx={{
+                    fontSize: ".7rem",
+                    "@media (min-width: 480px)": {
+                      fontSize: ".7rem",
+                    },
+                    "@media (min-width: 768px)": {
+                      fontSize: "1rem",
+                    },
+                  }}>
+                    Registrar Usuario
+                  </Typography>
+
+                </Button>
+              </Grid>
+            </CardContent>
+          </Grid>
+
           <MUIXDataGrid
             id={(row: any) => row.Id}
             columns={columns}
             rows={rows}
           />
-        </Card>
+        </Grid>
         <NewDialog
           newDialogOpen={newDialogOpen}
           handleNewDialogClose={handleNewDialogClose}

@@ -61,14 +61,14 @@ export default function CatApps() {
     {
       field: "acciones",
       headerName: "Acciones",
-      width: 200,
+      width: 150,
       headerAlign: "center",
       hideable: false,
       renderCell: (cellValues: any) => {
         return (
           <Box>
-            <Tooltip title={"Editar App " 
-            //+ cellValues.row.Nombre
+            <Tooltip title={"Editar App "
+              //+ cellValues.row.Nombre
             }>
               <IconButton
                 sx={{ color: "black" }}
@@ -80,8 +80,8 @@ export default function CatApps() {
               </IconButton>
             </Tooltip>
 
-            <Tooltip title={"Administrar roles " 
-            //+ cellValues.row.Nombre
+            <Tooltip title={"Administrar roles "
+              //+ cellValues.row.Nombre
             }>
               <IconButton
                 sx={{ color: "black" }}
@@ -94,8 +94,8 @@ export default function CatApps() {
                 <ManageAccountsIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title={"Eliminar App " 
-            //+ cellValues.row.Nombre
+            <Tooltip title={"Eliminar App "
+              //+ cellValues.row.Nombre
             }>
               <IconButton
                 sx={{ color: "black" }}
@@ -278,7 +278,7 @@ export default function CatApps() {
       {/* esta configuracion es del box que va a contener el card principal*/}
       <Grid
         sx={{
-          height: "88%", // aqui va 90vh
+          height: "90%", // aqui va 90vh
           width: "100vw",
           display: "flex",
           alignItems: "center",
@@ -286,168 +286,84 @@ export default function CatApps() {
         }}
       >
         {/* este componente es la card que se encuentra en el centro en donde vamos a meter todo lo de la pantalla */}
-        <Card sx={{
-              height: "82vh", width: "90vw", boxShadow: 10,
-              "@media (min-width: 480px)": {
-                width: "90vw"
-              },
-
-              "@media (min-width: 768px)": {
-                width: "90vw"
-              },
-
-              "@media (min-width: 1140px)": {
-                width: "90vw"
-              },
-
-              "@media (min-width: 1400px)": {
-                width: "90vw"
-              },
-
-              "@media (min-width: 1870px)": {
-                width: "90vw"
-              },
-            }}>
+        <Grid container
+          sx={{ height: "84vh", width: "100vw" }}>
           {/* este box es la leyenda que se encuentra arriba a la izquierda */}
           <Grid
-            container
             sx={{
               display: "flex",
               justifyContent: "space-around",
               alignItems: "center",
               width: "100%",
-              height: "10%",
+              height: "11.5%",
             }}
           >
-
             <Grid item
-              sx={{ display: "flex",
-              "@media (min-width: 480px)": {
-                width:"50%", 
-               display:"flex",
-               alignItems:"center"
-              },
-
-              "@media (min-width: 768px)": {
-                width:"60%", 
-               
-              },
-
-              "@media (min-width: 1140px)": {
-                width:"76%", 
-                
-              },
-
-              "@media (min-width: 1400px)": {
-                width:"80%", 
-               
-              },
-
-              "@media (min-width: 1870px)": {
-                width:"80%", 
-                
-              },
-            }}
+              sx={{
+                display: "flex",
+                width: "50%",
+                alignItems: "center"
+              }}
             >
               <CardContent>
                 <AppsIcon sx={{ fontSize: "2rem" }} />
               </CardContent>
+
               <Typography
                 sx={{
-                  whiteSpace: "nowrap" , 
-                  overflow:"hidden" , 
-                  textOverflow:"ellipsis",
-                  
-                  "@media (min-width: 480px)": {
-                    width:"60%", 
-                    fontSize: "2rem",
-                  },
-
-                  "@media (min-width: 768px)": {
-                    width:"85%", 
-                    fontSize: "1.2rem",
-                  },
-
-                  "@media (min-width: 1140px)": {
-                    width:"85%", 
-                    fontSize: "1.5rem",
-                  },
-
-                  "@media (min-width: 1400px)": {
-                    width:"100%", 
-                    fontSize: "2rem",
-                  },
-
-                  "@media (min-width: 1870px)": {
-                    width:"100%", 
-                    fontSize: "2rem",
-                  },
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  fontSize: "1.5rem"
                 }}
               >
                 Aplicaciones
               </Typography>
             </Grid>
 
-
-            <Grid item
-              sx={{
-                "@media (min-width: 480px)": {
-                  width:"50%", 
-                  justifyContent:"end",display:"flex",
-                },
-  
-                "@media (min-width: 768px)": {
-                  width:"30%", 
-                  justifyContent:"end",display:"flex",
-                },
-  
-                "@media (min-width: 1140px)": {
-                  width:"22%", 
-                  justifyContent:"end",display:"flex",
-                },
-  
-                "@media (min-width: 1400px)": {
-                  width:"20%", 
-                  justifyContent:"end",display:"flex",
-                },
-  
-                "@media (min-width: 1870px)": {
-                  width:"15%", 
-                  justifyContent:"end",display:"flex",
-                },
-              }}
-            >
-              <CardContent>
+            <CardContent sx={{
+              width: "50%",
+              justifyContent: "end",
+              display: "flex",
+            }}>
               <Button
                 className="aceptar"
                 onClick={(event) => handleNewBtnClick(event)}
                 sx={{
                   boxShadow: 4,
-                  fontSize:"12px"
                 }}
                 startIcon={<AddIcon />}
               >
-                registrar aplicación
+                <Typography sx={{
+                  fontSize: ".7rem",
+                  "@media (min-width: 480px)": {
+                    fontSize: ".7rem",
+                  },
+                  "@media (min-width: 768px)": {
+                    fontSize: "1rem",
+                  },
+                }}>
+                  registrar aplicación
+                </Typography>
               </Button>
-              </CardContent>
-            </Grid>
+            </CardContent>
+
 
             {/* <Grid container item justifyContent="flex-end">
               
             </Grid> */}
           </Grid>
+          <MUIXDataGridApp
+            id={(row: any) => row.Id}
+            columns={columns}
+            rows={rows}
+          />
           {/* aqui es el contenido del card,y ponemos primero un box y estamos dibujando el boton para agregar un nuevo registro */}
-         
-            {/* boton a la derecha para agregar una aplicacion nueva */}
 
-            {/* Grid del listado,aqui se asigna el id unico que tiene que tener cada renglon, asi que asignamos el campo ID que se obtiene del endpoint */}
-            <MUIXDataGridApp
-              id={(row: any) => row.Id}
-              columns={columns}
-              rows={rows}
-            />
-          
-        </Card>
+          {/* boton a la derecha para agregar una aplicacion nueva */}
+
+          {/* Grid del listado,aqui se asigna el id unico que tiene que tener cada renglon, asi que asignamos el campo ID que se obtiene del endpoint */}
+        </Grid>
       </Grid>
       {newDialogOpen && (
         <NewDialogApp
