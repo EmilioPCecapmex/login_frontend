@@ -14,10 +14,9 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import SelectValues from "../../Interfaces/SelectValues";
 import { UserServices } from "../../services/UserServices";
 import { getCatalogo } from "../../services/catalogosService";
-import { IEntidadPadre, IRol, IUResponsable } from "./ICatalogos";
+import { IEntidadPadre, IRol } from "./ICatalogos";
 
 export interface NewDialogProps {
   modoModal: boolean;
@@ -26,6 +25,14 @@ export interface NewDialogProps {
   idUsuarioModificado: string;
   idApp: string;
   handleDialogClose: Function;
+}
+
+export interface IApps {
+  Id: string;
+  Nombre: string;
+  Descripcion: string;
+  EstaActivo: string;
+  Path: string;
 }
 
 export interface IUserTypes {
@@ -40,7 +47,7 @@ export interface IInfoUsuario {
   ApellidoMaterno: string;
   NombreUsuario: string;
   CorreoElectronico: string;
-  Aplicacion: { value: string; label: string };
+  Aplicacion: { Id: string; Nombre: string };
   TipoUsuario: { Id: string; Nombre: string };
   Puesto: string;
   CURP: string;
@@ -49,8 +56,7 @@ export interface IInfoUsuario {
   Telefono: string;
   Ext: string;
   Roles: { Id: string; Nombre: string }[];
-  UnidadResponsable: { Id: string; Descripcion: string };
-  Entidad: { value: string; descripcion: string };
+  Entidad: { Id: string; Nombre: string };
   PuedeFirmar: boolean;
 }
 
@@ -58,13 +64,14 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
   const urlParams = window.location.search;
   const query = new URLSearchParams(urlParams);
   const jwt = query.get("jwt");
+  const IdUsuario =
+    props.idUsuarioModificado || query.get("idUsuarioModificado") || "";
 
   const [bajaUsuario, setBajaUsuario] = useState(false);
 
-  const [apps, setApps] = useState<Array<SelectValues>>([]);
+  const [apps, setApps] = useState<Array<IApps>>([]);
   const [usertypes, setUserTypes] = useState<Array<IUserTypes>>([]);
   const [roles, setRoles] = useState<Array<IRol>>([]);
-  const [uResponsables, setUResponsables] = useState<Array<IUResponsable>>([]);
   const [entidades, setEntidades] = useState<Array<IEntidadPadre>>([]);
 
   const [existeCorreo, setExisteCorreo] = useState(false);
@@ -76,7 +83,10 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     ApellidoMaterno: "",
     NombreUsuario: "",
     CorreoElectronico: "",
-    Aplicacion: { value: props.idApp, label: "" },
+    Aplicacion: {
+      Id: props.idApp || localStorage.getItem("IdApp")!,
+      Nombre: "",
+    },
     TipoUsuario: { Id: "", Nombre: "" },
     Puesto: "",
     CURP: "",
@@ -85,8 +95,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     Telefono: "",
     Ext: "",
     Roles: [],
-    UnidadResponsable: { Id: "", Descripcion: "" },
-    Entidad: { value: "", descripcion: "" },
+    Entidad: { Id: "", Nombre: "" },
     PuedeFirmar: false,
   });
 
@@ -96,67 +105,67 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
   }
 
   useEffect(() => {
+    console.log(query.get("IdUsuario"));
+
     if (apps.length) {
-      let aux = apps.find((app) => app.value === props.idApp);
+      let aux = apps.find((app) => app.Id === props.idApp);
       if (aux) {
         setInfoUsuario({
           ...infoUsuario,
-          Aplicacion: { value: aux?.value!, label: aux?.label! },
+          Aplicacion: { Id: aux?.Id!, Nombre: aux?.Nombre! },
         });
 
-        axios
-          .post(
-            process.env.REACT_APP_APPLICATION_DEV + "/api/userapp-detail",
-            {
-              IdUsuario: props.idUsuarioModificado,
-              IdApp: props.idApp,
-            },
-            {
-              headers: {
-                "Content-Type": "application/json",
-                authorization: localStorage.getItem("jwtToken") || "",
+        if (IdUsuario) {
+          axios
+            .post(
+              process.env.REACT_APP_APPLICATION_DEV + "/api/userapp-detail",
+              {
+                IdUsuario: IdUsuario,
+                IdApp: props.idApp,
               },
-            }
-          )
-          .then((r) => {
-            const data = r.data.data;
-            const roles = r.data.roles[0];
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  authorization: localStorage.getItem("jwtToken") || "",
+                },
+              }
+            )
+            .then((r) => {
+              const data = r.data.data;
+              const roles = r.data.roles[0];
 
-            setInfoUsuario({
-              ...infoUsuario,
-              Nombre: data.Nombre,
-              ApellidoPaterno: data.ApellidoPaterno,
-              ApellidoMaterno: data.ApellidoMaterno,
-              NombreUsuario: data.NombreUsuario,
-              CorreoElectronico: data.CorreoElectronico,
-              Aplicacion: {
-                value: props.idApp || "",
-                label: data.Aplicacion || "",
-              },
-              TipoUsuario: {
-                Id: data.IdTipoUsuario || "",
-                Nombre: data.TipoUsuario || "",
-              },
-              Puesto: data.Puesto,
-              CURP: data.Curp,
-              RFC: data.Rfc,
-              Celular: data.Celular,
-              Telefono: data.Telefono,
-              Ext: data.Ext,
-              Roles: roles || [],
-              UnidadResponsable: {
-                Id: data.IdUnidadResponsable || "",
-                Descripcion: data.UnidadResponsable || "",
-              },
-              Entidad: {
-                value: data.IdEntidad || "",
-                descripcion:
-                  entidades.find((ent) => ent.value === data.IdEntidad)
-                    ?.descripcion! || "",
-              },
-              PuedeFirmar: data.PuedeFirmar === 1,
+              setInfoUsuario({
+                ...infoUsuario,
+                Nombre: data.Nombre,
+                ApellidoPaterno: data.ApellidoPaterno,
+                ApellidoMaterno: data.ApellidoMaterno,
+                NombreUsuario: data.NombreUsuario,
+                CorreoElectronico: data.CorreoElectronico,
+                Aplicacion: {
+                  Id: props.idApp || "",
+                  Nombre: data.Aplicacion || "",
+                },
+                TipoUsuario: {
+                  Id: data.IdTipoUsuario || "",
+                  Nombre: data.TipoUsuario || "",
+                },
+                Puesto: data.Puesto,
+                CURP: data.CURP,
+                RFC: data.RFC,
+                Celular: data.Celular,
+                Telefono: data.Telefono,
+                Ext: data.Ext,
+                Roles: roles || [],
+                Entidad: {
+                  Id: data.IdEntidad || "",
+                  Nombre:
+                    entidades.find((ent) => ent.Id === data.IdEntidad)
+                      ?.Nombre! || "",
+                },
+                PuedeFirmar: data.PuedeFirmar === 1,
+              });
             });
-          });
+        }
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -232,7 +241,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
         `Ingresa número de <strong style="color: red;">Teléfono</strong> válido`
       );
     }
-    if (infoUsuario.Aplicacion.value === "") {
+    if (infoUsuario.Aplicacion.Id === "") {
       err.push(`Ingresa <strong style="color: red;">Aplicación</strong>`);
     }
     if (infoUsuario.TipoUsuario.Nombre === "") {
@@ -241,12 +250,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     if (infoUsuario.Roles.length === 0) {
       err.push(`Ingresa <strong style="color: red;">Roles</strong>`);
     }
-    if (infoUsuario.UnidadResponsable.Id === "") {
-      err.push(
-        `Ingresa <strong style="color: red;">Unidad Responsable</strong>`
-      );
-    }
-    if (infoUsuario.Entidad.descripcion === "") {
+    if (infoUsuario.Entidad.Nombre === "") {
       err.push(`Ingresa <strong style="color: red;">Entidad</strong>`);
     }
 
@@ -289,19 +293,18 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
         ? "BAJA"
         : existeCorreo
         ? "VINCULACION"
-        : props.idUsuarioModificado
+        : IdUsuario
         ? "MODIFICACION"
         : "ALTA",
-      IdApp: infoUsuario.Aplicacion.value,
+      IdApp: infoUsuario.Aplicacion.Id,
       CreadoPor: props.idUsuarioSolicitante
         ? props.idUsuarioSolicitante
         : localStorage.getItem("IdUsuario"),
-      IdUResponsable: infoUsuario.UnidadResponsable.Id,
       Roles: JSON.stringify({ Roles: IdRoles }),
       IdTipoUsuario: infoUsuario.TipoUsuario.Id,
       PuedeFirmar: infoUsuario.PuedeFirmar ? 1 : 0,
       Puesto: infoUsuario.Puesto,
-      Entidad: infoUsuario.Entidad.value,
+      Entidad: infoUsuario.Entidad.Id,
     };
 
     UserServices.createsolicitud(
@@ -369,43 +372,31 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     });
   };
 
-  const consulta = (catalogo: string, opcion: string) => {
-    UserServices.consultaCatalogos(
-      { cat: catalogo, opcion: opcion },
-      String(jwt) !== "null"
-        ? String(jwt)
-        : String(localStorage.getItem("jwtToken"))
-    ).then((res) => {
-      if (res.status === 200) {
-        if (catalogo === "2" && opcion === "select") {
-          setApps(res.data.data);
-        }
-      }
-    });
-  };
-
   useEffect(() => {
     getAllUserTypes();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [infoUsuario.Aplicacion]);
 
   useEffect(() => {
-    consulta("2", "select");
-    getCatalogo("roles", setRoles, infoUsuario.Aplicacion.value);
-    getCatalogo("entidad-padre", setEntidades, "");
-    getCatalogo("uresponsables", setUResponsables, "");
+    getCatalogo("apps", setApps, "", props.token);
+    getCatalogo("lista-entidades", setEntidades, "", props.token);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (props.idApp !== "") {
-      let aux = apps.find((app) => (app.id = props.idApp));
+      let aux = apps.find((app) => app.Id === props.idApp);
+
       if (aux) {
         setInfoUsuario({
           ...infoUsuario,
-          Aplicacion: { value: aux?.id!, label: aux?.label! },
+          Aplicacion: { Id: aux?.Id!, Nombre: aux?.Nombre! },
         });
       }
+      getCatalogo("roles", setRoles, props.idApp, props.token);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [apps]);
 
   const cleanData = (CorreoElectronico: string, usuario: string) => {
     setInfoUsuario({
@@ -415,8 +406,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       ApellidoMaterno: "",
       NombreUsuario: usuario,
       CorreoElectronico: CorreoElectronico,
-      Aplicacion: { value: props.idApp, label: "" },
-      TipoUsuario: { Id: "", Nombre: "" },
       Puesto: "",
       CURP: "",
       RFC: "",
@@ -424,8 +413,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       Telefono: "",
       Ext: "",
       Roles: [],
-      UnidadResponsable: { Id: "", Descripcion: "" },
-      Entidad: { value: "", descripcion: "" },
       PuedeFirmar: false,
     });
   };
@@ -436,7 +423,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     if (emailRegex.test(CorreoElectronico)) {
       axios
         .post(
-          process.env.REACT_APP_APPLICATION_DEV + "/api/validarEmail",
+          process.env.REACT_APP_APPLICATION_DEV + "/api/validar-email",
           {
             Email: CorreoElectronico,
           },
@@ -448,8 +435,9 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           }
         )
         .then((r) => {
-          const data = r.data.result;
-          if (r.data.result) {
+          const data = r.data.result[0];
+
+          if (data) {
             setExisteCorreo(true);
             setInfoUsuario({
               ...infoUsuario,
@@ -466,6 +454,9 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
               Ext: data.Ext,
               PuedeFirmar: data.PuedeFirmar === 1,
             });
+          } else {
+            setExisteCorreo(false);
+            cleanData(CorreoElectronico, "");
           }
         })
         .catch((err) => {
@@ -482,7 +473,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     if (uName.length > 4) {
       axios
         .post(
-          process.env.REACT_APP_APPLICATION_DEV + "/api/validarUserName",
+          process.env.REACT_APP_APPLICATION_DEV + "/api/validar-username",
           {
             UserName: uName,
           },
@@ -494,7 +485,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           }
         )
         .then((r) => {
-          const data = r.data.result;
+          const data = r.data.result[0];
           if (data.Existe !== 0) {
             setExisteNUsuario(true);
           } else {
@@ -516,7 +507,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     >
       <Grid item xs={10} md={4.5}>
         <TextField
-          disabled={props.idUsuarioModificado !== ""}
+          disabled={IdUsuario !== ""}
           label="Correo Electrónico"
           type="text"
           fullWidth
@@ -541,7 +532,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       </Grid>
       <Grid item xs={10} md={4.5}>
         <TextField
-          disabled={existeCorreo || props.idUsuarioModificado !== ""}
+          disabled={existeCorreo || IdUsuario !== ""}
           error={existeNUsuario}
           autoFocus
           label="Nombre de Usuario"
@@ -740,47 +731,15 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
         />
       </Grid>
 
-      {/* <Grid item xs={10} md={4.5}>
-        <Typography variant="body2"> Perfiles: </Typography>
-        <Autocomplete
-          multiple
-          disabled={perfiles.length === 0}
-          noOptionsText="No se encontraron opciones"
-          clearText="Borrar"
-          closeText="Cerrar"
-          options={perfiles}
-          getOptionLabel={(perfil) => perfil.Descripcion}
-          value={infoUsuario.Perfiles}
-          onChange={(event, newValue) => {
-            if (newValue != null) {
-              setInfoUsuario({ ...infoUsuario, Perfiles: newValue });
-              setErrores({
-                ...errores,
-                perfil: {
-                  valid: false,
-                  text: "Selecciona perfil válido",
-                },
-              });
-            }
-          }}
-          renderInput={(params) => (
-            <TextField key={params.id} {...params} variant="outlined" />
-          )}
-          isOptionEqualToValue={(option, value) =>
-            option.Descripcion === value.Descripcion || value.Descripcion === ""
-          }
-        />
-      </Grid> */}
-
       <Grid item xs={10} md={4.5}>
         <Typography variant="body2"> Aplicación: </Typography>
         <Autocomplete
           noOptionsText="No se encontraron opciones"
           clearText="Borrar"
           closeText="Cerrar"
-          disabled={props.idApp !== "" || props.idUsuarioModificado !== ""}
+          disabled={props.idApp !== "" || IdUsuario !== ""}
           options={apps}
-          getOptionLabel={(app) => app.label || "Seleccione aplicacion"}
+          getOptionLabel={(app) => app.Nombre || "Seleccione aplicacion"}
           value={infoUsuario.Aplicacion}
           onChange={(event, v) => {
             if (v !== null) {
@@ -788,16 +747,16 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
                 ...infoUsuario,
                 TipoUsuario: { Nombre: "", Id: "" },
                 Roles: [],
-                Aplicacion: { value: v?.value, label: v?.label! },
+                Aplicacion: { Id: v?.Id, Nombre: v?.Nombre! },
               });
-              getCatalogo("roles", setRoles, v?.value);
+              getCatalogo("roles", setRoles, v?.Id, props.token);
             }
           }}
           renderInput={(params) => (
             <TextField key={params.id} {...params} variant="outlined" />
           )}
           isOptionEqualToValue={(option, value) =>
-            option.Descripcion === value.Descripcion || value.Descripcion === ""
+            option.Nombre === value.Nombre || value.Nombre === ""
           }
         />
       </Grid>
@@ -852,49 +811,19 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       </Grid>
 
       <Grid item xs={10} md={4.5}>
-        <Typography variant="body2"> Unidad Responsable: </Typography>
-        <Autocomplete
-          noOptionsText="No se encontraron opciones"
-          clearText="Borrar"
-          closeText="Cerrar"
-          options={uResponsables}
-          getOptionLabel={(uresponsable) =>
-            uresponsable.Descripcion || "Seleccione unidad responsable"
-          }
-          value={infoUsuario.UnidadResponsable}
-          onChange={(event, v) => {
-            if (v != null) {
-              setInfoUsuario({
-                ...infoUsuario,
-                UnidadResponsable: { Id: v?.Id!, Descripcion: v?.Descripcion! },
-              });
-            }
-          }}
-          renderInput={(params) => (
-            <TextField key={params.id} {...params} variant="outlined" />
-          )}
-          isOptionEqualToValue={(option, value) =>
-            option.Descripcion === value.Descripcion || value.Descripcion === ""
-          }
-        />
-      </Grid>
-
-      <Grid item xs={10} md={4.5}>
         <Typography variant="body2">Entidad: </Typography>
         <Autocomplete
           noOptionsText="No se encontraron opciones"
           clearText="Borrar"
           closeText="Cerrar"
           options={entidades}
-          getOptionLabel={(entidad) =>
-            entidad.descripcion || "Seleccione entidad"
-          }
+          getOptionLabel={(entidad) => entidad.Nombre || "Seleccione entidad"}
           value={infoUsuario.Entidad}
           onChange={(event, v) => {
             if (v != null) {
               setInfoUsuario({
                 ...infoUsuario,
-                Entidad: { value: v.value, descripcion: v.descripcion },
+                Entidad: { Id: v.Id, Nombre: v.Nombre },
               });
             }
           }}
@@ -902,7 +831,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             <TextField key={params.id} {...params} variant="outlined" />
           )}
           isOptionEqualToValue={(option, value) =>
-            option.descripcion === value.descripcion || value.descripcion === ""
+            option.Nombre === value.Nombre || value.Nombre === ""
           }
         />
       </Grid>
@@ -929,7 +858,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           label={infoUsuario.PuedeFirmar ? "Puede firmar" : "No puede firmar"}
         />
         <Grid>
-          {props.idUsuarioModificado && (
+          {IdUsuario && (
             <Button
               className="cancelar"
               onClick={() => {
@@ -950,9 +879,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             }}
             sx={{ fontFamily: "MontserratRegular" }}
           >
-            {props.idUsuarioModificado
-              ? "Solicitar Modificación"
-              : "Solicitar Usuario"}
+            {IdUsuario ? "Solicitar Modificación" : "Solicitar Usuario"}
           </Button>
         </Grid>
       </Grid>

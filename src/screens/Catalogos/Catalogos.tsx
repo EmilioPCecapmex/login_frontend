@@ -18,7 +18,6 @@ const Catalogos = () => {
   const [roles, setRoles] = useState([]);
   const [uResponsable, setUResponsable] = useState([]);
   const [departamentos, setDepartamentos] = useState([]);
-  const [perfiles, setPerfiles] = useState([]);
   const [dependencias, setDependencias] = useState([]);
   const [tpoDependencias, setTpoDependencias] = useState([]);
   ////////////// ocuplat columnas
@@ -231,9 +230,6 @@ const Catalogos = () => {
         if (catalogo === "4" && opcion === "catalogos") {
           setRoles(res.data.data);
         }
-        if (catalogo === "5" && opcion === "catalogos") {
-          setPerfiles(res.data.data);
-        }
         if (catalogo === "6" && opcion === "catalogos") {
           setDependencias(res.data.data);
         }
@@ -259,9 +255,6 @@ const Catalogos = () => {
               <Tab label="Tipo Dependencias" value="7" />
               <Tab label="Dependencias" value="6" />
               <Tab label="SIREGOB" value="2" />
-              {/* <Tab label="Departamentos" value="3" /> */}
-              {/* <Tab label="Roles" value="4" /> */}
-              {/* <Tab label="Perfiles" value="5" /> */}
             </TabList>
           </Box>
           <Grid  item xs={12} paddingLeft={1}>
@@ -290,11 +283,6 @@ const Catalogos = () => {
           <TabPanel value="4">
             <Grid item xs={12} className="ContainerMUIXDataGridCatalogos">
               <MUIXDataGrid columns={columns} rows={roles} />
-            </Grid>
-          </TabPanel>
-          <TabPanel value="5">
-            <Grid item xs={12} className="ContainerMUIXDataGridCatalogos">
-              <MUIXDataGrid columns={columns} rows={perfiles} />
             </Grid>
           </TabPanel>
           <TabPanel value="6">

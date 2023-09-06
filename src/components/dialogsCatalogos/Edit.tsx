@@ -115,9 +115,6 @@ export const Edit = ({
   const [entidadesPadres, setEntidadesPadres] = useState<Array<IEntidadPadre>>([
     { tipo: "", descripcion: "", value: "" },
   ]);
-  // const [perfiles, setPerfiles] = useState<Array<IPerfil>>([]);
-  // const [secretarias, setSecretarias] = useState<Array<ISecretaria>>([]);
-  // const [uResponsables, setUResponsables] = useState<Array<IUResponsable>>([]);
 
   const [dependenciasFiltered, setDependenciasFiltered] = useState<
     Array<IDependencia>
@@ -243,12 +240,7 @@ export const Edit = ({
   }, [dependenciasFiltered]);
 
   useEffect(() => {
-    // getCatalogo("departamentos", setDepartamentos)
-    // getCatalogo("roles", setRoles)
     getCatalogo("dependencias", setDependencias, "");
-    // getCatalogo("perfiles", setPerfiles)
-    // getCatalogo("secretarias", setSecretarias)
-    // getCatalogo("uresponsables", setUResponsables)
     getCatalogo("usuarios-asignables", setUsuarios, "");
     getCatalogo("tipodependencias", setTpoDependencias, "");
     getCatalogo("entidad-padre", setEntidadesPadres, "");
