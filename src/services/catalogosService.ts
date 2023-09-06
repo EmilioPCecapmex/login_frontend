@@ -74,6 +74,8 @@ export const modificarCatalogo = (
         icon: "success",
         title: `¡Registro Editado!`,
         confirmButtonColor: "#000E4E",
+        iconColor: "#af8c55",
+        color: "#af8c55",
       });
       setOpen(false);
     })
@@ -83,7 +85,7 @@ export const modificarCatalogo = (
           ? "No se detectaron cambios"
           : e.response.data.error;
       Swal.fire({
-        icon: "error",
+        icon: "info",
         confirmButtonColor: "#000E4E",
         title: "Mensaje",
         text: "( " + mensaje + " ) ",
@@ -112,6 +114,8 @@ export const createCatalogo = (
       Toast.fire({
         icon: "success",
         title: `¡Registro Creado!`,
+        iconColor: "#af8c55",
+        color: "#af8c55",
       });
       setOpen(false);
     })
@@ -121,8 +125,9 @@ export const createCatalogo = (
           ? "No se detectaron cambios"
           : e.response.data.error;
       Swal.fire({
-        icon: "error",
+        icon: "info",
         title: "Mensaje",
+        confirmButtonColor: "#000E4E",
         text: "( " + mensaje + " ) ",
       });
     });
@@ -152,6 +157,8 @@ export const EliminarCatalogo = (
       Toast.fire({
         icon: "success",
         title: `¡Registro Eliminado!`,
+        iconColor: "#af8c55",
+        color: "#af8c55",
       });
       setOpen(false);
     })
