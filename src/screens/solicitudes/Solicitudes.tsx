@@ -274,8 +274,10 @@ export const Solicitudes = () => {
           imprimirSolicitud(r.data.result[0][0]);
         } else {
           Toast.fire({
-            icon: "error",
-            title: "Error al imprimir la solicitud!",
+            icon: "info",
+            title: "¡Error al imprimir la solicitud!",
+            iconColor: "#af8c55",
+            color: "#af8c55",
           });
         }
       });

@@ -152,6 +152,8 @@ export default function CatApps() {
       Toast.fire({
         icon: "success",
         title: "¡Aplicación Editada!" ,
+        iconColor: "#af8c55",
+        color: "#af8c55",
       });
       getAllApps();
     }
@@ -170,7 +172,7 @@ export default function CatApps() {
       Toast.fire({
         icon: "success",
         iconColor: "#af8c55",
-        title: "Aplicación Creada Exitosamente",
+        title: "¡Aplicación Creada!",
         color: "#af8c55",
       });
       getAllApps();
@@ -209,7 +211,7 @@ export default function CatApps() {
             Toast.fire({
               icon: "success",
               iconColor: "#af8c55",
-              title: "Aplicación Eliminada Exitosamente",
+              title: "¡Aplicación Eliminada!",
               color: "#af8c55",
             });
             getAllApps();

@@ -242,24 +242,6 @@ const Catalogos = () => {
       </Grid>
 
       <div className="FooterLogin">
-        {/* <Box sx={{ position: "absolute", right: 5, bottom: 5 }}>
-          <Typography
-            sx={{
-              fontFamily: "MontserratBold",
-              fontSize: "10px",
-              color: "#808080",
-            }}
-          >
-            v.{process.env.REACT_APP_APPLICATION_VERSION}
-          </Typography>
-        </Box> */}
-        {/* <Edit
-          open={openEdit}
-          setOpen={setOpenEdit}
-          elemento={elemento}
-          catalogo={valueTab}
-          reloadData={setReload}
-        /> */}
         {openCreate && (
           <Create
             open={openCreate}

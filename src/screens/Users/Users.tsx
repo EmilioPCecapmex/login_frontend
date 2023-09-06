@@ -74,7 +74,9 @@ export default function Users() {
     if (changed === true) {
       Toast.fire({
         icon: "success",
-        title: "Usuario Creado Exitosamente",
+        title: "¡Usuario Creado!",
+        iconColor: "#af8c55",
+        color: "#af8c55",
       });
       getAllUsers();
     }
@@ -96,8 +98,8 @@ export default function Users() {
           imprimirSolicitud(r.data.result[0][0]);
         } else {
           Toast.fire({
-            icon: "error",
-            title: "No se encontro solicitud!",
+            icon: "info",
+            title: "¡No se encontro solicitud!",
           });
         }
       });
