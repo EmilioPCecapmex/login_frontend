@@ -111,7 +111,7 @@ export const createCatalogo = (
       reloadData(String(Math.random()));
       Toast.fire({
         icon: "success",
-        title: `¡Registro creado!`,
+        title: `¡Registro Creado!`,
       });
       setOpen(false);
     })
@@ -151,7 +151,7 @@ export const EliminarCatalogo = (
       reloadData(String(Math.random()));
       Toast.fire({
         icon: "success",
-        title: `¡Registro eliminado!`,
+        title: `¡Registro Eliminado!`,
       });
       setOpen(false);
     })

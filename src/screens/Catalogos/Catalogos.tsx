@@ -164,8 +164,8 @@ const Catalogos = () => {
       hide: valueTab !== "Entidades",
     },
     {
-      field: "Descripcion",
-      headerName: "Descripcion",
+      field: "Descripción",
+      headerName: "Descripción",
       width: 200,
       headerAlign: "center",
       hide: valueTab === "Entidades",
