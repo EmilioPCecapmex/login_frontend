@@ -256,7 +256,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
 
     if (err.length > 0) {
       Toast.fire({
-        icon: "error",
+        icon: "info",
         html: `
         <div style="height:50%; width:100%;">
         <h3>Se han encontrado los siguientes errores:</h3>

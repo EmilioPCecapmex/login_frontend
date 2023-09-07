@@ -216,70 +216,61 @@ const Catalogos = () => {
   return (
     <>
       <Header />
-      <Grid container item xs={12} justifyContent="center" paddingTop={3}>
+      <Grid
+        container
+        item
+        xs={12}
+        justifyContent="center"
+        paddingTop={3}
+        sx={{ maxHeight: "90vh", maxWidth: "100vw" }}
+      >
         <TabContext value={String(valueTab)}>
-          <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab label="Tipo Entidades " value="TipoEntidades" />
-            <Tab label="Entidades" value="Entidades" />
-          </TabList>
-
-          <Grid item xs={12} paddingLeft={1}>
-            <ButtonsAdd handleOpen={setOpenCreate} agregar={true} />
+          <Grid container sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
+            <Grid item xl={8} xs={8} lg={8} md={8} sm={8} sx={{ display: "flex", justifyContent: "space-evenly" }}>
+              <TabList onChange={handleChange} aria-label="lab API tabs example">
+                <Tab label="Tipo Entidades " value="TipoEntidades" />
+                <Tab label="Entidades" value="Entidades" />
+              </TabList>
+            </Grid>
+            <Grid item xl={2} xs={2} lg={2} md={2} sm={2} sx={{ display: "flex", justifyContent: "space-evenly" }}>
+              <ButtonsAdd handleOpen={setOpenCreate} agregar={true} />
+            </Grid>
           </Grid>
-
-          <TabPanel value="TipoEntidades" sx={{ pl: 0, pr: 0 }}>
-            <Grid item xs={12} className="ContainerMUIXDataGridCatalogos">
-              <MUIXDataGrid columns={columns} rows={tipoEntidades} />
-            </Grid>
-          </TabPanel>
-
-          <TabPanel value="Entidades" sx={{ pl: 0, pr: 0 }}>
-            <Grid item xs={12} className="ContainerMUIXDataGridCatalogos">
-              <MUIXDataGrid columns={columns} rows={entidades} />
-            </Grid>
-          </TabPanel>
         </TabContext>
+
+
+        <Grid item  sx={{ width: "100vw", height: "80vh" }}>
+          <MUIXDataGrid columns={columns} rows={valueTab === "TipoEntidades" ? tipoEntidades:entidades} />
+        </Grid> 
+
+
+
+
+
+
       </Grid>
 
-      <div className="FooterLogin">
-        {/* <Box sx={{ position: "absolute", right: 5, bottom: 5 }}>
-          <Typography
-            sx={{
-              fontFamily: "MontserratBold",
-              fontSize: "10px",
-              color: "#808080",
-            }}
-          >
-            v.{process.env.REACT_APP_APPLICATION_VERSION}
-          </Typography>
-        </Box> */}
-        {/* <Edit
-          open={openEdit}
-          setOpen={setOpenEdit}
-          elemento={elemento}
+
+      {openCreate && (
+        <Create
+          open={openCreate}
+          setOpen={setOpenCreate}
           catalogo={valueTab}
           reloadData={setReload}
-        /> */}
-        {openCreate && (
-          <Create
-            open={openCreate}
-            setOpen={setOpenCreate}
-            catalogo={valueTab}
-            reloadData={setReload}
-            data={elemento}
-          />
-        )}
+          data={elemento}
+        />
+      )}
 
-        {openDelete && (
-          <Delete
-            open={openDelete}
-            setOpen={setOpenDelete}
-            Id={selectId}
-            catalogo={valueTab}
-            reloadData={setReload}
-          />
-        )}
-      </div>
+      {openDelete && (
+        <Delete
+          open={openDelete}
+          setOpen={setOpenDelete}
+          Id={selectId}
+          catalogo={valueTab}
+          reloadData={setReload}
+        />
+      )}
+
     </>
   );
 };

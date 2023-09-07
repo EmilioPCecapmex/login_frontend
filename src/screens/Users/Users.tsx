@@ -74,7 +74,9 @@ export default function Users() {
     if (changed === true) {
       Toast.fire({
         icon: "success",
-        title: "Usuario Creado Exitosamente",
+        title: "¡Usuario Creado!",
+        iconColor: "#af8c55",
+        color: "#af8c55",
       });
       getAllUsers();
     }
@@ -96,8 +98,8 @@ export default function Users() {
           imprimirSolicitud(r.data.result[0][0]);
         } else {
           Toast.fire({
-            icon: "error",
-            title: "No se encontro solicitud!",
+            icon: "info",
+            title: "¡No se encontro solicitud!",
           });
         }
       });
@@ -184,7 +186,7 @@ export default function Users() {
     {
       field: "acciones",
       headerName: "Acciones",
-      width: 150,
+      width: 110,
       headerAlign: "center",
       renderCell: (cellValues: any) => {
         return (
@@ -237,26 +239,26 @@ export default function Users() {
     {
       field: "Nombre",
       headerName: "Nombre",
-      width: 150,
+      width: 200,
       hideable: false,
       headerAlign: "center",
     },
     {
       field: "ApellidoPaterno",
       headerName: "Apellido Paterno",
-      width: 130,
+      width: 200,
       headerAlign: "center",
     },
     {
       field: "ApellidoMaterno",
       headerName: "Apellido Materno",
-      width: 140,
+      width: 200,
       headerAlign: "center",
     },
     {
       field: "NombreUsuario",
       headerName: "Nombre Usuario",
-      width: 130,
+      width: 200,
       headerAlign: "center",
     },
     {
@@ -293,64 +295,82 @@ export default function Users() {
   return (
     <Grid container sx={{ width: "100vw", height: "100vh" }}>
       <Header />
-
-      <Box
-        sx={{
-          height: "87vh",
-          width: "100vw",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Box>
-          <Card sx={{ height: "80vh", width: "80vw", boxShadow: 10 }}>
-            <Box
+    
+        <Grid sx={{ height: "84vh", width: "100vw" }}>
+          <Grid
+            display={"flex"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+            width={"100vw"}
+            sx={{
+              height: "12%",
+              "@media (min-width: 480px)": {
+                height: "14%"
+              },
+              "@media (min-width: 768px)": {
+                height: "11.5%"
+              },
+            }}
+          >
+            <Grid item
               sx={{
-                p: 2,
                 display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <Grid container justifyContent="space-between">
-                <Grid
-                  container
-                  item
-                  xs={12}
-                  md={6}
-                  direction="row"
-                  justifyContent="flex-start"
-                  alignItems="flex-start"
-                >
-                  <PeopleAltIcon />
-                  <Typography className="h6">
-                    Listado de usuarios con acceso a plataformas.
-                  </Typography>
-                </Grid>
-                <Grid item container xs={12} md={6} justifyContent="flex-end">
-                  <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          onChange={(v) => setShowAllUsers(v.target.checked)}
-                        />
-                      }
-                      label={
-                        <Typography className="h5">
-                          Usuarios Inactivos
-                        </Typography>
-                      }
-                    />
-                  </FormGroup>
-                </Grid>
-              </Grid>
-            </Box>
+                alignItems: "center"
+              }}>
 
-            <CardContent>
-              <Box display="flex" justifyContent="flex-end">
+              <CardContent>
+                <PeopleAltIcon sx={{ fontSize: "2rem" }} />
+              </CardContent>
+
+              <Typography
+                sx={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  fontSize: "1.5rem"
+                }}>
+                Usuarios
+              </Typography>
+            </Grid>
+
+            <CardContent sx={{
+              "@media (min-width: 480px)": {
+                flexDirection: "column",
+              },
+              "@media (min-width: 768px)": {
+                flexDirection: "row",
+                display: "flex"
+              },
+
+            }}>
+              <Grid item>
+                <FormGroup>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        onChange={(v) => setShowAllUsers(v.target.checked)}
+                      />
+                    }
+                    label={
+                      <Typography sx={{
+                        fontSize: ".7rem",
+                        "@media (min-width: 480px)": {
+                          fontSize: ".7rem",
+                        },
+                        "@media (min-width: 768px)": {
+                          fontSize: "1rem",
+                        },
+                      }}>
+                        Usuarios Inactivos
+                      </Typography>
+                    }
+                  />
+                </FormGroup>
+              </Grid>
+
+              <Grid >
                 <Button
-                  className="registrar-usuario"
+                  className="aceptar"
                   variant="text"
                   onClick={() => {
                     setIdApp("");
@@ -361,37 +381,43 @@ export default function Users() {
                     fontFamily: "MontserratBold",
                     backgroundColor: "#DFA94F",
                     color: "#000001",
-                    fontSize: "10px",
-                    mb: "1vh",
                     boxShadow: 4,
                   }}
                   startIcon={<PersonAddIcon />}
                 >
-                  Registrar Usuario
+                  <Typography sx={{
+                    fontSize: ".7rem",
+                    "@media (min-width: 480px)": {
+                      fontSize: ".7rem",
+                    },
+                    "@media (min-width: 768px)": {
+                      fontSize: "1rem",
+                    },
+                  }}>
+                    Registrar Usuario
+                  </Typography>
+
                 </Button>
-              </Box>
-              <MUIXDataGrid
-                id={(row: any) => row.Id}
-                columns={columns}
-                rows={rows}
-              />
+              </Grid>
             </CardContent>
-          </Card>
-        </Box>
-        <NewDialog
+          </Grid>
+          <Grid item sx={{ width: "100vw", height: "77vh" }}>
+            <MUIXDataGrid
+              id={(row: any) => row.Id}
+              columns={columns}
+              rows={rows}
+            />
+          </Grid>
+
+        </Grid>
+        {newDialogOpen ?<NewDialog
           newDialogOpen={newDialogOpen}
           handleNewDialogClose={handleNewDialogClose}
           idUsuario={idUsuario}
           idApp={idApp}
-        />
+        />:null}
 
-        {/* (
-          <EditDialog
-            editDialogOpen={editDialogOpen}
-            handleEditDialogClose={handleEditDialogClose}
-            usuario={editDialogUsuario}
-          />
-        ) */}
+        
         {appsDialogOpen ? (
           <AppsDialog
             appsDialogOpen={appsDialogOpen}
@@ -402,14 +428,8 @@ export default function Users() {
             setIdApp={setIdApp}
           />
         ) : null}
-        {/* {appsDialogOpen ? (
-          <AppsDialog
-            appsDialogOpen={appsDialogOpen}
-            handleAppsDialogClose={handleAppsDialogClose}
-            usuario={appsDialogUsuario}
-          />
-        ) : null} */}
-      </Box>
+       
+      
     </Grid>
   );
 }
@@ -448,19 +468,19 @@ export const imprimirSolicitud = (datos: any) => {
       datos?.Estatus === 0
         ? "PENDIENTE"
         : datos?.Estatus === 1
-        ? "ACEPTADA"
-        : datos?.Estatus === 2
-        ? "RECHAZADA"
-        : datos?.Estatus === 3
-        ? "SE SOLICITO MODIFICACIÓN"
-        : "SE DESCONOCE",
+          ? "ACEPTADA"
+          : datos?.Estatus === 2
+            ? "RECHAZADA"
+            : datos?.Estatus === 3
+              ? "SE SOLICITO MODIFICACIÓN"
+              : "SE DESCONOCE",
   };
   let dataArray = new FormData();
   dataArray.append("data", JSON.stringify(objeto));
   axios
     .post(
       process.env.REACT_APP_APPLICATION_GENERASOLICITUD +
-        "/api/generasolicitud",
+      "/api/generasolicitud",
       dataArray,
       {
         headers: {
@@ -486,5 +506,5 @@ export const imprimirSolicitud = (datos: any) => {
       document.body.appendChild(link);
       link.click();
     })
-    .catch((r) => {});
+    .catch((r) => { });
 };

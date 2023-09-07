@@ -32,7 +32,7 @@ export const NewDialogApp = (props: NewDialogProps) => {
   const handleStoreBtn = () => {
     if (nombre === "" || path === "") {
       Swal.fire({
-        icon: "error",
+        icon: "info",
         title: "Aviso",
         text: "Favor de completar todos los campos para continuar",
         confirmButtonText: "Aceptar",
@@ -62,8 +62,8 @@ export const NewDialogApp = (props: NewDialogProps) => {
         })
         .catch(function (error) {
           Swal.fire({
-            icon: "error",
-            title: "Error",
+            icon: "info",
+            title: "Mensaje",
             text: "(" + error.response.status + ") " + error.response.data.msg,
             confirmButtonColor: "#2f2f2f",
           });
