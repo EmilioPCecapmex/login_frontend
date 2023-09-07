@@ -312,6 +312,7 @@ export default function Users() {
             alignItems={"center"}
             width={"100%"}
             sx={{
+              height:"12%",
               "@media (min-width: 480px)": {
                 height:"14%"
               },

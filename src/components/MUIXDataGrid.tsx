@@ -14,7 +14,7 @@ export default function MUIXDataGrid(props: any) {
 
   return (
     <Grid sx={{ 
-      height:"77vh",
+      height:"76vh",
        }}>
       <ThemeProvider theme={theme}>
         <DataGrid
