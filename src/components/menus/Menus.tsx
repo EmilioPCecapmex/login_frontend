@@ -221,7 +221,7 @@ export function Menus({
                   }}
                 >
 
-                  <Typography fontFamily={"Montserrat-Bold"} fontSize={"2rem"}>
+                  <Typography fontFamily={"Montserrat-Bold"} fontSize={"1.8rem"}>
                     {rol}
                   </Typography>
                 </Grid>
