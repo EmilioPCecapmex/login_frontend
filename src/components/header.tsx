@@ -3,6 +3,8 @@ import {
   Grid,
   Hidden,
   IconButton,
+  Menu,
+  MenuItem,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -17,6 +19,8 @@ import axios from "axios";
 import DescriptionIcon from "@mui/icons-material/Description";
 import { COLOR } from "../screens/styles/colors";
 import { TimerCounter } from "./timer/timer";
+import MenuIcon from '@mui/icons-material/Menu';
+import BusinessIcon from '@mui/icons-material/Business';
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -45,13 +49,21 @@ export const Header = () => {
         }
       });
   };
+  // const [openMenu,setOpenMenu]=useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
 
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   // useEffect(() => {
   //   getSolicitudes()
   // }, [])
 
   return (
-    <div className="box">
+    
       <Grid
         container
         display={"flex"}
@@ -60,15 +72,13 @@ export const Header = () => {
           height: "10vh",
           width: "100%",
           border: "1px solid #b3afaf",
+          justifyContent:"space-between"
         }}
       >
-        <Grid container width="100%"
-          display={"flex"}
-          justifyContent={"space-between"}
-          alignItems="center"
-        >
-
-          <Grid item sx={{
+      <TimerCounter />
+        {/* grid del nombre */}
+          <Grid item 
+          sx={{
             "@media (min-width: 480px)": {
               width: "50%",
             },
@@ -104,11 +114,11 @@ export const Header = () => {
               }}
 
             >
-              {" "}
-              {localStorage.getItem("NombreUsuario")}{" "}
+              
+              {localStorage.getItem("NombreUsuario")}
             </Typography>
           </Grid>
-
+          {/* imagen */}
           <Grid item display={"flex"} justifyContent="center">
             <Hidden mdDown>
               <img
@@ -127,11 +137,13 @@ export const Header = () => {
 
           <Grid
             item
-            direction={"row"}
+            display={"flex"}
+            height={"100%"}
+            justifyContent={"flex-end"}
             sx={{
               height: "40px",
               alignItems: "center",
-              justifyContent: "center",
+              justifyContent: "flex-end",
 
               "@media (min-width: 480px)": {
                 width: "50%",
@@ -153,21 +165,37 @@ export const Header = () => {
                 width: "20%",
               },
             }}
-          >
-
-            <Grid>
-              <TimerCounter />
-            </Grid>
-
-
-            <Grid container width={"100%"} sx={{
-              alignItems: "center",
-              justifyContent: "center",
-            }}>
-              <Tooltip title="Catálogos">
+          > <>
+              <IconButton
+                
+                onClick={handleMenu}
+                color="inherit"
+              >
+                <MenuIcon sx={{fontSize:"3rem"}}/>
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={() => navigate("../catalogos")}><BusinessIcon />Catálogos</MenuItem>
+                <MenuItem onClick={()=>{}}>My account</MenuItem>
+              </Menu>
+              </>
+              {/* <Tooltip title="Catálogos">
                 <IconButton
                   //className="iconos-header"
-                  onClick={() => navigate("../catalogos")}
+                  onClick={}
                 >
                   <DescriptionIcon />
                 </IconButton>
@@ -205,16 +233,16 @@ export const Header = () => {
                 <IconButton className="iconos-header" onClick={() => logoutFnc()}>
                   <PowerSettingsNewIcon />
                 </IconButton>
-              </Tooltip>
-            </Grid>
+              </Tooltip> */}
+          
 
           </Grid>
 
-        </Grid>
+        
 
 
 
       </Grid>
-    </div>
+    
   );
 };
