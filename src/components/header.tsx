@@ -107,10 +107,8 @@ export const Header = () => {
                 whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
-                fontSize: "25%",
-                "@media (min-width: 480px)": {
-                  fontSize: "1.5rem"
-                },
+                fontSize: [20, 20, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
+                  
               }}
 
             >
@@ -166,13 +164,30 @@ export const Header = () => {
               },
             }}
           > <>
+          <Tooltip title="Menu">
               <IconButton
                 
                 onClick={handleMenu}
                 color="inherit"
+                sx={{mr:"2rem"}}
               >
-                <MenuIcon sx={{fontSize:"3rem"}}/>
+                <MenuIcon sx={{
+                    fontSize: '24px', // Tamaño predeterminado del icono
+                    '@media (max-width: 600px)': {
+                      fontSize: 30, // Pantalla extra pequeña (xs y sm)
+                    },
+                    '@media (min-width: 601px) and (max-width: 960px)': {
+                      fontSize: 30, // Pantalla pequeña (md)
+                    },
+                    '@media (min-width: 961px) and (max-width: 1280px)': {
+                      fontSize: 40, // Pantalla mediana (lg)
+                    },
+                    '@media (min-width: 1281px)': {
+                      fontSize: 40, // Pantalla grande (xl)
+                    },
+                  }}/>
               </IconButton>
+              </Tooltip>
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
@@ -188,61 +203,14 @@ export const Header = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={() => navigate("../catalogos")}><BusinessIcon />Catálogos</MenuItem>
-                <MenuItem onClick={()=>{}}>My account</MenuItem>
+                <MenuItem onClick={() => navigate("../admin")}><PeopleOutlineIcon sx={{mr:"10px"}} />Usuarios</MenuItem>
+                <MenuItem onClick={() => navigate("../app")}><AppsIcon sx={{mr:"10px"}} />Aplicaciones</MenuItem>
+                <MenuItem onClick={() => navigate("../catalogos")}><BusinessIcon sx={{mr:"10px"}} />Entidades</MenuItem>
+                <MenuItem onClick={() => navigate("../solicitudes")}><PostAddIcon sx={{mr:"10px"}}/>Solicitudes</MenuItem>
+                <MenuItem onClick={() => logoutFnc()}><PowerSettingsNewIcon sx={{mr:"10px"}} />Cerrar sesión </MenuItem>
               </Menu>
               </>
-              {/* <Tooltip title="Catálogos">
-                <IconButton
-                  //className="iconos-header"
-                  onClick={}
-                >
-                  <DescriptionIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Solicitudes">
-                <Badge badgeContent={solCount} color="primary">
-                  <IconButton
-                    className="iconos-header"
-                    onClick={() => navigate("../solicitudes")}
-                  >
-                    <PostAddIcon />
-                  </IconButton>
-                </Badge>
-              </Tooltip>
-
-              <Tooltip title="Usuarios">
-                <IconButton
-                  className="iconos-header"
-                  onClick={() => navigate("../admin")}
-                >
-                  <PeopleOutlineIcon />
-                </IconButton>
-              </Tooltip>
-
-              <Tooltip title="Aplicaciones">
-                <IconButton
-                  className="iconos-header"
-                  onClick={() => navigate("../app")}
-                >
-                  <AppsIcon />
-                </IconButton>
-              </Tooltip>
-
-              <Tooltip title="Cerrar sesión ">
-                <IconButton className="iconos-header" onClick={() => logoutFnc()}>
-                  <PowerSettingsNewIcon />
-                </IconButton>
-              </Tooltip> */}
-          
-
           </Grid>
-
-        
-
-
-
       </Grid>
-    
   );
 };

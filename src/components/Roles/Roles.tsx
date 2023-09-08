@@ -94,8 +94,8 @@ export function Roles({
                     setIdRol(cellValues.row.Id);
                   }
 
-                  if (cellValues.row.Descripcion) {
-                    setRol(cellValues.row.Descripcion);
+                  if (cellValues.row.Nombre) {
+                    setRol(cellValues.row.Nombre);
                   }
 
                   setOpenMenu(true);
@@ -194,7 +194,7 @@ export function Roles({
               display: "flex",
               justifyContent: "flex-end",
               alignItems: "center",
-              border:"1px solid"
+              border: "1px solid"
               // bgcolor: "#c4a57b",
             }}
           >
@@ -209,43 +209,20 @@ export function Roles({
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                
+
               }}
             >
-              <Typography  
-              fontFamily={"'Montserrat', sans-serif"} 
-              sx={{
-                whiteSpace: "nowrap" , 
-                overflow:"hidden" , 
-                textOverflow:"ellipsis",
-                textAlign:"center",
-                
-                "@media (min-width: 480px)": {
-                  width:"60%", 
-                  fontSize: "2rem",
-                },
+              <Typography
+                fontFamily={"'Montserrat', sans-serif"}
+                sx={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  textAlign: "center",
+                  fontSize: [30, 40, 40, 40, 60], // Tamaños de fuente para diferentes breakpoints
+                  
+                }}>
 
-                "@media (min-width: 768px)": {
-                  width:"85%", 
-                  fontSize: "1.2rem",
-                },
-
-                "@media (min-width: 1140px)": {
-                  width:"85%", 
-                  fontSize: "1.5rem",
-                },
-
-                "@media (min-width: 1400px)": {
-                  width:"100%", 
-                  fontSize: "2rem",
-                },
-
-                "@media (min-width: 1870px)": {
-                  width:"100%", 
-                  fontSize: "2rem",
-                },
-              }}>
-              
                 ROLES
               </Typography>
             </Grid>
@@ -260,17 +237,31 @@ export function Roles({
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-              
+
               }}
             >
-              <Tooltip title={"SALIR"}>
-              <IconButton
-                onClick={() => {
-                  closeModal();
-                }}
-              >
-                <CloseIcon style={{ fontSize: 30 }} />{" "}
-              </IconButton>
+              <Tooltip title={"Salir"}>
+                <IconButton
+                  onClick={() => {
+                    closeModal();
+                  }}
+                >
+                  <CloseIcon sx={{
+                    fontSize: '24px', // Tamaño predeterminado del icono
+                    '@media (max-width: 600px)': {
+                      fontSize: 30, // Pantalla extra pequeña (xs y sm)
+                    },
+                    '@media (min-width: 601px) and (max-width: 960px)': {
+                      fontSize: 30, // Pantalla pequeña (md)
+                    },
+                    '@media (min-width: 961px) and (max-width: 1280px)': {
+                      fontSize: 40, // Pantalla mediana (lg)
+                    },
+                    '@media (min-width: 1281px)': {
+                      fontSize: 40, // Pantalla grande (xl)
+                    },
+                  }} />
+                </IconButton>
               </Tooltip>
             </Grid>
           </Grid>
@@ -284,10 +275,10 @@ export function Roles({
               justifyContent: "center",
               alignItems: "center",
               height: "85%",
-            
+
             }}
           >
-            <Card sx={{ height: "100%", width: "95%", boxShadow: 10 }}>
+            <Grid sx={{ height: "100%", width: "100%" }}>
               {/* este box es la leyenda que se encuentra arriba a la izquierda */}
 
               <Grid
@@ -298,7 +289,7 @@ export function Roles({
                   justifyContent: "space-between",
                   alignItems: "center",
                   width: "100%",
-                 
+
                 }}
               >
                 <Grid
@@ -310,11 +301,25 @@ export function Roles({
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    
+
                   }}
-                 
+
                 >
-                  <AppsIcon style={{ fontSize: "60px" }} />
+                  <AppsIcon sx={{
+                  fontSize: '24px', // Tamaño predeterminado del icono
+                  '@media (max-width: 600px)': {
+                    fontSize: 30, // Pantalla extra pequeña (xs y sm)
+                  },
+                  '@media (min-width: 601px) and (max-width: 960px)': {
+                    fontSize: 30, // Pantalla pequeña (md)
+                  },
+                  '@media (min-width: 961px) and (max-width: 1280px)': {
+                    fontSize: 40, // Pantalla mediana (lg)
+                  },
+                  '@media (min-width: 1281px)': {
+                    fontSize: 40, // Pantalla grande (xl)
+                  },
+                }} />
                 </Grid>
 
                 <Grid
@@ -329,51 +334,29 @@ export function Roles({
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    
-                    
+
+
                   }}
-                  
+
                 >
-                  <Tooltip 
-                  //sx={{ fontFamily: "Montserrat-Bold"}}
-                  
-                  title={app}>
+                  <Tooltip
+                    //sx={{ fontFamily: "Montserrat-Bold"}}
+
+                    title={app}>
                     <Typography
                       fontFamily={"'Montserrat', sans-serif"}
-                      fontSize={40}
                      
+               
+
                       sx={{
-                        whiteSpace: "nowrap" , 
-                        overflow:"hidden" , 
-                        textOverflow:"ellipsis",
-                        textAlign:"center",
-                        
-                        "@media (min-width: 480px)": {
-                          width:"60%", 
-                          fontSize: "2rem",
-                        },
-    
-                        "@media (min-width: 768px)": {
-                          width:"85%", 
-                          fontSize: "1.2rem",
-                        },
-    
-                        "@media (min-width: 1140px)": {
-                          width:"85%", 
-                          fontSize: "1.5rem",
-                        },
-    
-                        "@media (min-width: 1400px)": {
-                          width:"100%", 
-                          fontSize: "2rem",
-                        },
-    
-                        "@media (min-width: 1870px)": {
-                          width:"100%", 
-                          fontSize: "2rem",
-                        },
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        textAlign: "center",
+                        fontSize: [25, 35, 35, 35, 55], // Tamaños de fuente para diferentes breakpoints
+                
                       }}
-                      
+
                     >
                       {app}
                     </Typography>
@@ -403,23 +386,23 @@ export function Roles({
 
               <Box
                 sx={{
-                  height: "85%",
+                  height: "88%",
                   width: "100%",
                   justifyContent: "center",
                   display: "flex",
                   paddingTop: "2vh",
                 }}
               >
-                <MUIXDataGrid
-                  id={Math.random}
-                  columns={columns}
-                  rows={roles}
-                  camposCsv={camposCsv}
-                />
+                  <MUIXDataGrid
+                    id={Math.random}
+                    columns={columns}
+                    rows={roles}
+                    camposCsv={camposCsv}
+                  />
               </Box>
-            </Card>
+            </Grid>
           </Grid>
-          
+
         </Grid>
       )}
       {openMenus && (
