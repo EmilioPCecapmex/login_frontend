@@ -3,6 +3,8 @@ import {
   Grid,
   Hidden,
   IconButton,
+  Menu,
+  MenuItem,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -17,6 +19,8 @@ import axios from "axios";
 import DescriptionIcon from "@mui/icons-material/Description";
 import { COLOR } from "../screens/styles/colors";
 import { TimerCounter } from "./timer/timer";
+import MenuIcon from '@mui/icons-material/Menu';
+import BusinessIcon from '@mui/icons-material/Business';
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -45,13 +49,21 @@ export const Header = () => {
         }
       });
   };
+  // const [openMenu,setOpenMenu]=useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
 
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   // useEffect(() => {
   //   getSolicitudes()
   // }, [])
 
   return (
-    <div className="box">
+    
       <Grid
         container
         display={"flex"}
@@ -60,15 +72,13 @@ export const Header = () => {
           height: "10vh",
           width: "100%",
           border: "1px solid #b3afaf",
+          justifyContent:"space-between"
         }}
       >
-        <Grid container width="100%"
-          display={"flex"}
-          justifyContent={"space-between"}
-          alignItems="center"
-        >
-
-          <Grid item sx={{
+      <TimerCounter />
+        {/* grid del nombre */}
+          <Grid item 
+          sx={{
             "@media (min-width: 480px)": {
               width: "50%",
             },
@@ -97,18 +107,16 @@ export const Header = () => {
                 whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
-                fontSize: "25%",
-                "@media (min-width: 480px)": {
-                  fontSize: "1.5rem"
-                },
+                fontSize: [20, 20, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
+                  
               }}
 
             >
-              {" "}
-              {localStorage.getItem("NombreUsuario")}{" "}
+              
+              {localStorage.getItem("NombreUsuario")}
             </Typography>
           </Grid>
-
+          {/* imagen */}
           <Grid item display={"flex"} justifyContent="center">
             <Hidden mdDown>
               <img
@@ -127,11 +135,13 @@ export const Header = () => {
 
           <Grid
             item
-            direction={"row"}
+            display={"flex"}
+            height={"100%"}
+            justifyContent={"flex-end"}
             sx={{
               height: "40px",
               alignItems: "center",
-              justifyContent: "center",
+              justifyContent: "flex-end",
 
               "@media (min-width: 480px)": {
                 width: "50%",
@@ -153,68 +163,54 @@ export const Header = () => {
                 width: "20%",
               },
             }}
-          >
-
-            <Grid>
-              <TimerCounter />
-            </Grid>
-
-
-            <Grid container width={"100%"} sx={{
-              alignItems: "center",
-              justifyContent: "center",
-            }}>
-              <Tooltip title="Catálogos">
-                <IconButton
-                  //className="iconos-header"
-                  onClick={() => navigate("../catalogos")}
-                >
-                  <DescriptionIcon />
-                </IconButton>
+          > <>
+          <Tooltip title="Menu">
+              <IconButton
+                
+                onClick={handleMenu}
+                color="inherit"
+                sx={{mr:"2rem"}}
+              >
+                <MenuIcon sx={{
+                    fontSize: '24px', // Tamaño predeterminado del icono
+                    '@media (max-width: 600px)': {
+                      fontSize: 30, // Pantalla extra pequeña (xs y sm)
+                    },
+                    '@media (min-width: 601px) and (max-width: 960px)': {
+                      fontSize: 30, // Pantalla pequeña (md)
+                    },
+                    '@media (min-width: 961px) and (max-width: 1280px)': {
+                      fontSize: 40, // Pantalla mediana (lg)
+                    },
+                    '@media (min-width: 1281px)': {
+                      fontSize: 40, // Pantalla grande (xl)
+                    },
+                  }}/>
+              </IconButton>
               </Tooltip>
-              <Tooltip title="Solicitudes">
-                <Badge badgeContent={solCount} color="primary">
-                  <IconButton
-                    className="iconos-header"
-                    onClick={() => navigate("../solicitudes")}
-                  >
-                    <PostAddIcon />
-                  </IconButton>
-                </Badge>
-              </Tooltip>
-
-              <Tooltip title="Usuarios">
-                <IconButton
-                  className="iconos-header"
-                  onClick={() => navigate("../admin")}
-                >
-                  <PeopleOutlineIcon />
-                </IconButton>
-              </Tooltip>
-
-              <Tooltip title="Aplicaciones">
-                <IconButton
-                  className="iconos-header"
-                  onClick={() => navigate("../app")}
-                >
-                  <AppsIcon />
-                </IconButton>
-              </Tooltip>
-
-              <Tooltip title="Cerrar sesión ">
-                <IconButton className="iconos-header" onClick={() => logoutFnc()}>
-                  <PowerSettingsNewIcon />
-                </IconButton>
-              </Tooltip>
-            </Grid>
-
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={() => navigate("../admin")}><PeopleOutlineIcon sx={{mr:"10px"}} />Usuarios</MenuItem>
+                <MenuItem onClick={() => navigate("../app")}><AppsIcon sx={{mr:"10px"}} />Aplicaciones</MenuItem>
+                <MenuItem onClick={() => navigate("../catalogos")}><BusinessIcon sx={{mr:"10px"}} />Entidades</MenuItem>
+                <MenuItem onClick={() => navigate("../solicitudes")}><PostAddIcon sx={{mr:"10px"}}/>Solicitudes</MenuItem>
+                <MenuItem onClick={() => logoutFnc()}><PowerSettingsNewIcon sx={{mr:"10px"}} />Cerrar sesión </MenuItem>
+              </Menu>
+              </>
           </Grid>
-
-        </Grid>
-
-
-
       </Grid>
-    </div>
   );
 };

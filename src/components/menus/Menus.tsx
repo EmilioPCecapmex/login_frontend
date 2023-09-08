@@ -97,40 +97,39 @@ export function Menus({
           <CircularProgress size={300} /> menus
         </Box>
       ) : (
-        //header
+        //pantalla
         <Grid
           container
           sx={{
-            width: "100%",
+            width: "100vw",
             height: "100%",
           }}
         >
+          {/* Header */}
           <Grid
             container
             item
+            xs={12}
+            sm={12}
+            md={12}
+            lg={12}
             xl={12}
             sx={{
               height: "8vh",
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "flex-end",
               alignItems: "center",
-              bgcolor: "#c4a57b",
+              border: "1px solid"
+              // bgcolor: "#c4a57b",
             }}
           >
-            <Grid
-              item
-              xl={1}
-              sx={{
-                height: "8vh",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
 
-            </Grid>
             <Grid
               item
+              xs={8}
+              sm={8}
+              md={10}
+              lg={10}
               xl={10}
               sx={{
                 height: "8vh",
@@ -139,12 +138,21 @@ export function Menus({
                 alignItems: "center",
               }}
             >
-              <Typography fontFamily={"Montserrat-Regular"} fontSize={50}>
+              <Typography fontFamily={"Montserrat-Regular"}
+                sx={{
+                  fontSize: [30, 40, 40, 40, 60], // Tamaños de fuente para diferentes breakpoints
+                }}
+
+              >
                 MENUS
               </Typography>
             </Grid>
             <Grid
               item
+              xs={2}
+              sm={2}
+              md={1}
+              lg={1}
               xl={1}
               sx={{
                 height: "8vh",
@@ -152,306 +160,340 @@ export function Menus({
                 justifyContent: "center",
                 alignItems: "center",
               }}
-            >
-              <IconButton
-                onClick={() => {
-                  closeModal();
-                }}
-              >
-                <CloseIcon style={{ fontSize: 50 }} />
-              </IconButton>
+            ><Tooltip title="Salir">
+                <IconButton
+
+                  onClick={() => {
+                    closeModal();
+                  }}
+                >
+                  <CloseIcon sx={{
+                    fontSize: '24px', // Tamaño predeterminado del icono
+                    '@media (max-width: 600px)': {
+                      fontSize: 30, // Pantalla extra pequeña (xs y sm)
+                    },
+                    '@media (min-width: 601px) and (max-width: 960px)': {
+                      fontSize: 30, // Pantalla pequeña (md)
+                    },
+                    '@media (min-width: 961px) and (max-width: 1280px)': {
+                      fontSize: 40, // Pantalla mediana (lg)
+                    },
+                    '@media (min-width: 1281px)': {
+                      fontSize: 40, // Pantalla grande (xl)
+                    },
+                  }} />
+                </IconButton>
+              </Tooltip>
             </Grid>
           </Grid>
 
+          {/* Body */}
           <Grid
             container
             item
+            xs={12}
+            sm={12}
+            md={12}
+            lg={12}
             xl={12}
             sx={{
               height: "92vh",
               display: "flex",
               justifyContent: "center",
-              alignItems: "center",
+              alignItems: "flex-start",
             }}
           >
-            <Card
+
+            {/* Rol */}
+            <Grid
+              container
               sx={{
-                height: "95%",
-                width: "95%",
-                boxShadow: 10,
                 display: "flex",
                 justifyContent: "center",
-                flexDirection: "column",
+                alignItems: "center",
+                width: "100%",
+                height: "8%",
               }}
             >
-              {/* este box es la leyenda que se encuentra arriba a la izquierda */}
-              <Grid
-                container
+              <Typography fontFamily={"Montserrat-Bold"}
                 sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  width: "100%",
-                  height: "10%",
-                }}
-              >
-                <Grid
-                  item
-                  xl={2}
+                  fontSize: [25, 35, 35, 35, 55], // Tamaños de fuente para diferentes breakpoints
+                }}>
+                {rol}
+              </Typography>
+            </Grid>
+
+
+            {/* textos de permisos */}
+            {/* ############################ */}
+            <Grid container sx={{ display: "flex", height: "84vh", width: "100vw", overflow: "auto" }}>
+              <Grid item container sx={{ display: "flex", justifyContent: "center", height: "84vh" }}
+                xs={12}
+                sm={12}
+                md={12}
+                lg={6}
+                xl={6}>
+
+                <Grid item
                   xs={12}
+                  sm={12}
                   md={12}
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  {/* <AppsIcon style={{ fontSize: "60px" }} /> */}
-                </Grid>
+                  lg={12}
+                  xl={12}>
 
-                <Grid
-                  item
-                  xl={8}
-                  xs={12}
-                  md={12}
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-
-                  <Typography fontFamily={"Montserrat-Bold"} fontSize={"1.8rem"}>
-                    {rol}
-                  </Typography>
-                </Grid>
-
-                <Grid
-                  item
-                  xl={2}
-                  xs={12}
-                  md={12}
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  {/* <Button
-                         className="aceptar"
-                         variant="text"
-                     // onClick={(event) => handleNewBtnClick(event)}
-                     // sx={{
-                     //     fontFamily: "MontserratBold",
-                     //     backgroundColor: "#DFA94F",
-                     //     color: "#000001",
-                     //     fontSize: "10px",
-                     //     boxShadow: 4,
-                     // }}
-                     // startIcon={<AddIcon />}
-                     >
-                         registrar aplicación
-                     </Button> */}
-                </Grid>
-              </Grid>
-
-              <Grid display={"flex"} justifyContent={"center"} width={"100%"}>
-                <Grid display={"flex"} justifyContent={"space-between"} width={"65%"}>
-                  <Grid>
-                    <Typography
+                  <Typography
                     fontFamily={"Montserrat-Bold"}
-                    fontSize={25}
-                    >Permisos asignados</Typography>
-                  </Grid>
 
-                  <Grid>
-                    <Typography
-                    fontFamily={"Montserrat-Bold"}
-                    fontSize={25}
-                    >Permisos sin asignar</Typography>
-                  </Grid>
-                </Grid>
-
-              </Grid>
-
-              {menus.length === 0 ? (
-                <Box
-                  sx={{
-                    width: "100%",
-                    height: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography fontFamily={"Montserrat-Bold"} fontSize={50}>
-                    Sin Información registrada
-                  </Typography>
-                </Box>
-              ) : (
-                // roles[0].ControlInterno
-
-                // <MUIXDataGrid id={Math.random} columns={columns} rows={roles} camposCsv={camposCsv} />
-
-                <Grid
-                  container
-                  sx={{
-                    display: "flex",
-                    width: "100%",
-                    height: "90%",
-                    justifyContent: "space-around",
-                    alignItems: "center",
-                  }}
-                >
-
-                  <Grid
-                    container
-                    width={"45%"}
                     sx={{
-                      display: "flex",
-                      height: "90%",
-                      border: "1px  solid",
-                      overflow: "auto",
-                      alignContent: "flex-start",
-                      justifyContent: "center",
+                      display: "flex", justifyContent: "center",
+                      fontSize: [20, 25, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
                     }}
-                  >
-                    {menusRol.map((menu) => {
-                      return (
-                        <Grid
-                          container
-                          sx={{
-                            display: "flex",
-                            height: "12%",
-                            border: "1px solid",
-                            bgcolor: "#c4a57b",
-                            boxShadow: 10,
-                            borderRadius: 2,
-                            alignItems: "center",
-                            justifyContent: "space-around",
-                            mt: "2vh",
-                          }}
-                        >
+                  >Menus asignados</Typography>
+                </Grid>
+
+                <Grid
+                  item
+                  container
+                  xs={11}
+                  sm={11}
+                  md={11}
+                  lg={11}
+                  xl={11}
+
+                  sx={{
+                    display: "flex",
+                    height: "90%",
+                    border: "1px  solid",
+                    overflow: "auto",
+                    alignContent: "flex-start",
+                    justifyContent: "space-evenly",
+                  }}
+                >
+                  {menusRol.map((menu) => {
+                    return (
+                      <Grid
+                        container
+                        sx={{
+                          display: "flex",
+                          height: "10%",
+                          width: "95%",
+                          border: "1px solid",
+                          bgcolor: "#c4a57b",
+                          boxShadow: 10,
+                          borderRadius: 2,
+                          alignItems: "center",
+                          justifyContent: "center",
+                          mt: "2vh",
+                        }}
+                      >
+                        <Tooltip title={menu.Descripcion}>
                           <Grid item width={"65%"}>
                             <Typography
                               fontFamily={"Montserrat-Ligth"}
-                              fontSize={"1.1rem"}
+                              sx={{
+                                whiteSpace: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                fontSize: [20, 25, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
+                              }}
                             >
                               {menu.Descripcion}
                             </Typography>
                           </Grid>
-
-                          <Grid item sx={{ display: "flex" }}>
-                            {/*title={"Administrar permisos de " + menu.Descripcion}> */}
-                            <Tooltip title={"Administrar permisos"}>
-                              <IconButton
-                                onClick={() => {
-                                  setMenu(menu);
-                                  setOpenPermisos(true);
-                                }}
-                              >
-                                <SecurityIcon style={{ fontSize: 40 }} />
-                              </IconButton>
-                            </Tooltip>
-                            {/*title={"Quitar acceso a menu " + menu.Descripcion}> */}
-                            <Tooltip title={"Quitar acceso"}>
-                              <IconButton
-                                onClick={() => {
-                                  deleteMenuRol(menu.IdRelacion, obtenerDatos);
-                                }}
-                              >
-                                <HighlightOffIcon style={{ fontSize: 40 }} />
-                              </IconButton>
-                            </Tooltip>
-                          </Grid>
-                        </Grid>
-                      );
-                    })}
-                  </Grid>
-
-                  <Grid
-                    container
-                    width={"45%"}
-                    sx={{
-                      display: "flex",
-                      height: "90%",
-                      border: "1px  solid",
-                      overflow: "auto",
-                      alignContent: "flex-start",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {menusFaltantes.map((menu) => {
-                      return (
-                        <Grid
-                          container
-                          item
-                          sx={{
-                            display: "flex",
-                            height: "12%",
-                            border: "1px solid",
-                            bgcolor: "#c4a57b",
-                            boxShadow: 10,
-                            borderRadius: 2,
-                            alignItems: "center",
-                            justifyContent: "space-around",
-                            mt: "2vh",
-                          }}
-                        >
-                          <Grid item>
-                            <Tooltip
-                              title={"Dar acceso a menu " + menu.Descripcion}
+                        </Tooltip>
+                        <Grid item maxWidth={"20%"} sx={{ display: "flex" }}>
+                          {/*title={"Administrar permisos de " + menu.Descripcion}> */}
+                          <Tooltip title={"Administrar permisos"}>
+                            <IconButton
+                              onClick={() => {
+                                setMenu(menu);
+                                setOpenPermisos(true);
+                              }}
                             >
-                              <IconButton
-                                onClick={() => {
-                                  createMenuRol(
-                                    idRol,
-                                    menu.Id,
-                                    localStorage.getItem("IdUsuario") || "",
-                                    obtenerDatos
-                                  );
-                                }}
-                              >
-                                <ControlPointIcon style={{ fontSize: 40 }} />
-                              </IconButton>
-                            </Tooltip>
-                          </Grid>
-                          <Grid
-                            item
-                            sx={{
-                              display: "flex",
-                              justifyContent: "flex-end",
-                              width: "80%",
-                            }}
+                              <SecurityIcon sx={{
+                                fontSize: '24px', // Tamaño predeterminado del icono
+                                '@media (max-width: 600px)': {
+                                  fontSize: 30, // Pantalla extra pequeña (xs y sm)
+                                },
+                                '@media (min-width: 601px) and (max-width: 960px)': {
+                                  fontSize: 40, // Pantalla pequeña (md)
+                                },
+                                '@media (min-width: 961px) and (max-width: 1280px)': {
+                                  fontSize: 40, // Pantalla mediana (lg)
+                                },
+                                '@media (min-width: 1281px)': {
+                                  fontSize: 40, // Pantalla grande (xl)
+                                },
+                              }} />
+                            </IconButton>
+                          </Tooltip>
+                          {/*title={"Quitar acceso a menu " + menu.Descripcion}> */}
+                          <Tooltip title={"Quitar acceso"}>
+                            <IconButton
+                              onClick={() => {
+                                deleteMenuRol(menu.IdRelacion, obtenerDatos);
+                              }}
+                            >
+                              <HighlightOffIcon sx={{
+                                fontSize: '24px', // Tamaño predeterminado del icono
+                                '@media (max-width: 600px)': {
+                                  fontSize: 30, // Pantalla extra pequeña (xs y sm)
+                                },
+                                '@media (min-width: 601px) and (max-width: 960px)': {
+                                  fontSize: 40, // Pantalla pequeña (md)
+                                },
+                                '@media (min-width: 961px) and (max-width: 1280px)': {
+                                  fontSize: 40, // Pantalla mediana (lg)
+                                },
+                                '@media (min-width: 1281px)': {
+                                  fontSize: 40, // Pantalla grande (xl)
+                                },
+                              }} />
+                            </IconButton>
+                          </Tooltip>
+                        </Grid>
+                      </Grid>
+                    );
+                  })}
+                </Grid>
+              </Grid>
+              {/* ############################ */}
+              <Grid item container sx={{ display: "flex", justifyContent: "center", height: "84vh" }}
+                xs={12}
+                sm={12}
+                md={12}
+                lg={6}
+                xl={6}>
+
+                <Grid item
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  lg={12}
+                  xl={12}>
+
+                  <Typography
+                    fontFamily={"Montserrat-Bold"}
+
+                    sx={{
+
+                      display: "flex", justifyContent: "center",
+                      fontSize: [20, 20, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
+                    }}
+                  >Menus sin asignar</Typography>
+                </Grid>
+
+                <Grid
+                  item
+                  container
+                  xs={11}
+                  sm={11}
+                  md={11}
+                  lg={11}
+                  xl={11}
+
+                  sx={{
+                    display: "flex",
+                    height: "90%",
+                    border: "1px  solid",
+                    overflow: "auto",
+                    alignContent: "flex-start",
+                    justifyContent: "space-evenly",
+                  }}
+                >
+                  {menusFaltantes.map((menu) => {
+                    return (
+                      <Grid
+                        container
+                        sx={{
+                          display: "flex",
+                          height: "10%",
+                          width: "95%",
+                          border: "1px solid",
+                          bgcolor: "#c4a57b",
+                          boxShadow: 10,
+                          borderRadius: 2,
+                          alignItems: "center",
+                          justifyContent: "center",
+                          mt: "2vh",
+                        }}
+                      >
+                        <Grid item maxWidth={"10%"} minWidth={"10%"} sx={{ display: "flex" }}>
+                          {/*title={"Administrar permisos de " + menu.Descripcion}> */}
+                          <Tooltip
+                            title={"Dar acceso a menu " + menu.Descripcion}
                           >
+                            <IconButton
+                              onClick={() => {
+                                createMenuRol(
+                                  idRol,
+                                  menu.Id,
+                                  localStorage.getItem("IdUsuario") || "",
+                                  obtenerDatos
+                                );
+                              }}
+                            >
+                              <ControlPointIcon sx={{
+                                fontSize: '24px', // Tamaño predeterminado del icono
+                                '@media (max-width: 600px)': {
+                                  fontSize: 30, // Pantalla extra pequeña (xs y sm)
+                                },
+                                '@media (min-width: 601px) and (max-width: 960px)': {
+                                  fontSize: 40, // Pantalla pequeña (md)
+                                },
+                                '@media (min-width: 961px) and (max-width: 1280px)': {
+                                  fontSize: 40, // Pantalla mediana (lg)
+                                },
+                                '@media (min-width: 1281px)': {
+                                  fontSize: 40, // Pantalla grande (xl)
+                                },
+                              }} />
+                            </IconButton>
+                          </Tooltip>
+                        </Grid>
+                        <Grid item maxWidth={"75%"} minWidth={"75%"}>
+                          <Tooltip title={menu.Descripcion}>
                             <Typography
                               fontFamily={"Montserrat-Ligth"}
-                              fontSize={"1.1rem"}
+                              sx={{
+                                whiteSpace: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                fontSize: [20, 20, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
+                              }}
+                              textAlign={"end"}
                             >
                               {menu.Descripcion}
                             </Typography>
-                          </Grid>
+                          </Tooltip>
                         </Grid>
-                      );
-                    })}
-                  </Grid>
+                      </Grid>
+                    );
+                  })}
                 </Grid>
-              )}
-            </Card>
+              </Grid>
+              {/* ############################ */}
+            </Grid>
+
+
+
           </Grid>
         </Grid>
-      )}
-      {openPermisos && (
-        <Permisos
-          open={openPermisos}
-          closeModal={() => {
-            setOpenPermisos(false);
-          }}
-          menu={menu}
-          idApp={idApp}
-          idRol={idRol}
-        ></Permisos>
-      )}
-    </Dialog>
+      )
+      }
+      {
+        openPermisos && (
+          <Permisos
+            open={openPermisos}
+            closeModal={() => {
+              setOpenPermisos(false);
+            }}
+            menu={menu}
+            idApp={idApp}
+            idRol={idRol}
+          ></Permisos>
+        )
+      }
+    </Dialog >
   );
 }
