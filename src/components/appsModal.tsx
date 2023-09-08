@@ -32,12 +32,12 @@ export default function AppsModal({
     if (t !== "./admin") {
       window.location.assign(
         t +
-          "?jwt=" +
-          localStorage.getItem("jwtToken") +
-          "&rf=" +
-          localStorage.getItem("refreshToken") +
-          "&IdApp=" +
-          idapp
+        "?jwt=" +
+        localStorage.getItem("jwtToken") +
+        "&rf=" +
+        localStorage.getItem("refreshToken") +
+        "&IdApp=" +
+        idapp
       );
       // localStorage.clear();
     } else if (t === "./admin") {
@@ -46,122 +46,143 @@ export default function AppsModal({
   };
   return (
     <Dialog open={openM} fullScreen>
-      <Grid>
-        <Grid container item xs={12}>
-          <Grid
-            className="logoLogin"
-            container
-            item
-            xs={12}
-            justifyContent="center"
-            alignItems="flex-end"
-          >
-            <img
-              src={logo}
-              style={{ objectFit: "fill", width: "100%", height: "100%" }}
-            />
-          </Grid>
+      <Grid container sx={{ display: "flex", maxHeightheight: "100vh", maxWidthwidth: "100vw" }}>
+        <Grid
+          className="logoLogin"
+          container
+          item
+          xl={12}
+          xs={12}
+          lg={12}
+          md={12}
+          sm={12}
+          justifyContent="center"
+          alignItems="flex-end"
+          sx={{ maxHeight: "12vh" }}
+        >
+          <img
+            src={logo}
+            style={{ objectFit: "fill", width: "100%", height: "100%" }}
+          />
         </Grid>
+
 
         <Grid
           container
           className="ApssLoginElementos"
           item
+          xl={12}
           xs={12}
-          sx={{ bgcolor: "#EEEEEE" }}
+          lg={12}
+          md={12}
+          sm={12}
+          sx={{ bgcolor: "#EEEEEE", height: "78vh" }}
           paddingTop={1}
           paddingBottom={5}
         >
-          <Typography variant="h5" className="NombreApp" sx={{ width: "100%" }}>
+          <Typography variant="h5" className="NombreApp" sx={{ width: "100%", height: "10vh" }}>
             Favor de seleccionar la plataforma a la que deseas ingresar
           </Typography>
-          <Box sx={{ flexGrow: 1 }}>
-            <Grid
-              item
-              container
-              paddingTop={3}
-              spacing={{ xs: 2, md: 3 }}
-              columns={{ xs: 4, sm: 8, md: 12 }}
-              justifyContent={"space-evenly"}
-            >
-              {Object.values(apps)?.map((item) => {
-                return (
-                  <>
-                    <Grid
-                      item
-                      xs={2}
-                      sm={4}
-                      md={4}
-                      key={item.IdApp}
-                      sx={{ justifyContent: "space-evenly" }}
-                      onClick={() => {
-                        openPage(item.Path, item.IdApp);
-                      }}
-                    >
-                      <Card className="GridAplicacionesAcceso">
-                        <CardContent
-                          className="GridAplicacionesAcceso"
+
+          <Grid
+            item
+            container
+            paddingTop={3}
+            spacing={{ xs: 2, md: 3 }}
+            justifyContent={"space-evenly"}
+            sx={{ display: "flex", overflowY: "auto", maxHeight: "65vh", minHeight: "65vh" }}
+          >
+            {Object.values(apps)?.map((item) => {
+              return (
+                <>
+                  <Grid
+                    item
+                    xl={5}
+                    xs={8}
+                    lg={5}
+                    md={5}
+                    sm={8}
+                    key={item.IdApp}
+                    sx={{ justifyContent: "space-evenly" }}
+                    onClick={() => {
+                      openPage(item.Path, item.IdApp);
+                    }}
+                  >
+                    <Card className="GridAplicacionesAcceso">
+                      <CardContent
+                        className="GridAplicacionesAcceso"
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-evenly",
+                        }}
+                      >
+                        <Box
                           sx={{
+                            width: "100%",
                             display: "flex",
-                            justifyContent: "space-evenly",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
                           }}
                         >
                           <Box
                             sx={{
-                              width: "100%",
                               display: "flex",
-                              flexDirection: "column",
-                              alignItems: "center",
                               justifyContent: "center",
+                              flexDirection: "column",
+                              paddingTop: "3%",
                             }}
                           >
-                            <Box
-                              sx={{
-                                display: "flex",
-                                justifyContent: "center",
-                                flexDirection: "column",
-                                paddingTop: "3%",
-                              }}
-                            >
-                              <Box sx={{ width: "100%", height: "200px" }}>
-                                <Typography variant="h5" className="NombreApp">
-                                  {item?.Nombre}
-                                </Typography>
-                                <Typography
-                                  variant="h5"
-                                  className="DescripcionApp"
-                                >
-                                  {item?.Descripcion}
-                                </Typography>
-                              </Box>
+                            <Box sx={{ width: "95%", height: "200px" }}>
+                              <Typography variant="h5" className="NombreApp"
+                                sx={{
+                                  // whiteSpace: "nowrap",
+                                  overflow: "hidden",
+                                  // textOverflow: "ellipsis",
+                                }}>
+                                {item?.Nombre}
+                              </Typography>
+                              <Typography
+                                variant="h5"
+                                className="DescripcionApp"
+                                sx={{
+                                  // whiteSpace: "nowrap",
+                                  overflow: "hidden",
+                                  // textOverflow: "ellipsis",
+                                }}
+                              >
+                                {item?.Descripcion}
+                              </Typography>
                             </Box>
                           </Box>
-                        </CardContent>
-                      </Card>
-                    </Grid>
-                  </>
-                );
-              })}
-            </Grid>
-          </Box>
-        </Grid>
-        <Grid
-          paddingTop={2}
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="flex-start"
-        >
-          <Grid item>
-            <Button
-              className="cancelarAppLogin"
-              onClick={() => closeModal()}
-              startIcon={<ArrowBackIcon />}
-            >
-              Regresar
-            </Button>
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                </>
+              );
+            })}
           </Grid>
+
         </Grid>
+
+
+        <Grid item
+          xl={12}
+          xs={12}
+          lg={12}
+          md={12}
+          sm={12}
+          sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "10vh" }}>
+          <Button
+            className="cancelarAppLogin"
+            onClick={() => closeModal()}
+            startIcon={<ArrowBackIcon />}
+          >
+            Regresar
+          </Button>
+        </Grid>
+
       </Grid>
     </Dialog>
   );
