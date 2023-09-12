@@ -1,20 +1,16 @@
 import {
   Box,
-  Button,
-  Card,
-  CardContent,
   CircularProgress,
   Dialog,
-  DialogContent,
-  DialogTitle,
   Grid,
   IconButton,
+  InputAdornment,
+  TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useEffect, useState } from "react";
-import AppsIcon from "@mui/icons-material/Apps";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import SecurityIcon from "@mui/icons-material/Security";
@@ -25,6 +21,7 @@ import {
   getMenus,
   getMenusRol,
 } from "./MenusServices";
+import { GridSearchIcon } from "@mui/x-data-grid";
 
 export interface IMenus {
   Descripcion: string;
@@ -51,6 +48,23 @@ export function Menus({
   const [menus, setMenus] = useState<Array<IMenus>>([]);
   const [menusRol, setMenusRol] = useState<Array<IMenus>>([]);
   const [menusFaltantes, setMenusFaltantes] = useState<Array<IMenus>>([]);
+
+  const [menusRolFilter, setMenusRolFilter] = useState<Array<IMenus>>([]);
+  const [menusFaltantesFilter, setMenusFaltantesFilter] = useState<Array<IMenus>>([]);
+
+  const [menusRolSearch, setMenusRolSearch] = useState("");
+  const [menusFaltantesSearch, setMenusFaltantesSearch] = useState("");
+
+  useEffect(() => {
+    console.log("hola1");
+
+    setMenusRolFilter(menusRol)
+  }, [menusRol])
+  useEffect(() => {
+    console.log("hola2");
+    setMenusFaltantesFilter(menusFaltantes)
+  }, [menusFaltantes])
+
   const [banderaMenus, setBanderaMenus] = useState(false);
   const [menu, setMenu] = useState<IMenus>({
     Descripcion: "",
@@ -68,10 +82,12 @@ export function Menus({
   }
 
   useEffect(() => {
+    console.log("hola3");
     obtenerDatos();
   }, []);
 
   useEffect(() => {
+    console.log("hola4");
     // Obtener la diferencia entre los arrays
     const diferenciaMenus = menus.filter(
       (menu) => !menusRol.find((menuRol) => menuRol.Id === menu.Id)
@@ -138,11 +154,15 @@ export function Menus({
                 alignItems: "center",
               }}
             >
-              <Typography fontFamily={"Montserrat-Regular"}
+              <Typography fontFamily={"'Montserrat', sans-serif"}
                 sx={{
-                  fontSize: [30, 40, 40, 40, 60], // Tamaños de fuente para diferentes breakpoints
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  textAlign: "center",
+                  fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
+                  color: "#AF8C55"
                 }}
-
               >
                 MENUS
               </Typography>
@@ -215,9 +235,14 @@ export function Menus({
                 height: "8%",
               }}
             >
-              <Typography fontFamily={"Montserrat-Bold"}
+              <Typography fontFamily={"'Montserrat', sans-serif"}
                 sx={{
-                  fontSize: [25, 35, 35, 35, 55], // Tamaños de fuente para diferentes breakpoints
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  textAlign: "center",
+                  fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
+                  color: "#AF8C55"
                 }}>
                 {rol}
               </Typography>
@@ -234,21 +259,48 @@ export function Menus({
                 lg={6}
                 xl={6}>
 
-                <Grid item
+                <Grid item container
                   xs={12}
                   sm={12}
                   md={12}
                   lg={12}
                   xl={12}>
+                  <Grid item
+                    xs={4}
+                    sm={4}
+                    md={4}
+                    lg={4}
+                    xl={4}
+                    sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Typography
+                      fontFamily={"Montserrat-Bold"}
 
-                  <Typography
-                    fontFamily={"Montserrat-Bold"}
+                      sx={{
+                        display: "flex", justifyContent: "center",
+                        fontSize: [20, 25, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
+                      }}
+                    >Menus asignados</Typography>
+                  </Grid>
+                  <Grid item
+                    xs={7}
+                    sm={7}
+                    md={7}
+                    lg={7}
+                    xl={7}>
+                    {/* <TextField fullWidth variant="standard" placeholder="Filtro" label="Filtro"
+                      sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+                      // InputProps={{
+                      //   startAdornment: (
+                      //     <InputAdornment position="start">
+                      //       <GridSearchIcon />
+                      //     </InputAdornment>
+                      //   ),
+                      // }}
+                      value={menusRolSearch}
+                      onChange={(e) => { setMenusRolSearch(e.target.value) }}
+                    /> */}
+                  </Grid>
 
-                    sx={{
-                      display: "flex", justifyContent: "center",
-                      fontSize: [20, 25, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
-                    }}
-                  >Menus asignados</Typography>
                 </Grid>
 
                 <Grid
@@ -269,7 +321,7 @@ export function Menus({
                     justifyContent: "space-evenly",
                   }}
                 >
-                  {menusRol.map((menu) => {
+                  {menusRolFilter.map((menu) => {
                     return (
                       <Grid
                         container
@@ -401,7 +453,7 @@ export function Menus({
                     justifyContent: "space-evenly",
                   }}
                 >
-                  {menusFaltantes.map((menu) => {
+                  {menusFaltantesFilter.map((menu) => {
                     return (
                       <Grid
                         container

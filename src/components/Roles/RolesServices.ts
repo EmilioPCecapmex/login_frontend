@@ -41,7 +41,7 @@ export const createRol = (datos: any, fnc: Function) => {
   })
     .then(({ data }) => {
       if (data.data) {
-        alertaExito(fnc, data.data);
+        alertaExito(fnc, "¡Se creo el registro con éxito!");
       }
     })
     .catch(({ response }) => {
@@ -60,7 +60,7 @@ export const modifyRol = (datos: any, fnc: Function) => {
     },
   })
     .then(({ data }) => {
-      alertaExito(fnc);
+      alertaExito(fnc,"¡Se edito el registro con éxito!");
     })
     .catch(({ response }) => {
       alertaError(response.data.error);
@@ -78,7 +78,7 @@ export const deleteRol = (datos: any, fnc: Function) => {
     },
   })
     .then(({ data }) => {
-      alertaExito(fnc);
+      alertaExito(fnc,"¡Se elimino el registro con éxito!");
     })
     .catch(({ response }) => {
       alertaError(response.data.error);

@@ -319,17 +319,20 @@ export default function Users() {
               }}>
 
               <CardContent>
-                <PeopleAltIcon sx={{ fontSize: "2rem" }} />
+                <PeopleAltIcon sx={{ color: "#AF8C55",fontSize: [30,30,30,40,40] }} />
               </CardContent>
 
               <Typography
+                fontFamily={"'Montserrat', sans-serif"}
                 sx={{
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
-                  fontSize: "1.5rem"
+                  textAlign: "center",
+                  fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
+                  color: "#AF8C55"
                 }}>
-                Usuarios
+                USUARIOS
               </Typography>
             </Grid>
 

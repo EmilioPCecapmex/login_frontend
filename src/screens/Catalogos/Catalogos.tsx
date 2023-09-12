@@ -164,7 +164,7 @@ const Catalogos = () => {
       hide: valueTab !== "Entidades",
     },
     {
-      field: "Descripción",
+      field: "Descripcion",
       headerName: "Descripción",
       width: 200,
       headerAlign: "center",
@@ -228,8 +228,8 @@ const Catalogos = () => {
           <Grid container sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
             <Grid item xl={8} xs={8} lg={8} md={8} sm={8} sx={{ display: "flex", justifyContent: "space-evenly" }}>
               <TabList onChange={handleChange} aria-label="lab API tabs example">
-                <Tab label="Tipo Entidades " value="TipoEntidades" />
-                <Tab label="Entidades" value="Entidades" />
+                <Tab label="Tipo Entidades " value="TipoEntidades" sx={{ fontSize: [30, 30, 30, 30, 30],}}  />
+                <Tab label="Entidades" value="Entidades" sx={{ fontSize: [30, 30, 30, 30, 30],}}/>
               </TabList>
             </Grid>
             <Grid item xl={2} xs={2} lg={2} md={2} sm={2} sx={{ display: "flex", justifyContent: "space-evenly" }}>

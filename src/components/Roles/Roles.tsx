@@ -138,7 +138,7 @@ export function Roles({
     },
     {
       field: "Descripcion",
-      headerName: "Descripcion",
+      headerName: "Descripción",
       width: 600,
       hideable: false,
       headerAlign: "left",
@@ -219,8 +219,8 @@ export function Roles({
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   textAlign: "center",
-                  fontSize: [30, 40, 40, 40, 60], // Tamaños de fuente para diferentes breakpoints
-                  
+                  fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
+                  color: "#AF8C55"
                 }}>
 
                 ROLES
@@ -247,19 +247,7 @@ export function Roles({
                   }}
                 >
                   <CloseIcon sx={{
-                    fontSize: '24px', // Tamaño predeterminado del icono
-                    '@media (max-width: 600px)': {
-                      fontSize: 30, // Pantalla extra pequeña (xs y sm)
-                    },
-                    '@media (min-width: 601px) and (max-width: 960px)': {
-                      fontSize: 30, // Pantalla pequeña (md)
-                    },
-                    '@media (min-width: 961px) and (max-width: 1280px)': {
-                      fontSize: 40, // Pantalla mediana (lg)
-                    },
-                    '@media (min-width: 1281px)': {
-                      fontSize: 40, // Pantalla grande (xl)
-                    },
+                    fontSize: [30,30,30,40,40]
                   }} />
                 </IconButton>
               </Tooltip>
@@ -286,13 +274,13 @@ export function Roles({
                 item
                 sx={{
                   display: "flex",
-                  justifyContent: "space-between",
+                  justifyContent: "flex-end",
                   alignItems: "center",
                   width: "100%",
 
                 }}
               >
-                <Grid
+                {/* <Grid
                   item
                   xl={2}
                   xs={2}
@@ -320,7 +308,7 @@ export function Roles({
                     fontSize: 40, // Pantalla grande (xl)
                   },
                 }} />
-                </Grid>
+                </Grid> */}
 
                 <Grid
                   item
@@ -344,19 +332,15 @@ export function Roles({
 
                     title={app}>
                     <Typography
-                      fontFamily={"'Montserrat', sans-serif"}
-                     
-               
-
-                      sx={{
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        textAlign: "center",
-                        fontSize: [25, 35, 35, 35, 55], // Tamaños de fuente para diferentes breakpoints
-                
-                      }}
-
+                     fontFamily={"'Montserrat', sans-serif"}
+                     sx={{
+                       whiteSpace: "nowrap",
+                       overflow: "hidden",
+                       textOverflow: "ellipsis",
+                       textAlign: "center",
+                       fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
+                       color: "#AF8C55"
+                     }}
                     >
                       {app}
                     </Typography>

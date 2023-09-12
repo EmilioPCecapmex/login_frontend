@@ -306,18 +306,21 @@ export default function CatApps() {
               }}
             >
               <CardContent>
-                <AppsIcon sx={{ fontSize: "2rem" }} />
+                <AppsIcon sx={{color: "#AF8C55", fontSize: [30,30,30,40,40]}} />
               </CardContent>
 
               <Typography
-                sx={{
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  fontSize: "1.5rem"
-                }}
+                 fontFamily={"'Montserrat', sans-serif"}
+                 sx={{
+                   whiteSpace: "nowrap",
+                   overflow: "hidden",
+                   textOverflow: "ellipsis",
+                   textAlign: "center",
+                   fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
+                   color: "#AF8C55"
+                 }}
               >
-                Aplicaciones
+                APLICACIONES
               </Typography>
             </Grid>
 

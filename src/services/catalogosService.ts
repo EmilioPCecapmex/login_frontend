@@ -126,9 +126,9 @@ export const createCatalogo = (
           : e.response.data.error;
       Swal.fire({
         icon: "info",
-        title: "Mensaje",
+        title: "Aviso",
         confirmButtonColor: "#000E4E",
-        text: "( " + mensaje + " ) ",
+        text:  mensaje ,
       });
     });
 };

@@ -102,15 +102,15 @@ export const Header = () => {
           }} >
             <Typography
               paddingLeft={3}
-              sx={{
-                width: "100%",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                fontSize: [20, 20, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
-                  
-              }}
-
+              fontFamily={"'Montserrat', sans-serif"}
+                 sx={{
+                   whiteSpace: "nowrap",
+                   overflow: "hidden",
+                   textOverflow: "ellipsis",
+                   textAlign: "center",
+                   fontSize: [20, 20, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
+                   color: "#AF8C55"
+                 }}
             >
               
               {localStorage.getItem("NombreUsuario")}
@@ -168,8 +168,8 @@ export const Header = () => {
               <IconButton
                 
                 onClick={handleMenu}
-                color="inherit"
-                sx={{mr:"2rem"}}
+                
+                sx={{mr:"2rem",color: "#AF8C55"}}
               >
                 <MenuIcon sx={{
                     fontSize: '24px', // Tamaño predeterminado del icono
