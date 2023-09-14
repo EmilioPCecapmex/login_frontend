@@ -37,11 +37,11 @@ export const queries = {
       fontFamily: "'Montserrat', sans-serif",
       alignSelf: "center",
       "@media (max-width: 600px)": {
-        // XS (extra small) screen
+     
         fontSize: "1rem",
       },
       "@media (min-width: 601px) and (max-width: 900px)": {
-        // SM (small) screen
+        
         fontSize: "1.5ch",
       },
     },
@@ -50,11 +50,9 @@ export const queries = {
       fontFamily: "MontserratRegular",
       fontStyle: "oblique",
       "@media (max-width: 600px)": {
-        // XS (extra small) screen
         fontSize: "1rem",
       },
       "@media (min-width: 601px) and (max-width: 900px)": {
-        // SM (small) screen
         fontSize: "1.5ch",
       },
     },
@@ -62,11 +60,9 @@ export const queries = {
       fontSize: "2ch",
       fontFamily: "MontserratMedium",
       "@media (max-width: 600px)": {
-        // XS (extra small) screen
         fontSize: "1rem",
       },
       "@media (min-width: 601px) and (max-width: 900px)": {
-        // SM (small) screen
         fontSize: "1.5ch",
       },
     },
@@ -74,11 +70,9 @@ export const queries = {
       fontSize: "1.8ch",
       fontFamily: "MontserratBold",
       "@media (max-width: 600px)": {
-        // XS (extra small) screen
         fontSize: "1rem",
       },
       "@media (min-width: 601px) and (max-width: 900px)": {
-        // SM (small) screen
         fontSize: "1.5ch",
       },
     },

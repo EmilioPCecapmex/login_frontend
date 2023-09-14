@@ -239,26 +239,26 @@ export default function Users() {
     {
       field: "Nombre",
       headerName: "Nombre",
-      width: 150,
+      width: 200,
       hideable: false,
       headerAlign: "center",
     },
     {
       field: "ApellidoPaterno",
       headerName: "Apellido Paterno",
-      width: 130,
+      width: 200,
       headerAlign: "center",
     },
     {
       field: "ApellidoMaterno",
       headerName: "Apellido Materno",
-      width: 140,
+      width: 200,
       headerAlign: "center",
     },
     {
       field: "NombreUsuario",
       headerName: "Nombre Usuario",
-      width: 130,
+      width: 200,
       headerAlign: "center",
     },
     {
@@ -293,31 +293,22 @@ export default function Users() {
   }, [idApp]);
 
   return (
-    <Grid container sx={{ width: "100%", height: "100vh" }}>
+    <Grid container sx={{ width: "100vw", height: "100vh" }}>
       <Header />
-      <Grid
-        sx={{
-          height: "88%",
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-
-        }}
-      >
+    
         <Grid sx={{ height: "84vh", width: "100vw" }}>
-          <Grid 
+          <Grid
             display={"flex"}
             justifyContent={"space-between"}
             alignItems={"center"}
-            width={"100%"}
+            width={"100vw"}
             sx={{
-              height:"12%",
+              height: "12%",
               "@media (min-width: 480px)": {
-                height:"14%"
+                height: "14%"
               },
               "@media (min-width: 768px)": {
-                height:"11.5%"
+                height: "11.5%"
               },
             }}
           >
@@ -328,17 +319,20 @@ export default function Users() {
               }}>
 
               <CardContent>
-                <PeopleAltIcon sx={{ fontSize: "2rem" }} />
+                <PeopleAltIcon sx={{ color: "#AF8C55",fontSize: [30,30,30,40,40] }} />
               </CardContent>
 
               <Typography
+                fontFamily={"'Montserrat', sans-serif"}
                 sx={{
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
-                  fontSize: "1.5rem"
+                  textAlign: "center",
+                  fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
+                  color: "#AF8C55"
                 }}>
-                Usuarios
+                USUARIOS
               </Typography>
             </Grid>
 
@@ -410,27 +404,23 @@ export default function Users() {
               </Grid>
             </CardContent>
           </Grid>
+          <Grid item sx={{ width: "100vw", height: "77vh" }}>
+            <MUIXDataGrid
+              id={(row: any) => row.Id}
+              columns={columns}
+              rows={rows}
+            />
+          </Grid>
 
-          <MUIXDataGrid
-            id={(row: any) => row.Id}
-            columns={columns}
-            rows={rows}
-          />
         </Grid>
-        <NewDialog
+        {newDialogOpen ?<NewDialog
           newDialogOpen={newDialogOpen}
           handleNewDialogClose={handleNewDialogClose}
           idUsuario={idUsuario}
           idApp={idApp}
-        />
+        />:null}
 
-        {/* (
-          <EditDialog
-            editDialogOpen={editDialogOpen}
-            handleEditDialogClose={handleEditDialogClose}
-            usuario={editDialogUsuario}
-          />
-        ) */}
+        
         {appsDialogOpen ? (
           <AppsDialog
             appsDialogOpen={appsDialogOpen}
@@ -441,14 +431,8 @@ export default function Users() {
             setIdApp={setIdApp}
           />
         ) : null}
-        {/* {appsDialogOpen ? (
-          <AppsDialog
-            appsDialogOpen={appsDialogOpen}
-            handleAppsDialogClose={handleAppsDialogClose}
-            usuario={appsDialogUsuario}
-          />
-        ) : null} */}
-      </Grid>
+       
+      
     </Grid>
   );
 }

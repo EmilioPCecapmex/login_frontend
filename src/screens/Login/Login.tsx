@@ -299,17 +299,17 @@ export const Login = () => {
       setOpenSlider(false);
     }
 
-    if (localStorage.getItem("jwtToken")) {
-      sessionValid().then((r) => {
-        if (localStorage.getItem("validation") === "true") checkApps();
-      });
-    }
+    // if (localStorage.getItem("jwtToken")) {
+    //   sessionValid().then((r) => {
+    //     if (localStorage.getItem("validation") === "true") checkApps();
+    //   });
+    // }
   }, []);
   useEffect(() => {
-    setTimeout(() => {
+    // setTimeout(() => {
       localStorage.clear();
       handleCloseAppsModal();
-    }, 100);
+    // }, 100);
 
     if (localStorage.getItem("jwtToken") !== null) {
       localStorage.clear();

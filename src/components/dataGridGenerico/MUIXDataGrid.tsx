@@ -245,7 +245,7 @@ export default function MUIXDataGrid(props: any) {
     );
   }
   return (
-    <div style={{ height: "95%", width: "90%" }}>
+    <>
       <ThemeProvider theme={theme}>
         <DataGrid
           localeText={localeText}        
@@ -261,6 +261,6 @@ export default function MUIXDataGrid(props: any) {
           
         />
       </ThemeProvider>
-    </div>
+    </>
   );
 }

@@ -89,10 +89,14 @@ export const Create = ({
 
   useEffect(() => {
     getCatalogo("usuarios-asignables", setUsuarios, "", "");
-    getCatalogo("lista-entidades", setEntidades, "", "");
+    getCatalogo("lista-entidades-select", setEntidades, "", "");
     getCatalogo("lista-tipo-entidades", setTipoEntidades, "", "");
   }, []);
 
+
+  // useEffect(()=>{
+  //   setEntidadesConNullt([{Id: null,Nombre: "Sin asignar"},...entidades])
+  // },[entidades])
   //------------------------CATALOGOS-------------------------------------------
 
   const [ruta, setRuta] = useState("");
@@ -207,6 +211,7 @@ export const Create = ({
               noOptionsText="No se encontraron opciones"
               clearText="Borrar"
               closeText="Cerrar"
+              openText="Abrir"
               options={tipoEntidades}
               getOptionLabel={(usuarios) => usuarios.Nombre}
               value={nuevoElemento.TipoEntidad}
@@ -234,6 +239,7 @@ export const Create = ({
               noOptionsText="No se encontraron opciones"
               clearText="Borrar"
               closeText="Cerrar"
+              openText="Abrir"
               options={usuarios}
               getOptionLabel={(usuarios) => usuarios.Nombre}
               value={nuevoElemento.Titular}
@@ -261,6 +267,7 @@ export const Create = ({
               noOptionsText="No se encontraron opciones"
               clearText="Borrar"
               closeText="Cerrar"
+              openText="Abrir"
               options={entidades}
               getOptionLabel={(entidades) => entidades.Nombre}
               value={nuevoElemento.PerteneceA}
@@ -382,7 +389,7 @@ export const Create = ({
                 );
           }}
         >
-          Agregar
+          { data.Id !== ""?"Editar":"Agregar"}
         </Button>
       </DialogActions>
     </Dialog>

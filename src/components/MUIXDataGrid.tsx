@@ -13,11 +13,12 @@ export default function MUIXDataGrid(props: any) {
   };
 
   return (
-    <Grid sx={{ 
-      height:"76vh",
-       }}>
+    <>
       <ThemeProvider theme={theme}>
         <DataGrid
+        sx={{
+        fontFamily: "MontserratMedium",
+        }}
           components={{ Toolbar: GridToolbar }}
           componentsProps={{
             toolbar: {
@@ -181,11 +182,9 @@ export default function MUIXDataGrid(props: any) {
           pageSize={pageSize}
           rowsPerPageOptions={[25, 50, 100]}
           onPageSizeChange={(v) => changePageSize(v)}
-          sx={{
-            fontFamily: "MontserratMedium",
-          }}
+          
         />
       </ThemeProvider>
-    </Grid>
+    </>
   );
 }

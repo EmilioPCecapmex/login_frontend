@@ -167,18 +167,7 @@ export const AppsDialog = (props: AppsDialogProps) => {
                 alignItems={"center"}
                 display={"flex"}
               >
-                {/* <FormGroup sx={{ width: "100%" }}>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        defaultChecked={app.active}
-                        checked={app.active}
-                        // onChange={(v) => handleCheck(v.target.checked, app.Id)}
-                      />
-                    }
-                    label={app.Nombre}
-                  />
-                </FormGroup> */}
+                
                 <Box
                   onClick={(v) => {
                     props.handleAppsDialogClose();
