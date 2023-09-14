@@ -24,6 +24,7 @@ import { Roles } from "../../components/Roles/Roles";
 import { EditDialogApp } from "../../components/editApp";
 import { Header } from "../../components/header";
 import { NewDialogApp } from "../../components/newApp";
+import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
 
 // estructura que se va a llenar con la informacion que regresa el endpoint
 // tiene que tener el mismo nombre que regresa el endpoint
@@ -61,7 +62,7 @@ export default function CatApps() {
     {
       field: "acciones",
       headerName: "Acciones",
-      width: 150,
+      flex: 1,
       headerAlign: "center",
       hideable: false,
       renderCell: (cellValues: any) => {
@@ -114,14 +115,14 @@ export default function CatApps() {
     {
       field: "Nombre",
       headerName: "Nombre",
-      width: 550,
+      flex: 2,
       hideable: false,
       headerAlign: "center",
     },
     {
       field: "Descripcion",
       headerName: "Descripción",
-      width: 600,
+      flex: 2,
       hideable: false,
       headerAlign: "center",
     },
@@ -129,7 +130,7 @@ export default function CatApps() {
     {
       field: "Path",
       headerName: "Ruta",
-      width: 300,
+      flex: .5,
       hideable: false,
       headerAlign: "center",
     },
@@ -137,7 +138,7 @@ export default function CatApps() {
     {
       field: "estatusLabel",
       headerName: "Estatus",
-      width: 100,
+      flex: .5,
       headerAlign: "center",
     },
   ];
@@ -186,9 +187,9 @@ export default function CatApps() {
   // Handle delete App
   const handleDeleteBtnClick = (event: any, cellValues: any) => {
     Swal.fire({
-      title: "¿Estás seguro(a) de eliminar este registro?",
+      title: "¿Estás seguro de eliminar este registro?",
       //Estas a punto de eliminar un registro
-      text: ` ${cellValues.row.Nombre}`,
+      // text: ` ${cellValues.row.Nombre}`,
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Eliminar",
@@ -305,20 +306,26 @@ export default function CatApps() {
                 alignItems: "center"
               }}
             >
+              <Tooltip title="Menu actual: Aplicaciones">
               <CardContent>
-                <AppsIcon sx={{ fontSize: "2rem" }} />
+                <AppsIcon sx={{color: "#AF8C55", fontSize: [30,30,30,40,40]}} />
               </CardContent>
-
+              </Tooltip>
+              <Tooltip title="Menu actual">
               <Typography
-                sx={{
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  fontSize: "1.5rem"
-                }}
+                 fontFamily={"'Montserrat', sans-serif"}
+                 sx={{
+                   whiteSpace: "nowrap",
+                   overflow: "hidden",
+                   textOverflow: "ellipsis",
+                   textAlign: "center",
+                   fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
+                   color: "#AF8C55"
+                 }}
               >
-                Aplicaciones
+                APLICACIONES
               </Typography>
+              </Tooltip>
             </Grid>
 
             <CardContent sx={{
@@ -353,11 +360,12 @@ export default function CatApps() {
               
             </Grid> */}
           </Grid>
-          <MUIXDataGridApp
+          <Grid item sx={{ width: "100vw", height: "77vh" }}>
+          <MUIXDataGrid
             id={(row: any) => row.Id}
             columns={columns}
             rows={rows}
-          />
+          /></Grid>
           {/* aqui es el contenido del card,y ponemos primero un box y estamos dibujando el boton para agregar un nuevo registro */}
 
           {/* boton a la derecha para agregar una aplicacion nueva */}

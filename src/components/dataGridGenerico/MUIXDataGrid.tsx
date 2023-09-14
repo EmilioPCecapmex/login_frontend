@@ -4,6 +4,7 @@ import { createTheme, Fade, ListItemIcon, Menu, MenuItem, ThemeProvider } from "
 import Button from '@mui/material/Button';
 import { esES as coreEsES } from "@mui/material/locale";
 import {Download, Print} from '@mui/icons-material';
+import "../../Globals.css"
 
 const theme = createTheme(coreEsES, gridEsES);
 
@@ -189,6 +190,13 @@ const localeText = {
 };
 
 export default function MUIXDataGrid(props: any) {
+
+  const [pageSize, setPageSize] = React.useState(25);
+
+  const changePageSize = (v: number) => {
+    setPageSize(v);
+  };
+
   // barra personalizada
   function CustomToolbar() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -209,6 +217,7 @@ export default function MUIXDataGrid(props: any) {
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
           onClick={handleClick}
+          className="aceptar"
         >
           Exportar
         </Button>
@@ -256,7 +265,8 @@ export default function MUIXDataGrid(props: any) {
           columns={props.columns}
           rows={props.rows}
           rowsPerPageOptions={[10, 25, 50, 100]}
-          pageSize={10}
+          onPageSizeChange={(v) => changePageSize(v)}
+          pageSize={pageSize}
           getRowId={props.id}
           
         />

@@ -23,6 +23,9 @@ import { Menus } from "../menus/Menus";
 import { getRoles } from "./RolesServices";
 import ButtonsAdd from "../../screens/Componentes/ButtonsAdd";
 import { DialogRoles } from "./DialogRoles";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { alertaError, alertaExito } from "../alertas/toast";
 
 export interface IRol {
   ControlInterno: string;
@@ -109,9 +112,10 @@ export function Roles({
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
-                  setRegistroData(cellValues.row);
-                  setMovimiento("eliminar");
-                  setOpenDialogRoles(true);
+                  handleDeleteBtnClick(cellValues);
+                  // setRegistroData(cellValues.row);
+                  // setMovimiento("eliminar");
+                  // setOpenDialogRoles(true);
                 }}
               >
                 <DeleteIcon />
@@ -138,7 +142,7 @@ export function Roles({
     },
     {
       field: "Descripcion",
-      headerName: "Descripcion",
+      headerName: "Descripción",
       width: 600,
       hideable: false,
       headerAlign: "left",
@@ -167,6 +171,41 @@ export function Roles({
   useEffect(() => {
     if (!openDialogRoles) getRoles(idApp, setRoles, () => setBandera(true));
   }, [openDialogRoles]);
+
+
+  const handleDeleteBtnClick = (cellValues: any) => {
+    console.log(cellValues);
+    
+    Swal.fire({
+      title: "¿Estás seguro de eliminar este registro?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Eliminar",
+      confirmButtonColor: "#15212f",
+      cancelButtonColor: "#af8c55",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const data = {...cellValues.row,  IdUsuario: localStorage.getItem("IdUsuario") || "",IdApp: idApp, };
+        axios({
+          method: "delete",
+          url: process.env.REACT_APP_APPLICATION_DEV + `/api/rol`,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("jwtToken") || "",
+          },
+          data: data,
+        })
+          .then(function (response) {
+            alertaExito(()=>{},"¡Registro eliminado!");
+            getRoles(idApp, setRoles, () => setBandera(true));
+          })
+          .catch(function (error) {
+            alertaError();
+          });
+      }
+    });
+  };
 
   return (
     <Dialog open={open} fullScreen>
@@ -219,8 +258,8 @@ export function Roles({
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   textAlign: "center",
-                  fontSize: [30, 40, 40, 40, 60], // Tamaños de fuente para diferentes breakpoints
-                  
+                  fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
+                  color: "#AF8C55"
                 }}>
 
                 ROLES
@@ -247,19 +286,7 @@ export function Roles({
                   }}
                 >
                   <CloseIcon sx={{
-                    fontSize: '24px', // Tamaño predeterminado del icono
-                    '@media (max-width: 600px)': {
-                      fontSize: 30, // Pantalla extra pequeña (xs y sm)
-                    },
-                    '@media (min-width: 601px) and (max-width: 960px)': {
-                      fontSize: 30, // Pantalla pequeña (md)
-                    },
-                    '@media (min-width: 961px) and (max-width: 1280px)': {
-                      fontSize: 40, // Pantalla mediana (lg)
-                    },
-                    '@media (min-width: 1281px)': {
-                      fontSize: 40, // Pantalla grande (xl)
-                    },
+                    fontSize: [30,30,30,40,40]
                   }} />
                 </IconButton>
               </Tooltip>
@@ -286,13 +313,13 @@ export function Roles({
                 item
                 sx={{
                   display: "flex",
-                  justifyContent: "space-between",
+                  justifyContent: "flex-end",
                   alignItems: "center",
                   width: "100%",
 
                 }}
               >
-                <Grid
+                {/* <Grid
                   item
                   xl={2}
                   xs={2}
@@ -320,7 +347,7 @@ export function Roles({
                     fontSize: 40, // Pantalla grande (xl)
                   },
                 }} />
-                </Grid>
+                </Grid> */}
 
                 <Grid
                   item
@@ -344,19 +371,15 @@ export function Roles({
 
                     title={app}>
                     <Typography
-                      fontFamily={"'Montserrat', sans-serif"}
-                     
-               
-
-                      sx={{
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        textAlign: "center",
-                        fontSize: [25, 35, 35, 35, 55], // Tamaños de fuente para diferentes breakpoints
-                
-                      }}
-
+                     fontFamily={"'Montserrat', sans-serif"}
+                     sx={{
+                       whiteSpace: "nowrap",
+                       overflow: "hidden",
+                       textOverflow: "ellipsis",
+                       textAlign: "center",
+                       fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
+                       color: "#AF8C55"
+                     }}
                     >
                       {app}
                     </Typography>

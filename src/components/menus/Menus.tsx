@@ -1,23 +1,20 @@
 import {
   Box,
-  Button,
-  Card,
-  CardContent,
   CircularProgress,
   Dialog,
-  DialogContent,
-  DialogTitle,
   Grid,
   IconButton,
+  InputAdornment,
+  TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useEffect, useState } from "react";
-import AppsIcon from "@mui/icons-material/Apps";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import SecurityIcon from "@mui/icons-material/Security";
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { Permisos } from "../Permisos/Permisos";
 import {
   createMenuRol,
@@ -25,6 +22,8 @@ import {
   getMenus,
   getMenusRol,
 } from "./MenusServices";
+import { GridSearchIcon } from "@mui/x-data-grid";
+import MUIXDataGrid from "../dataGridGenerico/MUIXDataGrid";
 
 export interface IMenus {
   Descripcion: string;
@@ -46,11 +45,93 @@ export function Menus({
   rol: string;
   idApp: string;
 }) {
-  document.title = "Roles";
+  document.title = "Menus";
+  const camposCsv = ["Nombre", "Descripcion"];
+  const columnsAsignados = [
+    {
+      field: "Menu",
+      headerName: "Menu",
+      flex: 4,
+      headerAlign: "center",
+      align: "left",
+    },
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (cellValues: any) => {
+        return (
+          <Box>
+            <Tooltip title={"Administrar permisos"}>
+              <IconButton
+                onClick={() => {
+                  setMenu(cellValues.row);
+                  setOpenPermisos(true);
+                }}
+              >
+                <SecurityIcon />
+              </IconButton>
+            </Tooltip>
+            {/*title={"Quitar acceso a menu " + menu.Descripcion}> */}
+            <Tooltip title={"Quitar acceso"}>
+              <IconButton
+                onClick={() => {
+                  deleteMenuRol(cellValues.row.IdRelacion, obtenerDatos);
+                }}
+              >
+                <HighlightOffIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        );
+      },
+    },
+  ];
+
+  const columnsSinAsignar = [
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (cellValues: any) => {
+        return (
+          <Box>
+            <Tooltip
+              title={"Dar acceso a menu " + menu.Descripcion}
+            >
+              <IconButton
+                onClick={() => {
+                  createMenuRol(
+                    idRol,
+                    cellValues.row.Id,
+                    localStorage.getItem("IdUsuario") || "",
+                    obtenerDatos
+                  );
+                }}
+              >
+                <ControlPointIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        );
+      },
+    }, {
+      field: "Menu",
+      headerName: "Menu",
+      flex: 4,
+      headerAlign: "center",
+      align: "right"
+    },
+  ];
 
   const [menus, setMenus] = useState<Array<IMenus>>([]);
   const [menusRol, setMenusRol] = useState<Array<IMenus>>([]);
   const [menusFaltantes, setMenusFaltantes] = useState<Array<IMenus>>([]);
+
   const [banderaMenus, setBanderaMenus] = useState(false);
   const [menu, setMenu] = useState<IMenus>({
     Descripcion: "",
@@ -68,10 +149,12 @@ export function Menus({
   }
 
   useEffect(() => {
+    console.log("hola3");
     obtenerDatos();
   }, []);
 
   useEffect(() => {
+    console.log("hola4");
     // Obtener la diferencia entre los arrays
     const diferenciaMenus = menus.filter(
       (menu) => !menusRol.find((menuRol) => menuRol.Id === menu.Id)
@@ -138,11 +221,15 @@ export function Menus({
                 alignItems: "center",
               }}
             >
-              <Typography fontFamily={"Montserrat-Regular"}
+              <Typography fontFamily={"'Montserrat', sans-serif"}
                 sx={{
-                  fontSize: [30, 40, 40, 40, 60], // Tamaños de fuente para diferentes breakpoints
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  textAlign: "center",
+                  fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
+                  color: "#AF8C55"
                 }}
-
               >
                 MENUS
               </Typography>
@@ -215,9 +302,14 @@ export function Menus({
                 height: "8%",
               }}
             >
-              <Typography fontFamily={"Montserrat-Bold"}
+              <Typography fontFamily={"'Montserrat', sans-serif"}
                 sx={{
-                  fontSize: [25, 35, 35, 35, 55], // Tamaños de fuente para diferentes breakpoints
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  textAlign: "center",
+                  fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
+                  color: "#AF8C55"
                 }}>
                 {rol}
               </Typography>
@@ -240,145 +332,15 @@ export function Menus({
                   md={12}
                   lg={12}
                   xl={12}>
-
                   <Typography
-                    fontFamily={"Montserrat-Bold"}
-
+                    fontFamily={"'Montserrat', sans-serif"}
                     sx={{
-                      display: "flex", justifyContent: "center",
-                      fontSize: [20, 25, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
-                    }}
-                  >Menus asignados</Typography>
-                </Grid>
-
-                <Grid
-                  item
-                  container
-                  xs={11}
-                  sm={11}
-                  md={11}
-                  lg={11}
-                  xl={11}
-
-                  sx={{
-                    display: "flex",
-                    height: "90%",
-                    border: "1px  solid",
-                    overflow: "auto",
-                    alignContent: "flex-start",
-                    justifyContent: "space-evenly",
-                  }}
-                >
-                  {menusRol.map((menu) => {
-                    return (
-                      <Grid
-                        container
-                        sx={{
-                          display: "flex",
-                          height: "10%",
-                          width: "95%",
-                          border: "1px solid",
-                          bgcolor: "#c4a57b",
-                          boxShadow: 10,
-                          borderRadius: 2,
-                          alignItems: "center",
-                          justifyContent: "center",
-                          mt: "2vh",
-                        }}
-                      >
-                        <Tooltip title={menu.Descripcion}>
-                          <Grid item width={"65%"}>
-                            <Typography
-                              fontFamily={"Montserrat-Ligth"}
-                              sx={{
-                                whiteSpace: "nowrap",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                fontSize: [20, 25, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
-                              }}
-                            >
-                              {menu.Descripcion}
-                            </Typography>
-                          </Grid>
-                        </Tooltip>
-                        <Grid item maxWidth={"20%"} sx={{ display: "flex" }}>
-                          {/*title={"Administrar permisos de " + menu.Descripcion}> */}
-                          <Tooltip title={"Administrar permisos"}>
-                            <IconButton
-                              onClick={() => {
-                                setMenu(menu);
-                                setOpenPermisos(true);
-                              }}
-                            >
-                              <SecurityIcon sx={{
-                                fontSize: '24px', // Tamaño predeterminado del icono
-                                '@media (max-width: 600px)': {
-                                  fontSize: 30, // Pantalla extra pequeña (xs y sm)
-                                },
-                                '@media (min-width: 601px) and (max-width: 960px)': {
-                                  fontSize: 40, // Pantalla pequeña (md)
-                                },
-                                '@media (min-width: 961px) and (max-width: 1280px)': {
-                                  fontSize: 40, // Pantalla mediana (lg)
-                                },
-                                '@media (min-width: 1281px)': {
-                                  fontSize: 40, // Pantalla grande (xl)
-                                },
-                              }} />
-                            </IconButton>
-                          </Tooltip>
-                          {/*title={"Quitar acceso a menu " + menu.Descripcion}> */}
-                          <Tooltip title={"Quitar acceso"}>
-                            <IconButton
-                              onClick={() => {
-                                deleteMenuRol(menu.IdRelacion, obtenerDatos);
-                              }}
-                            >
-                              <HighlightOffIcon sx={{
-                                fontSize: '24px', // Tamaño predeterminado del icono
-                                '@media (max-width: 600px)': {
-                                  fontSize: 30, // Pantalla extra pequeña (xs y sm)
-                                },
-                                '@media (min-width: 601px) and (max-width: 960px)': {
-                                  fontSize: 40, // Pantalla pequeña (md)
-                                },
-                                '@media (min-width: 961px) and (max-width: 1280px)': {
-                                  fontSize: 40, // Pantalla mediana (lg)
-                                },
-                                '@media (min-width: 1281px)': {
-                                  fontSize: 40, // Pantalla grande (xl)
-                                },
-                              }} />
-                            </IconButton>
-                          </Tooltip>
-                        </Grid>
-                      </Grid>
-                    );
-                  })}
-                </Grid>
-              </Grid>
-              {/* ############################ */}
-              <Grid item container sx={{ display: "flex", justifyContent: "center", height: "84vh" }}
-                xs={12}
-                sm={12}
-                md={12}
-                lg={6}
-                xl={6}>
-
-                <Grid item
-                  xs={12}
-                  sm={12}
-                  md={12}
-                  lg={12}
-                  xl={12}>
-
-                  <Typography
-                    fontFamily={"Montserrat-Bold"}
-
-                    sx={{
-
-                      display: "flex", justifyContent: "center",
-                      fontSize: [20, 20, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        textAlign: "center",
+                        fontSize: [20, 20, 20, 25, 25], // Tamaños de fuente para diferentes breakpoints
+                        
                     }}
                   >Menus sin asignar</Typography>
                 </Grid>
@@ -401,75 +363,226 @@ export function Menus({
                     justifyContent: "space-evenly",
                   }}
                 >
-                  {menusFaltantes.map((menu) => {
-                    return (
-                      <Grid
-                        container
-                        sx={{
-                          display: "flex",
-                          height: "10%",
-                          width: "95%",
-                          border: "1px solid",
-                          bgcolor: "#c4a57b",
-                          boxShadow: 10,
-                          borderRadius: 2,
-                          alignItems: "center",
-                          justifyContent: "center",
-                          mt: "2vh",
-                        }}
-                      >
-                        <Grid item maxWidth={"10%"} minWidth={"10%"} sx={{ display: "flex" }}>
-                          {/*title={"Administrar permisos de " + menu.Descripcion}> */}
-                          <Tooltip
-                            title={"Dar acceso a menu " + menu.Descripcion}
-                          >
-                            <IconButton
-                              onClick={() => {
-                                createMenuRol(
-                                  idRol,
-                                  menu.Id,
-                                  localStorage.getItem("IdUsuario") || "",
-                                  obtenerDatos
-                                );
-                              }}
-                            >
-                              <ControlPointIcon sx={{
-                                fontSize: '24px', // Tamaño predeterminado del icono
-                                '@media (max-width: 600px)': {
-                                  fontSize: 30, // Pantalla extra pequeña (xs y sm)
-                                },
-                                '@media (min-width: 601px) and (max-width: 960px)': {
-                                  fontSize: 40, // Pantalla pequeña (md)
-                                },
-                                '@media (min-width: 961px) and (max-width: 1280px)': {
-                                  fontSize: 40, // Pantalla mediana (lg)
-                                },
-                                '@media (min-width: 1281px)': {
-                                  fontSize: 40, // Pantalla grande (xl)
-                                },
-                              }} />
-                            </IconButton>
-                          </Tooltip>
-                        </Grid>
-                        <Grid item maxWidth={"75%"} minWidth={"75%"}>
-                          <Tooltip title={menu.Descripcion}>
-                            <Typography
-                              fontFamily={"Montserrat-Ligth"}
-                              sx={{
-                                whiteSpace: "nowrap",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                fontSize: [20, 20, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
-                              }}
-                              textAlign={"end"}
-                            >
-                              {menu.Descripcion}
-                            </Typography>
-                          </Tooltip>
-                        </Grid>
-                      </Grid>
-                    );
-                  })}
+                  <MUIXDataGrid
+                    id={Math.random}
+                    columns={columnsAsignados}
+                    rows={menusRol}
+                    camposCsv={camposCsv}
+                  />
+                  {
+                    // menusRolFilter.map((menu) => {
+                    //   return (
+                    //     <Grid
+                    //       container
+                    //       sx={{
+                    //         display: "flex",
+                    //         height: "10%",
+                    //         width: "95%",
+                    //         border: "1px solid",
+                    //         bgcolor: "#c4a57b",
+                    //         boxShadow: 10,
+                    //         borderRadius: 2,
+                    //         alignItems: "center",
+                    //         justifyContent: "center",
+                    //         mt: "2vh",
+                    //       }}
+                    //     >
+                    //       <Tooltip title={menu.Descripcion}>
+                    //         <Grid item width={"65%"}>
+                    //           <Typography
+                    //             fontFamily={"Montserrat-Ligth"}
+                    //             sx={{
+                    //               whiteSpace: "nowrap",
+                    //               overflow: "hidden",
+                    //               textOverflow: "ellipsis",
+                    //               fontSize: [20, 25, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
+                    //             }}
+                    //           >
+                    //             {menu.Descripcion}
+                    //           </Typography>
+                    //         </Grid>
+                    //       </Tooltip>
+                    //       <Grid item maxWidth={"20%"} sx={{ display: "flex" }}>
+                    //         {/*title={"Administrar permisos de " + menu.Descripcion}> */}
+                    //         <Tooltip title={"Administrar permisos"}>
+                    //           <IconButton
+                    //             onClick={() => {
+                    //               setMenu(menu);
+                    //               setOpenPermisos(true);
+                    //             }}
+                    //           >
+                    //             <SecurityIcon sx={{
+                    //               fontSize: '24px', // Tamaño predeterminado del icono
+                    //               '@media (max-width: 600px)': {
+                    //                 fontSize: 30, // Pantalla extra pequeña (xs y sm)
+                    //               },
+                    //               '@media (min-width: 601px) and (max-width: 960px)': {
+                    //                 fontSize: 40, // Pantalla pequeña (md)
+                    //               },
+                    //               '@media (min-width: 961px) and (max-width: 1280px)': {
+                    //                 fontSize: 40, // Pantalla mediana (lg)
+                    //               },
+                    //               '@media (min-width: 1281px)': {
+                    //                 fontSize: 40, // Pantalla grande (xl)
+                    //               },
+                    //             }} />
+                    //           </IconButton>
+                    //         </Tooltip>
+                    //         {/*title={"Quitar acceso a menu " + menu.Descripcion}> */}
+                    //         <Tooltip title={"Quitar acceso"}>
+                    //           <IconButton
+                    //             onClick={() => {
+                    //               deleteMenuRol(menu.IdRelacion, obtenerDatos);
+                    //             }}
+                    //           >
+                    //             <HighlightOffIcon sx={{
+                    //               fontSize: '24px', // Tamaño predeterminado del icono
+                    //               '@media (max-width: 600px)': {
+                    //                 fontSize: 30, // Pantalla extra pequeña (xs y sm)
+                    //               },
+                    //               '@media (min-width: 601px) and (max-width: 960px)': {
+                    //                 fontSize: 40, // Pantalla pequeña (md)
+                    //               },
+                    //               '@media (min-width: 961px) and (max-width: 1280px)': {
+                    //                 fontSize: 40, // Pantalla mediana (lg)
+                    //               },
+                    //               '@media (min-width: 1281px)': {
+                    //                 fontSize: 40, // Pantalla grande (xl)
+                    //               },
+                    //             }} />
+                    //           </IconButton>
+                    //         </Tooltip>
+                    //       </Grid>
+                    //     </Grid>
+                    //   );
+                    // })
+                  }
+
+                </Grid>
+              </Grid>
+              {/* ############################ */}
+              <Grid item container sx={{ display: "flex", justifyContent: "center", height: "84vh" }}
+                xs={12}
+                sm={12}
+                md={12}
+                lg={6}
+                xl={6}>
+
+                <Grid item
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  lg={12}
+                  xl={12}>
+
+                  <Typography
+                    fontFamily={"'Montserrat', sans-serif"}
+                    sx={{
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        textAlign: "center",
+                        fontSize: [20, 20, 20, 25, 25], // Tamaños de fuente para diferentes breakpoints
+                        
+                    }}
+                  >Menus sin asignar</Typography>
+                </Grid>
+
+                <Grid
+                  item
+                  container
+                  xs={11}
+                  sm={11}
+                  md={11}
+                  lg={11}
+                  xl={11}
+
+                  sx={{
+                    display: "flex",
+                    height: "90%",
+                    border: "1px  solid",
+                    overflow: "auto",
+                    alignContent: "flex-start",
+                    justifyContent: "space-evenly",
+                  }}
+                >
+                  <MUIXDataGrid
+                    id={Math.random}
+                    columns={columnsSinAsignar}
+                    rows={menusFaltantes}
+                    camposCsv={camposCsv}
+                  />
+                  {
+                    // menusFaltantesFilter.map((menu) => {
+                    //   return (
+                    //     <Grid
+                    //       container
+                    //       sx={{
+                    //         display: "flex",
+                    //         height: "10%",
+                    //         width: "95%",
+                    //         border: "1px solid",
+                    //         bgcolor: "#c4a57b",
+                    //         boxShadow: 10,
+                    //         borderRadius: 2,
+                    //         alignItems: "center",
+                    //         justifyContent: "center",
+                    //         mt: "2vh",
+                    //       }}
+                    //     >
+                    //       <Grid item maxWidth={"10%"} minWidth={"10%"} sx={{ display: "flex" }}>
+                    //         {/*title={"Administrar permisos de " + menu.Descripcion}> */}
+                    //         <Tooltip
+                    //           title={"Dar acceso a menu " + menu.Descripcion}
+                    //         >
+                    //           <IconButton
+                    //             onClick={() => {
+                    //               createMenuRol(
+                    //                 idRol,
+                    //                 menu.Id,
+                    //                 localStorage.getItem("IdUsuario") || "",
+                    //                 obtenerDatos
+                    //               );
+                    //             }}
+                    //           >
+                    //             <ControlPointIcon sx={{
+                    //               fontSize: '24px', // Tamaño predeterminado del icono
+                    //               '@media (max-width: 600px)': {
+                    //                 fontSize: 30, // Pantalla extra pequeña (xs y sm)
+                    //               },
+                    //               '@media (min-width: 601px) and (max-width: 960px)': {
+                    //                 fontSize: 40, // Pantalla pequeña (md)
+                    //               },
+                    //               '@media (min-width: 961px) and (max-width: 1280px)': {
+                    //                 fontSize: 40, // Pantalla mediana (lg)
+                    //               },
+                    //               '@media (min-width: 1281px)': {
+                    //                 fontSize: 40, // Pantalla grande (xl)
+                    //               },
+                    //             }} />
+                    //           </IconButton>
+                    //         </Tooltip>
+                    //       </Grid>
+                    //       <Grid item maxWidth={"75%"} minWidth={"75%"}>
+                    //         <Tooltip title={menu.Descripcion}>
+                    //           <Typography
+                    //             fontFamily={"Montserrat-Ligth"}
+                    //             sx={{
+                    //               whiteSpace: "nowrap",
+                    //               overflow: "hidden",
+                    //               textOverflow: "ellipsis",
+                    //               fontSize: [20, 20, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
+                    //             }}
+                    //             textAlign={"end"}
+                    //           >
+                    //             {menu.Descripcion}
+                    //           </Typography>
+                    //         </Tooltip>
+                    //       </Grid>
+                    //     </Grid>
+                    //   );
+                    // })
+                  }
                 </Grid>
               </Grid>
               {/* ############################ */}
