@@ -1,4 +1,4 @@
-import { Close as CloseIcon, Margin } from "@mui/icons-material";
+import { Close, Margin } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -8,6 +8,7 @@ import {
   DialogTitle,
   Grid,
   IconButton,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import axios from "axios";
@@ -131,7 +132,7 @@ export const AppsDialog = (props: AppsDialogProps) => {
       open={props.appsDialogOpen}
       onClose={() => props.handleAppsDialogClose()}
       fullWidth={true}
-      maxWidth="md"
+      maxWidth="lg"
       aria-labelledby="edit-dialog-title"
       aria-describedby="edit-dialog-description"
     >
@@ -139,27 +140,59 @@ export const AppsDialog = (props: AppsDialogProps) => {
         id="edit-dialog-title"
         sx={{ fontFamily: "MontserratSemiBold" }}
       >
-        Aplicaciones a las que tiene acceso {props.usuario.NombreUsuario}
-        <IconButton
-          aria-label="close"
-          onClick={() => props.handleAppsDialogClose()}
-          sx={{
-            position: "absolute",
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
+        <Grid container sx={{ width: "100%" }}>
+          <Grid item xl={11}
+            xs={11}
+            lg={11}
+            md={11}
+            sm={11}>
+            <Typography fontFamily={"'Montserrat', sans-serif"}
+                    sx={{
+                      // whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      textAlign: "center",
+                      fontSize: [15, 15, 15, 20, 20], // Tamaños de fuente para diferentes breakpoints
+                      padding: "1rem"
+                    }}>Aplicaciones a las que tiene acceso {props.usuario.NombreUsuario}</Typography>
+          </Grid>
+          <Grid item xl={1}
+            xs={1}
+            lg={1}
+            md={1}
+            sm={1}
+            sx={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+            <Tooltip title="Salir">
+            <IconButton  onClick={() => props.handleAppsDialogClose()}>
+              <Close sx={{
+                fontSize: '24px', // Tamaño predeterminado del icono
+                '@media (max-width: 600px)': {
+                  fontSize: 25, // Pantalla extra pequeña (xs y sm)
+                },
+                '@media (min-width: 601px) and (max-width: 960px)': {
+                  fontSize: 25, // Pantalla pequeña (md)
+                },
+                '@media (min-width: 961px) and (max-width: 1280px)': {
+                  fontSize: 30, // Pantalla mediana (lg)
+                },
+                '@media (min-width: 1281px)': {
+                  fontSize: 30, // Pantalla grande (xl)
+                },
+              }} />
+            </IconButton>
+            </Tooltip>
+          </Grid>
+        </Grid>
+
+
       </DialogTitle>
 
       <DialogContent dividers>
-        <Grid container direction={"column"} justifyContent={"center"}>
+        <Grid container direction={"column"} justifyContent={"center"} >
           {apps.map((app: any) =>
             app.active ? (
               <Grid
-                item
+                item container
                 xs={10}
                 md={10}
                 key={app.Id}
@@ -167,17 +200,24 @@ export const AppsDialog = (props: AppsDialogProps) => {
                 alignItems={"center"}
                 display={"flex"}
               >
-                
-                <Box
+
+                <Grid
+                  item
+                  xl={10}
+                  xs={10}
+                  lg={10}
+                  md={10}
+                  sm={10}
                   onClick={(v) => {
                     props.handleAppsDialogClose();
                     props.setIdApp(app.Id);
                   }}
+                  component="button"
+                  className="aceptar"
                   sx={{
                     display: "flex",
-                    borderRadius: "10px",
+                    borderRadius: "5px",
                     border: "solid 1px",
-                    width: "100%",
                     cursor: "pointer",
                     textAlign: "center",
                     alignItems: "center",
@@ -185,28 +225,22 @@ export const AppsDialog = (props: AppsDialogProps) => {
                     mb: "2vh",
                   }}
                 >
-                  <Typography sx={{}}> {app.Nombre} </Typography>
-                </Box>
+                  <Typography fontFamily={"'Montserrat', sans-serif"}
+                    sx={{
+                      // whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      textAlign: "center",
+                      fontSize: [12, 12, 12, 15, 15], // Tamaños de fuente para diferentes breakpoints
+                      padding: "1rem"
+                    }}> {app.Nombre} </Typography>
+                </Grid>
               </Grid>
             ) : null
           )}
         </Grid>
       </DialogContent>
-      <DialogActions>
-        {/* <Button
-          color="error"
-          onClick={() => props.handleAppsDialogClose()}
-          sx={{ fontFamily: "MontserratRegular" }}
-        >
-          Cerrar
-        </Button> */}
-        {/* <Button
-          onClick={() => handleUpdateBtn()}
-          sx={{ fontFamily: "MontserratRegular" }}
-        >
-          Actualizar
-        </Button> */}
-      </DialogActions>
+
     </Dialog>
   );
 };

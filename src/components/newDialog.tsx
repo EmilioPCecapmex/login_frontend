@@ -5,8 +5,10 @@ import {
   Dialog,
   DialogContent,
   Grid,
+  IconButton,
   Slide,
   Toolbar,
+  Tooltip,
   Typography,
   createTheme,
 } from "@mui/material";
@@ -14,6 +16,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import { forwardRef, useEffect } from "react";
 import { SolicitudUsuario } from "../screens/SolicitudDeUsuarios/SolicitudUsuario";
 import { Header } from "./header";
+import { GridCloseIcon } from "@mui/x-data-grid";
 
 export interface NewDialogProps {
   newDialogOpen: boolean;
@@ -68,7 +71,29 @@ export const NewDialog = (props: NewDialogProps) => {
           </Typography>
 
           <ThemeProvider theme={theme}>
-            <Button
+          <Tooltip title="Salir">
+                <IconButton
+
+                  onClick={() => {props.handleNewDialogClose();}}
+                >
+                  <GridCloseIcon sx={{
+                    fontSize: '24px', // Tamaño predeterminado del icono
+                    '@media (max-width: 600px)': {
+                      fontSize: 30, // Pantalla extra pequeña (xs y sm)
+                    },
+                    '@media (min-width: 601px) and (max-width: 960px)': {
+                      fontSize: 30, // Pantalla pequeña (md)
+                    },
+                    '@media (min-width: 961px) and (max-width: 1280px)': {
+                      fontSize: 40, // Pantalla mediana (lg)
+                    },
+                    '@media (min-width: 1281px)': {
+                      fontSize: 40, // Pantalla grande (xl)
+                    },
+                  }} />
+                </IconButton>
+              </Tooltip>
+            {/* <Button
               sx={{
                 backgroundColor: "white",
                 color: "black",
@@ -85,7 +110,7 @@ export const NewDialog = (props: NewDialogProps) => {
               }}
             >
               <Typography>Cancelar</Typography>
-            </Button>
+            </Button> */}
           </ThemeProvider>
         </Toolbar>
       </AppBar>

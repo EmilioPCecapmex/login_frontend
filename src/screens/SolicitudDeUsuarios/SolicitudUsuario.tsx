@@ -258,16 +258,26 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       Toast.fire({
         icon: "info",
         html: `
-        <div style="height:50%; width:100%;">
-        <h3>Se han encontrado los siguientes errores:</h3>
-        <div style="text-align: left; margin-left: 10px; color: black; height: auto; overflow: auto;">
-      <small>
-      <strong>
-      *</strong>${err.join("<br><strong>*</strong>")}
-      </small>
-      </div>
-      </div>`,
+          <div style="height:50%; width:100%;">
+            <h3>Se han encontrado los siguientes errores:</h3>
+            <div style="text-align: left; margin-left: 10px; color: black; height: auto; overflow: auto;">
+              <small>
+                <strong>
+                  *
+                </strong>${err.join("<br><strong>*</strong>")}
+              </small>
+            </div>
+          </div>`,
+
+        confirmButtonColor: "#15212f",
+        confirmButtonText: "Aceptar",
+        customClass: {
+          confirmButton: "aceptar" // Agrega una clase CSS personalizada al botón de confirmación
+        }
+
       });
+
+
     } else {
       handleStoreBtn();
     }
@@ -292,10 +302,10 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       TipoSolicitud: bajaUsuario
         ? "BAJA"
         : existeCorreo
-        ? "VINCULACION"
-        : IdUsuario
-        ? "MODIFICACION"
-        : "ALTA",
+          ? "VINCULACION"
+          : IdUsuario
+            ? "MODIFICACION"
+            : "ALTA",
       IdApp: infoUsuario.Aplicacion.Id,
       CreadoPor: props.idUsuarioSolicitante
         ? props.idUsuarioSolicitante
@@ -320,8 +330,10 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             res.data.data[0][0].Respuesta === "403"
           )
             Swal.fire({
-              icon: "error",
+              icon: "info",
               title: "Mensaje",
+              iconColor: "#af8c55",
+              color: "#af8c55",
               text: res.data.data[0][0].Mensaje,
             });
 
@@ -329,7 +341,12 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             Swal.fire({
               icon: "success",
               title: "Mensaje",
-              text: res.data.data[0][0].Mensaje,
+              text: "¡Se creo la solicitud!",
+              confirmButtonColor: "#15212f",
+              confirmButtonText: "Aceptar",
+              customClass: {
+                confirmButton: "aceptar" // Agrega una clase CSS personalizada al botón de confirmación
+              }
             }).then((result) => {
               if (result.isConfirmed) {
                 props.handleDialogClose(false);
@@ -340,8 +357,10 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           // setUserTypes(res?.data?.data);
         } else {
           Swal.fire({
-            icon: "error",
+            icon: "info",
             title: "Mensaje",
+            iconColor: "#af8c55",
+            color: "#af8c55",
             text: "(" + res.response.status + ") ",
           });
           setBajaUsuario(false);
@@ -349,8 +368,10 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       })
       .catch((error) => {
         Swal.fire({
-          icon: "error",
+          icon: "info",
           title: "Mensaje",
+          iconColor: "#af8c55",
+          color: "#af8c55",
           text: "Error al realizar el registro",
         });
       });
@@ -492,7 +513,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             setExisteNUsuario(false);
           }
         })
-        .catch((err) => {});
+        .catch((err) => { });
     } else {
       setExisteNUsuario(false);
     }
@@ -516,8 +537,8 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             !isValidEmail() && infoUsuario.CorreoElectronico.length > 0
               ? "Ingresa correo válido: correo@correo.com | correo@correo.com.mx"
               : isValidEmail() && infoUsuario.CorreoElectronico.length > 0
-              ? "Correo válido"
-              : ""
+                ? "Correo válido"
+                : ""
           }
           value={infoUsuario.CorreoElectronico}
           inputProps={{ maxLength: 100 }}
@@ -541,11 +562,11 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           variant="standard"
           helperText={
             infoUsuario.NombreUsuario.length > 0 &&
-            infoUsuario.NombreUsuario.length < 4
+              infoUsuario.NombreUsuario.length < 4
               ? "Ingresa nombre de usuario de entre 4 a 30 dígitos"
               : existeNUsuario
-              ? "Nombre de usuario actualmente en uso"
-              : ""
+                ? "Nombre de usuario actualmente en uso"
+                : ""
           }
           value={infoUsuario.NombreUsuario}
           inputProps={{ minLength: 4, maxLength: 30 }}
@@ -837,50 +858,61 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       </Grid>
 
       <Grid
-        item
-        xs={10}
-        md={4.5}
+        item container
+
+        xs={10} sm={10} md={10} lg={10} xl={10}
+
+
+
         display={"flex"}
         justifyContent="space-between"
-      >
-        <FormControlLabel
-          control={
-            <Switch
-              checked={infoUsuario.PuedeFirmar}
-              onChange={(v) =>
-                setInfoUsuario({
-                  ...infoUsuario,
-                  PuedeFirmar: !infoUsuario.PuedeFirmar,
-                })
-              }
-            />
-          }
-          label={infoUsuario.PuedeFirmar ? "Puede firmar" : "No puede firmar"}
-        />
-        <Grid>
-          {IdUsuario && (
-            <Button
-              className="cancelar"
-              onClick={() => {
-                // navigate(-1);
-                setBajaUsuario(true);
-              }}
-              sx={{ fontFamily: "MontserratRegular", mr: 2 }}
-            >
-              Eliminar Usuario
-            </Button>
-          )}
+      ><Grid item xs={6} sm={6} md={6} lg={6} xl={6} >
+          <FormControlLabel
+            control={
+              <Switch
+                checked={infoUsuario.PuedeFirmar}
+                onChange={(v) =>
+                  setInfoUsuario({
+                    ...infoUsuario,
+                    PuedeFirmar: !infoUsuario.PuedeFirmar,
+                  })
+                }
+              />
+            }
+            label={infoUsuario.PuedeFirmar ? "Puede firmar" : "No puede firmar"}
+          /></Grid>
+        <Grid item xs={6} sm={6} md={6} lg={6} xl={6}sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <Grid item xs={6} sm={6} md={6} lg={6} xl={6} sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
 
-          <Button
-            className="aceptar"
-            onClick={() => {
-              // handleStoreBtn();
-              checkFill();
-            }}
-            sx={{ fontFamily: "MontserratRegular" }}
-          >
-            {IdUsuario ? "Solicitar Modificación" : "Solicitar Usuario"}
-          </Button>
+            {IdUsuario && (
+              <Button
+                className="cancelar"
+                onClick={() => {
+                  // navigate(-1);
+                  setBajaUsuario(true);
+                }}
+                sx={{ fontFamily: "MontserratRegular", mr: 2 }}
+              >
+                Eliminar Usuario
+              </Button>
+            )}
+          </Grid>
+          <Grid item xs={6} sm={6} md={6} lg={6} xl={6} sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+
+            <Button
+              className="aceptar"
+              onClick={() => {
+                // handleStoreBtn();
+                checkFill();
+              }}
+              sx={{ fontFamily: "MontserratRegular" }}
+            >
+              {IdUsuario ? "Solicitar Modificación" : "Solicitar Usuario"}
+            </Button>
+          </Grid>
+
+
+
         </Grid>
       </Grid>
       <Dialog open={bajaUsuario} onClose={() => setBajaUsuario(false)}>

@@ -517,9 +517,9 @@ export const SolicitudModificarUsuario = (props: NewDialogProps) => {
               res.data.data[0][0].Respuesta === "403"
             )
               Swal.fire({
-                icon: "error",
+                icon: "info",
                 title: "Mensaje",
-                text: res.data.data[0][0].Mensaje,
+                text: "Error al realizar el registro, intente mas tarde",
               });
 
             if (res.data.data[0][0].Respuesta === "201") {
@@ -527,14 +527,14 @@ export const SolicitudModificarUsuario = (props: NewDialogProps) => {
               Swal.fire({
                 icon: "success",
                 title: "Mensaje",
-                text: res.data.data[0][0].Mensaje,
+                text:"Solicitud creada",
               });
             }
 
             // setUserTypes(res?.data?.data);
           } else {
             Swal.fire({
-              icon: "error",
+              icon: "info",
               title: "Mensaje",
               text: "(" + res.response.status + ") ",
             });
@@ -542,7 +542,7 @@ export const SolicitudModificarUsuario = (props: NewDialogProps) => {
         })
         .catch((error) => {
           Swal.fire({
-            icon: "error",
+            icon: "info",
             title: "Mensaje",
             text: "Error al realizar el registro",
           });
