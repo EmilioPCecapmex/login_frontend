@@ -193,13 +193,13 @@ export const AppsDialog = (props: AppsDialogProps) => {
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button
+        {/* <Button
           color="error"
           onClick={() => props.handleAppsDialogClose()}
           sx={{ fontFamily: "MontserratRegular" }}
         >
           Cerrar
-        </Button>
+        </Button> */}
         {/* <Button
           onClick={() => handleUpdateBtn()}
           sx={{ fontFamily: "MontserratRegular" }}

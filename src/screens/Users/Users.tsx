@@ -21,13 +21,14 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import MUIXDataGrid from "../../components/MUIXDataGrid";
+// import MUIXDataGrid from "../../components/MUIXDataGrid";
 import { AppsDialog } from "../../components/appsDialog";
 import { Header } from "../../components/header";
 import { NewDialog } from "../../components/newDialog";
 import { isAdmin, sessionValid } from "../../funcs/validation";
 import { SolicitudModificarUsuario } from "../SolicitudDeUsuarios/SolicitudModificarUsuario";
 import "./style/Fonts.css";
+import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
 
 export interface Usuario {
   EstaActivoLabel: string;
@@ -295,33 +296,34 @@ export default function Users() {
   return (
     <Grid container sx={{ width: "100vw", height: "100vh" }}>
       <Header />
-    
-        <Grid sx={{ height: "84vh", width: "100vw" }}>
-          <Grid
-            display={"flex"}
-            justifyContent={"space-between"}
-            alignItems={"center"}
-            width={"100vw"}
+
+      <Grid sx={{ height: "84vh", width: "100vw" }}>
+        <Grid
+          display={"flex"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+          width={"100vw"}
+          sx={{
+            height: "12%",
+            "@media (min-width: 480px)": {
+              height: "14%"
+            },
+            "@media (min-width: 768px)": {
+              height: "11.5%"
+            },
+          }}
+        >
+          <Grid item
             sx={{
-              height: "12%",
-              "@media (min-width: 480px)": {
-                height: "14%"
-              },
-              "@media (min-width: 768px)": {
-                height: "11.5%"
-              },
-            }}
-          >
-            <Grid item
-              sx={{
-                display: "flex",
-                alignItems: "center"
-              }}>
-
+              display: "flex",
+              alignItems: "center"
+            }}>
+            <Tooltip title="Menu actual: Usuarios">
               <CardContent>
-                <PeopleAltIcon sx={{ color: "#AF8C55",fontSize: [30,30,30,40,40] }} />
+                <PeopleAltIcon sx={{ color: "#AF8C55", fontSize: [30, 30, 30, 40, 40] }} />
               </CardContent>
-
+            </Tooltip>
+            <Tooltip title="Menu actual">
               <Typography
                 fontFamily={"'Montserrat', sans-serif"}
                 sx={{
@@ -334,105 +336,106 @@ export default function Users() {
                 }}>
                 USUARIOS
               </Typography>
+            </Tooltip>
+          </Grid>
+
+          <CardContent sx={{
+            "@media (min-width: 480px)": {
+              flexDirection: "column",
+            },
+            "@media (min-width: 768px)": {
+              flexDirection: "row",
+              display: "flex"
+            },
+
+          }}>
+            <Grid item>
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      onChange={(v) => setShowAllUsers(v.target.checked)}
+                    />
+                  }
+                  label={
+                    <Typography sx={{
+                      fontSize: ".7rem",
+                      "@media (min-width: 480px)": {
+                        fontSize: ".7rem",
+                      },
+                      "@media (min-width: 768px)": {
+                        fontSize: "1rem",
+                      },
+                    }}>
+                      Usuarios Inactivos
+                    </Typography>
+                  }
+                />
+              </FormGroup>
             </Grid>
 
-            <CardContent sx={{
-              "@media (min-width: 480px)": {
-                flexDirection: "column",
-              },
-              "@media (min-width: 768px)": {
-                flexDirection: "row",
-                display: "flex"
-              },
-
-            }}>
-              <Grid item>
-                <FormGroup>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        onChange={(v) => setShowAllUsers(v.target.checked)}
-                      />
-                    }
-                    label={
-                      <Typography sx={{
-                        fontSize: ".7rem",
-                        "@media (min-width: 480px)": {
-                          fontSize: ".7rem",
-                        },
-                        "@media (min-width: 768px)": {
-                          fontSize: "1rem",
-                        },
-                      }}>
-                        Usuarios Inactivos
-                      </Typography>
-                    }
-                  />
-                </FormGroup>
-              </Grid>
-
-              <Grid >
-                <Button
-                  className="aceptar"
-                  variant="text"
-                  onClick={() => {
-                    setIdApp("");
-                    setIdUsuario("");
-                    setNewDialogOpen(true);
-                  }}
-                  sx={{
-                    fontFamily: "MontserratBold",
-                    backgroundColor: "#DFA94F",
-                    color: "#000001",
-                    boxShadow: 4,
-                  }}
-                  startIcon={<PersonAddIcon />}
-                >
-                  <Typography sx={{
+            <Grid >
+              <Button
+                className="aceptar"
+                variant="text"
+                onClick={() => {
+                  setIdApp("");
+                  setIdUsuario("");
+                  setNewDialogOpen(true);
+                }}
+                sx={{
+                  fontFamily: "MontserratBold",
+                  backgroundColor: "#DFA94F",
+                  color: "#000001",
+                  boxShadow: 4,
+                }}
+                startIcon={<PersonAddIcon />}
+              >
+                <Typography sx={{
+                  fontSize: ".7rem",
+                  "@media (min-width: 480px)": {
                     fontSize: ".7rem",
-                    "@media (min-width: 480px)": {
-                      fontSize: ".7rem",
-                    },
-                    "@media (min-width: 768px)": {
-                      fontSize: "1rem",
-                    },
-                  }}>
-                    Registrar Usuario
-                  </Typography>
+                  },
+                  "@media (min-width: 768px)": {
+                    fontSize: "1rem",
+                  },
+                }}>
+                  Registrar Usuario
+                </Typography>
 
-                </Button>
-              </Grid>
-            </CardContent>
-          </Grid>
-          <Grid item sx={{ width: "100vw", height: "77vh" }}>
-            <MUIXDataGrid
-              id={(row: any) => row.Id}
-              columns={columns}
-              rows={rows}
-            />
-          </Grid>
-
+              </Button>
+            </Grid>
+          </CardContent>
         </Grid>
-        {newDialogOpen ?<NewDialog
-          newDialogOpen={newDialogOpen}
-          handleNewDialogClose={handleNewDialogClose}
-          idUsuario={idUsuario}
-          idApp={idApp}
-        />:null}
-
-        
-        {appsDialogOpen ? (
-          <AppsDialog
-            appsDialogOpen={appsDialogOpen}
-            handleAppsDialogClose={() => {
-              setAppsDialogOpen(false);
-            }}
-            usuario={appsDialogUsuario}
-            setIdApp={setIdApp}
+        <Grid item sx={{ width: "100vw", height: "77vh" }}>
+          <MUIXDataGrid
+            id={(row: any) => row.Id}
+            columns={columns}
+            rows={rows}
           />
-        ) : null}
-       
-      
+        </Grid>
+
+      </Grid>
+      {newDialogOpen ? <NewDialog
+        newDialogOpen={newDialogOpen}
+        handleNewDialogClose={handleNewDialogClose}
+        idUsuario={idUsuario}
+        idApp={idApp}
+      /> : null}
+
+
+      {appsDialogOpen ? (
+        <AppsDialog
+          appsDialogOpen={appsDialogOpen}
+          handleAppsDialogClose={() => {
+            setAppsDialogOpen(false);
+          }}
+          usuario={appsDialogUsuario}
+          setIdApp={setIdApp}
+        />
+      ) : null}
+
+
     </Grid>
   );
 }

@@ -182,7 +182,7 @@ export const EditDialogApp = (props: EditDialogProps) => {
         <Button className="cancelar" variant="contained" onClick={() => props.handleEditDialogClose()}>
           Cancelar
         </Button>
-        <Button className="aceptar" variant="contained" onClick={() => handleUpdateBtn()}>Actualizar</Button>
+        <Button className="aceptar" variant="contained" onClick={() => handleUpdateBtn()}>Editar</Button>
       </DialogActions>
     </Dialog>
   );

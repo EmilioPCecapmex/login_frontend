@@ -26,6 +26,9 @@ interface IPermisos {
 export function Permisos({ open, closeModal, menu, idApp, idRol }: { open: boolean, closeModal: Function, menu: IMenus, idApp: string, idRol: string }) {
     document.title = "Roles";
 
+    const camposCsv = ["Nombre", "Descripcion"];
+
+
     const [permisos, setPermisos] = useState<Array<IPermisos>>([])
     const [permisosMenu, setPermisosMenu] = useState<Array<IPermisos>>([])
     const [permisosFaltantes, setPermisosFaltantes] = useState<Array<IPermisos>>([])
@@ -37,6 +40,8 @@ export function Permisos({ open, closeModal, menu, idApp, idRol }: { open: boole
         getPermisosMenuRol(menu.Id, idRol, setPermisosMenu)
     }
     useEffect(() => {
+        console.log("menu", menu);
+
         obtenerDatos()
     }, [])
 
@@ -48,6 +53,74 @@ export function Permisos({ open, closeModal, menu, idApp, idRol }: { open: boole
         setPermisosFaltantes(diferenciaPermisos);
     }, [permisos, permisosMenu]);
 
+
+
+
+    const columnsAsignados = [
+        {
+            field: "Permiso",
+            headerName: "Permiso",
+            flex: 4,
+            headerAlign: "center",
+            align: "left",
+        },
+        {
+            field: "acciones",
+            headerName: "Acciones",
+            flex: 1,
+            headerAlign: "center",
+            align: "center",
+            renderCell: (cellValues: any) => {
+                return (
+                    <Box>
+                        <Tooltip title={"Quitar permiso " + cellValues.row.Permiso}>
+                            <IconButton
+                                onClick={() => {
+                                    deletePermisoMenuRol(cellValues.row.IdRelacion, obtenerDatos)
+                                }}
+                            >
+                                <HighlightOffIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </Box>
+                );
+            },
+        },
+    ];
+
+    const columnsSinAsignar = [
+        {
+            field: "acciones",
+            headerName: "Acciones",
+            flex: 1,
+            headerAlign: "center",
+            align: "center",
+            renderCell: (cellValues: any) => {
+                return (
+                    <Box>
+                        <Tooltip
+                            title={"Asignar permiso " + cellValues.row.Permiso}
+                        >
+                            <IconButton
+                                onClick={() => {
+                                    createPermisoMenuRol(idRol, menu.Id, cellValues.row.Id, localStorage.getItem("IdUsuario") || "", obtenerDatos)
+                                }}
+                            >
+                                <ControlPointIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </Box >
+                );
+            },
+        },
+         {
+            field: "Permiso",
+            headerName: "Permiso",
+            flex: 4,
+            headerAlign: "center",
+            align: "right"
+        },
+    ];
     return (
         <Dialog open={open} fullScreen>
             {!banderaMenus ? (
@@ -105,11 +178,15 @@ export function Permisos({ open, closeModal, menu, idApp, idRol }: { open: boole
                                 alignItems: "center",
                             }}
                         >
-                            <Typography fontFamily={"Montserrat-Regular"}
+                            <Typography fontFamily={"'Montserrat', sans-serif"}
                                 sx={{
-                                    fontSize: [30, 40, 40, 40, 60], // Tamaños de fuente para diferentes breakpoints
+                                    whiteSpace: "nowrap",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    textAlign: "center",
+                                    fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
+                                    color: "#AF8C55"
                                 }}
-
                             >
                                 PERMISOS
                             </Typography>
@@ -183,9 +260,14 @@ export function Permisos({ open, closeModal, menu, idApp, idRol }: { open: boole
                                 height: "8%",
                             }}
                         >
-                            <Typography fontFamily={"Montserrat-Bold"}
+                            <Typography fontFamily={"'Montserrat', sans-serif"}
                                 sx={{
-                                    fontSize: [25, 35, 35, 35, 55], // Tamaños de fuente para diferentes breakpoints
+                                    whiteSpace: "nowrap",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    textAlign: "center",
+                                    fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
+                                    color: "#AF8C55"
                                 }}>
                                 {menu.Menu}
                             </Typography>
@@ -210,11 +292,14 @@ export function Permisos({ open, closeModal, menu, idApp, idRol }: { open: boole
                                     xl={12}>
 
                                     <Typography
-                                        fontFamily={"Montserrat-Bold"}
-
+                                        fontFamily={"'Montserrat', sans-serif"}
                                         sx={{
-                                            display: "flex", justifyContent: "center",
-                                            fontSize: [20, 25, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
+                                            whiteSpace: "nowrap",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                            textAlign: "center",
+                                            fontSize: [20, 20, 20, 25, 25], // Tamaños de fuente para diferentes breakpoints
+                                            
                                         }}
                                     >Permisos asignados</Typography>
                                 </Grid>
@@ -237,67 +322,61 @@ export function Permisos({ open, closeModal, menu, idApp, idRol }: { open: boole
                                         justifyContent: "space-evenly",
                                     }}
                                 >
-                                    {permisosMenu.map((permiso) => {
-                                        return (
-                                            <Grid
-                                                container
-                                                sx={{
-                                                    display: "flex",
-                                                    height: "10%",
-                                                    width: "95%",
-                                                    border: "1px solid",
-                                                    bgcolor: "#c4a57b",
-                                                    boxShadow: 10,
-                                                    borderRadius: 2,
-                                                    alignItems: "center",
-                                                    justifyContent: "center",
-                                                    mt: "2vh",
-                                                }}
-                                            >
-                                                <Tooltip title={menu.Descripcion}>
-                                                    <Grid item width={"65%"}>
-                                                        <Typography
-                                                            fontFamily={"Montserrat-Ligth"}
-                                                            sx={{
-                                                                whiteSpace: "nowrap",
-                                                                overflow: "hidden",
-                                                                textOverflow: "ellipsis",
-                                                                fontSize: [20, 25, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
-                                                            }}
-                                                        >
-                                                            {permiso.Permiso}
-                                                        </Typography>
-                                                    </Grid>
-                                                </Tooltip>
-                                                <Grid item maxWidth={"20%"} sx={{ display: "flex" }}>
-                                                    <Tooltip title={"Quitar permiso " + permiso.Permiso}>
-                                                        <IconButton
-                                                            onClick={() => {
-                                                                deletePermisoMenuRol(permiso.IdRelacion, obtenerDatos)
-                                                            }}
-                                                        >
-                                                            <HighlightOffIcon sx={{
-                                                                fontSize: '24px', // Tamaño predeterminado del icono
-                                                                '@media (max-width: 600px)': {
-                                                                    fontSize: 30, // Pantalla extra pequeña (xs y sm)
-                                                                },
-                                                                '@media (min-width: 601px) and (max-width: 960px)': {
-                                                                    fontSize: 40, // Pantalla pequeña (md)
-                                                                },
-                                                                '@media (min-width: 961px) and (max-width: 1280px)': {
-                                                                    fontSize: 40, // Pantalla mediana (lg)
-                                                                },
-                                                                '@media (min-width: 1281px)': {
-                                                                    fontSize: 40, // Pantalla grande (xl)
-                                                                },
-                                                            }} />
-                                                        </IconButton>
-                                                    </Tooltip>
+                                    <MUIXDataGrid
+                                        id={Math.random}
+                                        columns={columnsAsignados}
+                                        rows={permisosMenu}
+                                        camposCsv={camposCsv}
+                                    />
+                                    {
+                                        // permisosMenu.map((permiso) => {
+                                        //     return (
+                                        //         <Grid
+                                        //             container
+                                        //             sx={{
+                                        //                 display: "flex",
+                                        //                 height: "10%",
+                                        //                 width: "95%",
+                                        //                 border: "1px solid",
+                                        //                 bgcolor: "#c4a57b",
+                                        //                 boxShadow: 10,
+                                        //                 borderRadius: 2,
+                                        //                 alignItems: "center",
+                                        //                 justifyContent: "center",
+                                        //                 mt: "2vh",
+                                        //             }}
+                                        //         >
+                                        //             <Tooltip title={menu.Descripcion}>
+                                        //                 <Grid item width={"65%"}>
+                                        //                     <Typography
+                                        //                         fontFamily={"Montserrat-Ligth"}
+                                        //                         sx={{
+                                        //                             whiteSpace: "nowrap",
+                                        //                             overflow: "hidden",
+                                        //                             textOverflow: "ellipsis",
+                                        //                             fontSize: [20, 25, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
+                                        //                         }}
+                                        //                     >
+                                        //                         {permiso.Permiso}
+                                        //                     </Typography>
+                                        //                 </Grid>
+                                        //             </Tooltip>
+                                        //             <Grid item maxWidth={"20%"} sx={{ display: "flex" }}>
+                                        // <Tooltip title={"Quitar permiso " + permiso.Permiso}>
+                                        //     <IconButton
+                                        //         onClick={() => {
+                                        //             deletePermisoMenuRol(permiso.IdRelacion, obtenerDatos)
+                                        //         }}
+                                        //     >
+                                        //         <HighlightOffIcon  />
+                                        //     </IconButton>
+                                        // </Tooltip>
 
-                                                </Grid>
-                                            </Grid>
-                                        );
-                                    })}
+                                        //             </Grid>
+                                        //         </Grid>
+                                        //     );
+                                        // })
+                                    }
                                 </Grid>
                             </Grid>
                             {/* ############################ */}
@@ -316,12 +395,14 @@ export function Permisos({ open, closeModal, menu, idApp, idRol }: { open: boole
                                     xl={12}>
 
                                     <Typography
-                                        fontFamily={"Montserrat-Bold"}
-
+                                        fontFamily={"'Montserrat', sans-serif"}
                                         sx={{
-
-                                            display: "flex", justifyContent: "center",
-                                            fontSize: [20, 20, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
+                                            whiteSpace: "nowrap",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                            textAlign: "center",
+                                            fontSize: [20, 20, 20, 25, 25], // Tamaños de fuente para diferentes breakpoints
+                                            
                                         }}
                                     >Permisos sin asignar</Typography>
                                 </Grid>
@@ -344,70 +425,64 @@ export function Permisos({ open, closeModal, menu, idApp, idRol }: { open: boole
                                         justifyContent: "space-evenly",
                                     }}
                                 >
-                                    {permisosFaltantes.map((permiso) => {
-                                        return (
-                                            <Grid
-                                                container
-                                                sx={{
-                                                    display: "flex",
-                                                    height: "10%",
-                                                    width: "95%",
-                                                    border: "1px solid",
-                                                    bgcolor: "#c4a57b",
-                                                    boxShadow: 10,
-                                                    borderRadius: 2,
-                                                    alignItems: "center",
-                                                    justifyContent: "center",
-                                                    mt: "2vh",
-                                                }}
-                                            >
-                                                <Grid item maxWidth={"10%"} minWidth={"10%"} sx={{ display: "flex" }}>
-                                                    {/*title={"Administrar permisos de " + menu.Descripcion}> */}
-                                                    <Tooltip
-                                                        title={"Asignar permiso " + permiso.Permiso}
-                                                    >
-                                                        <IconButton
-                                                            onClick={() => {
-                                                                createPermisoMenuRol(idRol, menu.Id, permiso.Id, localStorage.getItem("IdUsuario") || "", obtenerDatos)
-                                                            }}
-                                                        >
-                                                            <ControlPointIcon sx={{
-                                                                fontSize: '24px', // Tamaño predeterminado del icono
-                                                                '@media (max-width: 600px)': {
-                                                                    fontSize: 30, // Pantalla extra pequeña (xs y sm)
-                                                                },
-                                                                '@media (min-width: 601px) and (max-width: 960px)': {
-                                                                    fontSize: 40, // Pantalla pequeña (md)
-                                                                },
-                                                                '@media (min-width: 961px) and (max-width: 1280px)': {
-                                                                    fontSize: 40, // Pantalla mediana (lg)
-                                                                },
-                                                                '@media (min-width: 1281px)': {
-                                                                    fontSize: 40, // Pantalla grande (xl)
-                                                                },
-                                                            }} />
-                                                        </IconButton>
-                                                    </Tooltip>
-                                                </Grid>
-                                                <Grid item maxWidth={"75%"} minWidth={"75%"}>
-                                                    <Tooltip title={menu.Descripcion}>
-                                                        <Typography
-                                                            fontFamily={"Montserrat-Ligth"}
-                                                            sx={{
-                                                                whiteSpace: "nowrap",
-                                                                overflow: "hidden",
-                                                                textOverflow: "ellipsis",
-                                                                fontSize: [20, 20, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
-                                                            }}
-                                                            textAlign={"end"}
-                                                        >
-                                                            {permiso.Permiso}
-                                                        </Typography>
-                                                    </Tooltip>
-                                                </Grid>
-                                            </Grid>
-                                        );
-                                    })}
+                                    <MUIXDataGrid
+                                        id={Math.random}
+                                        columns={columnsSinAsignar}
+                                        rows={permisosFaltantes}
+                                        camposCsv={camposCsv}
+                                    />
+                                    {
+                                        // permisosFaltantes.map((permiso) => {
+                                        //     return (
+                                        //         <Grid
+                                        //             container
+                                        //             sx={{
+                                        //                 display: "flex",
+                                        //                 height: "10%",
+                                        //                 width: "95%",
+                                        //                 border: "1px solid",
+                                        //                 bgcolor: "#c4a57b",
+                                        //                 boxShadow: 10,
+                                        //                 borderRadius: 2,
+                                        //                 alignItems: "center",
+                                        //                 justifyContent: "center",
+                                        //                 mt: "2vh",
+                                        //             }}
+                                        //         >
+                                        //             <Grid item maxWidth={"10%"} minWidth={"10%"} sx={{ display: "flex" }}>
+                                        //                 {/*title={"Administrar permisos de " + menu.Descripcion}> */}
+                                        // <Tooltip
+                                        //     title={"Asignar permiso " + permiso.Permiso}
+                                        // >
+                                        //     <IconButton
+                                        //         onClick={() => {
+                                        //             createPermisoMenuRol(idRol, menu.Id, permiso.Id, localStorage.getItem("IdUsuario") || "", obtenerDatos)
+                                        //         }}
+                                        //     >
+                                        //         <ControlPointIcon/>
+                                        //     </IconButton>
+                                        // </Tooltip>
+                                        //             </Grid>
+                                        //             <Grid item maxWidth={"75%"} minWidth={"75%"}>
+                                        //                 <Tooltip title={menu.Descripcion}>
+                                        //                     <Typography
+                                        //                         fontFamily={"Montserrat-Ligth"}
+                                        //                         sx={{
+                                        //                             whiteSpace: "nowrap",
+                                        //                             overflow: "hidden",
+                                        //                             textOverflow: "ellipsis",
+                                        //                             fontSize: [20, 20, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
+                                        //                         }}
+                                        //                         textAlign={"end"}
+                                        //                     >
+                                        //                         {permiso.Permiso}
+                                        //                     </Typography>
+                                        //                 </Tooltip>
+                                        //             </Grid>
+                                        //         </Grid>
+                                        //     );
+                                        // })
+                                    }
                                 </Grid>
                             </Grid>
                             {/* ############################ */}

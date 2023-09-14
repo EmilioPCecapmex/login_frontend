@@ -5,12 +5,14 @@ import EditIcon from "@mui/icons-material/Edit";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Grid, IconButton, Tab, Tooltip, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
-import MUIXDataGrid from "../../components/MUIXDataGrid";
 import { Create, IModify } from "../../components/dialogsCatalogos/Create";
-import { Delete } from "../../components/dialogsCatalogos/Delete";
 import { Header } from "../../components/header";
 import ButtonsAdd from "../Componentes/ButtonsAdd";
 import { getCatalogo } from "../../services/catalogosService";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { alertaError, alertaExito } from "../../components/alertas/toast";
+import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
 
 export interface IEntidad {
   ClaveSiregob: string;
@@ -104,7 +106,7 @@ const Catalogos = () => {
         Descripcion: "",
         IdUsuario: localStorage.getItem("IdUsuario") || "",
       });
-  }, [openCreate, openDelete]);
+  }, [openCreate]);
 
   const columns = [
     {
@@ -131,9 +133,20 @@ const Catalogos = () => {
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
-                  setSelectId(cellValues.row.Id);
-                  setElemento(cellValues.row);
-                  setOpenDelete(true);
+                  let ruta=""
+                  switch (valueTab) {
+                    case "TipoEntidades":
+                      ruta="eliminar-tipo-entidad";
+                      break;
+                    case "Entidades":
+                      ruta="eliminar-entidad";
+                      break;
+                    default:
+                      ruta="/";
+                      break;
+                  }
+
+                  handleDeleteBtnClick(cellValues,ruta);
                 }}
               >
                 <DeleteIcon />
@@ -213,6 +226,39 @@ const Catalogos = () => {
     setValueTab(newValue);
   };
 
+  const handleDeleteBtnClick = (cellValues: any,ruta:string) => {
+    Swal.fire({
+      title: "¿Estás seguro de eliminar este registro?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Eliminar",
+      confirmButtonColor: "#15212f",
+      cancelButtonColor: "#af8c55",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const data = { Id: cellValues.row.Id,IdUsuario:localStorage.getItem("IdUsuario") };
+        axios({
+          method: "delete",
+          url: process.env.REACT_APP_APPLICATION_DEV + `/api/${ruta}`,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("jwtToken") || "",
+          },
+          data: data,
+        })
+          .then(function (response) {
+            alertaExito(()=>{},"Registro eliminado!")
+            getCatalogo("lista-entidades", setEntidades, "", "");
+            getCatalogo("lista-tipo-entidades", setTipoEntidades, "", "");
+          })
+          .catch(function (error) {
+            alertaError();
+          });
+      }
+    });
+  };
+
   return (
     <>
       <Header />
@@ -228,8 +274,8 @@ const Catalogos = () => {
           <Grid container sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
             <Grid item xl={8} xs={8} lg={8} md={8} sm={8} sx={{ display: "flex", justifyContent: "space-evenly" }}>
               <TabList onChange={handleChange} aria-label="lab API tabs example">
-                <Tab label="Tipo Entidades " value="TipoEntidades" sx={{ fontSize: [30, 30, 30, 30, 30],}}  />
-                <Tab label="Entidades" value="Entidades" sx={{ fontSize: [30, 30, 30, 30, 30],}}/>
+                <Tab label="Tipo Entidades " value="TipoEntidades" sx={{ fontSize: [30, 30, 30, 30, 30], }} />
+                <Tab label="Entidades" value="Entidades" sx={{ fontSize: [30, 30, 30, 30, 30], }} />
               </TabList>
             </Grid>
             <Grid item xl={2} xs={2} lg={2} md={2} sm={2} sx={{ display: "flex", justifyContent: "space-evenly" }}>
@@ -239,9 +285,9 @@ const Catalogos = () => {
         </TabContext>
 
 
-        <Grid item  sx={{ width: "100vw", height: "80vh" }}>
-          <MUIXDataGrid columns={columns} rows={valueTab === "TipoEntidades" ? tipoEntidades:entidades} />
-        </Grid> 
+        <Grid item sx={{ width: "100vw", height: "77vh" }}>
+          <MUIXDataGrid  id={(row: any) => row.Id} columns={columns} rows={valueTab === "TipoEntidades" ? tipoEntidades : entidades} />
+        </Grid>
 
 
 
@@ -261,15 +307,7 @@ const Catalogos = () => {
         />
       )}
 
-      {openDelete && (
-        <Delete
-          open={openDelete}
-          setOpen={setOpenDelete}
-          Id={selectId}
-          catalogo={valueTab}
-          reloadData={setReload}
-        />
-      )}
+      
 
     </>
   );

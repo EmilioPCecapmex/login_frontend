@@ -23,6 +23,9 @@ import { Menus } from "../menus/Menus";
 import { getRoles } from "./RolesServices";
 import ButtonsAdd from "../../screens/Componentes/ButtonsAdd";
 import { DialogRoles } from "./DialogRoles";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { alertaError, alertaExito } from "../alertas/toast";
 
 export interface IRol {
   ControlInterno: string;
@@ -109,9 +112,10 @@ export function Roles({
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
-                  setRegistroData(cellValues.row);
-                  setMovimiento("eliminar");
-                  setOpenDialogRoles(true);
+                  handleDeleteBtnClick(cellValues);
+                  // setRegistroData(cellValues.row);
+                  // setMovimiento("eliminar");
+                  // setOpenDialogRoles(true);
                 }}
               >
                 <DeleteIcon />
@@ -167,6 +171,41 @@ export function Roles({
   useEffect(() => {
     if (!openDialogRoles) getRoles(idApp, setRoles, () => setBandera(true));
   }, [openDialogRoles]);
+
+
+  const handleDeleteBtnClick = (cellValues: any) => {
+    console.log(cellValues);
+    
+    Swal.fire({
+      title: "¿Estás seguro de eliminar este registro?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Eliminar",
+      confirmButtonColor: "#15212f",
+      cancelButtonColor: "#af8c55",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const data = {...cellValues.row,  IdUsuario: localStorage.getItem("IdUsuario") || "",IdApp: idApp, };
+        axios({
+          method: "delete",
+          url: process.env.REACT_APP_APPLICATION_DEV + `/api/rol`,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("jwtToken") || "",
+          },
+          data: data,
+        })
+          .then(function (response) {
+            alertaExito(()=>{},"¡Registro eliminado!");
+            getRoles(idApp, setRoles, () => setBandera(true));
+          })
+          .catch(function (error) {
+            alertaError();
+          });
+      }
+    });
+  };
 
   return (
     <Dialog open={open} fullScreen>
