@@ -49,7 +49,7 @@ export const DialogRoles = ({
   });
 
   useEffect(() => {
-    if (reloadData && (movimiento === "editar" || movimiento === "eliminar")) {
+    if (reloadData && (movimiento === "Editar" || movimiento === "Eliminar")) {
       setNuevoElemento({
         ...reloadData,
         IdUsuario: localStorage.getItem("IdUsuario") || "",
@@ -60,13 +60,13 @@ export const DialogRoles = ({
 
   function sendRequest() {
     switch (movimiento) {
-      case "editar":
+      case "Editar":
         modifyRol(nuevoElemento, closeDialog);
         break;
-      case "agregar":
+      case "Agregar":
         createRol(nuevoElemento, closeDialog);
         break;
-      case "eliminar":
+      case "Eliminar":
         deleteRol(nuevoElemento, closeDialog);
         break;
       default:
@@ -160,7 +160,7 @@ export const DialogRoles = ({
             }
           }}
         >
-          {movimiento.toUpperCase()}
+          {movimiento}
         </Button>
       </DialogActions>
     </Dialog>

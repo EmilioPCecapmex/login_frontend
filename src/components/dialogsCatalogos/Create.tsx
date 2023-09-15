@@ -17,6 +17,7 @@ import {
 } from "../../services/catalogosService";
 import { IUsuarios } from "../../screens/SolicitudDeUsuarios/ICatalogos";
 import { IModifica } from "../../screens/Catalogos/Catalogos";
+import { alertaInformativa } from "../alertas/toast";
 
 export interface IModify {
   Entidad: { Id: string; Nombre: string };
@@ -50,19 +51,6 @@ export const Create = ({
   reloadData: Function;
   data: IModifica;
 }) => {
-  const elementoVacio = {
-    Entidad: { Id: "", Nombre: "" },
-    TipoEntidad: { Id: "", Nombre: "" },
-    Nombre: "",
-    Titular: { Id: "", Nombre: "" },
-    Direccion: "",
-    Telefono: "",
-    PerteneceA: { Id: "", Nombre: "" },
-    ControlInterno: "",
-    ClaveSiregob: "",
-    Descripcion: "",
-    IdUsuario: localStorage.getItem("IdUsuario") || "",
-  };
 
   const [nuevoElemento, setNuevoElemento] = useState({
     Entidad: { Id: data.Id, Nombre: data.Nombre },
@@ -81,6 +69,32 @@ export const Create = ({
     IdUsuario: localStorage.getItem("IdUsuario")!,
   });
 
+  const [Elemento,setElemento]=useState({
+    Entidad: { Id: data.Id, Nombre: data.Nombre },
+    TipoEntidad: { Id: data.IdTipoEntidad, Nombre: data.NombreTipoEntidad },
+    Nombre: data.Nombre,
+    Titular: { Id: data.IdTitular, Nombre: data.Titular },
+    Direccion: data.Direccion,
+    Telefono: data.Telefono,
+    PerteneceA: {
+      Id: data.IdEntidadPerteneceA,
+      Nombre: data.EntidadPerteneceA,
+    },
+    ControlInterno: data.ControlInterno,
+    ClaveSiregob: data.ClaveSiregob,
+    Descripcion: data.Descripcion,
+    IdUsuario: localStorage.getItem("IdUsuario")!,
+  });
+
+  function MismoObjeto(objetoA:any, objetoB:any) {
+    // Convertimos los objetos a cadenas JSON y luego las comparamos
+    const jsonStringA = JSON.stringify(objetoA);
+    const jsonStringB = JSON.stringify(objetoB);
+  
+    // Comparamos las cadenas JSON
+    return jsonStringA === jsonStringB;
+  }
+  
   //------------------------CATALOGOS-------------------------------------------
 
   const [usuarios, setUsuarios] = useState<Array<IUsuarios>>([]);
@@ -94,9 +108,6 @@ export const Create = ({
   }, []);
 
 
-  // useEffect(()=>{
-  //   setEntidadesConNullt([{Id: null,Nombre: "Sin asignar"},...entidades])
-  // },[entidades])
   //------------------------CATALOGOS-------------------------------------------
 
   const [ruta, setRuta] = useState("");
@@ -128,10 +139,6 @@ export const Create = ({
       }
     }
   }, [catalogo, open]);
-
-  // useEffect(() => {
-  //   setNuevoElemento(elementoVacio);
-  // }, [catalogo]);
 
   return (
     <Dialog
@@ -351,7 +358,12 @@ export const Create = ({
         <Button
           className="aceptar"
           onClick={() => {
-            data.Id !== ""
+            console.log("nuevoElemento",nuevoElemento);
+            console.log("Elemento",Elemento);
+            if(MismoObjeto(nuevoElemento,Elemento)){
+              alertaInformativa("No se detectaron cambios")
+            }else{
+              data.Id !== ""
               ? modificarCatalogo(
                   ruta,
                   {
@@ -387,6 +399,8 @@ export const Create = ({
                   setOpen,
                   reloadData
                 );
+            }
+            
           }}
         >
           { data.Id !== ""?"Editar":"Agregar"}

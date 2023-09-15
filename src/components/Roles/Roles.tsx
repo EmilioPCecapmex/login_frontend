@@ -55,7 +55,7 @@ export function Roles({
 
   const [openMenus, setOpenMenu] = useState(false);
   const [openDialogRoles, setOpenDialogRoles] = useState(false);
-  const [movimiento, setMovimiento] = useState("agregar");
+  const [movimiento, setMovimiento] = useState("Agregar");
   const [registroData, setRegistroData] = useState<IRol>({
     ControlInterno: "",
     Deleted: 0,
@@ -82,7 +82,7 @@ export function Roles({
                 sx={{ color: "black" }}
                 onClick={(event) => {
                   setRegistroData(cellValues.row);
-                  setMovimiento("editar");
+                  setMovimiento("Editar");
                   setOpenDialogRoles(true);
                 }}
               >
@@ -180,10 +180,11 @@ export function Roles({
       title: "¿Estás seguro de eliminar este registro?",
       icon: "question",
       showCancelButton: true,
-      confirmButtonText: "Eliminar",
-      confirmButtonColor: "#15212f",
+      
       cancelButtonColor: "#af8c55",
       cancelButtonText: "Cancelar",
+      confirmButtonText: "Eliminar",
+      confirmButtonColor: "#15212f",
     }).then((result) => {
       if (result.isConfirmed) {
         const data = {...cellValues.row,  IdUsuario: localStorage.getItem("IdUsuario") || "",IdApp: idApp, };
@@ -262,7 +263,7 @@ export function Roles({
                   color: "#AF8C55"
                 }}>
 
-                ROLES
+                Roles
               </Typography>
             </Grid>
             <Grid
@@ -399,7 +400,7 @@ export function Roles({
                 >
                   <ButtonsAdd
                     handleOpen={() => {
-                      setMovimiento("agregar");
+                      setMovimiento("Agregar");
                       setOpenDialogRoles(true);
                     }}
                     agregar={true}
