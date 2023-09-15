@@ -334,7 +334,7 @@ export default function Users() {
                   fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
                   color: "#AF8C55"
                 }}>
-                USUARIOS
+                Usuarios
               </Typography>
             </Tooltip>
           </Grid>

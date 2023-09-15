@@ -262,7 +262,7 @@ export function Roles({
                   color: "#AF8C55"
                 }}>
 
-                ROLES
+                Roles
               </Typography>
             </Grid>
             <Grid

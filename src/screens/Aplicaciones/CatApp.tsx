@@ -323,7 +323,7 @@ export default function CatApps() {
                    color: "#AF8C55"
                  }}
               >
-                APLICACIONES
+                Aplicaciones
               </Typography>
               </Tooltip>
             </Grid>

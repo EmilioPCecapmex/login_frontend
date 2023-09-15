@@ -188,7 +188,7 @@ export function Permisos({ open, closeModal, menu, idApp, idRol }: { open: boole
                                     color: "#AF8C55"
                                 }}
                             >
-                                PERMISOS
+                                Permisos
                             </Typography>
                         </Grid>
                         <Grid
@@ -301,7 +301,7 @@ export function Permisos({ open, closeModal, menu, idApp, idRol }: { open: boole
                                             fontSize: [20, 20, 20, 25, 25], // Tamaños de fuente para diferentes breakpoints
                                             
                                         }}
-                                    >Permisos asignados</Typography>
+                                    >Permisos asignados al menú</Typography>
                                 </Grid>
 
                                 <Grid
@@ -404,7 +404,7 @@ export function Permisos({ open, closeModal, menu, idApp, idRol }: { open: boole
                                             fontSize: [20, 20, 20, 25, 25], // Tamaños de fuente para diferentes breakpoints
                                             
                                         }}
-                                    >Permisos sin asignar</Typography>
+                                    >Permisos disponibles para asignar al menú</Typography>
                                 </Grid>
 
                                 <Grid

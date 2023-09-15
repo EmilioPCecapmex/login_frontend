@@ -231,7 +231,7 @@ export function Menus({
                   color: "#AF8C55"
                 }}
               >
-                MENUS
+                Menús
               </Typography>
             </Grid>
             <Grid
@@ -342,7 +342,7 @@ export function Menus({
                         fontSize: [20, 20, 20, 25, 25], // Tamaños de fuente para diferentes breakpoints
                         
                     }}
-                  >Menus sin asignar</Typography>
+                  >Menús relacionados al rol</Typography>
                 </Grid>
 
                 <Grid
@@ -485,7 +485,7 @@ export function Menus({
                         fontSize: [20, 20, 20, 25, 25], // Tamaños de fuente para diferentes breakpoints
                         
                     }}
-                  >Menus sin asignar</Typography>
+                  >Menús disponibles para relacionar al menú</Typography>
                 </Grid>
 
                 <Grid
