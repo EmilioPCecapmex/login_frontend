@@ -259,7 +259,7 @@ export const Solicitudes = () => {
     axios
       .get(
         process.env.REACT_APP_APPLICATION_DEV +
-          "/api/docSolicitudActualUsuario",
+        "/api/docSolicitudActualUsuario",
         {
           params: {
             IdSolicitud: IdSolicitud,
@@ -454,15 +454,27 @@ export const Solicitudes = () => {
   const [comentario, setComentario] = useState("");
 
   return (
-    <Grid>
+    <Grid container item
+      xl={12}
+      xs={12}
+      lg={12}
+      md={12}
+      sm={12} sx={{ height: "100vh", display: "flex", overflow: "auto" }}>
       <Header />
-      <CommentsDialog
+
+      {/* <CommentsDialog
         open={openComments}
         close={handleCloseComments}
         solicitud={solicitudSeleccionada}
-      />
+      /> */}
 
-      <Grid container justifyContent="center" height={"85vh"}>
+      <Grid container item
+        xl={12}
+        xs={12}
+        lg={12}
+        md={12}
+        sm={12}
+        justifyContent="center" height={"90vh"}>
         <Hidden>
           <Grid item xs={12} md={4} paddingLeft={0.4}>
             <FormControl
@@ -560,11 +572,11 @@ export const Solicitudes = () => {
                               item?.tipoSoli.toUpperCase() === "ALTA"
                                 ? "#fbffae8a"
                                 : item?.tipoSoli.toUpperCase() === "BAJA"
-                                ? "#ffbcbc6e"
-                                : item?.tipoSoli.toUpperCase() ===
-                                  "MODIFICACION"
-                                ? "#c3e3ffa8"
-                                : "#dcffc8a1",
+                                  ? "#ffbcbc6e"
+                                  : item?.tipoSoli.toUpperCase() ===
+                                    "MODIFICACION"
+                                    ? "#c3e3ffa8"
+                                    : "#dcffc8a1",
                           }}
                           selected={selectedIndex === x ? true : false}
                         >
@@ -638,237 +650,6 @@ export const Solicitudes = () => {
           </Grid>
         </Hidden>
 
-        {/* <Hidden mdUp>
-          <Dialog fullScreen open={openVerSolicitudesModal}>
-            {solicitudes.length !== 0 ? (
-              <Grid>
-                <Grid item container justifyContent="flex-end">
-                  <Hidden smUp>
-                    <Grid item container xs={10} justifyContent="center">
-                      <IconButton
-                        onClick={() => {
-                          let a = selectedIndex;
-                          a--;
-                          if (a >= 0) {
-                            setSelectedIndex(a);
-                            flowSolicitudes(a);
-                          }
-                        }}
-                      >
-                        Ant. <SkipPreviousIcon fontSize="large" />
-                      </IconButton>
-                      <IconButton
-                        onClick={() => {
-                          let a = selectedIndex;
-                          a = a + 1;
-                          if (a < solicitudes.length) {
-                            setSelectedIndex(a);
-                            flowSolicitudes(a);
-                          }
-                        }}
-                      >
-                        <SkipNextIcon fontSize="large" /> Sig.
-                      </IconButton>
-                    </Grid>
-                  </Hidden>
-
-                  <Grid item container justifyContent="flex-end" xs={2}>
-                    <Button
-                      className="cancelar"
-                      variant="contained"
-                      color="error"
-                      onClick={() => {
-                        setOpenVerSolicitudesModal(false);
-                      }}
-                    >
-                      <CloseIcon />
-                    </Button>
-                  </Grid>
-                </Grid>
-                {selectedIndex < 0 ? (
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <InfoTwoToneIcon
-                      color="primary"
-                      sx={{
-                        width: "50%",
-                        height: "50%",
-                        opacity: "20%",
-                      }}
-                    />
-                    <Typography
-                      color="primary"
-                      sx={{ fontFamily: "MontserratSemiBold" }}
-                    >
-                      Sin información
-                    </Typography>
-                    <Typography
-                      color="primary"
-                      sx={{ fontFamily: "MontserratSemiBold" }}
-                    >
-                      Seleccione un registro para visualizar la información
-                    </Typography>
-                  </Box>
-                ) : solicitudesFiltered[selectedIndex]?.NombreUsuario ===
-                  detalleSolicitud[0].Nombre +
-                    " " +
-                    detalleSolicitud[0].ApellidoPaterno ? (
-                  <Grid container rowSpacing={2} justifyContent="space-between">
-                    <VerSolicitudesModal
-                      detalleSolicitud={detalleSolicitud}
-                      comentCount={comentCount}
-                      onChangeInfo={onChangeInfo}
-                      detalleUsuario={detalleUsuario}
-                      solicitudSeleccionada={solicitudSeleccionada}
-                    />
-
-                    <Grid
-                      item
-                      container
-                      xs={12}
-                      direction="row"
-                      justifyContent="space-evenly"
-                      alignItems="flex-end"
-                    >
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            disabled
-                            // ={
-                            //   solicitudesFiltered[
-                            //     selectedIndex
-                            //   ]?.tipoSoli.toUpperCase() !== "ALTA" &&
-                            //   solicitudesFiltered[
-                            //     selectedIndex
-                            //   ]?.tipoSoli.toUpperCase() !== "MODIFICACION"
-                            // }
-                            checked={puedeFirmar}
-                            onChange={() => {
-                              setPuedeFirmar(!puedeFirmar);
-                            }}
-                          />
-                        }
-                        label="Permiso para firmar"
-                      />
-
-                      <Grid
-                        item
-                        container
-                        paddingTop={1}
-                        paddingBottom={2}
-                        direction="row"
-                        justifyContent="space-evenly"
-                        alignItems="center"
-                      >
-                        <Grid item xs={3}>
-                          <Button
-                            fullWidth
-                            className="aceptar"
-                            variant="contained"
-                            color="primary"
-                            onClick={() => {
-                              setOpenDialogAceptar(true);
-                            }}
-                          >
-                            Aceptar
-                          </Button>
-                        </Grid>
-                        <Grid item xs={3}>
-                          <Button
-                            fullWidth
-                            className="cancelar"
-                            variant="contained"
-                            color="error"
-                            onClick={() => {
-                              setOpenDialogRechazar(true);
-                            }}
-                          >
-                            Rechazar
-                          </Button>
-                        </Grid>
-
-                        <Hidden smDown>
-                          <Grid item container xs={12} justifyContent="center">
-                            <IconButton
-                              onClick={() => {
-                                let a = selectedIndex;
-                                a--;
-                                if (a >= 0) {
-                                  setSelectedIndex(a);
-                                  flowSolicitudes(a);
-                                }
-                              }}
-                            >
-                              <SkipPreviousIcon fontSize="large" />
-                            </IconButton>
-                            <IconButton
-                              onClick={() => {
-                                let a = selectedIndex;
-                                a = a + 1;
-                                if (a < solicitudes.length) {
-                                  setSelectedIndex(a);
-                                  flowSolicitudes(a);
-                                }
-                              }}
-                            >
-                              <SkipNextIcon fontSize="large" />
-                            </IconButton>
-                          </Grid>
-                        </Hidden>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                ) : (
-                  <CircularProgress />
-                )}
-              </Grid>
-            ) : (
-              <Box
-                sx={{
-                  bgcolor: "#ECE8DA",
-                  borderRadius: "15px",
-                  opacity: "80%",
-                  display: "flex",
-                  alignItems: "flex-end",
-                  justifyContent: "center",
-                  flexDirection: "column",
-                  boxShadow: "15",
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                  }}
-                >
-                  <InfoTwoToneIcon
-                    color="primary"
-                    sx={{
-                      width: "100%",
-                      height: "80%",
-                      opacity: "20%",
-                    }}
-                  />
-                  <Typography color="primary" fontFamily="MontserratBold">
-                    Sin información
-                  </Typography>
-                  <Typography color="primary" fontFamily="MontserratBold">
-                    Seleccione un registro para visualizar la información
-                  </Typography>
-                </Box>
-              </Box>
-            )}
-          </Dialog>
-        </Hidden> */}
-
         <Hidden mdDown>
           <Grid
             container
@@ -932,8 +713,8 @@ export const Solicitudes = () => {
                   </Box>
                 ) : solicitudesFiltered[selectedIndex]?.NombreUsuario ===
                   detalleSolicitud[0].Nombre +
-                    " " +
-                    detalleSolicitud[0].ApellidoPaterno ? (
+                  " " +
+                  detalleSolicitud[0].ApellidoPaterno ? (
                   <Grid
                     container
                     p={3}
@@ -967,27 +748,36 @@ export const Solicitudes = () => {
                       flexDirection={"column"}
                       alignItems={"center"}
                     >
-                      <Grid>
-                        <Button
-                          variant="contained"
-                          onClick={() => {
-                            setOpenDialogAceptar(true);
-                          }}
-                        >
-                          Aceptar
-                        </Button>
-
-                        <Button
-                          className="Solicitudes-cancelar-usuario"
-                          variant="contained"
-                          onClick={() => {
-                            setOpenDialogRechazar(true);
-                          }}
-                        >
-                          Rechazar
-                        </Button>
+                      <Grid item container
+                        xl={10}
+                        xs={10}
+                        lg={10}
+                        md={10}
+                        sm={10}
+                        sx={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>
+                        <Grid item>
+                          <Button
+                            className="aceptar"
+                            variant="contained"
+                            onClick={() => {
+                              setOpenDialogAceptar(true);
+                            }}
+                          >
+                            Aceptar
+                          </Button>
+                        </Grid>
+                        <Grid item>
+                          <Button
+                            className="cancelar"
+                            variant="contained"
+                            onClick={() => {
+                              setOpenDialogRechazar(true);
+                            }}
+                          >
+                            Rechazar
+                          </Button>
+                        </Grid>
                       </Grid>
-
                       <Grid justifyContent={"center"}>
                         <IconButton
                           onClick={() => {

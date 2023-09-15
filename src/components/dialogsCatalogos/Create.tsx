@@ -17,7 +17,7 @@ import {
 } from "../../services/catalogosService";
 import { IUsuarios } from "../../screens/SolicitudDeUsuarios/ICatalogos";
 import { IModifica } from "../../screens/Catalogos/Catalogos";
-import { alertaError, alertaExito, alertaInformativa } from "../alertas/toast";
+import { alertaInformativa } from "../alertas/toast";
 
 export interface IModify {
   Entidad: { Id: string; Nombre: string };

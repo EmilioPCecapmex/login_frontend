@@ -231,10 +231,11 @@ const Catalogos = () => {
       title: "¿Estás seguro de eliminar este registro?",
       icon: "question",
       showCancelButton: true,
-      confirmButtonText: "Eliminar",
-      confirmButtonColor: "#15212f",
+    
       cancelButtonColor: "#af8c55",
       cancelButtonText: "Cancelar",
+      confirmButtonText: "Eliminar",
+      confirmButtonColor: "#15212f",
     }).then((result) => {
       if (result.isConfirmed) {
         const data = { Id: cellValues.row.Id,IdUsuario:localStorage.getItem("IdUsuario") };
@@ -274,8 +275,8 @@ const Catalogos = () => {
           <Grid container sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
             <Grid item xl={8} xs={8} lg={8} md={8} sm={8} sx={{ display: "flex", justifyContent: "space-evenly" }}>
               <TabList onChange={handleChange} aria-label="lab API tabs example">
-                <Tab label="Tipo Entidades " value="TipoEntidades" sx={{ fontSize: [30, 30, 30, 30, 30], }} />
-                <Tab label="Entidades" value="Entidades" sx={{ fontSize: [30, 30, 30, 30, 30], }} />
+                <Tab label="Tipo de entidades " value="TipoEntidades" sx={{ fontSize: [30, 30, 30, 30, 30], }} style={{ textTransform: 'none' }}/>
+                <Tab label="Entidades" value="Entidades" sx={{ fontSize: [30, 30, 30, 30, 30], }} style={{ textTransform: 'none' }} />
               </TabList>
             </Grid>
             <Grid item xl={2} xs={2} lg={2} md={2} sm={2} sx={{ display: "flex", justifyContent: "space-evenly" }}>

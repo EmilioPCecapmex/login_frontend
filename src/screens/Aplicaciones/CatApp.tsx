@@ -192,10 +192,11 @@ export default function CatApps() {
       // text: ` ${cellValues.row.Nombre}`,
       icon: "question",
       showCancelButton: true,
-      confirmButtonText: "Eliminar",
-      confirmButtonColor: "#15212f",
+      
       cancelButtonColor: "#af8c55",
       cancelButtonText: "Cancelar",
+      confirmButtonText: "Eliminar",
+      confirmButtonColor: "#15212f",
     }).then((result) => {
       if (result.isConfirmed) {
         const data = { IdApp: cellValues.row.Id };
@@ -350,7 +351,7 @@ export default function CatApps() {
                     fontSize: "1rem",
                   },
                 }}>
-                  registrar aplicación
+                  Registrar aplicación
                 </Typography>
               </Button>
             </CardContent>

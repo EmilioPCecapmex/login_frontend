@@ -893,7 +893,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
                 }}
                 sx={{ fontFamily: "MontserratRegular", mr: 2 }}
               >
-                Eliminar Usuario
+                Eliminar usuario
               </Button>
             )}
           </Grid>
@@ -907,7 +907,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
               }}
               sx={{ fontFamily: "MontserratRegular" }}
             >
-              {IdUsuario ? "Solicitar Modificación" : "Solicitar Usuario"}
+              {IdUsuario ? "Solicitar modificación" : "Solicitar usuario"}
             </Button>
           </Grid>
 

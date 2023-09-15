@@ -75,8 +75,9 @@ export const TimerCounter = () => {
       )}, el tiempo de tu sesión esta a punto de expirar. ¿Deseas renovar el tiempo de sesión?`,
       icon: "question",
       showCancelButton: true,
-      confirmButtonColor: "#000E4E",
-      cancelButtonColor: "#A40000",
+      
+      confirmButtonColor: "#15212f",
+      cancelButtonColor: "#af8c55",
       confirmButtonText: "Renovar",
       cancelButtonText: "Salir",
       allowOutsideClick: false,
