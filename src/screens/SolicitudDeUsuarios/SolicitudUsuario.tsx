@@ -269,7 +269,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             </div>
           </div>`,
 
-        confirmButtonColor: "#15212f",
+        // confirmButtonColor: "#15212f",
         confirmButtonText: "Aceptar",
         customClass: {
           confirmButton: "aceptar" // Agrega una clase CSS personalizada al botón de confirmación
@@ -419,14 +419,18 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     }
   }, [apps]);
 
-  const cleanData = (CorreoElectronico: string, usuario: string) => {
+  const cleanData = (
+    // CorreoElectronico: string, usuario: string
+    ) => {
     setInfoUsuario({
       ...infoUsuario,
       Nombre: "",
       ApellidoPaterno: "",
       ApellidoMaterno: "",
-      NombreUsuario: usuario,
-      CorreoElectronico: CorreoElectronico,
+      NombreUsuario:"",
+      //  usuario,
+      CorreoElectronico: "",
+        // CorreoElectronico,
       Puesto: "",
       CURP: "",
       RFC: "",
@@ -457,6 +461,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
         )
         .then((r) => {
           const data = r.data.result[0];
+          console.log(data);
 
           if (data) {
             setExisteCorreo(true);
@@ -477,16 +482,16 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             });
           } else {
             setExisteCorreo(false);
-            cleanData(CorreoElectronico, "");
+            // cleanData(CorreoElectronico, "");
           }
         })
         .catch((err) => {
           setExisteCorreo(false);
-          cleanData(CorreoElectronico, "");
+          // cleanData(CorreoElectronico, "");
         });
     } else {
       setExisteCorreo(false);
-      cleanData(CorreoElectronico, "");
+      // cleanData(CorreoElectronico, "");
     }
   };
 
@@ -547,7 +552,8 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
               ...infoUsuario,
               CorreoElectronico: v.target.value,
             });
-            existeEmail(v.target.value);
+            
+              existeEmail(v.target.value);
           }}
         />
       </Grid>
@@ -690,7 +696,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           disabled={existeCorreo}
           fullWidth
           sx={{ mr: 4 }}
-          label="Celular"
+          label="Teléfono Móbil"
           value={infoUsuario.Celular}
           inputProps={{ maxLength: 10 }}
           variant="standard"
@@ -758,9 +764,10 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           noOptionsText="No se encontraron opciones"
           clearText="Borrar"
           closeText="Cerrar"
+          openText="Abrir"
           disabled={props.idApp !== "" || IdUsuario !== ""}
           options={apps}
-          getOptionLabel={(app) => app.Nombre || "Seleccione aplicacion"}
+          getOptionLabel={(app) => app.Nombre || "Seleccione Aplicación"}
           value={infoUsuario.Aplicacion}
           onChange={(event, v) => {
             if (v !== null) {
@@ -788,8 +795,9 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           noOptionsText="No se encontraron opciones"
           clearText="Borrar"
           closeText="Cerrar"
+          openText="Abrir"
           options={usertypes}
-          getOptionLabel={(ut) => ut.Nombre || "Seleccione Tipo de usuario"}
+          getOptionLabel={(ut) => ut.Nombre || "Seleccione Tipo de Usuario"}
           value={infoUsuario.TipoUsuario}
           onChange={(event, v) => {
             setInfoUsuario({
@@ -814,6 +822,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           noOptionsText="No se encontraron opciones"
           clearText="Borrar"
           closeText="Cerrar"
+          openText="Abrir"
           options={roles}
           getOptionLabel={(rol) => rol.Nombre || "Seleccione Roles"}
           value={infoUsuario.Roles}
@@ -837,8 +846,9 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           noOptionsText="No se encontraron opciones"
           clearText="Borrar"
           closeText="Cerrar"
+          openText="Abrir"
           options={entidades}
-          getOptionLabel={(entidad) => entidad.Nombre || "Seleccione entidad"}
+          getOptionLabel={(entidad) => entidad.Nombre || "Seleccione Entidad"}
           value={infoUsuario.Entidad}
           onChange={(event, v) => {
             if (v != null) {
@@ -866,22 +876,41 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
 
         display={"flex"}
         justifyContent="space-between"
-      ><Grid item xs={6} sm={6} md={6} lg={6} xl={6} >
-          <FormControlLabel
-            control={
-              <Switch
-                checked={infoUsuario.PuedeFirmar}
-                onChange={(v) =>
-                  setInfoUsuario({
-                    ...infoUsuario,
-                    PuedeFirmar: !infoUsuario.PuedeFirmar,
-                  })
-                }
-              />
-            }
-            label={infoUsuario.PuedeFirmar ? "Puede firmar" : "No puede firmar"}
-          /></Grid>
-        <Grid item xs={6} sm={6} md={6} lg={6} xl={6}sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+      >
+        <Grid item container xs={6} sm={6} md={6} lg={6} xl={6} sx={{display: "flex",}}>
+          <Grid item xs={6} sm={6} md={6} lg={6} xl={6} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={infoUsuario.PuedeFirmar}
+                  onChange={(v) =>
+                    setInfoUsuario({
+                      ...infoUsuario,
+                      PuedeFirmar: !infoUsuario.PuedeFirmar,
+                    })
+                  }
+                />
+              }
+              label={infoUsuario.PuedeFirmar ? "Puede firmar" : "No puede firmar"}
+            />
+          </Grid>
+          <Grid item xs={6} sm={6} md={6} lg={6} xl={6} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <Button
+              className="aceptar"
+              onClick={() => {
+                // navigate(-1);
+                cleanData();
+              }}
+              sx={{ fontFamily: "MontserratRegular", mr: 2 }}
+            >
+              Limpiar Datos
+            </Button>
+          </Grid>
+
+
+
+        </Grid>
+        <Grid item xs={6} sm={6} md={6} lg={6} xl={6} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
           <Grid item xs={6} sm={6} md={6} lg={6} xl={6} sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
 
             {IdUsuario && (
@@ -893,7 +922,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
                 }}
                 sx={{ fontFamily: "MontserratRegular", mr: 2 }}
               >
-                Eliminar usuario
+                Eliminar Usuario
               </Button>
             )}
           </Grid>
@@ -907,7 +936,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
               }}
               sx={{ fontFamily: "MontserratRegular" }}
             >
-              {IdUsuario ? "Solicitar modificación" : "Solicitar usuario"}
+              {IdUsuario ? "Solicitar Modificación" : "Solicitar Usuario"}
             </Button>
           </Grid>
 
@@ -917,7 +946,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       </Grid>
       <Dialog open={bajaUsuario} onClose={() => setBajaUsuario(false)}>
         <DialogTitle sx={{ fontFamily: "MontserratSemiBold" }}>
-          Baja de usuario
+          Baja de Usuario
         </DialogTitle>
         <DialogContent sx={{ fontFamily: "MontserratRegular" }}>
           ¿Está seguro que desea solicitar la baja de este usuario?

@@ -111,7 +111,7 @@ export const NewDialog = (props: NewDialogProps) => {
               color: "#AF8C55"
             }}>
 
-            {props.idUsuario ? "Editar usuario" : "Registro de usuario"}
+            {props.idUsuario ? "Editar Usuario" : "Registro de Usuario"}
           </Typography>
         </Grid>
         <Grid
