@@ -110,6 +110,7 @@ export const NewDialogApp = (props: NewDialogProps) => {
               variant="standard"
               value={nombre}
               required
+              inputProps={{ maxLength: 3000 }}
               onChange={(v) => setNombre(v.target.value)}
               autoFocus
             />
@@ -125,6 +126,7 @@ export const NewDialogApp = (props: NewDialogProps) => {
               variant="standard"
               value={path}
               required
+              inputProps={{ maxLength: 200 }}
               onChange={(v) => setPath(v.target.value)}
               onKeyDown={handleKeyDown}
             />
@@ -141,6 +143,7 @@ export const NewDialogApp = (props: NewDialogProps) => {
               multiline
               rows={4}
               value={descripcion}
+              inputProps={{ maxLength: 5000 }}
               onChange={(v) => setDescripcion(v.target.value)}
             />
           </Grid>
