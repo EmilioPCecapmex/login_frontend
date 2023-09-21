@@ -351,7 +351,7 @@ export default function CatApps() {
                     fontSize: "1rem",
                   },
                 }}>
-                  Registrar aplicación
+                  Registrar Aplicación
                 </Typography>
               </Button>
             </CardContent>
