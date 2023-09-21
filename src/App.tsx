@@ -10,6 +10,8 @@ import { SolicitudUsuario } from "./screens/SolicitudDeUsuarios/SolicitudUsuario
 import Users from "./screens/Users/Users";
 import { Documentos } from "./screens/ValidadorDE/Documentos";
 import Solicitudes from "./screens/solicitudes/Solicitudes";
+import Ayuda from "./screens/Ayuda/Ayuda";
+
 
 const App = () => {
   return (
@@ -23,6 +25,7 @@ const App = () => {
         <Route path="/app" element={<CatApps />} />
         <Route path="/validador" element={<Documentos />} />
         <Route path="/catalogos" element={<Catalogos />} />
+        <Route path="/ayuda" element={<Ayuda />} />
         <Route
           path="/generarSolicitud"
           element={

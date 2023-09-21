@@ -323,7 +323,7 @@ export default function Users() {
                 <PeopleAltIcon sx={{ color: "#AF8C55", fontSize: [30, 30, 30, 40, 40] }} />
               </CardContent>
             </Tooltip>
-            <Tooltip title="Menu actual">
+            
               <Typography
                 fontFamily={"'Montserrat', sans-serif"}
                 sx={{
@@ -336,7 +336,7 @@ export default function Users() {
                 }}>
                 Usuarios
               </Typography>
-            </Tooltip>
+            
           </Grid>
 
           <CardContent sx={{

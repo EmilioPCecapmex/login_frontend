@@ -50,7 +50,7 @@ export function Menus({
   const columnsAsignados = [
     {
       field: "Menu",
-      headerName: "Menu",
+      headerName: "Menú",
       flex: 4,
       headerAlign: "center",
       align: "left",
@@ -121,7 +121,7 @@ export function Menus({
       },
     }, {
       field: "Menu",
-      headerName: "Menu",
+      headerName: "Menú",
       flex: 4,
       headerAlign: "center",
       align: "right"
@@ -342,7 +342,7 @@ export function Menus({
                         fontSize: [20, 20, 20, 25, 25], // Tamaños de fuente para diferentes breakpoints
                         
                     }}
-                  >Menús relacionados al rol</Typography>
+                  >Menús Relacionados al Rol</Typography>
                 </Grid>
 
                 <Grid
@@ -485,7 +485,7 @@ export function Menus({
                         fontSize: [20, 20, 20, 25, 25], // Tamaños de fuente para diferentes breakpoints
                         
                     }}
-                  >Menús disponibles para relacionar al menú</Typography>
+                  >Menús Disponibles para Relacionar al Menú</Typography>
                 </Grid>
 
                 <Grid

@@ -127,7 +127,7 @@ export const EditDialogApp = (props: EditDialogProps) => {
       aria-describedby="edit-dialog-description"
     >
       <DialogTitle id="edit-dialog-title">
-        Editar aplicación
+        Editar Aplicación
         <IconButton
           aria-label="close"
           onClick={() => props.handleEditDialogClose()}
