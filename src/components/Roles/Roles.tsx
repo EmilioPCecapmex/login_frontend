@@ -89,7 +89,7 @@ export function Roles({
                 <EditIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title={"Editar acceso a Menus"}>
+            <Tooltip title={"Editar Acceso a Menús"}>
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {

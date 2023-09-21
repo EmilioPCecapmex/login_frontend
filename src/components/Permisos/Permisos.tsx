@@ -301,7 +301,7 @@ export function Permisos({ open, closeModal, menu, idApp, idRol }: { open: boole
                                             fontSize: [20, 20, 20, 25, 25], // Tamaños de fuente para diferentes breakpoints
                                             
                                         }}
-                                    >Permisos asignados al menú</Typography>
+                                    >Permisos Asignados al Menú</Typography>
                                 </Grid>
 
                                 <Grid
@@ -404,7 +404,7 @@ export function Permisos({ open, closeModal, menu, idApp, idRol }: { open: boole
                                             fontSize: [20, 20, 20, 25, 25], // Tamaños de fuente para diferentes breakpoints
                                             
                                         }}
-                                    >Permisos disponibles para asignar al menú</Typography>
+                                    >Permisos Disponibles para Asignar al Menú</Typography>
                                 </Grid>
 
                                 <Grid

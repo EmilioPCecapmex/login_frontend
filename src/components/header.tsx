@@ -21,6 +21,7 @@ import { COLOR } from "../screens/styles/colors";
 import { TimerCounter } from "./timer/timer";
 import MenuIcon from '@mui/icons-material/Menu';
 import BusinessIcon from '@mui/icons-material/Business';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -164,7 +165,7 @@ export const Header = () => {
               },
             }}
           > <>
-          <Tooltip title="Menu">
+          <Tooltip title="Menú">
               <IconButton
                 
                 onClick={handleMenu}
@@ -207,7 +208,9 @@ export const Header = () => {
                 <MenuItem onClick={() => navigate("../app")}><AppsIcon sx={{mr:"10px"}} />Aplicaciones</MenuItem>
                 <MenuItem onClick={() => navigate("../catalogos")}><BusinessIcon sx={{mr:"10px"}} />Entidades</MenuItem>
                 <MenuItem onClick={() => navigate("../solicitudes")}><PostAddIcon sx={{mr:"10px"}}/>Solicitudes</MenuItem>
-                <MenuItem onClick={() => logoutFnc()}><PowerSettingsNewIcon sx={{mr:"10px"}} />Cerrar sesión </MenuItem>
+                <MenuItem onClick={() => navigate("../ayuda")}><InfoOutlinedIcon sx={{mr:"10px"}} />Guias y Tutoriales</MenuItem>
+                <MenuItem onClick={() => logoutFnc()}><PowerSettingsNewIcon sx={{mr:"10px"}} />Cerrar Sesión </MenuItem>
+                
               </Menu>
               </>
           </Grid>

@@ -150,7 +150,7 @@ export const Create = ({
       maxWidth={"sm"}
     >
       <DialogTitle>
-        {data.Id !== "" ? "Editar elemento:" : "Crear elemento:"}
+        {data.Id !== "" ? "Editar Elemento:" : "Crear Elemento:"}
       </DialogTitle>
       <DialogContent
         sx={{

@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import WarningIcon from "@mui/icons-material/Warning";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { Dialog } from "@mui/material";
 
 export default function AlertModal({
@@ -22,19 +23,19 @@ export default function AlertModal({
       case "success":
         return (
           <DoneAllIcon
-            sx={{ width: "10vw", height: "10vh", color: "#31B214" }}
+            sx={{ color: "#AF8C55", fontSize: [80,100,100,100,100] }}
           />
         );
       case "warning":
         return (
           <WarningIcon
-            sx={{ width: "10vw", height: "10vh", color: "#E1E137" }}
+            sx={{color: "#AF8C55", fontSize: [80,100,100,100,100] }}
           />
         );
       case "error":
         return (
-          <HighlightOffIcon
-            sx={{ width: "10vw", height: "10vh", color: "#f64e60" }}
+          <InfoOutlinedIcon
+            sx={{color: "#AF8C55", fontSize: [80,100,100,100,100] }}
           />
         );
       default:
@@ -52,18 +53,22 @@ export default function AlertModal({
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              mt:"2vh"
             }}
           >
-            <UseIcon v={type} />
+            <UseIcon v={type}  />
           </Box>
 
           <Box sx={{ mt: "10%" }}>
             <Typography
+              fontFamily={"'Montserrat', sans-serif"}
               sx={{
+                // whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
                 textAlign: "center",
-                fontFamily: "MontserratBold",
-                fontSize: "1vw",
-                color: "#808080",
+                fontSize: [20, 20, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
+                color: "#AF8C55"
               }}
             >
               {text}
@@ -78,8 +83,8 @@ export default function AlertModal({
               mt: "10%",
             }}
           >
-            <Button onClick={() => closeM()}> <Typography sx={{fontFamily: 'MontserratSemiBold'}}> Hecho </Typography> </Button>
-          </Box>
+            <Button className="aceptar" onClick={() => closeM()} sx={{mb:"2vh"}}> <Typography sx={{fontFamily: 'MontserratSemiBold'}}> Hecho </Typography> </Button>
+          </Box> 
         </Box>
       </Dialog>
   );
