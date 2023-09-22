@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Grid,
   Input,
   Typography,
   useMediaQuery,
@@ -117,14 +118,19 @@ export const Forgot = () => {
   };
 
   return (
-    <Box sx={st.parentBox}>
+    <Grid container sx={{ width: "100vw", height: "100vh" }}>
       <AlertModal
         openM={openModal}
         closeM={handleCloseModal}
         type={modalType}
         text={modalText}
       />
-      <Box sx={st.horizontalBox}>
+      <Grid item xl={12}
+        xs={12}
+        lg={12}
+        md={12}
+        sm={12}
+        sx={{ height: "95%" }}>
         <Box sx={st.centerBox}>
           <Box sx={st.loginBox}>
             <Box sx={st.contentBox}>
@@ -184,12 +190,48 @@ export const Forgot = () => {
             </Box>
           </Box>
         </Box>
-      </Box>
-      <Box sx={st.footer}>
-        <Box>{actualYear()}</Box>
-        <Box sx={st.footerCenterText}>{ls.footerSecondText}</Box>
-        <Box>{ls.footerThirdText}</Box>
-      </Box>
-    </Box>
+      </Grid>
+
+      <Grid item container xl={12}
+        xs={12}
+        lg={12}
+        md={12}
+        sm={12}
+        sx={{
+          height: "5%",
+          backgroundColor: "#f3f6f9",
+          fontFamily: "MontserratSemiBold",
+          fontSize: ".6vw",
+          color: "#808080",
+          display:"flex",
+          justifyContent:"space-between",
+          alignItems:"center"
+        }}>
+          <Grid item container xl={3}
+            xs={3}
+            lg={3}
+            md={3}
+            sm={3} sx={{display:"flex",justifyContent:"center"}}>
+              <Typography sx={{fontSize: [15, 15, 15, 15, 20],}}>{actualYear()}</Typography>
+              
+            </Grid>
+          <Grid item container xl={4}
+            xs={6}
+            lg={4}
+            md={4}
+            sm={4} sx={{display:"flex",justifyContent:"center"}}>
+              <Typography sx={{fontSize: [15, 15, 15, 15, 20],}}>{ls.footerSecondText}</Typography>
+              
+            </Grid>
+          <Grid item container xl={3}
+            xs={3}
+            lg={3}
+            md={3}
+            sm={3}sx={{display:"flex",justifyContent:"center"}}>
+              <Typography sx={{fontSize: [15, 15, 15, 15, 20],}}>{ls.footerThirdText}</Typography>
+              
+            </Grid>
+      </Grid>
+    </Grid>
   );
 };
