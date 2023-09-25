@@ -535,7 +535,7 @@ export const EditDialog = (props: EditDialogProps) => {
               sx={{ fontFamily: "MontserratRegular" }}
               onClick={() => handleClickOpenDelete()}
             >
-              Eliminar Usuario
+              Eliminar suario
             </Button>
         <Button
           className="cancelar"

@@ -23,6 +23,9 @@ import { Menus } from "../menus/Menus";
 import { getRoles } from "./RolesServices";
 import ButtonsAdd from "../../screens/Componentes/ButtonsAdd";
 import { DialogRoles } from "./DialogRoles";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { alertaError, alertaExito } from "../alertas/toast";
 
 export interface IRol {
   ControlInterno: string;
@@ -52,7 +55,7 @@ export function Roles({
 
   const [openMenus, setOpenMenu] = useState(false);
   const [openDialogRoles, setOpenDialogRoles] = useState(false);
-  const [movimiento, setMovimiento] = useState("agregar");
+  const [movimiento, setMovimiento] = useState("Agregar");
   const [registroData, setRegistroData] = useState<IRol>({
     ControlInterno: "",
     Deleted: 0,
@@ -79,14 +82,14 @@ export function Roles({
                 sx={{ color: "black" }}
                 onClick={(event) => {
                   setRegistroData(cellValues.row);
-                  setMovimiento("editar");
+                  setMovimiento("Editar");
                   setOpenDialogRoles(true);
                 }}
               >
                 <EditIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title={"Editar acceso a Menus"}>
+            <Tooltip title={"Editar Acceso a Menús"}>
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
@@ -109,9 +112,10 @@ export function Roles({
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
-                  setRegistroData(cellValues.row);
-                  setMovimiento("eliminar");
-                  setOpenDialogRoles(true);
+                  handleDeleteBtnClick(cellValues);
+                  // setRegistroData(cellValues.row);
+                  // setMovimiento("eliminar");
+                  // setOpenDialogRoles(true);
                 }}
               >
                 <DeleteIcon />
@@ -168,6 +172,42 @@ export function Roles({
     if (!openDialogRoles) getRoles(idApp, setRoles, () => setBandera(true));
   }, [openDialogRoles]);
 
+
+  const handleDeleteBtnClick = (cellValues: any) => {
+    console.log(cellValues);
+    
+    Swal.fire({
+      title: "¿Estás seguro de eliminar este registro?",
+      icon: "question",
+      showCancelButton: true,
+      
+      cancelButtonColor: "#af8c55",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Eliminar",
+      confirmButtonColor: "#15212f",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const data = {...cellValues.row,  IdUsuario: localStorage.getItem("IdUsuario") || "",IdApp: idApp, };
+        axios({
+          method: "delete",
+          url: process.env.REACT_APP_APPLICATION_DEV + `/api/rol`,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("jwtToken") || "",
+          },
+          data: data,
+        })
+          .then(function (response) {
+            alertaExito(()=>{},"¡Registro eliminado!");
+            getRoles(idApp, setRoles, () => setBandera(true));
+          })
+          .catch(function (error) {
+            alertaError();
+          });
+      }
+    });
+  };
+
   return (
     <Dialog open={open} fullScreen>
       {!bandera ? (
@@ -223,7 +263,7 @@ export function Roles({
                   color: "#AF8C55"
                 }}>
 
-                ROLES
+                Roles
               </Typography>
             </Grid>
             <Grid
@@ -360,7 +400,7 @@ export function Roles({
                 >
                   <ButtonsAdd
                     handleOpen={() => {
-                      setMovimiento("agregar");
+                      setMovimiento("Agregar");
                       setOpenDialogRoles(true);
                     }}
                     agregar={true}

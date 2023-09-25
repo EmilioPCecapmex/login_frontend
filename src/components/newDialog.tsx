@@ -5,8 +5,10 @@ import {
   Dialog,
   DialogContent,
   Grid,
+  IconButton,
   Slide,
   Toolbar,
+  Tooltip,
   Typography,
   createTheme,
 } from "@mui/material";
@@ -14,6 +16,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import { forwardRef, useEffect } from "react";
 import { SolicitudUsuario } from "../screens/SolicitudDeUsuarios/SolicitudUsuario";
 import { Header } from "./header";
+import { GridCloseIcon } from "@mui/x-data-grid";
 
 export interface NewDialogProps {
   newDialogOpen: boolean;
@@ -52,7 +55,11 @@ export const theme = createTheme({
 });
 
 export const NewDialog = (props: NewDialogProps) => {
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log(props);
+
+  }, [])
+
 
   return (
     <Dialog
@@ -61,36 +68,89 @@ export const NewDialog = (props: NewDialogProps) => {
       TransitionComponent={Transition}
       onClose={() => props.handleNewDialogClose()}
     >
-      <AppBar sx={{ position: "relative" }}>
-        <Toolbar sx={{ justifyContent: "space-between" }}>
-          <Typography sx={{ fontSize: "1.5rem" }}>
-            Registro de usuario
-          </Typography>
+    <Grid container sx={{display:"flex",height:"100vh",width:"100vw"}}>
+      <Grid
+        container
+        item
+        xl={12}
+        xs={12}
+        lg={12}
+        md={12}
+        sm={12}
+        sx={{
+          height: "10vh",
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "center",
+          border: "1px solid"
+          // bgcolor: "#c4a57b",
+        }}
+      >
+        <Grid
+          item
+          xl={10}
+          xs={10}
+          lg={10}
+          md={10}
+          sm={10}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
 
-          <ThemeProvider theme={theme}>
-            <Button
-              sx={{
-                backgroundColor: "white",
-                color: "black",
-                "&&:hover": {
-                  backgroundColor: "rgba(165, 161, 156, 0.9)",
-                  color: "white",
-                },
-                fontSize: "90%",
-                borderRadius: "0.8vh",
-                textTransform: "capitalize",
-              }}
+          }}
+        >
+          <Typography
+            fontFamily={"'Montserrat', sans-serif"}
+            sx={{
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              textAlign: "center",
+              fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
+              color: "#AF8C55"
+            }}>
+
+            {props.idUsuario ? "Editar Usuario" : "Registro de Usuario"}
+          </Typography>
+        </Grid>
+        <Grid
+          item
+          xl={1}
+          xs={1}
+          lg={1}
+          md={1}
+          sm={1}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+
+          }}
+        >
+          <Tooltip title={"Salir"}>
+            <IconButton
               onClick={() => {
                 props.handleNewDialogClose();
               }}
             >
-              <Typography>Cancelar</Typography>
-            </Button>
-          </ThemeProvider>
-        </Toolbar>
-      </AppBar>
-      <DialogContent
-        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+              <GridCloseIcon sx={{
+                fontSize: [30, 30, 30, 40, 40]
+              }} />
+            </IconButton>
+          </Tooltip>
+        </Grid>
+      </Grid>
+ 
+      <Grid
+      container
+      item
+      xl={12}
+      xs={12}
+      lg={12}
+      md={12}
+      sm={12}
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center", height:"90vh"}}
       >
         <SolicitudUsuario
           handleDialogClose={props.handleNewDialogClose}
@@ -100,20 +160,9 @@ export const NewDialog = (props: NewDialogProps) => {
           idUsuarioModificado={props.idUsuario}
           idApp={props.idApp}
         />
-      </DialogContent>
+      </Grid>
+      </Grid>
     </Dialog>
-    // <Grid>
-    //   <Header />
-
-    //   <Grid container justifyContent="center" height={"85vh"}>
-    //     <SolicitudUsuario
-    //       handleDialogClose={props.handleNewDialogClose}
-    //       modoModal={false}
-    //       token={""}
-    //       idUsuarioSolicitante={""}
-    //       idApp={""}
-    //     />
-    //   </Grid>
-    // </Grid>
+    
   );
 };

@@ -82,7 +82,7 @@ export const NewDialogApp = (props: NewDialogProps) => {
     >
       {/* pantalla modal, para agregar una aplicación nueva */}
       <DialogTitle id="edit-dialog-title">
-        Registro de Aplicación
+        Registrar aplicación
         <IconButton
           aria-label="close"
           onClick={() => props.handleNewDialogClose()}

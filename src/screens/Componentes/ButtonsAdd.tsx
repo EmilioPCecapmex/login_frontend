@@ -1,5 +1,5 @@
 import AddIcon from "@mui/icons-material/Add";
-import { Tooltip, ToggleButton } from "@mui/material";
+import { Tooltip, ToggleButton, Box } from "@mui/material";
 
 const ButtonsAdd = ({
   handleOpen,
@@ -9,7 +9,7 @@ const ButtonsAdd = ({
   agregar: boolean;
 }) => {
   return (
-    <>
+    <Box>
       {agregar ? (
           <Tooltip
             title={"Agregar"}>
@@ -21,7 +21,7 @@ const ButtonsAdd = ({
       ) : (
         ""
       )}
-    </>
+    </Box>
   );
 };
 

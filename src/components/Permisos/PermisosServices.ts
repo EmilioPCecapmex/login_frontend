@@ -1,4 +1,5 @@
 import axios from "axios";
+import { alertaError, alertaExito } from "../alertas/toast";
 
 export const getPermisosMenu = (
   IdMenu: string,
@@ -78,15 +79,11 @@ export const createPermisoMenuRol = (
     },
   })
     .then((r) => {
-      //   if(data.data[0].Id){
-      //  setState(data.data)
-      //   }
-      //   // setTimeout(() => {
-
-      //   // }, 750);
+      alertaExito(()=>{});
       fnc();
     })
     .catch(() => {
+      alertaError();
       fnc();
     });
 };
@@ -102,9 +99,11 @@ export const deletePermisoMenuRol = (IdRelacion: string, fnc: Function) => {
     },
   })
     .then((r) => {
+      alertaExito(()=>{});
       fnc();
     })
     .catch(() => {
+      alertaError();
       fnc();
     });
 };

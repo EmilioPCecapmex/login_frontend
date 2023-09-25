@@ -258,16 +258,26 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       Toast.fire({
         icon: "info",
         html: `
-        <div style="height:50%; width:100%;">
-        <h3>Se han encontrado los siguientes errores:</h3>
-        <div style="text-align: left; margin-left: 10px; color: black; height: auto; overflow: auto;">
-      <small>
-      <strong>
-      *</strong>${err.join("<br><strong>*</strong>")}
-      </small>
-      </div>
-      </div>`,
+          <div style="height:50%; width:100%;">
+            <h3>Se han encontrado los siguientes errores:</h3>
+            <div style="text-align: left; margin-left: 10px; color: black; height: auto; overflow: auto;">
+              <small>
+                <strong>
+                  *
+                </strong>${err.join("<br><strong>*</strong>")}
+              </small>
+            </div>
+          </div>`,
+
+        // confirmButtonColor: "#15212f",
+        confirmButtonText: "Aceptar",
+        customClass: {
+          confirmButton: "aceptar" // Agrega una clase CSS personalizada al botón de confirmación
+        }
+
       });
+
+
     } else {
       handleStoreBtn();
     }
@@ -292,10 +302,10 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       TipoSolicitud: bajaUsuario
         ? "BAJA"
         : existeCorreo
-        ? "VINCULACION"
-        : IdUsuario
-        ? "MODIFICACION"
-        : "ALTA",
+          ? "VINCULACION"
+          : IdUsuario
+            ? "MODIFICACION"
+            : "ALTA",
       IdApp: infoUsuario.Aplicacion.Id,
       CreadoPor: props.idUsuarioSolicitante
         ? props.idUsuarioSolicitante
@@ -320,8 +330,10 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             res.data.data[0][0].Respuesta === "403"
           )
             Swal.fire({
-              icon: "error",
+              icon: "info",
               title: "Mensaje",
+              iconColor: "#af8c55",
+              color: "#af8c55",
               text: res.data.data[0][0].Mensaje,
             });
 
@@ -329,7 +341,12 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             Swal.fire({
               icon: "success",
               title: "Mensaje",
-              text: res.data.data[0][0].Mensaje,
+              text: "¡Se creo la solicitud!",
+              confirmButtonColor: "#15212f",
+              confirmButtonText: "Aceptar",
+              customClass: {
+                confirmButton: "aceptar" // Agrega una clase CSS personalizada al botón de confirmación
+              }
             }).then((result) => {
               if (result.isConfirmed) {
                 props.handleDialogClose(false);
@@ -340,8 +357,10 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           // setUserTypes(res?.data?.data);
         } else {
           Swal.fire({
-            icon: "error",
+            icon: "info",
             title: "Mensaje",
+            iconColor: "#af8c55",
+            color: "#af8c55",
             text: "(" + res.response.status + ") ",
           });
           setBajaUsuario(false);
@@ -349,8 +368,10 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       })
       .catch((error) => {
         Swal.fire({
-          icon: "error",
+          icon: "info",
           title: "Mensaje",
+          iconColor: "#af8c55",
+          color: "#af8c55",
           text: "Error al realizar el registro",
         });
       });
@@ -398,14 +419,18 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     }
   }, [apps]);
 
-  const cleanData = (CorreoElectronico: string, usuario: string) => {
+  const cleanData = (
+    // CorreoElectronico: string, usuario: string
+    ) => {
     setInfoUsuario({
       ...infoUsuario,
       Nombre: "",
       ApellidoPaterno: "",
       ApellidoMaterno: "",
-      NombreUsuario: usuario,
-      CorreoElectronico: CorreoElectronico,
+      NombreUsuario:"",
+      //  usuario,
+      CorreoElectronico: "",
+        // CorreoElectronico,
       Puesto: "",
       CURP: "",
       RFC: "",
@@ -436,6 +461,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
         )
         .then((r) => {
           const data = r.data.result[0];
+          console.log(data);
 
           if (data) {
             setExisteCorreo(true);
@@ -456,16 +482,16 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             });
           } else {
             setExisteCorreo(false);
-            cleanData(CorreoElectronico, "");
+            // cleanData(CorreoElectronico, "");
           }
         })
         .catch((err) => {
           setExisteCorreo(false);
-          cleanData(CorreoElectronico, "");
+          // cleanData(CorreoElectronico, "");
         });
     } else {
       setExisteCorreo(false);
-      cleanData(CorreoElectronico, "");
+      // cleanData(CorreoElectronico, "");
     }
   };
 
@@ -492,7 +518,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             setExisteNUsuario(false);
           }
         })
-        .catch((err) => {});
+        .catch((err) => { });
     } else {
       setExisteNUsuario(false);
     }
@@ -516,8 +542,8 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             !isValidEmail() && infoUsuario.CorreoElectronico.length > 0
               ? "Ingresa correo válido: correo@correo.com | correo@correo.com.mx"
               : isValidEmail() && infoUsuario.CorreoElectronico.length > 0
-              ? "Correo válido"
-              : ""
+                ? "Correo válido"
+                : ""
           }
           value={infoUsuario.CorreoElectronico}
           inputProps={{ maxLength: 100 }}
@@ -526,7 +552,8 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
               ...infoUsuario,
               CorreoElectronico: v.target.value,
             });
-            existeEmail(v.target.value);
+            
+              existeEmail(v.target.value);
           }}
         />
       </Grid>
@@ -541,11 +568,11 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           variant="standard"
           helperText={
             infoUsuario.NombreUsuario.length > 0 &&
-            infoUsuario.NombreUsuario.length < 4
+              infoUsuario.NombreUsuario.length < 4
               ? "Ingresa nombre de usuario de entre 4 a 30 dígitos"
               : existeNUsuario
-              ? "Nombre de usuario actualmente en uso"
-              : ""
+                ? "Nombre de usuario actualmente en uso"
+                : ""
           }
           value={infoUsuario.NombreUsuario}
           inputProps={{ minLength: 4, maxLength: 30 }}
@@ -669,7 +696,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           disabled={existeCorreo}
           fullWidth
           sx={{ mr: 4 }}
-          label="Celular"
+          label="Teléfono Móbil"
           value={infoUsuario.Celular}
           inputProps={{ maxLength: 10 }}
           variant="standard"
@@ -737,9 +764,10 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           noOptionsText="No se encontraron opciones"
           clearText="Borrar"
           closeText="Cerrar"
+          openText="Abrir"
           disabled={props.idApp !== "" || IdUsuario !== ""}
           options={apps}
-          getOptionLabel={(app) => app.Nombre || "Seleccione aplicacion"}
+          getOptionLabel={(app) => app.Nombre || "Seleccione Aplicación"}
           value={infoUsuario.Aplicacion}
           onChange={(event, v) => {
             if (v !== null) {
@@ -767,8 +795,9 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           noOptionsText="No se encontraron opciones"
           clearText="Borrar"
           closeText="Cerrar"
+          openText="Abrir"
           options={usertypes}
-          getOptionLabel={(ut) => ut.Nombre || "Seleccione Tipo de usuario"}
+          getOptionLabel={(ut) => ut.Nombre || "Seleccione Tipo de Usuario"}
           value={infoUsuario.TipoUsuario}
           onChange={(event, v) => {
             setInfoUsuario({
@@ -793,6 +822,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           noOptionsText="No se encontraron opciones"
           clearText="Borrar"
           closeText="Cerrar"
+          openText="Abrir"
           options={roles}
           getOptionLabel={(rol) => rol.Nombre || "Seleccione Roles"}
           value={infoUsuario.Roles}
@@ -816,8 +846,9 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           noOptionsText="No se encontraron opciones"
           clearText="Borrar"
           closeText="Cerrar"
+          openText="Abrir"
           options={entidades}
-          getOptionLabel={(entidad) => entidad.Nombre || "Seleccione entidad"}
+          getOptionLabel={(entidad) => entidad.Nombre || "Seleccione Entidad"}
           value={infoUsuario.Entidad}
           onChange={(event, v) => {
             if (v != null) {
@@ -837,55 +868,85 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       </Grid>
 
       <Grid
-        item
-        xs={10}
-        md={4.5}
+        item container
+
+        xs={10} sm={10} md={10} lg={10} xl={10}
+
+
+
         display={"flex"}
         justifyContent="space-between"
       >
-        <FormControlLabel
-          control={
-            <Switch
-              checked={infoUsuario.PuedeFirmar}
-              onChange={(v) =>
-                setInfoUsuario({
-                  ...infoUsuario,
-                  PuedeFirmar: !infoUsuario.PuedeFirmar,
-                })
+        <Grid item container xs={6} sm={6} md={6} lg={6} xl={6} sx={{display: "flex",}}>
+          <Grid item xs={6} sm={6} md={6} lg={6} xl={6} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={infoUsuario.PuedeFirmar}
+                  onChange={(v) =>
+                    setInfoUsuario({
+                      ...infoUsuario,
+                      PuedeFirmar: !infoUsuario.PuedeFirmar,
+                    })
+                  }
+                />
               }
+              label={infoUsuario.PuedeFirmar ? "Puede firmar" : "No puede firmar"}
             />
-          }
-          label={infoUsuario.PuedeFirmar ? "Puede firmar" : "No puede firmar"}
-        />
-        <Grid>
-          {IdUsuario && (
+          </Grid>
+          <Grid item xs={6} sm={6} md={6} lg={6} xl={6} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
             <Button
-              className="cancelar"
+              className="aceptar"
               onClick={() => {
                 // navigate(-1);
-                setBajaUsuario(true);
+                cleanData();
               }}
               sx={{ fontFamily: "MontserratRegular", mr: 2 }}
             >
-              Eliminar Usuario
+              Limpiar Datos
             </Button>
-          )}
+          </Grid>
 
-          <Button
-            className="aceptar"
-            onClick={() => {
-              // handleStoreBtn();
-              checkFill();
-            }}
-            sx={{ fontFamily: "MontserratRegular" }}
-          >
-            {IdUsuario ? "Solicitar Modificación" : "Solicitar Usuario"}
-          </Button>
+
+
+        </Grid>
+        <Grid item xs={6} sm={6} md={6} lg={6} xl={6} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <Grid item xs={6} sm={6} md={6} lg={6} xl={6} sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+
+            {IdUsuario && (
+              <Button
+                className="cancelar"
+                onClick={() => {
+                  // navigate(-1);
+                  setBajaUsuario(true);
+                }}
+                sx={{ fontFamily: "MontserratRegular", mr: 2 }}
+              >
+                Eliminar Usuario
+              </Button>
+            )}
+          </Grid>
+          <Grid item xs={6} sm={6} md={6} lg={6} xl={6} sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+
+            <Button
+              className="aceptar"
+              onClick={() => {
+                // handleStoreBtn();
+                checkFill();
+              }}
+              sx={{ fontFamily: "MontserratRegular" }}
+            >
+              {IdUsuario ? "Solicitar Modificación" : "Solicitar Usuario"}
+            </Button>
+          </Grid>
+
+
+
         </Grid>
       </Grid>
       <Dialog open={bajaUsuario} onClose={() => setBajaUsuario(false)}>
         <DialogTitle sx={{ fontFamily: "MontserratSemiBold" }}>
-          Baja de usuario
+          Baja de Usuario
         </DialogTitle>
         <DialogContent sx={{ fontFamily: "MontserratRegular" }}>
           ¿Está seguro que desea solicitar la baja de este usuario?
