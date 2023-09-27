@@ -144,61 +144,41 @@ export const Forgot = () => {
           item
           container
           xl={12}
-          xs={3}
-          lg={3}
-          md={3}
-          sm={3}
+          xs={12}
+          lg={12}
+          md={12}
+          sm={12}
           sx={{
-            height: "80%",
+            height: "100%",
             justifyContent: "center",
             alignItems: "center",
             display: "flex",
           }}
-          //sx={st.centerBox}
         >
-          <Grid
-            item
-            container
-            xl={12}
-            xs={8}
-            lg={10}
-            md={10}
-            sm={10}
-            //sx={st.loginBox}
-            sx={{
-              height: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-              display: "flex",
-            }}
-          >
+      
             <Grid
               item
               container
-              direction={"column"}
               xl={3}
               xs={3}
               lg={3}
               md={3}
               sm={3}
               sx={{
-                //height: "95%",
+                height: "50%",
                 justifyItems: "center",
                 alignItems: "center",
-                display: "flex",
               }}
             >
               <Grid
-                //height={"5%"}
                 container
                 item
                 xl={12}
-                lg={3}
-                md={3}
-                sm={3}
-                xs={3}
-                justifyContent="center"
-                alignItems="center"
+                lg={12}
+                md={12}
+                sm={12}
+                xs={12}
+                sx={{display:"flex",justifyContent:"center",alignItems:"center",height:"15vh"}}
               >
                 <img
                   alt="Logo"
@@ -211,60 +191,41 @@ export const Forgot = () => {
                 />
               </Grid>
 
-              <Grid item>
+              <Grid item xl={12} lg={12} md={12} sm={12} xs={12} sx={{display:"flex",justifyContent:"center",alignItems:"center",}}>
                 <Typography
                   sx={{
-                    // whiteSpace: "nowrap",
-                    // overflow: "hidden",
                     textOverflow: "ellipsis",
                     fontFamily: "MontserratSemiBold",
                     color: "#858180",
                     textAlign: "center",
                     fontSize: [15, 15, 15, 20, 20], // Tamaños de fuente para diferentes breakpoints
-                   
+
                   }}
                 >
                   {ls.signIn}
                 </Typography>
               </Grid>
 
-              <Grid item>
-                <Typography   sx={{
-                    // whiteSpace: "nowrap",
-                    // overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    
-                    fontFamily: "MontserratSemiBold",
-                    color: "#858180",
-                    textAlign: "center",
-                    fontSize: [10, 15, 15, 20, 10], // Tamaños de fuente para diferentes breakpoints
-                   
-                  }}>
+              <Grid item xl={12} lg={12} md={12} sm={12} xs={12} sx={{display:"flex",justifyContent:"center",alignItems:"center",}}>
+                <Typography sx={{
+                  textOverflow: "ellipsis",
+                  fontFamily: "MontserratSemiBold",
+                  color: "#858180",
+                  textAlign: "center",
+                  fontSize: [10, 10, 12, 12, 12], // Tamaños de fuente para diferentes breakpoints
+
+                }}>
                   {ls.secondaryText}
                 </Typography>
               </Grid>
 
-              <Grid
-                item
-                container
-                xl={12}
-                lg={3}
-                md={3}
-                sm={3}
-                xs={3}
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  width: "100%",
-                  height: "15%",
-                  mt: "2vh",
-                }}
-              >
+             
                 <Grid
                   item
+                  xl={12} lg={12} md={12} sm={12} xs={12} 
                   sx={{
                     borderRadius: 10,
-                    height: "100%",
+                    height: "7vh",
                     width: "100%",
                     fontFamily: "MontserratMedium",
                     //fontSize: ".8vw",
@@ -273,7 +234,6 @@ export const Forgot = () => {
                     display: "flex",
                     border: 1,
                     borderColor: "#cccccc",
-                    mb: "2vh",
                   }}
                   style={{ backgroundColor: userInputColor }}
                 >
@@ -283,40 +243,40 @@ export const Forgot = () => {
                     placeholder={ls.placeholderUser}
                     onChange={(v) => onChangeUsuario(v.target.value)}
                     id="usrPlaceholder"
-                    sx={{
-                      width: "80%",
-                      padding: "8px",
+                    sx={{display:"flex",
+                      width: "95%",
                       fontFamily: "MontserratRegular",
-                      fontSize: ".8vw",
+                     fontSize: [10, 10, 12, 12, 12],ml:"2vw",
                     }}
                     style={{ color: userInputTextColor }}
                     onClickCapture={() => onClickTxtUsuario()}
                     onBlurCapture={() => verifyUsuario()}
                   />
                 </Grid>
-              </Grid>
+              
 
-              <Grid item>
+              <Grid item xl={12} lg={12} md={12} sm={12} xs={12} sx={{display:"flex",justifyContent:"center",alignItems:"center",}}>
                 <Button
+                className="aceptar"
                   variant="outlined"
                   onMouseOver={() => onFocusButton()}
                   onMouseLeave={() => onFocusLeaveButton()}
                   sx={st.signInBtn}
                   onClick={() => getPassword()}
-                  style={{
-                    backgroundColor: btnBgColor,
-                    color: btnTxtColor,
-                    borderColor: btnTxtColor,
-                  }}
+                  // style={{
+                  //   backgroundColor: btnBgColor,
+                  //   color: btnTxtColor,
+                  //   borderColor: btnTxtColor,
+                  // }}
                 >
                   {ls.btnText}
                 </Button>
               </Grid>
-              <Grid item>
+              <Grid item xl={12} lg={12} md={12} sm={12} xs={12} sx={{display:"flex",justifyContent:"center",alignItems:"center",}}>
                 <Button onClick={() => navigate("../")}>{ls.forgot}</Button>
               </Grid>
             </Grid>
-          </Grid>
+          
         </Grid>
       </Grid>
 
