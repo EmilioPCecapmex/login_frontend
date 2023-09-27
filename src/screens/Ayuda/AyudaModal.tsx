@@ -49,6 +49,141 @@ export const AyudasModal = ({
     const [respuesta, setRespuesta] = useState("");
 
 
+    function enCambioFile(event: any) {
+      setslideropen(true);
+      if (
+        event?.target?.files[0] &&
+        event.target.files[0].type.split("/")[0] == "video"
+      ) {
+        setNombreArchivo(event?.target?.value?.split("\\")[2]);
+        let file = event?.target!?.files[0]!;
+        setVideoPreview(URL.createObjectURL(event.target.files[0]));
+        setNewVideo(file);
+        setslideropen(false);
+      } else if (
+        event?.target?.files[0] &&
+        event.target.files[0].type == "application/pdf"
+      ) {
+        setNombreArchivo(event?.target?.value?.split("\\")[2]);
+        let file = event?.target!?.files[0]!;
+        setVideoPreview(URL.createObjectURL(event.target.files[0]));
+        setNewVideo(file);
+        setslideropen(false);
+      } else {
+        Swal.fire("¡No es un archivo valido!", "", "warning");
+        setslideropen(false);
+      }
+      setslideropen(false);
+    }
+    const handleSend = () => {
+      setOpenCarga(true);
+    };
+  
+    const loadFilter = (operacion: number) => {
+      let data = { NUMOPERACION: operacion };
+      ShareService.SelectIndex(data).then((res) => {
+        if (operacion == 42) {
+          setMenus(res.RESPONSE);
+          if (value == "pregunta") {
+            consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "4");
+          }
+          if (value == "guia") {
+            consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "11");
+          }
+          if (value == "video") {
+            consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "12");
+          }
+        }
+      });
+    };
+  
+    const SaveVideo = (cerrar: boolean) => {
+      ValidaSesion();
+      setVideoPreview("");
+      setslideropen(true);
+      console.log("Save Video");
+      console.log(newVideo);
+      const formData = new FormData();
+      formData.append("NUMOPERACION", value == "video" ? "1" : "2");
+      formData.append("VIDEO", newVideo, nombreArchivo);
+      formData.append("PREGUNTA", pregunta);
+      formData.append("CHUSER", user.Id);
+      formData.append("CHID", idMenu);
+      formData.append("NAME", nombreArchivo);
+      formData.append("TOKEN", JSON.parse(String(getToken())));
+      console.log(formData);
+  
+      let config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: process.env.REACT_APP_APPLICATION_BASE_URL + "AdminAyudas",
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "X-Requested-With": "XMLHttpRequest",
+          "Access-Control-Allow-Origin": "*",
+        },
+        data: formData,
+      };
+  
+      axios
+        .request(config)
+        .then((res) => {
+          if (res.data.SUCCESS || res.data.RESPONSE) {
+            Toast.fire({
+              icon: "success",
+              title: "Archivo Cargado ",
+            });
+            if (cerrar) {
+              handleClose();
+            } else {
+              handleLimpiaCampos();
+              if (value == "pregunta") {
+                consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "4");
+              }
+              if (value == "guia") {
+                consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "11");
+              }
+              if (value == "video") {
+                consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "12");
+              }
+            }
+  
+            setslideropen(false);
+            setNombreArchivo("");
+            setNewVideo(null);
+          }
+          if (!res.data.SUCCESS) {
+            Toast.fire({
+              icon: "error",
+              title: "Error Carga de Archivo",
+            });
+            if (cerrar) {
+              handleClose();
+            } else {
+              handleLimpiaCampos();
+            }
+  
+            setslideropen(false);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          setslideropen(false);
+        });
+  
+      // handleClose();
+    };
+  
+    const consulta = (idMenu: string, numOp: string) => {
+      setslideropen(true);
+  
+      let data = {
+        NUMOPERACION: numOp,
+        CHID: idMenu == "false" ? "" : idMenu,
+      };
+  
+
+
 
 
 
