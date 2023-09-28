@@ -286,7 +286,7 @@ const handleOpen = (v: any) => {
 
 {valueTab == "Videos" || valueTab == "Guias" ? (
         <Grid container>
-          hola
+          
         <Grid item xs={12}>
     {/* <MUIXDataGrid
       columns={valueTab == "Videos" ? columnsVideo : columnsGuia}
@@ -339,14 +339,14 @@ const handleOpen = (v: any) => {
                 className="guardar"
                 //onClick={() => SaveVideo(false)}
               >
-                Guardar
+                Guardarrr
               </Button>
               {IdMenu ? (
                 <Button
                   disabled={
                     !idMenu || idMenu == "false" || !nombreArchivo || !newVideo
                   }
-                  className="guardar"
+                  className="cerrar"
                   //onClick={() => SaveVideo(true)}
                 >
                   Guardar y cerrar

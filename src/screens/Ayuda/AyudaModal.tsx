@@ -210,7 +210,7 @@ export const AyudasModal = ({
 
 
     return (
-      <ModalForm title={modo} handleClose={handleClose}>
+      <ModalForm title="Administración de Ayudas" handleClose={handleClose}>
         
       <Grid
         container
@@ -228,6 +228,7 @@ export const AyudasModal = ({
             disabled={!!IdMenu}
           />
         </Grid>
+        
         <Grid
           item
           xs={12}
@@ -239,13 +240,19 @@ export const AyudasModal = ({
           alignItems="center"
           paddingTop={3}
         >
+          
+          
           {TabValue !== "Preguntas" ? (
+            
             <Button
-              hidden
-              disabled={modo == "Editar Nombre Video" || !TabValue}
+            variant="contained"
+
+            className="aceptar"     
+            //hidden
+              //disabled={modo == "Editar Nombre Video" || !TabValue}
               component="label"
-              className="cancelar"
-            >
+                     >
+                
               Seleccionar {TabValue}
               <input
                 hidden
@@ -256,6 +263,7 @@ export const AyudasModal = ({
                 type="file"
               />
             </Button>
+            
           ) : (
             ""
           )}
@@ -263,12 +271,12 @@ export const AyudasModal = ({
           {TabValue == "Videos" ? (
             <>
               <Button
-                disabled={
-                  !idMenu || idMenu == "false" || !nombreArchivo //||
-                  // !newVideo ||
-                  // !TabValueDepartamento
-                }
-                className="guardar"
+                // disabled={
+                //   !idMenu || idMenu == "false" || !nombreArchivo //||
+                //   // !newVideo ||
+                //   // !TabValueDepartamento
+                // }
+                className="aceptar"
                 // onClick={() => SaveVideo(false)}
               >
                 Guardar
@@ -278,7 +286,7 @@ export const AyudasModal = ({
                   disabled={
                     !idMenu || idMenu == "false" || !nombreArchivo || !newVideo
                   }
-                  className="guardar"
+                  className="aceptar"
                   // onClick={() => SaveVideo(true)}
                 >
                   Guardar y cerrar
@@ -293,7 +301,7 @@ export const AyudasModal = ({
 
           {TabValue == "Guias" ? (
             <>
-              <Button
+              <Button 
                 // disabled={
                 //   !idMenu ||
                 //   idMenu == "false" ||
@@ -302,13 +310,14 @@ export const AyudasModal = ({
                 //  // !newVideo ||
                 //  // !TabValueDepartamento
                 // }
-                className="guardar"
+                className="aceptar"
                 // onClick={() => SaveVideo(false)}
               >
                 Guardar
               </Button>
               {IdMenu ? (
-                <Button
+                <Button  
+
                   disabled={
                     !idMenu ||
                     idMenu == "false" ||
@@ -316,7 +325,7 @@ export const AyudasModal = ({
                     !pregunta ||
                     !newVideo
                   }
-                  className="guardar"
+                  className="aceptar"
                   // onClick={() => SaveVideo(true)}
                 >
                   Guardar y cerrar
@@ -332,14 +341,14 @@ export const AyudasModal = ({
           {TabValue == "Preguntas" ? (
             <>
               <Button
-                disabled={
-                  !idMenu ||
-                  idMenu == "false" ||
-                  // !TabValueDepartamento ||
-                  !pregunta ||
-                  !respuesta
-                }
-                className="guardar"
+                // disabled={
+                //   !idMenu ||
+                //   idMenu == "false" ||
+                //   // !TabValueDepartamento ||
+                //   !pregunta ||
+                //   !respuesta
+                // }
+                className="aceptar"
                 // onClick={() => SavePreguntasFrecuentes(false)}
               >
                 Guardar
@@ -349,7 +358,7 @@ export const AyudasModal = ({
                   disabled={
                     !idMenu || idMenu == "false" || !pregunta || !respuesta
                   }
-                  className="guardar"
+                  className="aceptar"
                   // onClick={() => SavePreguntasFrecuentes(true)}
                 >
                   Guardar y cerrar
@@ -366,6 +375,19 @@ export const AyudasModal = ({
 
       {TabValue == "Videos" || TabValue == "Guias" ? (
         <>
+        <Grid
+            container
+            item
+            spacing={1}
+            xs={12}
+            sm={12}
+            md={12}
+            lg={12}
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            sx={{ padding: "1%" }}
+          ></Grid>
           <Grid container>
             <Grid>
               <Typography variant="h6">Nombre del archivo: </Typography>
@@ -413,6 +435,19 @@ export const AyudasModal = ({
 
       {TabValue == "Preguntas" ? (
         <>
+        <Grid
+            container
+            item
+            spacing={1}
+            xs={12}
+            sm={12}
+            md={12}
+            lg={12}
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            sx={{ padding: "1%" }}
+          ></Grid>
           <Grid container>
             <Grid>
               <Typography variant="h6">Pregunta</Typography>
