@@ -18,6 +18,7 @@ import MUIXDataGrid from "../../components/MUIXDataGrid";
 export const AyudasModal = ({
     IdMenu,
     //modo,
+    TabValue,
     handleClose,
     tipo,
     dt,
@@ -25,6 +26,7 @@ export const AyudasModal = ({
   }: {
     IdMenu: string;
     //modo: string;
+    TabValue:string;
     tipo: number;
     handleClose: Function;
     dt: any;
@@ -42,147 +44,147 @@ export const AyudasModal = ({
     const [openMenu, setOpenMenu] = useState(-1);
     const [dataGuiaRapida, setDataGuiaRapida] = useState<Array<RESPONSEGUIARAPIDA>>([]);
     const [menus, setMenus] = useState<SelectValues[]>([]);
-    const [value, setValue] = useState("");
+    
     const [newVideo, setNewVideo] = useState(Object);
     const [nombreArchivo, setNombreArchivo] = useState("");
     const [pregunta, setPregunta] = useState("");
     const [respuesta, setRespuesta] = useState("");
 
 
-    function enCambioFile(event: any) {
-      setslideropen(true);
-      if (
-        event?.target?.files[0] &&
-        event.target.files[0].type.split("/")[0] == "video"
-      ) {
-        setNombreArchivo(event?.target?.value?.split("\\")[2]);
-        let file = event?.target!?.files[0]!;
-        setVideoPreview(URL.createObjectURL(event.target.files[0]));
-        setNewVideo(file);
-        setslideropen(false);
-      } else if (
-        event?.target?.files[0] &&
-        event.target.files[0].type == "application/pdf"
-      ) {
-        setNombreArchivo(event?.target?.value?.split("\\")[2]);
-        let file = event?.target!?.files[0]!;
-        setVideoPreview(URL.createObjectURL(event.target.files[0]));
-        setNewVideo(file);
-        setslideropen(false);
-      } else {
-        Swal.fire("¡No es un archivo valido!", "", "warning");
-        setslideropen(false);
-      }
-      setslideropen(false);
-    }
-    const handleSend = () => {
-      setOpenCarga(true);
-    };
+    // function enCambioFile(event: any) {
+    //   setslideropen(true);
+    //   if (
+    //     event?.target?.files[0] &&
+    //     event.target.files[0].type.split("/")[0] == "video"
+    //   ) {
+    //     setNombreArchivo(event?.target?.value?.split("\\")[2]);
+    //     let file = event?.target!?.files[0]!;
+    //     setVideoPreview(URL.createObjectURL(event.target.files[0]));
+    //     setNewVideo(file);
+    //     setslideropen(false);
+    //   } else if (
+    //     event?.target?.files[0] &&
+    //     event.target.files[0].type == "application/pdf"
+    //   ) {
+    //     setNombreArchivo(event?.target?.value?.split("\\")[2]);
+    //     let file = event?.target!?.files[0]!;
+    //     setVideoPreview(URL.createObjectURL(event.target.files[0]));
+    //     setNewVideo(file);
+    //     setslideropen(false);
+    //   } else {
+    //     Swal.fire("¡No es un archivo valido!", "", "warning");
+    //     setslideropen(false);
+    //   }
+    //   setslideropen(false);
+    // }
+    // const handleSend = () => {
+    //   setOpenCarga(true);
+    // };
   
-    const loadFilter = (operacion: number) => {
-      let data = { NUMOPERACION: operacion };
-      ShareService.SelectIndex(data).then((res) => {
-        if (operacion == 42) {
-          setMenus(res.RESPONSE);
-          if (value == "pregunta") {
-            consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "4");
-          }
-          if (value == "guia") {
-            consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "11");
-          }
-          if (value == "video") {
-            consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "12");
-          }
-        }
-      });
-    };
+    // const loadFilter = (operacion: number) => {
+    //   let data = { NUMOPERACION: operacion };
+    //   ShareService.SelectIndex(data).then((res) => {
+    //     if (operacion == 42) {
+    //       setMenus(res.RESPONSE);
+    //       if (value == "pregunta") {
+    //         consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "4");
+    //       }
+    //       if (value == "guia") {
+    //         consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "11");
+    //       }
+    //       if (value == "video") {
+    //         consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "12");
+    //       }
+    //     }
+    //   });
+    // };
   
-    const SaveVideo = (cerrar: boolean) => {
-      ValidaSesion();
-      setVideoPreview("");
-      setslideropen(true);
-      console.log("Save Video");
-      console.log(newVideo);
-      const formData = new FormData();
-      formData.append("NUMOPERACION", value == "video" ? "1" : "2");
-      formData.append("VIDEO", newVideo, nombreArchivo);
-      formData.append("PREGUNTA", pregunta);
-      formData.append("CHUSER", user.Id);
-      formData.append("CHID", idMenu);
-      formData.append("NAME", nombreArchivo);
-      formData.append("TOKEN", JSON.parse(String(getToken())));
-      console.log(formData);
+    // const SaveVideo = (cerrar: boolean) => {
+    //   ValidaSesion();
+    //   setVideoPreview("");
+    //   setslideropen(true);
+    //   console.log("Save Video");
+    //   console.log(newVideo);
+    //   const formData = new FormData();
+    //   formData.append("NUMOPERACION", value == "video" ? "1" : "2");
+    //   formData.append("VIDEO", newVideo, nombreArchivo);
+    //   formData.append("PREGUNTA", pregunta);
+    //   formData.append("CHUSER", user.Id);
+    //   formData.append("CHID", idMenu);
+    //   formData.append("NAME", nombreArchivo);
+    //   formData.append("TOKEN", JSON.parse(String(getToken())));
+    //   console.log(formData);
   
-      let config = {
-        method: "post",
-        maxBodyLength: Infinity,
-        url: process.env.REACT_APP_APPLICATION_BASE_URL + "AdminAyudas",
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "X-Requested-With": "XMLHttpRequest",
-          "Access-Control-Allow-Origin": "*",
-        },
-        data: formData,
-      };
+    //   let config = {
+    //     method: "post",
+    //     maxBodyLength: Infinity,
+    //     url: process.env.REACT_APP_APPLICATION_BASE_URL + "AdminAyudas",
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //       "X-Requested-With": "XMLHttpRequest",
+    //       "Access-Control-Allow-Origin": "*",
+    //     },
+    //     data: formData,
+    //   };
   
-      axios
-        .request(config)
-        .then((res) => {
-          if (res.data.SUCCESS || res.data.RESPONSE) {
-            Toast.fire({
-              icon: "success",
-              title: "Archivo Cargado ",
-            });
-            if (cerrar) {
-              handleClose();
-            } else {
-              handleLimpiaCampos();
-              if (value == "pregunta") {
-                consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "4");
-              }
-              if (value == "guia") {
-                consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "11");
-              }
-              if (value == "video") {
-                consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "12");
-              }
-            }
+    //   axios
+    //     .request(config)
+    //     .then((res) => {
+    //       if (res.data.SUCCESS || res.data.RESPONSE) {
+    //         Toast.fire({
+    //           icon: "success",
+    //           title: "Archivo Cargado ",
+    //         });
+    //         if (cerrar) {
+    //           handleClose();
+    //         } else {
+    //           handleLimpiaCampos();
+    //           if (value == "pregunta") {
+    //             consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "4");
+    //           }
+    //           if (value == "guia") {
+    //             consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "11");
+    //           }
+    //           if (value == "video") {
+    //             consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "12");
+    //           }
+    //         }
   
-            setslideropen(false);
-            setNombreArchivo("");
-            setNewVideo(null);
-          }
-          if (!res.data.SUCCESS) {
-            Toast.fire({
-              icon: "error",
-              title: "Error Carga de Archivo",
-            });
-            if (cerrar) {
-              handleClose();
-            } else {
-              handleLimpiaCampos();
-            }
+    //         setslideropen(false);
+    //         setNombreArchivo("");
+    //         setNewVideo(null);
+    //       }
+    //       if (!res.data.SUCCESS) {
+    //         Toast.fire({
+    //           icon: "error",
+    //           title: "Error Carga de Archivo",
+    //         });
+    //         if (cerrar) {
+    //           handleClose();
+    //         } else {
+    //           handleLimpiaCampos();
+    //         }
   
-            setslideropen(false);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          setslideropen(false);
-        });
+    //         setslideropen(false);
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //       setslideropen(false);
+    //     });
   
-      // handleClose();
-    };
+    //   // handleClose();
+    // };
   
-    const consulta = (idMenu: string, numOp: string) => {
-      setslideropen(true);
+    // const consulta = (idMenu: string, numOp: string) => {
+    //   setslideropen(true);
   
-      let data = {
-        NUMOPERACION: numOp,
-        CHID: idMenu == "false" ? "" : idMenu,
-      };
+    //   let data = {
+    //     NUMOPERACION: numOp,
+    //     CHID: idMenu == "false" ? "" : idMenu,
+    //   };
   
-
+    // }
 
 
 
@@ -237,17 +239,17 @@ export const AyudasModal = ({
           alignItems="center"
           paddingTop={3}
         >
-          {value !== "pregunta" ? (
+          {TabValue !== "Preguntas" ? (
             <Button
               hidden
-              disabled={modo == "Editar Nombre Video" || !value}
+              disabled={modo == "Editar Nombre Video" || !TabValue}
               component="label"
               className="cancelar"
             >
-              Seleccionar {value}
+              Seleccionar {TabValue}
               <input
                 hidden
-                accept={value == "video" ? "video/*" : "application/pdf"}
+                accept={TabValue == "Videos" ? "video/*" : "application/pdf"}
                 // onChange={(v) => {
                 //   enCambioFile(v);
                 // }}
@@ -258,13 +260,13 @@ export const AyudasModal = ({
             ""
           )}
 
-          {value == "video" ? (
+          {TabValue == "Videos" ? (
             <>
               <Button
                 disabled={
                   !idMenu || idMenu == "false" || !nombreArchivo //||
                   // !newVideo ||
-                  // !valueDepartamento
+                  // !TabValueDepartamento
                 }
                 className="guardar"
                 // onClick={() => SaveVideo(false)}
@@ -289,7 +291,7 @@ export const AyudasModal = ({
             ""
           )}
 
-          {value == "guia" ? (
+          {TabValue == "Guias" ? (
             <>
               <Button
                 // disabled={
@@ -298,7 +300,7 @@ export const AyudasModal = ({
                 //   !nombreArchivo ||
                 //   !pregunta //||
                 //  // !newVideo ||
-                //  // !valueDepartamento
+                //  // !TabValueDepartamento
                 // }
                 className="guardar"
                 // onClick={() => SaveVideo(false)}
@@ -327,13 +329,13 @@ export const AyudasModal = ({
             ""
           )}
 
-          {value == "pregunta" ? (
+          {TabValue == "Preguntas" ? (
             <>
               <Button
                 disabled={
                   !idMenu ||
                   idMenu == "false" ||
-                  // !valueDepartamento ||
+                  // !TabValueDepartamento ||
                   !pregunta ||
                   !respuesta
                 }
@@ -362,7 +364,7 @@ export const AyudasModal = ({
         </Grid>
       </Grid>
 
-      {value == "video" || value == "guia" ? (
+      {TabValue == "Videos" || TabValue == "Guias" ? (
         <>
           <Grid container>
             <Grid>
@@ -381,7 +383,7 @@ export const AyudasModal = ({
               />
             </Grid>
           </Grid>
-          {value == "guia" ? (
+          {TabValue == "Guias" ? (
             <Grid container>
               <Grid>
                 <Typography variant="h6">
@@ -409,7 +411,7 @@ export const AyudasModal = ({
         ""
       )}
 
-      {/* {value == "pregunta" ? (
+      {TabValue == "Preguntas" ? (
         <>
           <Grid container>
             <Grid>
@@ -446,13 +448,13 @@ export const AyudasModal = ({
               />
             </Grid>
           </Grid>
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <MUIXDataGrid columns={columnsPreguntas} rows={preguntas} />
-          </Grid>
+          </Grid> */}
         </>
       ) : (
         ""
-      )} */}
+      )}
 
       {/* {value == "video" || value == "guia" ? (
         <Grid container>

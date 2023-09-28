@@ -244,6 +244,7 @@ const handleOpen = (v: any) => {
         IdMenu={idMenu}
         //modo={"Administrar ayudas"}
         tipo={0}
+        TabValue={valueTab}
         handleClose={handleClose}
         dt={{}}
           open={open}

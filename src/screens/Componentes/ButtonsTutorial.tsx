@@ -445,6 +445,7 @@ const ButtonsTutorial = ({
       {openCarga ? (
         <AyudaModal
        open={open}
+       TabValue=""
                   IdMenu={idMenu}
           //modo={"Administrar ayudas"}
           tipo={0}
