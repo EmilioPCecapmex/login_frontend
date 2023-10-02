@@ -23,6 +23,11 @@ export interface ILista{
   Label:string;
 }
 
+export interface Tabla{
+  Opcion:string;
+  IdMenu:string;
+}
+
 export interface IFile{ archivo: File; nombreArchivo: string }
 
 export const AyudasModal = ({

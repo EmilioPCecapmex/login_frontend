@@ -70,3 +70,18 @@ export const saveFile = (TabValue: string, archivo: { archivo: File; nombreArchi
         setState(r.data.data)
       });
   }
+
+  export const getAyuda=(setState:Function, IdMenu:string,Opcion:string)=>{
+    axios.get(
+        process.env.REACT_APP_APPLICATION_DEV + '/api/ayuda',
+        {
+        params:{Opcion:Opcion,IdMenu:IdMenu},
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("jwtToken")||"",
+          },
+        }
+      ).then((r)=>{console.log(r.data.data);
+        // setState("")
+      });
+  }

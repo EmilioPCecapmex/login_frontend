@@ -14,7 +14,8 @@ import axios from "axios";
 import { alertaError, alertaExito } from "../../components/alertas/toast";
 import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
 import { GridColDef } from "@mui/x-data-grid";
-import AyudasModal from "./AyudaModal";
+import AyudasModal, { ILista, Tabla } from "./AyudaModal";
+import { getAyuda } from "./ServicesAyuda";
 
 const Ayuda = ({
 IdMenu,
@@ -40,6 +41,8 @@ IdMenu,
   const [open, setOpen] = useState(false);
   const [agregar, setAgregar] = useState<boolean>(true);
   const [modo, setModo] = useState("");
+  const [ayuda, setAyuda] = useState<Tabla[]>([]);
+
 
 
 
@@ -173,6 +176,10 @@ const handleOpen = (v: any) => {
   setOpen(true);
   //setVrows("");
 };
+
+
+useEffect(()=>{getAyuda(setAyuda,"0","Guias")},[])
+
  
   return (
     <>
@@ -225,14 +232,14 @@ const handleOpen = (v: any) => {
 
           {/* cambio a tabla preguntas */}
           { valueTab == "Preguntas" ? (
-        <MUIXDataGrid  id={(row: any) => row.Id} columns={columnsPreguntas} rows={[]}/>        
+        <MUIXDataGrid  id={(row: any) => row.Id} columns={columnsPreguntas} rows={ayuda}/>        
         
       ) : (
         ""
       )}       
 {/* cambio a tablas videos y guías */}
           {valueTab == "Videos" || valueTab == "Guias" ? (
-            <MUIXDataGrid id={(row: any) => row.Id} columns={valueTab == "Videos" ? columnsVideo : columnsGuia} rows={[]}/>
+            <MUIXDataGrid id={(row: any) => row.Id} columns={valueTab == "Videos" ? columnsVideo : columnsGuia} rows={ayuda}/>
             
             
             
