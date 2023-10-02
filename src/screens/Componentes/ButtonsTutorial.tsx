@@ -446,7 +446,7 @@ const ButtonsTutorial = ({
         <AyudaModal
        open={open}
        TabValue=""
-                  IdMenu={idMenu}
+                  // IdMenu={idMenu}
           //modo={"Administrar ayudas"}
           tipo={0}
           handleClose={handleClose}

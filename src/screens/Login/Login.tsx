@@ -245,6 +245,7 @@ export const Login = () => {
                   arrayApps[0].IdApp
               );
             } else {
+              localStorage.setItem("IdApp",arrayApps[0].IdApp)
               navigate("./admin");
             }
           }

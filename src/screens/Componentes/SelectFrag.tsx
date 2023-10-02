@@ -1,6 +1,6 @@
 import { FormControl } from '@mui/material';
 import Select from 'react-select';
-import SelectValues from '../Interfaces/Share';
+import { ILista } from '../Ayuda/AyudaModal';
 
 const SelectFrag = ({
   value,
@@ -10,7 +10,7 @@ const SelectFrag = ({
   disabled
 }: {
   value: string,
-  options: SelectValues[],
+  options: ILista[],
   onInputChange: Function,
   placeholder: string,
   disabled: boolean
@@ -22,7 +22,7 @@ const SelectFrag = ({
       <Select
         aria-label={"Presione enter para seleccionar"}
         noOptionsMessage={()=>"Sin opciones"}
-        value={value != "" ? options.find(element => element.value === value) : []}
+        value={value != "" ? options.find(element => element.Id === value) : []}
         options={options}
         defaultValue={[]}
         isDisabled={disabled}
@@ -32,7 +32,7 @@ const SelectFrag = ({
         onChange={(v) => (v === null) ?
           onInputChange(String(disabled))
           :
-          onInputChange(v.value)
+          onInputChange(v.Id)
         }
         placeholder={ placeholder}
         theme={(theme) => ({

@@ -1,9 +1,9 @@
-import { Button, Collapse, Divider, Grid, IconButton, List, ListItemButton, ListItemText, TextField, Tooltip, Typography } from "@mui/material";
+import { Autocomplete, Button, Collapse, Divider, Grid, IconButton, List, ListItemButton, ListItemText, TextField, Tooltip, Typography } from "@mui/material";
 import ModalForm from "../Componentes/ModalForm";
 import Ayuda from "./Ayuda";
 import SliderProgress from "../Componentes/SliderProgress";
 import { TooltipPersonalizado } from "../Componentes/CustomizedTooltips";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RESPONSEGUIARAPIDA, RESPONSEPREGUNTASFRECUENTES, RESPONSEVIDEOS } from "../Interfaces/UserInfo";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -14,204 +14,223 @@ import { VisualizadorAyudas } from "../Componentes/VisualizadorAyudas";
 import SelectValues from "../Interfaces/Share";
 import SelectFrag from "../Componentes/SelectFrag";
 import MUIXDataGrid from "../../components/MUIXDataGrid";
+import axios from "axios";
+import { getMenus, saveFile } from "./ServicesAyuda";
+import { alertaError } from "../../components/alertas/toast";
+
+export interface ILista{
+  Id:string;
+  Label:string;
+}
+
+export interface IFile{ archivo: File; nombreArchivo: string }
 
 export const AyudasModal = ({
-    IdMenu,
-    //modo,
-    TabValue,
-    handleClose,
-    tipo,
-    dt,
-    open,
-  }: {
-    IdMenu: string;
-    //modo: string;
-    TabValue:string;
-    tipo: number;
-    handleClose: Function;
-    dt: any;
-    open: boolean;
-  }) => {
+  // IdMenu,
+  //modo,
+  TabValue,
+  handleClose,
+  tipo,
+  dt,
+  open,
+}: {
+  // IdMenu: string;
+  //modo: string;
+  TabValue: string;
+  tipo: number;
+  handleClose: Function;
+  dt: any;
+  open: boolean;
+}) => {
 
 
-    const [dataVideos, setDataVideos] = useState<Array<RESPONSEVIDEOS>>([]);
-    const [modo, setModo] = useState<string>("");
-    const [URLVideo, setURLVideo] = useState<string>("");
-    // const [open, setOpen] = React.useState(false);
-    const [openCarga, setOpenCarga] = useState(false);
-    const [idMenu, setIdMenu] = useState<string>("");
-    const [dataPreguntasFrecuentes, setDataPreguntasFrecuentes] = useState<Array<RESPONSEPREGUNTASFRECUENTES>>([]);
-    const [openMenu, setOpenMenu] = useState(-1);
-    const [dataGuiaRapida, setDataGuiaRapida] = useState<Array<RESPONSEGUIARAPIDA>>([]);
-    const [menus, setMenus] = useState<SelectValues[]>([]);
-    
-    const [newVideo, setNewVideo] = useState(Object);
-    const [nombreArchivo, setNombreArchivo] = useState("");
-    const [pregunta, setPregunta] = useState("");
-    const [respuesta, setRespuesta] = useState("");
+  const [dataVideos, setDataVideos] = useState<Array<RESPONSEVIDEOS>>([]);
+  const [modo, setModo] = useState<string>("");
+  const [URLVideo, setURLVideo] = useState<string>("");
+  // const [open, setOpen] = React.useState(false);
+  const [openCarga, setOpenCarga] = useState(false);
+  const [menu, setMenu] = useState<ILista>({Id:"",Label:""});
+  const [dataPreguntasFrecuentes, setDataPreguntasFrecuentes] = useState<Array<RESPONSEPREGUNTASFRECUENTES>>([]);
+  const [openMenu, setOpenMenu] = useState(-1);
+  const [dataGuiaRapida, setDataGuiaRapida] = useState<Array<RESPONSEGUIARAPIDA>>([]);
+  const [menus, setMenus] = useState<ILista[]>([]);
+
+  const [newVideo, setNewVideo] = useState<File>(new File([], ""));
+  const [nombreArchivo, setNombreArchivo] = useState("");
+  const [pregunta, setPregunta] = useState("");
+  const [respuesta, setRespuesta] = useState("");
+
+  const [videoPreview, setVideoPreview] = useState("");
 
 
-    // function enCambioFile(event: any) {
-    //   setslideropen(true);
-    //   if (
-    //     event?.target?.files[0] &&
-    //     event.target.files[0].type.split("/")[0] == "video"
-    //   ) {
-    //     setNombreArchivo(event?.target?.value?.split("\\")[2]);
-    //     let file = event?.target!?.files[0]!;
-    //     setVideoPreview(URL.createObjectURL(event.target.files[0]));
-    //     setNewVideo(file);
-    //     setslideropen(false);
-    //   } else if (
-    //     event?.target?.files[0] &&
-    //     event.target.files[0].type == "application/pdf"
-    //   ) {
-    //     setNombreArchivo(event?.target?.value?.split("\\")[2]);
-    //     let file = event?.target!?.files[0]!;
-    //     setVideoPreview(URL.createObjectURL(event.target.files[0]));
-    //     setNewVideo(file);
-    //     setslideropen(false);
-    //   } else {
-    //     Swal.fire("¡No es un archivo valido!", "", "warning");
-    //     setslideropen(false);
-    //   }
-    //   setslideropen(false);
-    // }
-    // const handleSend = () => {
-    //   setOpenCarga(true);
-    // };
-  
-    // const loadFilter = (operacion: number) => {
-    //   let data = { NUMOPERACION: operacion };
-    //   ShareService.SelectIndex(data).then((res) => {
-    //     if (operacion == 42) {
-    //       setMenus(res.RESPONSE);
-    //       if (value == "pregunta") {
-    //         consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "4");
-    //       }
-    //       if (value == "guia") {
-    //         consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "11");
-    //       }
-    //       if (value == "video") {
-    //         consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "12");
-    //       }
-    //     }
-    //   });
-    // };
-  
-    // const SaveVideo = (cerrar: boolean) => {
-    //   ValidaSesion();
-    //   setVideoPreview("");
-    //   setslideropen(true);
-    //   console.log("Save Video");
-    //   console.log(newVideo);
-    //   const formData = new FormData();
-    //   formData.append("NUMOPERACION", value == "video" ? "1" : "2");
-    //   formData.append("VIDEO", newVideo, nombreArchivo);
-    //   formData.append("PREGUNTA", pregunta);
-    //   formData.append("CHUSER", user.Id);
-    //   formData.append("CHID", idMenu);
-    //   formData.append("NAME", nombreArchivo);
-    //   formData.append("TOKEN", JSON.parse(String(getToken())));
-    //   console.log(formData);
-  
-    //   let config = {
-    //     method: "post",
-    //     maxBodyLength: Infinity,
-    //     url: process.env.REACT_APP_APPLICATION_BASE_URL + "AdminAyudas",
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //       "X-Requested-With": "XMLHttpRequest",
-    //       "Access-Control-Allow-Origin": "*",
-    //     },
-    //     data: formData,
-    //   };
-  
-    //   axios
-    //     .request(config)
-    //     .then((res) => {
-    //       if (res.data.SUCCESS || res.data.RESPONSE) {
-    //         Toast.fire({
-    //           icon: "success",
-    //           title: "Archivo Cargado ",
-    //         });
-    //         if (cerrar) {
-    //           handleClose();
-    //         } else {
-    //           handleLimpiaCampos();
-    //           if (value == "pregunta") {
-    //             consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "4");
-    //           }
-    //           if (value == "guia") {
-    //             consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "11");
-    //           }
-    //           if (value == "video") {
-    //             consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "12");
-    //           }
-    //         }
-  
-    //         setslideropen(false);
-    //         setNombreArchivo("");
-    //         setNewVideo(null);
-    //       }
-    //       if (!res.data.SUCCESS) {
-    //         Toast.fire({
-    //           icon: "error",
-    //           title: "Error Carga de Archivo",
-    //         });
-    //         if (cerrar) {
-    //           handleClose();
-    //         } else {
-    //           handleLimpiaCampos();
-    //         }
-  
-    //         setslideropen(false);
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //       setslideropen(false);
-    //     });
-  
-    //   // handleClose();
-    // };
-  
-    // const consulta = (idMenu: string, numOp: string) => {
-    //   setslideropen(true);
-  
-    //   let data = {
-    //     NUMOPERACION: numOp,
-    //     CHID: idMenu == "false" ? "" : idMenu,
-    //   };
-  
-    // }
+  function enCambioFile(event: any) {
+    if (
+      event?.target?.files[0] &&
+      event.target.files[0].type.split("/")[0] == "video"
+    ) {
+      let nameFile=event?.target?.value?.split("\\")[2];
+       setNombreArchivo(event?.target?.value?.split("\\")[2]);
+      let file = event?.target!?.files[0]!;
+      setNewVideo(file);
+      // setNewVideo({nombreArchivo:nameFile,archivo:file })
+      setVideoPreview(URL.createObjectURL(event.target.files[0]));
+       
+      // setslideropen(false);
+    } else if (
+      event?.target?.files[0] &&
+      event.target.files[0].type == "application/pdf"
+    ) {
+      setNombreArchivo(event?.target?.value?.split("\\")[2]);
+      // let file = event?.target!?.files[0]!;
+      setVideoPreview(URL.createObjectURL(event.target.files[0]));
+      // 
+      // (file);
+      // setslideropen(false);
+    } else {
+      alertaError("¡No es un archivo valido!")
+      // Swal.fire("¡No es un archivo valido!", "", "warning");
+      // setslideropen(false);
+    }
+    // setslideropen(false);
+  }
+  const handleSend = () => {
+    setOpenCarga(true);
+  };
+
+  // const loadFilter = (operacion: number) => {
+  //   let data = { NUMOPERACION: operacion };
+  //   ShareService.SelectIndex(data).then((res) => {
+  //     if (operacion == 42) {
+  //       setMenus(res.RESPONSE);
+  //       if (value == "pregunta") {
+  //         consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "4");
+  //       }
+  //       if (value == "guia") {
+  //         consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "11");
+  //       }
+  //       if (value == "video") {
+  //         consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "12");
+  //       }
+  //     }
+  //   });
+  // };
+
+  // const SaveVideo = (cerrar: boolean) => {
+  //   // ValidaSesion();
+  //   // setVideoPreview("");
+  //   // setslideropen(true);
+  //   console.log("Save Video");
+  //   console.log(newVideo);
+  //   const formData = new FormData();
+  //   formData.append("NUMOPERACION", value == "video" ? "1" : "2");
+  //   formData.append("VIDEO", newVideo, nombreArchivo);
+  //   formData.append("PREGUNTA", pregunta);
+  //   formData.append("CHUSER", user.Id);
+  //   formData.append("CHID", idMenu);
+  //   formData.append("NAME", nombreArchivo);
+  //   formData.append("TOKEN", JSON.parse(String(getToken())));
+  //   console.log(formData);
+
+  //   let config = {
+  //     method: "post",
+  //     maxBodyLength: Infinity,
+  //     url: process.env.REACT_APP_APPLICATION_BASE_URL + "AdminAyudas",
+  //     headers: {
+  //       "Content-Type": "multipart/form-data",
+  //       "X-Requested-With": "XMLHttpRequest",
+  //       "Access-Control-Allow-Origin": "*",
+  //     },
+  //     data: formData,
+  //   };
+
+  //   axios
+  //     .request(config)
+  //     .then((res) => {
+  //       if (res.data.SUCCESS || res.data.RESPONSE) {
+  //         Toast.fire({
+  //           icon: "success",
+  //           title: "Archivo Cargado ",
+  //         });
+  //         if (cerrar) {
+  //           handleClose();
+  //         } else {
+  //           handleLimpiaCampos();
+  //           if (value == "pregunta") {
+  //             consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "4");
+  //           }
+  //           if (value == "guia") {
+  //             consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "11");
+  //           }
+  //           if (value == "video") {
+  //             consulta(IdMenu ? IdMenu : idMenu == "false" ? "" : idMenu, "12");
+  //           }
+  //         }
+
+  //         setslideropen(false);
+  //         setNombreArchivo("");
+  //         setNewVideo(null);
+  //       }
+  //       if (!res.data.SUCCESS) {
+  //         Toast.fire({
+  //           icon: "error",
+  //           title: "Error Carga de Archivo",
+  //         });
+  //         if (cerrar) {
+  //           handleClose();
+  //         } else {
+  //           handleLimpiaCampos();
+  //         }
+
+  //         setslideropen(false);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       setslideropen(false);
+  //     });
+
+  //   // handleClose();
+  // };
+
+  // const consulta = (idMenu: string, numOp: string) => {
+  //   setslideropen(true);
+
+  //   let data = {
+  //     NUMOPERACION: numOp,
+  //     CHID: idMenu == "false" ? "" : idMenu,
+  //   };
+
+  // }
 
 
 
 
-    
-
-    // const handleCloseModal = () => {
-    //   setOpen(false);
-    // };
-
-    const handleFilterChange2 = (v: string) => {
-      setIdMenu(v);
-      // if (value == "pregunta") {
-      //   consulta(IdMenu ? IdMenu : v == "false" ? "" : v, "4");
-      // }
-      // if (value == "guia") {
-      //   consulta(IdMenu ? IdMenu : v == "false" ? "" : v, "11");
-      // }
-      // if (value == "video") { 
-      //   consulta(IdMenu ? IdMenu : v == "false" ? "" : v, "12");
-      // }
-    };
 
 
-    return (
-      <ModalForm title="Administración de Ayudas" handleClose={handleClose}>
-        
+  // const handleCloseModal = () => {
+  //   setOpen(false);
+  // };
+
+  // const handleFilterChange2 = (v: any) => {
+  //   setMenu(v);
+  //   getMenus(setMenus)
+  //   // if (value == "pregunta") {
+  //   //   consulta(IdMenu ? IdMenu : v == "false" ? "" : v, "4");
+  //   // }
+  //   // if (value == "guia") {
+  //   //   consulta(IdMenu ? IdMenu : v == "false" ? "" : v, "11");
+  //   // }
+  //   // if (value == "video") { 
+  //   //   consulta(IdMenu ? IdMenu : v == "false" ? "" : v, "12");
+  //   // } 
+  // };
+
+  useEffect(()=>{getMenus(setMenus)},[])
+
+
+  return (
+    <ModalForm title="Administración de Ayudas" handleClose={handleClose}>
+
       <Grid
         container
         direction="row"
@@ -220,15 +239,39 @@ export const AyudasModal = ({
       >
         <Grid item xs={12} md={6.5} lg={8.2}>
           <Typography variant="h6">Menú</Typography>
-          <SelectFrag
-            value={IdMenu ? IdMenu : idMenu}
-            options={menus}
-            onInputChange={handleFilterChange2}
-            placeholder={"Seleccione Menú"}
-            disabled={!!IdMenu}
-          />
+            <Autocomplete
+              noOptionsText="No se encontraron opciones"
+              clearText="Borrar"
+              closeText="Cerrar"
+              openText="Abrir"
+              options={menus}
+              getOptionLabel={(menu) =>
+                menu.Label || "Seleccione Menú"
+              }
+              value={menu}
+              onChange={(event, newValue) => {
+                if (newValue != null) {
+                  setMenu(newValue);
+                  // setErrores({
+                  //   ...errores,
+                  //   secretaria: {
+                  //     valid: false,
+                  //     text: "Ingresa secretaria valida",
+                  //   },
+                  // });
+                }
+              }}
+              renderInput={(params) => (
+                <TextField
+                  key={params.id}
+                  {...params}
+                  variant="outlined"
+                  // error={errores.secretaria.valid}
+                />
+              )}
+            />
         </Grid>
-        
+
         <Grid
           item
           xs={12}
@@ -240,35 +283,35 @@ export const AyudasModal = ({
           alignItems="center"
           paddingTop={3}
         >
-          
-          
-          {TabValue !== "Preguntas" ? (
-            
-            <Button
-            variant="contained"
 
-            className="aceptar"     
-            //hidden
+
+          {TabValue !== "Preguntas" ? (
+
+            <Button
+              variant="contained"
+
+              className="aceptar"
+              //hidden
               //disabled={modo == "Editar Nombre Video" || !TabValue}
               component="label"
-                     >
-                
+            >
+
               Seleccionar {TabValue}
               <input
                 hidden
                 accept={TabValue == "Videos" ? "video/*" : "application/pdf"}
-                // onChange={(v) => {
-                //   enCambioFile(v);
-                // }}
+                onChange={(v) => {
+                  enCambioFile(v);
+                }}
                 type="file"
               />
             </Button>
-            
+
           ) : (
             ""
           )}
 
-          {TabValue == "Videos" ? (
+          {TabValue == "Videos" && nombreArchivo!=='' ? (
             <>
               <Button
                 // disabled={
@@ -277,31 +320,18 @@ export const AyudasModal = ({
                 //   // !TabValueDepartamento
                 // }
                 className="aceptar"
-                // onClick={() => SaveVideo(false)}
+                onClick={() =>saveFile(TabValue,{nombreArchivo:nombreArchivo,archivo:newVideo},menu.Id,pregunta,respuesta)}
               >
                 Guardar
               </Button>
-              {IdMenu ? (
-                <Button
-                  disabled={
-                    !idMenu || idMenu == "false" || !nombreArchivo || !newVideo
-                  }
-                  className="aceptar"
-                  // onClick={() => SaveVideo(true)}
-                >
-                  Guardar y cerrar
-                </Button>
-              ) : (
-                ""
-              )}
             </>
           ) : (
             ""
           )}
 
-          {TabValue == "Guias" ? (
+          {TabValue == "Guias" && nombreArchivo!=='' ? (
             <>
-              <Button 
+              <Button
                 // disabled={
                 //   !idMenu ||
                 //   idMenu == "false" ||
@@ -311,28 +341,10 @@ export const AyudasModal = ({
                 //  // !TabValueDepartamento
                 // }
                 className="aceptar"
-                // onClick={() => SaveVideo(false)}
+              onClick={() =>saveFile(TabValue,{nombreArchivo:nombreArchivo,archivo:newVideo},menu.Id,pregunta,respuesta)}
               >
                 Guardar
               </Button>
-              {IdMenu ? (
-                <Button  
-
-                  disabled={
-                    !idMenu ||
-                    idMenu == "false" ||
-                    !nombreArchivo ||
-                    !pregunta ||
-                    !newVideo
-                  }
-                  className="aceptar"
-                  // onClick={() => SaveVideo(true)}
-                >
-                  Guardar y cerrar
-                </Button>
-              ) : (
-                ""
-              )}
             </>
           ) : (
             ""
@@ -349,17 +361,17 @@ export const AyudasModal = ({
                 //   !respuesta
                 // }
                 className="aceptar"
-                // onClick={() => SavePreguntasFrecuentes(false)}
+              // onClick={() => SavePreguntasFrecuentes(false)}
               >
                 Guardar
               </Button>
-              {IdMenu ? (
+              {menu.Id ? (
                 <Button
                   disabled={
-                    !idMenu || idMenu == "false" || !pregunta || !respuesta
+                    !menu.Id || menu.Id == "false" || !pregunta || !respuesta
                   }
                   className="aceptar"
-                  // onClick={() => SavePreguntasFrecuentes(true)}
+                // onClick={() => SavePreguntasFrecuentes(true)}
                 >
                   Guardar y cerrar
                 </Button>
@@ -375,7 +387,7 @@ export const AyudasModal = ({
 
       {TabValue == "Videos" || TabValue == "Guias" ? (
         <>
-        <Grid
+          <Grid
             container
             item
             spacing={1}
@@ -435,7 +447,7 @@ export const AyudasModal = ({
 
       {TabValue == "Preguntas" ? (
         <>
-        <Grid
+          <Grid
             container
             item
             spacing={1}
@@ -491,24 +503,19 @@ export const AyudasModal = ({
         ""
       )}
 
-      {/* {value == "video" || value == "guia" ? (
-        <Grid container>
-          <Grid item xs={12}>
-            <MUIXDataGrid
-              columns={value == "video" ? columnsVideo : columnsGuia}
-              rows={preguntas}
-            />
-          </Grid>
-          <div className="containerModalCargarVideos">
-            <div className="containerPreVisualizarVideo">
+      
+        <Grid container item xl={12}>
+        
+        <div className="containerModalCargarVideos">
+            
               <Grid
                 container
                 direction="column"
                 justifyContent="center"
                 alignItems="center"
               >
-                <Grid className="contenedorDeReproductorVideo" item xs={12}>
-                  {value == "video" ? (
+                <Grid className="contenedorDeReproductorVideo" item xl={12} lg={12} md={12} sm={12} xs={12} height={"100%"}>
+                  {TabValue == "Videos" ? (
                     <video
                       loop
                       autoPlay
@@ -531,25 +538,24 @@ export const AyudasModal = ({
                   )}
                 </Grid>
               </Grid>
-            </div>
+            
           </div>
         </Grid>
-      ) : (
-        ""
-      )} */}
+      
       <Grid>
-    </Grid>
+         
+
+      </Grid>
+     
+
+
+    </ModalForm>
 
 
 
-      </ModalForm>
 
 
+  );
+};
 
-
-
-    );
-  };
-  
-  export default AyudasModal;
-  
+export default AyudasModal;

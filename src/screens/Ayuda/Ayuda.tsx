@@ -31,7 +31,7 @@ IdMenu,
   const [preguntas, setPreguntas] = useState([]);
   const [Guias, setGuias] = useState([]);
   const [Videos, setVideos] = useState([]);
-  const [videoPreview, setVideoPreview] = useState("");
+  
   const [pregunta, setPregunta] = useState([]);
   const [respuesta, setRespuesta] = useState([]);
   const [idMenu, setIdMenu] = useState(IdMenu);
@@ -241,7 +241,7 @@ const handleOpen = (v: any) => {
               </ButtonsAdd>  */}
 {open ? (
         <AyudasModal
-        IdMenu={idMenu}
+        // IdMenu={idMenu}
         //modo={"Administrar ayudas"}
         tipo={0}
         TabValue={valueTab}
@@ -293,42 +293,9 @@ const handleOpen = (v: any) => {
       rows={preguntas}
     /> */}
   </Grid>
-            <div className="containerModalCargarVideos">
-            <div className="containerPreVisualizarVideo">
-              <Grid
-                container
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-              >
-                <Grid className="contenedorDeReproductorVideo" item xs={12}>
-                  {valueTab == "Videos" ? (
-                    <video
-                      loop
-                      autoPlay
-                      width={"100%"}
-                      height={"100%"}
-                      hidden={
-                        modo == "Editar Nombre Video" ||
-                        videoPreview?.length == 0
-                      }
-                      src={videoPreview}
-                      id="videoPlayer"
-                      controls
-                    />
-                  ) : (
-                    <object
-                      className="responsive-iframe"
-                      data={videoPreview}
-                      type="text/html"
-                    ></object>
-                  )}
-                </Grid>
-              </Grid>
-            </div>
-          </div>
+            
 
-          {valueTab == "Videos" ? (
+          {/* {valueTab == "Videos" ? (
             <>
               <Button
                 disabled={
@@ -357,7 +324,7 @@ const handleOpen = (v: any) => {
             </>
           ) : (
             ""
-          )}
+          )} */}
           </Grid>
             
        

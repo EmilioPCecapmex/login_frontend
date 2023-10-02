@@ -41,6 +41,7 @@ export default function AppsModal({
       );
       // localStorage.clear();
     } else if (t === "./admin") {
+      localStorage.setItem("IdApp",idapp)
       navigate(t);
     }
   };
