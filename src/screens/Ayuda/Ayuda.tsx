@@ -86,21 +86,7 @@ const columnsGuia: GridColDef[] = [
     description: "Nombre Guía",
     width: 800,
   },
-  {
-    field: "Departamento",
-    headerName: "Departamento",
-    description: "Departamento",
-    width: 200,
-    renderCell: (v: any) => {
-      return (
-        <>
-          {v.row.Departamento == "1"
-            ? "Externo: Municipio u Organismo"
-            : "Area Interna"}
-        </>
-      );
-    },
-  },
+  
 ];
 
 const columnsVideo: GridColDef[] = [
@@ -137,21 +123,7 @@ const columnsVideo: GridColDef[] = [
     description: "Ruta Video",
     width: 600,
   },
-  {
-    field: "Departamento",
-    headerName: "Departamento",
-    description: "Departamento",
-    width: 200,
-    renderCell: (v: any) => {
-      return (
-        <>
-          {v.row.Departamento == "1"
-            ? "Externo: Municipio Organismo"
-            : "Area Interna"}
-        </>
-      );
-    },
-  },
+  
 ];
 
 const columnsPreguntas: GridColDef[] = [
@@ -187,21 +159,6 @@ const columnsPreguntas: GridColDef[] = [
     headerName: "Respuesta",
     description: "Respuesta",
     width: 800,
-  },
-  {
-    field: "Departamento",
-    headerName: "Departamento",
-    description: "Departamento",
-    width: 200,
-    renderCell: (v: any) => {
-      return (
-        <>
-          {v.row.Departamento == "1"
-            ? "Externo: Municipio Organismo"
-            : "Area Interna"}
-        </>
-      );
-    },
   },
 ];
 
