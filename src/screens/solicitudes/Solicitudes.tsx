@@ -23,6 +23,7 @@ import {
   MenuItem,
   Select,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -779,6 +780,7 @@ export const Solicitudes = () => {
                         </Grid>
                       </Grid>
                       <Grid justifyContent={"center"}>
+                        <Tooltip title="Visualizar solicitud anterior">
                         <IconButton
                           onClick={() => {
                             let a = selectedIndex;
@@ -791,6 +793,8 @@ export const Solicitudes = () => {
                         >
                           <SkipPreviousIcon fontSize="large" />
                         </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Visualizar solicitud siguiente">
                         <IconButton
                           onClick={() => {
                             let a = selectedIndex;
@@ -803,6 +807,7 @@ export const Solicitudes = () => {
                         >
                           <SkipNextIcon fontSize="large" />
                         </IconButton>
+                        </Tooltip>
                       </Grid>
                     </Grid>
                   </Grid>

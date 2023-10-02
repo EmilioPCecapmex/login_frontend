@@ -25,7 +25,10 @@ const App = () => {
         <Route path="/app" element={<CatApps />} />
         <Route path="/validador" element={<Documentos />} />
         <Route path="/catalogos" element={<Catalogos />} />
-        <Route path="/ayuda" element={<Ayuda />} />
+        <Route path="/ayuda" element=
+        {<Ayuda 
+          //modo={""} 
+        IdMenu={""}/>} />
         <Route
           path="/generarSolicitud"
           element={

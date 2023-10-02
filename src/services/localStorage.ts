@@ -4,8 +4,8 @@
 
 
 //TOKEN
-export const setToken = (user: any) => localStorage.setItem('token', JSON.stringify(user));
-export const getToken = () => localStorage.getItem('token');
+export const setToken = (user: any) => localStorage.setItem('jwtToken', JSON.stringify(user));
+export const getToken = () => localStorage.getItem('jwtToken');
 
 export const setRfToken = (user: any) => localStorage.setItem('Rftoken', JSON.stringify(user));
 export const getRfToken = () => localStorage.getItem('Rftoken');
