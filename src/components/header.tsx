@@ -69,25 +69,6 @@ export const Header = () => {
     );
   };
 
-  const [solCount, setSolCount] = useState(0);
-
-  const getSolicitudes = () => {
-    axios
-      .get(process.env.REACT_APP_APPLICATION_DEV + "/api/solicitudes", {
-        params: {
-          IdUsuario: localStorage.getItem("IdUsuario"),
-        },
-        headers: {
-          Authorization: localStorage.getItem("jwtToken") || "",
-        },
-      })
-      .then((r) => {
-        if (r.status === 200) {
-          setSolCount(r.data.data.length);
-        }
-      });
-  };
-  // const [openMenu,setOpenMenu]=useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -101,18 +82,7 @@ export const Header = () => {
   localStorage.getItem("Menus") !== null
     ? JSON.parse(localStorage.getItem("Menus")!)
     : [];
-  // const [menus,setMenus]=useState<MenuObject[]>([])
-  // // const menus=JSON.parse(localStorage.getItem('Menus')||"");
-
-  // useEffect(() => {
-  //   // Obtener datos del localStorage
-  //   const localStorageData = localStorage.getItem('Menus'); // Reemplaza 'nombre_de_tu_clave' con la clave real
-
-  //   if (localStorageData) {
-  //     const dataArray: MenuObject[] = JSON.parse(localStorageData);
-  //     setMenus(dataArray);
-  //   }
-  // }, []);
+  
   return (
     
       <Grid
