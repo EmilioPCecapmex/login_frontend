@@ -23,6 +23,43 @@ import MenuIcon from '@mui/icons-material/Menu';
 import BusinessIcon from '@mui/icons-material/Business';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
+interface MenuObject {
+  Id: string;
+  FechaDeCreacion: string;
+  UltimaModificacion: string;
+  CreadoPor: string;
+  ModificadoPor: string;
+  Deleted: number;
+  Menu: string;
+  Descripcion: string;
+  MenuPadre: string;
+  Icon: string | null;
+  Path: string;
+  Nivel: number;
+  Orden: number;
+  ControlInterno: string | null;
+  IdApp: string;
+  item: MenuObject[]; // Esto es para el arreglo de objetos anidados, si los hay
+}
+
+export const IconsMenu = (icon: string) => {
+  switch (icon) {
+    case "InfoOutlinedIcon":
+      return <InfoOutlinedIcon sx={{mr:"10px"}} />;
+    case "PeopleOutlineIcon":
+      return <PeopleOutlineIcon sx={{mr:"10px"}} />;
+    case "AppsIcon":
+      return <AppsIcon sx={{mr:"10px"}} />;
+    case "BusinessIcon":
+      return <BusinessIcon sx={{mr:"10px"}} />;
+    case "PostAddIcon":
+      return <PostAddIcon sx={{mr:"10px"}} />;
+   
+    default:
+      return <InfoOutlinedIcon sx={{mr:"10px"}} />;
+  }
+};
+
 export const Header = () => {
   const navigate = useNavigate();
   const logoutFnc = () => {
@@ -59,10 +96,23 @@ export const Header = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  // useEffect(() => {
-  //   getSolicitudes()
-  // }, [])
+  const menus =
+  localStorage.getItem("Menus") !== undefined &&
+  localStorage.getItem("Menus") !== null
+    ? JSON.parse(localStorage.getItem("Menus")!)
+    : [];
+  // const [menus,setMenus]=useState<MenuObject[]>([])
+  // // const menus=JSON.parse(localStorage.getItem('Menus')||"");
 
+  // useEffect(() => {
+  //   // Obtener datos del localStorage
+  //   const localStorageData = localStorage.getItem('Menus'); // Reemplaza 'nombre_de_tu_clave' con la clave real
+
+  //   if (localStorageData) {
+  //     const dataArray: MenuObject[] = JSON.parse(localStorageData);
+  //     setMenus(dataArray);
+  //   }
+  // }, []);
   return (
     
       <Grid
@@ -204,12 +254,15 @@ export const Header = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={() => navigate("../admin")}><PeopleOutlineIcon sx={{mr:"10px"}} />Usuarios</MenuItem>
+                {menus.length > 0 && menus.map((item:MenuObject)=>{
+                  return(<MenuItem onClick={() =>  navigate(item.Path)}>{IconsMenu(item.Icon||"")}{ item.Menu} </MenuItem>)
+                })}
+                {/* <MenuItem onClick={() => navigate("../admin")}><PeopleOutlineIcon sx={{mr:"10px"}} />Usuarios</MenuItem>
                 <MenuItem onClick={() => navigate("../app")}><AppsIcon sx={{mr:"10px"}} />Aplicaciones</MenuItem>
                 <MenuItem onClick={() => navigate("../catalogos")}><BusinessIcon sx={{mr:"10px"}} />Entidades</MenuItem>
                 <MenuItem onClick={() => navigate("../solicitudes")}><PostAddIcon sx={{mr:"10px"}}/>Solicitudes</MenuItem>
-                <MenuItem onClick={() => navigate("../ayuda")}><InfoOutlinedIcon sx={{mr:"10px"}} />Guias y Tutoriales</MenuItem>
-                <MenuItem onClick={() => logoutFnc()}><PowerSettingsNewIcon sx={{mr:"10px"}} />Cerrar Sesión </MenuItem>
+                <MenuItem onClick={() => navigate("../ayuda")}><InfoOutlinedIcon sx={{mr:"10px"}} />Guias y Tutoriales</MenuItem>*/}
+                <MenuItem onClick={() => logoutFnc()}><PowerSettingsNewIcon sx={{mr:"10px"}} />Cerrar Sesión </MenuItem> 
                 
               </Menu>
               </>
