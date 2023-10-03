@@ -295,7 +295,7 @@ export default function Users() {
 
   return (
     <Grid container sx={{ width: "100vw", height: "100vh" }}>
-      <Header />
+      <Header menuActual="Usuarios"/>
 
       <Grid sx={{ height: "84vh", width: "100vw" }}>
         <Grid

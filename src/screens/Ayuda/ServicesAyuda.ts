@@ -1,6 +1,7 @@
 import axios from "axios";
+import { alertaError, alertaExito } from "../../components/alertas/toast";
 
-export const saveFile = (TabValue: string, archivo: { archivo: File; nombreArchivo: string },idMenu:string,pregunta:string,texto:string,) => {
+export const saveFile = (TabValue: string, archivo: { archivo: File; nombreArchivo: string },idMenu:string,pregunta:string,texto:string, handleClose:Function) => {
     const url = new File([archivo.archivo], archivo.nombreArchivo);
     let ruta=""
     TabValue==="Guias"?ruta='/GUIAS/':ruta='/VIDEOS/TUTORIALES/';
@@ -21,8 +22,7 @@ export const saveFile = (TabValue: string, archivo: { archivo: File; nombreArchi
       )
       .then(({data}) => {
 
-        
-        createAyuda({
+        if(data){createAyuda({
             IdMenu:idMenu,
             Pregunta:pregunta,
             Texto:texto,
@@ -30,7 +30,9 @@ export const saveFile = (TabValue: string, archivo: { archivo: File; nombreArchi
             RutaVideo:data?.RESPONSE.RUTA,
             NombreArchivo:archivo.nombreArchivo,
             IdUsuario:localStorage.getItem("IdUsuario")
-        })
+        },handleClose)} 
+        else{alertaError("Error al cargar archivo")}
+        
         
         // state.savePathDocAut(
         //   idRegistro,
@@ -39,10 +41,10 @@ export const saveFile = (TabValue: string, archivo: { archivo: File; nombreArchi
         //   data.RESPONSE.NOMBREARCHIVO
         // );
       })
-      .catch((e) => { });
+      .catch((e) => { alertaError()});
   }
 
-  export const createAyuda=(data:any)=>{
+  export const createAyuda=(data:any,handleClose:Function)=>{
     axios.post(
         process.env.REACT_APP_APPLICATION_DEV + '/api/ayuda',
         data,
@@ -53,9 +55,24 @@ export const saveFile = (TabValue: string, archivo: { archivo: File; nombreArchi
           },
         }
       ).then((r)=>{console.log(r.data.data);
+        alertaExito(handleClose)
         
       });
   }
+
+  // export const createPregunta=(data:any)=>{
+  //   axios.post(
+  //       data,
+  //       {params:{Tabla:'Menus',ValorCondicion:localStorage.getItem("IdApp")},
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     ).then((r)=>{console.log(r.data.data);
+        
+  //     });
+  // }
+
 
   export const getMenus=(setState:Function)=>{
     axios.get(

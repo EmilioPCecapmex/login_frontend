@@ -15,7 +15,7 @@ import SelectValues from "../Interfaces/Share";
 import SelectFrag from "../Componentes/SelectFrag";
 import MUIXDataGrid from "../../components/MUIXDataGrid";
 import axios from "axios";
-import { getMenus, saveFile } from "./ServicesAyuda";
+import { createAyuda, getMenus, saveFile } from "./ServicesAyuda";
 import { alertaError } from "../../components/alertas/toast";
 
 export interface ILista{
@@ -325,7 +325,7 @@ export const AyudasModal = ({
                 //   // !TabValueDepartamento
                 // }
                 className="aceptar"
-                onClick={() =>saveFile(TabValue,{nombreArchivo:nombreArchivo,archivo:newVideo},menu.Id,pregunta,respuesta)}
+                onClick={() =>saveFile(TabValue,{nombreArchivo:nombreArchivo,archivo:newVideo},menu.Id,pregunta,respuesta,handleClose)}
               >
                 Guardar
               </Button>
@@ -346,7 +346,7 @@ export const AyudasModal = ({
                 //  // !TabValueDepartamento
                 // }
                 className="aceptar"
-              onClick={() =>saveFile(TabValue,{nombreArchivo:nombreArchivo,archivo:newVideo},menu.Id,pregunta,respuesta)}
+              onClick={() =>saveFile(TabValue,{nombreArchivo:nombreArchivo,archivo:newVideo},menu.Id,pregunta,respuesta,handleClose)}
               >
                 Guardar
               </Button>
@@ -366,11 +366,21 @@ export const AyudasModal = ({
                 //   !respuesta
                 // }
                 className="aceptar"
-              // onClick={() => SavePreguntasFrecuentes(false)}
+              onClick={() => {
+                let datos={
+                  IdMenu:menu.Id,
+                  Pregunta:pregunta,
+                  Texto:respuesta,
+                  RutaGuia:"",
+                  RutaVideo:"",
+                  NombreArchivo:"",
+                  IdUsuario:localStorage.getItem("IdUsuario")||""
+                }
+                createAyuda(datos,handleClose)}}
               >
                 Guardar
               </Button>
-              {menu.Id ? (
+              {/* {menu.Id ? (
                 <Button
                   disabled={
                     !menu.Id || menu.Id == "false" || !pregunta || !respuesta
@@ -382,7 +392,7 @@ export const AyudasModal = ({
                 </Button>
               ) : (
                 ""
-              )}
+              )} */}
             </>
           ) : (
             ""

@@ -25,6 +25,10 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { VisualizadorAyudas } from "../screens/Ayuda/VisualizadorAyudas";
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import HelpIcon from "@mui/icons-material/Help";
+
+
 
 interface MenuObject {
   Id: string;
@@ -59,12 +63,23 @@ export const IconsMenu = (icon: string) => {
       return <PostAddIcon sx={{mr:"10px"}} />;
       case "OndemandVideoIcon":
         return <OndemandVideoIcon sx={{mr:"10px"}} />;
+        case "MenuBookIcon":
+        return <MenuBookIcon sx={{mr:"10px"}} />;
+        case "HelpIcon":
+        return <HelpIcon sx={{mr:"10px"}} />;
     default:
       return <ArrowForwardIosIcon sx={{mr:"10px"}} />;
   }
 };
 
-export const Header = () => {
+export const Header = (
+{
+  menuActual,
+}:{
+  menuActual:string;
+}
+  
+) => {
   const navigate = useNavigate();
   const logoutFnc = () => {
     localStorage.clear();
@@ -244,12 +259,14 @@ export const Header = () => {
                 <MenuItem onClick={() => navigate("../solicitudes")}><PostAddIcon sx={{mr:"10px"}}/>Solicitudes</MenuItem>
                 <MenuItem onClick={() => navigate("../ayuda")}><InfoOutlinedIcon sx={{mr:"10px"}} />Guias y Tutoriales</MenuItem>*/}
                 {<MenuItem onClick={() => setOpenVAyudas(true)}>{IconsMenu("OndemandVideoIcon")}Ver Tutoriales </MenuItem> }
+                {<MenuItem onClick={() => setOpenVAyudas(true)}>{IconsMenu("MenuBookIcon")}Ver Guías </MenuItem> }
+                {<MenuItem onClick={() => setOpenVAyudas(true)}>{IconsMenu("HelpIcon")}Preguntas </MenuItem> }
                 <MenuItem onClick={() => logoutFnc()}><PowerSettingsNewIcon sx={{mr:"10px"}} />Cerrar Sesión </MenuItem> 
                 
               </Menu>
               </>
           </Grid>
-          {openVAyudas?<VisualizadorAyudas open={openVAyudas} handleClose={handleCloseVAyudas}/>:null}
+          {openVAyudas?<VisualizadorAyudas  handleClose={()=>{handleCloseVAyudas()}} />:null}
       </Grid>
   );
 };
