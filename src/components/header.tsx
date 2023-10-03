@@ -22,6 +22,9 @@ import { TimerCounter } from "./timer/timer";
 import MenuIcon from '@mui/icons-material/Menu';
 import BusinessIcon from '@mui/icons-material/Business';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { VisualizadorAyudas } from "../screens/Ayuda/VisualizadorAyudas";
 
 interface MenuObject {
   Id: string;
@@ -54,9 +57,10 @@ export const IconsMenu = (icon: string) => {
       return <BusinessIcon sx={{mr:"10px"}} />;
     case "PostAddIcon":
       return <PostAddIcon sx={{mr:"10px"}} />;
-   
+      case "OndemandVideoIcon":
+        return <OndemandVideoIcon sx={{mr:"10px"}} />;
     default:
-      return <InfoOutlinedIcon sx={{mr:"10px"}} />;
+      return <ArrowForwardIosIcon sx={{mr:"10px"}} />;
   }
 };
 
@@ -82,6 +86,13 @@ export const Header = () => {
   localStorage.getItem("Menus") !== null
     ? JSON.parse(localStorage.getItem("Menus")!)
     : [];
+
+
+  const [openVAyudas,setOpenVAyudas]=useState(false);
+
+  function handleCloseVAyudas(){
+    setOpenVAyudas(false)
+  }
   
   return (
     
@@ -232,11 +243,13 @@ export const Header = () => {
                 <MenuItem onClick={() => navigate("../catalogos")}><BusinessIcon sx={{mr:"10px"}} />Entidades</MenuItem>
                 <MenuItem onClick={() => navigate("../solicitudes")}><PostAddIcon sx={{mr:"10px"}}/>Solicitudes</MenuItem>
                 <MenuItem onClick={() => navigate("../ayuda")}><InfoOutlinedIcon sx={{mr:"10px"}} />Guias y Tutoriales</MenuItem>*/}
+                {<MenuItem onClick={() => setOpenVAyudas(true)}>{IconsMenu("OndemandVideoIcon")}Ver Tutoriales </MenuItem> }
                 <MenuItem onClick={() => logoutFnc()}><PowerSettingsNewIcon sx={{mr:"10px"}} />Cerrar Sesión </MenuItem> 
                 
               </Menu>
               </>
           </Grid>
+          {openVAyudas?<VisualizadorAyudas open={openVAyudas} handleClose={handleCloseVAyudas}/>:null}
       </Grid>
   );
 };

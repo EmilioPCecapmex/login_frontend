@@ -8,7 +8,7 @@ export const saveFile = (TabValue: string, archivo: { archivo: File; nombreArchi
     let dataArray = new FormData();
     dataArray.append("ROUTE", `${ruta}`);
     dataArray.append("ADDROUTE", "true");
-    dataArray.append("FILE", url);
+    dataArray.append("FILE", url); // probar mandar archivo.archivo
 
     axios.post(
         process.env.REACT_APP_APPLICATION_FILES + "/api/ApiDoc/SaveFile",
@@ -16,6 +16,7 @@ export const saveFile = (TabValue: string, archivo: { archivo: File; nombreArchi
         {
           headers: {
             Authorization: localStorage.getItem("jwtToken")||"",
+            'Content-Type': 'multipart/form-data',
           },
         }
       )
@@ -82,6 +83,6 @@ export const saveFile = (TabValue: string, archivo: { archivo: File; nombreArchi
           },
         }
       ).then((r)=>{console.log(r.data.data);
-        // setState("")
+        setState(r.data.data)
       });
   }
