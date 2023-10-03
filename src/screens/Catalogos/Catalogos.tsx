@@ -262,7 +262,7 @@ const Catalogos = () => {
 
   return (
     <>
-      <Header />
+      <Header menuActual="Entidades"/>
       <Grid
         container
         item

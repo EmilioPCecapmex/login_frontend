@@ -222,7 +222,7 @@ const Ayuda = ({
   return (
     <>
       <Header 
-      menuActual="Ayuda"/>
+      menuActual="Administracion de Ayudas"/>
       <Grid
       
         container

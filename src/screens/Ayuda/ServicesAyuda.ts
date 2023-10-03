@@ -92,7 +92,7 @@ export const saveFile = (TabValue: string, archivo: { archivo: File; nombreArchi
     axios.get(
         process.env.REACT_APP_APPLICATION_DEV + '/api/ayuda',
         {
-        params:{Opcion:Opcion,IdMenu:IdMenu},
+        params:{IdMenu:IdMenu,Opcion:Opcion},
           headers: {
             "Content-Type": "application/json",
             Authorization: localStorage.getItem("jwtToken")||"",

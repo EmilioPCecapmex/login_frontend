@@ -27,6 +27,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { VisualizadorAyudas } from "../screens/Ayuda/VisualizadorAyudas";
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import HelpIcon from "@mui/icons-material/Help";
+import { getAyuda } from "../screens/Ayuda/ServicesAyuda";
 
 
 
@@ -96,7 +97,7 @@ export const Header = (
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const menus =
+  const menus:MenuObject[] =
   localStorage.getItem("Menus") !== undefined &&
   localStorage.getItem("Menus") !== null
     ? JSON.parse(localStorage.getItem("Menus")!)
@@ -108,7 +109,18 @@ export const Header = (
   function handleCloseVAyudas(){
     setOpenVAyudas(false)
   }
+
   
+  let aux =localStorage.getItem("Menus") !== undefined &&
+    localStorage.getItem("Menus") !== null
+      ? JSON.parse(localStorage.getItem("Menus")!)
+      : [];
+    
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions, @typescript-eslint/no-unused-vars
+    let idMenu=aux.find((menu:MenuObject)=>{menu.Menu===menuActual})
+
+  const [arrayAyudas,setArrayAyudas]=useState<any[]>([])
+   
   return (
     
       <Grid
@@ -258,9 +270,9 @@ export const Header = (
                 <MenuItem onClick={() => navigate("../catalogos")}><BusinessIcon sx={{mr:"10px"}} />Entidades</MenuItem>
                 <MenuItem onClick={() => navigate("../solicitudes")}><PostAddIcon sx={{mr:"10px"}}/>Solicitudes</MenuItem>
                 <MenuItem onClick={() => navigate("../ayuda")}><InfoOutlinedIcon sx={{mr:"10px"}} />Guias y Tutoriales</MenuItem>*/}
-                {<MenuItem onClick={() => setOpenVAyudas(true)}>{IconsMenu("OndemandVideoIcon")}Ver Tutoriales </MenuItem> }
-                {<MenuItem onClick={() => setOpenVAyudas(true)}>{IconsMenu("MenuBookIcon")}Ver Guías </MenuItem> }
-                {<MenuItem onClick={() => setOpenVAyudas(true)}>{IconsMenu("HelpIcon")}Preguntas </MenuItem> }
+                {<MenuItem onClick={() => {getAyuda(setArrayAyudas,idMenu,"Videos"); setOpenVAyudas(true); }}>{IconsMenu("OndemandVideoIcon")}Ver Tutoriales </MenuItem> }
+                {<MenuItem onClick={() =>{ setOpenVAyudas(true)}}>{IconsMenu("MenuBookIcon")}Ver Guías </MenuItem> }
+                {<MenuItem onClick={() => {setOpenVAyudas(true)}}>{IconsMenu("HelpIcon")}Preguntas </MenuItem> }
                 <MenuItem onClick={() => logoutFnc()}><PowerSettingsNewIcon sx={{mr:"10px"}} />Cerrar Sesión </MenuItem> 
                 
               </Menu>
