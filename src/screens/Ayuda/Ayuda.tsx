@@ -56,7 +56,7 @@ const Ayuda = ({
 
   const [reload, setReload] = useState("");
 
-  const [preguntas, setPreguntas] = useState<IAyudaPregunta[]>([]);
+  const [Preguntas, setPreguntas] = useState<IAyudaPregunta[]>([]);
   const [Guias, setGuias] = useState<IAyudaGuia[]>([]);
   const [Videos, setVideos] = useState<IAyudaVideo[]>([]);
 
@@ -221,8 +221,10 @@ const Ayuda = ({
 
   return (
     <>
-      <Header />
+      <Header 
+      menuActual="Ayuda"/>
       <Grid
+      
         container
         item
         xs={12}
@@ -270,7 +272,7 @@ const Ayuda = ({
 
           {/* cambio a tabla preguntas */}
           {valueTab == "Preguntas" ? (
-            <MUIXDataGrid id={(row: any) => row.Id} columns={columnsPreguntas} rows={preguntas} />
+            <MUIXDataGrid id={(row: any) => row.Id} columns={columnsPreguntas} rows={Preguntas} />
 
           ) : null}
           {/* cambio a tablas videos y guías */}
