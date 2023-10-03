@@ -86,10 +86,10 @@ export const AyudasModal = ({
       event.target.files[0].type == "application/pdf"
     ) {
       setNombreArchivo(event?.target?.value?.split("\\")[2]);
-      // let file = event?.target!?.files[0]!;
+      let file = event?.target!?.files[0]!;
       setVideoPreview(URL.createObjectURL(event.target.files[0]));
-      // 
-      // (file);
+      
+      setNewVideo(file);
       // setslideropen(false);
     } else {
       alertaError("¡No es un archivo valido!")

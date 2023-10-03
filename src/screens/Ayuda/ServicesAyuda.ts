@@ -16,7 +16,6 @@ export const saveFile = (TabValue: string, archivo: { archivo: File; nombreArchi
         {
           headers: {
             Authorization: localStorage.getItem("jwtToken")||"",
-            'Content-Type': 'multipart/form-data',
           },
         }
       )
