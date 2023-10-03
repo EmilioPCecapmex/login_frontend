@@ -56,7 +56,7 @@ export const saveFile = (TabValue: string, archivo: { archivo: File; nombreArchi
           },
         }
       ).then((r)=>{console.log(r.data.data);
-        //alertaExito(handleClose)
+        alertaExito(handleClose)
         
       });
   }
