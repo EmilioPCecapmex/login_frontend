@@ -75,14 +75,7 @@ export const VisualizadorAyudas =({
           renderCell: (v: any) => {
             return (
               <Box>
-                <Tooltip title="Eliminar Video">
-                <IconButton onClick={() =>{}
-    
-                //  handleBorrarRegistro(v.row.id)
-                }>
-                  <DeleteForeverIcon />
-                </IconButton>
-              </Tooltip>
+                
 
               <Tooltip title="Visualizar">
                 <IconButton onClick={() =>{setOpen(true)}
@@ -119,13 +112,6 @@ export const VisualizadorAyudas =({
           renderCell: (v: any) => {
             return (
               <Box>
-                <Tooltip title="Eliminar Guía">
-                <IconButton onClick={() =>{}
-                  // handleBorrarRegistro(v.row.id)
-                  }>
-                  <DeleteForeverIcon />
-                </IconButton>
-              </Tooltip>
               <Tooltip title="Visualizar">
                 <IconButton onClick={() =>{setOpen(true)}
     
@@ -155,27 +141,7 @@ export const VisualizadorAyudas =({
       ];
       
     const columnsPreguntas: GridColDef[] = [
-        {
-          field: "Acciones",
-          disableExport: true,
-          headerName: "Acciones",
-          description: "Acciones",
-          sortable: false,
-          width: 80,
-          renderCell: (v: any) => {
-            return (
-              <Box>
-                <Tooltip title="Eliminar Pregunta">
-                <IconButton onClick={() =>{} 
-                // handleBorrarRegistro(v.row.id)
-                }>
-                  <DeleteForeverIcon />
-                </IconButton>
-              </Tooltip>
-              </Box>
-            );
-          },
-        },
+        
         { field: "Menu", headerName: "Menú", description: "Menú", width: 250 },
         {
           field: "Pregunta",
