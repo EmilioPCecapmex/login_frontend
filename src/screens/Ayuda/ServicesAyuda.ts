@@ -22,16 +22,39 @@ export const saveFile = (TabValue: string, archivo: { archivo: File; nombreArchi
       )
       .then(({data}) => {
 
-        if(data){createAyuda({
+        if(TabValue==="Guias"){
+          if(data){createAyuda({
             IdMenu:idMenu,
             Pregunta:pregunta,
-            Texto:texto,
+            Texto:"",
             RutaGuia:data?.RESPONSE.RUTA,
-            RutaVideo:data?.RESPONSE.RUTA,
-            NombreArchivo:archivo.nombreArchivo,
+            NombreArchivo:"",
             IdUsuario:localStorage.getItem("IdUsuario")
         },handleClose)} 
         else{alertaError("Error al cargar archivo")}
+        }
+        else{
+          if(data){createAyuda({
+          IdMenu:idMenu,
+          Pregunta:"",
+          Texto:"",
+          RutaGuia:"",
+          RutaVideo:data?.RESPONSE.RUTA,
+          NombreArchivo:archivo.nombreArchivo,
+          IdUsuario:localStorage.getItem("IdUsuario")
+      },handleClose)} 
+      else{alertaError("Error al cargar archivo")}}
+
+        // if(data){createAyuda({
+        //     IdMenu:idMenu,
+        //     Pregunta:pregunta,
+        //     Texto:texto,
+        //     RutaGuia:data?.RESPONSE.RUTA,
+        //     RutaVideo:data?.RESPONSE.RUTA,
+        //     NombreArchivo:archivo.nombreArchivo,
+        //     IdUsuario:localStorage.getItem("IdUsuario")
+        // },handleClose)} 
+        // else{alertaError("Error al cargar archivo")}
         
         
         // state.savePathDocAut(
