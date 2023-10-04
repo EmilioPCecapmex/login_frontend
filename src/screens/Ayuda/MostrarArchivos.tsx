@@ -2,6 +2,7 @@ import { Box, Dialog, Grid, IconButton, Tooltip, Typography } from "@mui/materia
 import { GridCloseIcon } from "@mui/x-data-grid"
 import { useState } from "react"
 import ModalForm from "../Componentes/ModalForm"
+import CloseIcon from "@mui/icons-material/Close";
 
 export const MostrarArchivos = ({
     handleClose,
@@ -11,7 +12,7 @@ export const MostrarArchivos = ({
 }: {
     handleClose: Function
     arrayAyudas: any[]
-    valueTab:string
+    valueTab: string
 }) => {
 
     const [archivoUrl, setArchivoUrl] = useState<string>("");
@@ -33,13 +34,38 @@ export const MostrarArchivos = ({
         >
 
 
-            <Grid container sx={{ width: "100vw", height: "100vh", display: "flex" , justifyContent:"flex-end"}}>
-                <Grid item xs={10} sm={10} md={10} lg={10} xl={10} sx={{ height: "7vh", display: "flex" , justifyContent:"center" }}>
-                   <Typography variant="h4">Visualizar</Typography>
+            <Grid container sx={{ width: "100vw", height: "100vh", display: "flex", justifyContent: "flex-end" }}>
+                <Grid item xs={10} sm={10} md={10} lg={10} >
+                    <Box sx={{ display: "flex", justifyContent: "center" }}>
+                        <Typography
+                            fontFamily={"'Montserrat', sans-serif"}
+                            sx={{
+                                whiteSpace: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                textAlign: "center",
+                                fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
+                                color: "#AF8C55"
+                            }}>
+
+                            Visualizar
+                        </Typography>
+                    </Box>
                 </Grid>
-                <Grid item xs={1} sm={1} md={1} lg={1} xl={1} sx={{ height: "7vh", display: "flex", justifyContent:"center" }}>
-            
-                    <Tooltip title="Salir">
+                <Grid item xs={1} paddingBottom={0} >
+                    <Grid container alignItems="flex-end" direction="row" justifyContent="flex-end" paddingRight={1} >
+                        <Tooltip title={"Salir"}>
+                            <IconButton
+                                onClick={() => handleClose()}
+                            >
+                                <CloseIcon sx={{
+                                    fontSize: [30, 30, 30, 40, 40]
+                                }} />
+                            </IconButton>
+                        </Tooltip>
+                    </Grid>
+                </Grid>
+                {/* <Tooltip title="Salir">
                         <IconButton
                              size="large"
                             // className="cerrar"
@@ -63,38 +89,37 @@ export const MostrarArchivos = ({
                         >
                             <GridCloseIcon />
                         </IconButton>
-                    </Tooltip>
-                    
-                    </Grid>
-                </Grid>
-            
-                {valueTab == "Videos" ? (
-              <Grid item className="contenedorDeReproductorVideo">
-                <video
-                  autoFocus
-                  loop
-                  autoPlay
-                  width={"100%"}
-                  height={"100%"}
-                  src={archivoUrl}
-                  id="video_player"
-                  controls
-                />
-              </Grid>
-            ) : (
-                <Grid item className="contenedorDeReproductorVideo">
+                    </Tooltip> */}
 
-              <object
+            
+        </Grid>
+
+            {
+        valueTab == "Videos" ? (
+            <Grid item className="contenedorDeReproductorVideo">
+                <video
+                    autoFocus
+                    loop
+                    autoPlay
+                    width={"100%"}
+                    height={"100%"}
+                    src={archivoUrl}
+                    id="video_player"
+                    controls
+                />
+            </Grid>
+        ) : (
+        <Grid item className="contenedorDeReproductorVideo">
+
+            <object
                 className="responsive-iframe"
                 data={archivoUrl}
                 type="text/html"
-              ></object>
-                            </Grid>
+            ></object>
+        </Grid>
 
-            )}
-            
-
-
+    )
+    }
 
 
 
@@ -102,7 +127,10 @@ export const MostrarArchivos = ({
 
 
 
-        </Dialog>
+
+
+
+        </Dialog >
     )
 }
 
