@@ -271,8 +271,8 @@ export const Header = (
                 <MenuItem onClick={() => navigate("../solicitudes")}><PostAddIcon sx={{mr:"10px"}}/>Solicitudes</MenuItem>
                 <MenuItem onClick={() => navigate("../ayuda")}><InfoOutlinedIcon sx={{mr:"10px"}} />Guias y Tutoriales</MenuItem>*/}
                 {<MenuItem onClick={() => {getAyuda(setArrayAyudas,idMenu?.Id,"Videos"); setOpenVAyudas(true); }}>{IconsMenu("OndemandVideoIcon")}Ver Tutoriales </MenuItem> }
-                {<MenuItem onClick={() =>{ setOpenVAyudas(true)}}>{IconsMenu("MenuBookIcon")}Ver Guías </MenuItem> }
-                {<MenuItem onClick={() => {setOpenVAyudas(true)}}>{IconsMenu("HelpIcon")}Preguntas </MenuItem> }
+                {<MenuItem onClick={() =>{getAyuda(setArrayAyudas,idMenu?.Id,"Guias"); setOpenVAyudas(true)}}>{IconsMenu("MenuBookIcon")}Ver Guías </MenuItem> }
+                {<MenuItem onClick={() => {getAyuda(setArrayAyudas,idMenu?.Id,"Preguntas");setOpenVAyudas(true)}}>{IconsMenu("HelpIcon")}Preguntas </MenuItem> }
                 <MenuItem onClick={() => logoutFnc()}><PowerSettingsNewIcon sx={{mr:"10px"}} />Cerrar Sesión </MenuItem> 
                 
               </Menu>
