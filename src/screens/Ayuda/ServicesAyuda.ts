@@ -28,7 +28,7 @@ export const saveFile = (TabValue: string, archivo: { archivo: File; nombreArchi
             Pregunta:pregunta,
             Texto:"",
             RutaGuia:data?.RESPONSE.RUTA,
-            NombreArchivo:"",
+            NombreArchivo:archivo.nombreArchivo,
             IdUsuario:localStorage.getItem("IdUsuario")
         },handleClose)} 
         else{alertaError("Error al cargar archivo")}

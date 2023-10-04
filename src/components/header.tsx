@@ -53,33 +53,33 @@ interface MenuObject {
 export const IconsMenu = (icon: string) => {
   switch (icon) {
     case "InfoOutlinedIcon":
-      return <InfoOutlinedIcon sx={{mr:"10px"}} />;
+      return <InfoOutlinedIcon sx={{ mr: "10px" }} />;
     case "PeopleOutlineIcon":
-      return <PeopleOutlineIcon sx={{mr:"10px"}} />;
+      return <PeopleOutlineIcon sx={{ mr: "10px" }} />;
     case "AppsIcon":
-      return <AppsIcon sx={{mr:"10px"}} />;
+      return <AppsIcon sx={{ mr: "10px" }} />;
     case "BusinessIcon":
-      return <BusinessIcon sx={{mr:"10px"}} />;
+      return <BusinessIcon sx={{ mr: "10px" }} />;
     case "PostAddIcon":
-      return <PostAddIcon sx={{mr:"10px"}} />;
-      case "OndemandVideoIcon":
-        return <OndemandVideoIcon sx={{mr:"10px"}} />;
-        case "MenuBookIcon":
-        return <MenuBookIcon sx={{mr:"10px"}} />;
-        case "HelpIcon":
-        return <HelpIcon sx={{mr:"10px"}} />;
+      return <PostAddIcon sx={{ mr: "10px" }} />;
+    case "OndemandVideoIcon":
+      return <OndemandVideoIcon sx={{ mr: "10px" }} />;
+    case "MenuBookIcon":
+      return <MenuBookIcon sx={{ mr: "10px" }} />;
+    case "HelpIcon":
+      return <HelpIcon sx={{ mr: "10px" }} />;
     default:
-      return <ArrowForwardIosIcon sx={{mr:"10px"}} />;
+      return <ArrowForwardIosIcon sx={{ mr: "10px" }} />;
   }
 };
 
 export const Header = (
-{
-  menuActual,
-}:{
-  menuActual:string;
-}
-  
+  {
+    menuActual,
+  }: {
+    menuActual: string;
+  }
+
 ) => {
   const navigate = useNavigate();
   const logoutFnc = () => {
@@ -97,188 +97,188 @@ export const Header = (
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const menus:MenuObject[] =
-  localStorage.getItem("Menus") !== undefined &&
-  localStorage.getItem("Menus") !== null
-    ? JSON.parse(localStorage.getItem("Menus")!)
-    : [];
+  const menus: MenuObject[] =
+    localStorage.getItem("Menus") !== undefined &&
+      localStorage.getItem("Menus") !== null
+      ? JSON.parse(localStorage.getItem("Menus")!)
+      : [];
 
-
-  const [openVAyudas,setOpenVAyudas]=useState(false);
-
-  function handleCloseVAyudas(){
+  function handleCloseVAyudas() {
     setOpenVAyudas(false)
   }
 
-  
-  let aux =localStorage.getItem("Menus") !== undefined &&
+  let aux = localStorage.getItem("Menus") !== undefined &&
     localStorage.getItem("Menus") !== null
-      ? JSON.parse(localStorage.getItem("Menus")!)
-      : [];
-    
-    // eslint-disable-next-line array-callback-return
-    let idMenu=aux.find((menu:MenuObject)=>{ if(menu.Menu===menuActual){return menu}})
+    ? JSON.parse(localStorage.getItem("Menus")!)
+    : [];
 
-  const [arrayAyudas,setArrayAyudas]=useState<any[]>([])
-   
+  // eslint-disable-next-line array-callback-return
+  let idMenu = aux.find((menu: MenuObject) => { if (menu.Menu === menuActual) { return menu } })
+  const [openVAyudas, setOpenVAyudas] = useState(false);
+
+  const [arrayAyudas, setArrayAyudas] = useState<any[]>([])
+
+  const [option, setOption] = useState("Videos");
+
+
   return (
-    
-      <Grid
-        container
-        display={"flex"}
-        alignItems="center"
-        sx={{
-          height: "10vh",
-          width: "100%",
-          border: "1px solid #b3afaf",
-          justifyContent:"space-between"
-        }}
-      >
+
+    <Grid
+      container
+      display={"flex"}
+      alignItems="center"
+      sx={{
+        height: "10vh",
+        width: "100%",
+        border: "1px solid #b3afaf",
+        justifyContent: "space-between"
+      }}
+    >
       <TimerCounter />
-        {/* grid del nombre */}
-          <Grid item 
+      {/* grid del nombre */}
+      <Grid item
+        sx={{
+          "@media (min-width: 480px)": {
+            width: "50%",
+          },
+
+          "@media (min-width: 768px)": {
+            width: "30%",
+          },
+
+          "@media (min-width: 1140px)": {
+            width: "20%",
+          },
+
+          "@media (min-width: 1400px)": {
+            width: "20%",
+          },
+
+          "@media (min-width: 1870px)": {
+            width: "20%",
+          },
+
+        }} >
+        <Typography
+          paddingLeft={3}
+          fontFamily={"'Montserrat', sans-serif"}
           sx={{
-            "@media (min-width: 480px)": {
-              width: "50%",
-            },
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            textAlign: "center",
+            fontSize: [20, 20, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
+            color: "#AF8C55"
+          }}
+        >
 
-            "@media (min-width: 768px)": {
-              width: "30%",
-            },
-
-            "@media (min-width: 1140px)": {
-              width: "20%",
-            },
-
-            "@media (min-width: 1400px)": {
-              width: "20%",
-            },
-
-            "@media (min-width: 1870px)": {
-              width: "20%",
-            },
-
-          }} >
-            <Typography
-              paddingLeft={3}
-              fontFamily={"'Montserrat', sans-serif"}
-                 sx={{
-                   whiteSpace: "nowrap",
-                   overflow: "hidden",
-                   textOverflow: "ellipsis",
-                   textAlign: "center",
-                   fontSize: [20, 20, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
-                   color: "#AF8C55"
-                 }}
-            >
-              
-              {localStorage.getItem("NombreUsuario")}
-            </Typography>
-          </Grid>
-          {/* imagen */}
-          <Grid item display={"flex"} justifyContent="center">
-            <Hidden mdDown>
-              <img
-                alt="logo"
-                src={logo}
-                style={{
-                  objectFit: "scale-down",
-                  width: "60%",
-                  height: "100%",
-                  // borderRadius: '50%',
-                }}
-              />
-            </Hidden>
-          </Grid>
-
-
-          <Grid
-            item
-            display={"flex"}
-            height={"100%"}
-            justifyContent={"flex-end"}
-            sx={{
-              height: "40px",
-              alignItems: "center",
-              justifyContent: "flex-end",
-
-              "@media (min-width: 480px)": {
-                width: "50%",
-              },
-
-              "@media (min-width: 768px)": {
-                width: "30%",
-              },
-
-              "@media (min-width: 1140px)": {
-                width: "25%",
-              },
-
-              "@media (min-width: 1400px)": {
-                width: "20%",
-              },
-
-              "@media (min-width: 1870px)": {
-                width: "20%",
-              },
+          {localStorage.getItem("NombreUsuario")}
+        </Typography>
+      </Grid>
+      {/* imagen */}
+      <Grid item display={"flex"} justifyContent="center">
+        <Hidden mdDown>
+          <img
+            alt="logo"
+            src={logo}
+            style={{
+              objectFit: "scale-down",
+              width: "60%",
+              height: "100%",
+              // borderRadius: '50%',
             }}
-          > <>
+          />
+        </Hidden>
+      </Grid>
+
+
+      <Grid
+        item
+        display={"flex"}
+        height={"100%"}
+        justifyContent={"flex-end"}
+        sx={{
+          height: "40px",
+          alignItems: "center",
+          justifyContent: "flex-end",
+
+          "@media (min-width: 480px)": {
+            width: "50%",
+          },
+
+          "@media (min-width: 768px)": {
+            width: "30%",
+          },
+
+          "@media (min-width: 1140px)": {
+            width: "25%",
+          },
+
+          "@media (min-width: 1400px)": {
+            width: "20%",
+          },
+
+          "@media (min-width: 1870px)": {
+            width: "20%",
+          },
+        }}
+      > <>
           <Tooltip title="Menú">
-              <IconButton
-                
-                onClick={handleMenu}
-                
-                sx={{mr:"2rem",color: "#AF8C55"}}
-              >
-                <MenuIcon sx={{
-                    fontSize: '24px', // Tamaño predeterminado del icono
-                    '@media (max-width: 600px)': {
-                      fontSize: 30, // Pantalla extra pequeña (xs y sm)
-                    },
-                    '@media (min-width: 601px) and (max-width: 960px)': {
-                      fontSize: 30, // Pantalla pequeña (md)
-                    },
-                    '@media (min-width: 961px) and (max-width: 1280px)': {
-                      fontSize: 40, // Pantalla mediana (lg)
-                    },
-                    '@media (min-width: 1281px)': {
-                      fontSize: 40, // Pantalla grande (xl)
-                    },
-                  }}/>
-              </IconButton>
-              </Tooltip>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                {menus.length > 0 && menus.map((item:MenuObject)=>{
-                  return(<MenuItem onClick={() =>  navigate(item.Path)}>{IconsMenu(item.Icon||"")}{ item.Menu} </MenuItem>)
-                })}
-                {/* <MenuItem onClick={() => navigate("../admin")}><PeopleOutlineIcon sx={{mr:"10px"}} />Usuarios</MenuItem>
+            <IconButton
+
+              onClick={handleMenu}
+
+              sx={{ mr: "2rem", color: "#AF8C55" }}
+            >
+              <MenuIcon sx={{
+                fontSize: '24px', // Tamaño predeterminado del icono
+                '@media (max-width: 600px)': {
+                  fontSize: 30, // Pantalla extra pequeña (xs y sm)
+                },
+                '@media (min-width: 601px) and (max-width: 960px)': {
+                  fontSize: 30, // Pantalla pequeña (md)
+                },
+                '@media (min-width: 961px) and (max-width: 1280px)': {
+                  fontSize: 40, // Pantalla mediana (lg)
+                },
+                '@media (min-width: 1281px)': {
+                  fontSize: 40, // Pantalla grande (xl)
+                },
+              }} />
+            </IconButton>
+          </Tooltip>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            {menus.length > 0 && menus.map((item: MenuObject) => {
+              return (<MenuItem onClick={() => navigate(item.Path)}>{IconsMenu(item.Icon || "")}{item.Menu} </MenuItem>)
+            })}
+            {/* <MenuItem onClick={() => navigate("../admin")}><PeopleOutlineIcon sx={{mr:"10px"}} />Usuarios</MenuItem>
                 <MenuItem onClick={() => navigate("../app")}><AppsIcon sx={{mr:"10px"}} />Aplicaciones</MenuItem>
                 <MenuItem onClick={() => navigate("../catalogos")}><BusinessIcon sx={{mr:"10px"}} />Entidades</MenuItem>
                 <MenuItem onClick={() => navigate("../solicitudes")}><PostAddIcon sx={{mr:"10px"}}/>Solicitudes</MenuItem>
                 <MenuItem onClick={() => navigate("../ayuda")}><InfoOutlinedIcon sx={{mr:"10px"}} />Guias y Tutoriales</MenuItem>*/}
-                {<MenuItem onClick={() => {getAyuda(setArrayAyudas,idMenu?.Id,"Videos"); setOpenVAyudas(true); }}>{IconsMenu("OndemandVideoIcon")}Ver Tutoriales </MenuItem> }
-                {<MenuItem onClick={() =>{getAyuda(setArrayAyudas,idMenu?.Id,"Guias"); setOpenVAyudas(true)}}>{IconsMenu("MenuBookIcon")}Ver Guías </MenuItem> }
-                {<MenuItem onClick={() => {getAyuda(setArrayAyudas,idMenu?.Id,"Preguntas");setOpenVAyudas(true)}}>{IconsMenu("HelpIcon")}Preguntas </MenuItem> }
-                <MenuItem onClick={() => logoutFnc()}><PowerSettingsNewIcon sx={{mr:"10px"}} />Cerrar Sesión </MenuItem> 
-                
-              </Menu>
-              </>
-          </Grid>
-          {openVAyudas?<VisualizadorAyudas  handleClose={()=>{handleCloseVAyudas()}} arrayAyudas={arrayAyudas} />:null}
+            {<MenuItem onClick={() => { getAyuda(setArrayAyudas, idMenu?.Id, "Videos"); setOpenVAyudas(true); setOption("Videos") }}>{IconsMenu("OndemandVideoIcon")}Ver Tutoriales </MenuItem>}
+            {<MenuItem onClick={() => { getAyuda(setArrayAyudas, idMenu?.Id, "Guias"); setOpenVAyudas(true); setOption("Guias") }}>{IconsMenu("MenuBookIcon")}Ver Guías </MenuItem>}
+            {<MenuItem onClick={() => { getAyuda(setArrayAyudas, idMenu?.Id, "Preguntas"); setOpenVAyudas(true); setOption("Preguntas") }}>{IconsMenu("HelpIcon")}Preguntas </MenuItem>}
+            <MenuItem onClick={() => logoutFnc()}><PowerSettingsNewIcon sx={{ mr: "10px" }} />Cerrar Sesión </MenuItem>
+
+          </Menu>
+        </>
       </Grid>
+      {openVAyudas ? <VisualizadorAyudas handleClose={() => { handleCloseVAyudas() }} arrayAyudas={arrayAyudas} valueTab={option}  /> : null}
+    </Grid>
   );
 };

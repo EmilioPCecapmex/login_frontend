@@ -518,8 +518,9 @@ export const AyudasModal = ({
         ""
       )}
 
-      
-        <Grid container item xl={12}>
+{TabValue == "Videos" || TabValue == "Guias" ? 
+
+        (<Grid container item xl={12}>
         
         <div className="containerModalCargarVideos">
             
@@ -555,7 +556,9 @@ export const AyudasModal = ({
               </Grid>
             
           </div>
-        </Grid>
+        </Grid>): (
+        ""
+      )}
       
       <Grid>
          
