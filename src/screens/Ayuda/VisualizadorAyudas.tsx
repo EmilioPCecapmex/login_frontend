@@ -37,13 +37,13 @@ interface IAyudaVideo {
 
 export const VisualizadorAyudas =({
     
-    handleClose
-    
+    handleClose,
+    arrayAyudas
 
 }:{
     
     handleClose:Function
-
+    arrayAyudas:any[]
 })=>{
 
     const [valueTab, setValueTab] = useState<string>("Videos");

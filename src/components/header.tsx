@@ -116,8 +116,8 @@ export const Header = (
       ? JSON.parse(localStorage.getItem("Menus")!)
       : [];
     
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions, @typescript-eslint/no-unused-vars
-    let idMenu=aux.find((menu:MenuObject)=>{menu.Menu===menuActual})
+    // eslint-disable-next-line array-callback-return
+    let idMenu=aux.find((menu:MenuObject)=>{ if(menu.Menu===menuActual){return menu}})
 
   const [arrayAyudas,setArrayAyudas]=useState<any[]>([])
    
@@ -270,7 +270,7 @@ export const Header = (
                 <MenuItem onClick={() => navigate("../catalogos")}><BusinessIcon sx={{mr:"10px"}} />Entidades</MenuItem>
                 <MenuItem onClick={() => navigate("../solicitudes")}><PostAddIcon sx={{mr:"10px"}}/>Solicitudes</MenuItem>
                 <MenuItem onClick={() => navigate("../ayuda")}><InfoOutlinedIcon sx={{mr:"10px"}} />Guias y Tutoriales</MenuItem>*/}
-                {<MenuItem onClick={() => {getAyuda(setArrayAyudas,idMenu,"Videos"); setOpenVAyudas(true); }}>{IconsMenu("OndemandVideoIcon")}Ver Tutoriales </MenuItem> }
+                {<MenuItem onClick={() => {getAyuda(setArrayAyudas,idMenu?.Id,"Videos"); setOpenVAyudas(true); }}>{IconsMenu("OndemandVideoIcon")}Ver Tutoriales </MenuItem> }
                 {<MenuItem onClick={() =>{ setOpenVAyudas(true)}}>{IconsMenu("MenuBookIcon")}Ver Guías </MenuItem> }
                 {<MenuItem onClick={() => {setOpenVAyudas(true)}}>{IconsMenu("HelpIcon")}Preguntas </MenuItem> }
                 <MenuItem onClick={() => logoutFnc()}><PowerSettingsNewIcon sx={{mr:"10px"}} />Cerrar Sesión </MenuItem> 
@@ -278,7 +278,7 @@ export const Header = (
               </Menu>
               </>
           </Grid>
-          {openVAyudas?<VisualizadorAyudas  handleClose={()=>{handleCloseVAyudas()}} />:null}
+          {openVAyudas?<VisualizadorAyudas  handleClose={()=>{handleCloseVAyudas()}} arrayAyudas={arrayAyudas} />:null}
       </Grid>
   );
 };
