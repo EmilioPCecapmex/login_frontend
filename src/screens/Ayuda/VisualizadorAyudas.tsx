@@ -1,11 +1,12 @@
-import { Box, Dialog, DialogTitle, Grid, IconButton, Modal, Tab, Tooltip } from "@mui/material";
-import { GridColDef } from "@mui/x-data-grid";
+import { Box, Dialog, DialogTitle, Grid, IconButton, Modal, Tab, Tooltip, Typography } from "@mui/material";
+import { GridCloseIcon, GridColDef } from "@mui/x-data-grid";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useState } from "react";
 import MUIXDataGrid from "../../components/MUIXDataGrid";
 import ModalForm from "../Componentes/ModalForm";
 import AyudasModal from "./AyudaModal";
 import { TabContext, TabList } from "@mui/lab";
+import PreviewIcon from '@mui/icons-material/Preview';
 
 interface IAyudaVideo {
     Id: string,
@@ -50,6 +51,10 @@ export const VisualizadorAyudas =({
     const [Videos, setVideos] = useState<IAyudaVideo[]>([]);
     const [Guias, setGuias] = useState<IAyudaGuia[]>([]);
     const [Preguntas, setPreguntas] = useState<IAyudaPregunta[]>([]);
+    const [archivoUrl, setArchivoUrl] = useState<string>("");
+    const [modoVisualizacion, setModoVisualizacion] = useState<string>("");
+
+
 
 
 
@@ -73,7 +78,17 @@ export const VisualizadorAyudas =({
                   <DeleteForeverIcon />
                 </IconButton>
               </Tooltip>
+
+              <Tooltip title="Visualizar">
+                <IconButton onClick={() =>{}
+    
+                //  handleBorrarRegistro(v.row.id)
+                }>
+                  <PreviewIcon />
+                </IconButton>
+              </Tooltip>
               </Box>
+              
             );
           },
         },
@@ -191,8 +206,80 @@ export const VisualizadorAyudas =({
 
             
             </Grid>
+
+
+            <Dialog
+        className="containerVizualizar"
+        fullScreen
+        sx={{ zIndex: 2000 }}
+        open={true}
+      >
+        <div>
+          {/* <SliderProgress open={slideropen} texto={""} /> */}
+          <Grid
+            container
+            className="HeaderModal"
+            justifyContent="flex-end"
+            alignItems="center"
+            paddingTop={1}
+            paddingBottom={0.5}
+          >
+            <Grid item xs={10} sm={10} md={10} lg={10}>
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <Typography variant="h4">Visualizar</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={1.5} paddingBottom={0}>
+              <Grid
+                container
+                alignItems="flex-end"
+                direction="row"
+                justifyContent="flex-end"
+                paddingRight={1}
+              >
+                <Tooltip title="Salir">
+                  <IconButton
+                    size="large"
+                    className="cerrar"
+                    aria-label="close"
+                    onClick={() => handleClose()}
+                  >
+                    <GridCloseIcon />
+                  </IconButton>
+                </Tooltip>
+              </Grid>
+            </Grid>
+          </Grid>
+  
+          <div className="containerCenterVizualizar">
+            {modoVisualizacion == "video" ? (
+              <Grid item className="contenedorDeReproductorVideo">
+                <video
+                  autoFocus
+                  loop
+                  autoPlay
+                  width={"100%"}
+                  height={"100%"}
+                  src={archivoUrl}
+                  id="video_player"
+                  controls
+                />
+              </Grid>
+            ) : (
+              <object
+                className="responsive-iframe"
+                data={archivoUrl}
+                type="text/html"
+              ></object>
+            )}
+          </div>
+        </div>
+      </Dialog>
+
           
         </ModalForm>)
+
+        
         
     )
 }
