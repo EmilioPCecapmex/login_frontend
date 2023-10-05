@@ -83,20 +83,7 @@ export const saveFile = (TabValue: string, archivo: { archivo: File; nombreArchi
       });
   }
 
-  // export const createPregunta=(data:any)=>{
-  //   axios.post(
-  //       data,
-  //       {params:{Tabla:'Menus',ValorCondicion:localStorage.getItem("IdApp")},
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     ).then((r)=>{console.log(r.data.data);
-        
-  //     });
-  // }
-
-
+  
   export const getMenus=(setState:Function)=>{
     axios.get(
         process.env.REACT_APP_APPLICATION_DEV + '/api/listas',
@@ -125,3 +112,26 @@ export const saveFile = (TabValue: string, archivo: { archivo: File; nombreArchi
         setState(r.data.data)
       });
   }
+
+  
+  
+
+  export const deleteAyuda = (IdPreguntaFrecuente:string, IdUsuario:string,fnc:Function) => {
+    axios({
+      method: "delete",
+      url: process.env.REACT_APP_APPLICATION_DEV + "/api/ayuda",
+      data: {IdPreguntaFrecuente:IdPreguntaFrecuente,
+        IdUsuario: IdUsuario},
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("jwtToken") || "",
+      },
+    })
+      .then((r) => {
+        alertaExito(fnc());
+      })
+      .catch(() => {
+        alertaError();
+         //fnc();
+      });
+  };
