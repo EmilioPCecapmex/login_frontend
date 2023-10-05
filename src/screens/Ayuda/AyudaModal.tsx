@@ -17,6 +17,7 @@ import MUIXDataGrid from "../../components/MUIXDataGrid";
 import axios from "axios";
 import { createAyuda, getMenus, saveFile } from "./ServicesAyuda";
 import { alertaError } from "../../components/alertas/toast";
+import { MenuSharp } from "@mui/icons-material";
 
 export interface ILista{
   Id:string;
@@ -316,16 +317,20 @@ export const AyudasModal = ({
             ""
           )}
 
-          {TabValue == "Videos" && nombreArchivo!=='' ? (
+          {TabValue == "Videos" && nombreArchivo!==''   ? (
             <>
               <Button
-                // disabled={
-                //   !idMenu || idMenu == "false" || !nombreArchivo //||
-                //   // !newVideo ||
-                //   // !TabValueDepartamento
-                // }
+                
                 className="aceptar"
-                onClick={() =>saveFile(TabValue,{nombreArchivo:nombreArchivo,archivo:newVideo},menu.Id,pregunta,respuesta,handleClose)}
+                onClick={() =>{
+                  if(menu.Id!==""){
+                    saveFile(TabValue,{nombreArchivo:nombreArchivo,archivo:newVideo},menu.Id,pregunta,respuesta,handleClose);
+                  }
+                  else{
+                    alertaError("Seleccione un menú")
+                  }}
+
+                }
               >
                 Guardar
               </Button>
@@ -334,19 +339,25 @@ export const AyudasModal = ({
             ""
           )}
 
-          {TabValue == "Guias" && nombreArchivo!=='' ? (
+          {TabValue == "Guias" && nombreArchivo!==''? (
             <>
               <Button
-                // disabled={
-                //   !idMenu ||
-                //   idMenu == "false" ||
-                //   !nombreArchivo ||
-                //   !pregunta //||
-                //  // !newVideo ||
-                //  // !TabValueDepartamento
-                // }
+                
                 className="aceptar"
-              onClick={() =>saveFile(TabValue,{nombreArchivo:nombreArchivo,archivo:newVideo},menu.Id,pregunta,respuesta,handleClose)}
+              onClick={() =>{
+                if(menu.Id!==""){
+                  if(pregunta!==""){
+                  saveFile(TabValue,{nombreArchivo:nombreArchivo,archivo:newVideo},menu.Id,pregunta,respuesta,handleClose)
+                  }
+                  else{
+                    alertaError("Escriba título de guía")
+                  }
+                }
+                else{
+                  alertaError("Seleccione un menú")
+                }}
+
+              }
               >
                 Guardar
               </Button>
@@ -358,25 +369,37 @@ export const AyudasModal = ({
           {TabValue == "Preguntas" ? (
             <>
               <Button
-                // disabled={
-                //   !idMenu ||
-                //   idMenu == "false" ||
-                //   // !TabValueDepartamento ||
-                //   !pregunta ||
-                //   !respuesta
-                // }
+                
                 className="aceptar"
               onClick={() => {
-                let datos={
-                  IdMenu:menu.Id,
-                  Pregunta:pregunta,
-                  Texto:respuesta,
-                  RutaGuia:"",
-                  RutaVideo:"",
-                  NombreArchivo:"",
-                  IdUsuario:localStorage.getItem("IdUsuario")||""
+                if(menu.Id!==""){
+                  if(pregunta!==""){
+                    if(respuesta!==""){
+                      let datos={
+                      IdMenu:menu.Id,
+                      Pregunta:pregunta,
+                      Texto:respuesta,
+                      RutaGuia:"",
+                      RutaVideo:"",
+                      NombreArchivo:"",
+                      IdUsuario:localStorage.getItem("IdUsuario")||""
+                      }
+                      createAyuda(datos,handleClose)
+                    }
+                    else{
+                      alertaError("Escriba una respuesta")
+
+                    }
+                  }
+                  else{
+                    alertaError("Escriba una pregunta")
+                  }
                 }
-                createAyuda(datos,handleClose)}}
+                else{
+                  alertaError("Seleccione un menú")
+                }}
+                
+                }
               >
                 Guardar
               </Button>
@@ -421,6 +444,8 @@ export const AyudasModal = ({
             </Grid>
             <Grid item xs={12}>
               <TextField
+       
+                disabled
                 margin="dense"
                 id="nombreEvento"
                 value={nombreArchivo}

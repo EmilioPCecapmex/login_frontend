@@ -155,10 +155,11 @@ export const deleteAyuda = (IdPreguntaFrecuente:string, IdUsuario:string,fnc:Fun
     },
   })
     .then((r) => {
-      alertaExito(fnc());
+      alertaExito(()=>{});
+      fnc()
     })
     .catch(() => {
       alertaError();
-       //fnc();
+       fnc();
     });
 };
