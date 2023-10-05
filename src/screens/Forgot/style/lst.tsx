@@ -34,7 +34,7 @@ export const lstXl = {
     display: "flex",
     justifyContent: "center",
   },
-  imgSize: { width: "11vw" },
+  imgSize: { width: "18vw" },
 
   loginTextBox: {
     mt: "3vh",
