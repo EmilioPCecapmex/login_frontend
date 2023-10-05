@@ -14,7 +14,7 @@ import { alertaError, alertaExito } from "../../components/alertas/toast";
 import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
 import { GridColDef } from "@mui/x-data-grid";
 import AyudasModal, { ILista, Tabla } from "./AyudaModal";
-import { getAyuda } from "./ServicesAyuda";
+import { deleteAyuda, getAyuda } from "./ServicesAyuda";
 
 interface IAyudaVideo {
   Id: string,
@@ -77,8 +77,6 @@ const Ayuda = ({
 
 
 
-
-
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValueTab(newValue);
   };
@@ -92,11 +90,14 @@ const Ayuda = ({
       sortable: false,
       width: 80,
       renderCell: (v: any) => {
+        console.log("v",v);
+        
         return (
           <Box>
             <Tooltip title="Eliminar Guía">
-            <IconButton onClick={() =>{}
-              // handleBorrarRegistro(v.row.id)
+            <IconButton onClick={() =>{
+              deleteAyuda(v.row.Id,localStorage.getItem("IdUsuario")||"",()=>{})
+            }
               }>
               <DeleteForeverIcon />
             </IconButton>
@@ -133,9 +134,11 @@ const Ayuda = ({
         return (
           <Box>
             <Tooltip title="Eliminar Video">
-            <IconButton onClick={() =>{}
+            <IconButton onClick={() =>{
+              deleteAyuda(v.row.Id,localStorage.getItem("IdUsuario")||"",()=>{})
+            }
 
-            //  handleBorrarRegistro(v.row.id)
+            
             }>
               <DeleteForeverIcon />
             </IconButton>
@@ -166,8 +169,9 @@ const Ayuda = ({
         return (
           <Box>
             <Tooltip title="Eliminar Pregunta">
-            <IconButton onClick={() =>{} 
-            // handleBorrarRegistro(v.row.id)
+            <IconButton onClick={() =>{
+              deleteAyuda(v.row.Id,localStorage.getItem("IdUsuario")||"",()=>{})
+            } 
             }>
               <DeleteForeverIcon />
             </IconButton>
