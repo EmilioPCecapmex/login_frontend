@@ -459,7 +459,8 @@ export const AyudasModal = ({
             </Grid>
             <Grid item xs={12}>
               <TextField
-       
+
+
                 disabled
                 margin="dense"
                 id="nombreEvento"
@@ -487,6 +488,9 @@ export const AyudasModal = ({
                   fullWidth
                   variant="outlined"
                   size="small"
+                  inputProps={{ maxLength: 300 }}
+
+                
                   onChange={(v) => setPregunta(v.target.value)}
                   sx={{ paddingBottom: "10px" }}
                 />
@@ -521,6 +525,9 @@ export const AyudasModal = ({
             </Grid>
             <Grid item xs={12}>
               <TextField
+
+
+                inputProps={{ maxLength: 300 }}
                 margin="dense"
                 id="nombreEvento"
                 value={pregunta}
@@ -539,6 +546,7 @@ export const AyudasModal = ({
             </Grid>
             <Grid item xs={12}>
               <TextField
+                inputProps={{ maxLength: 700 }}
                 margin="dense"
                 id="nombreEvento"
                 value={respuesta}

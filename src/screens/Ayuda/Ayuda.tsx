@@ -11,11 +11,11 @@ import { Create, IModify } from "../../components/dialogsCatalogos/Create";
 import { Header } from "../../components/header";
 import ButtonsAdd from "../Componentes/ButtonsAdd";
 import { alertaError, alertaExito } from "../../components/alertas/toast";
-import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
 import { GridColDef } from "@mui/x-data-grid";
 import AyudasModal, { ILista, Tabla } from "./AyudaModal";
 import { deleteAyuda, getAyuda } from "./ServicesAyuda";
 import Swal from "sweetalert2";
+import MUIXDataGrid from "../../components/MUIXDataGrid";
 
 export interface IAyudaVideo {
   Id: string,
@@ -317,7 +317,7 @@ function eliminar (v:any){
           {/* cambio a tabla preguntas */}
           {valueTab == "Preguntas" ? (
             <MUIXDataGrid id={(row: any) => row.Id} columns={columnsPreguntas} rows={Preguntas} />
-
+            
           ) : null}
           {/* cambio a tablas videos y guías */}
           {valueTab == "Videos" ? (
