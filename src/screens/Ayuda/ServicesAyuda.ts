@@ -87,8 +87,7 @@ export const getFileByName= async(ROUTE:string,NOMBRE:string,setState:Function)=
   .then(({ data }) => {
     console.log("data",data);
     
-    // let file = data.RESPONSE;
-    setState(`data:application/pdf;base64,${data.RESPONSE.FILE}`);
+    setState(data.RESPONSE.FILE);
   })
   .catch((r) => {alertaError("Ocurrio un problema al obtener el archivo")});
 };
@@ -155,11 +154,10 @@ export const deleteAyuda = (IdPreguntaFrecuente:string, IdUsuario:string,fnc:Fun
     },
   })
     .then((r) => {
-      alertaExito(()=>{});
-      fnc()
+      alertaExito(fnc());
     })
     .catch(() => {
       alertaError();
-       fnc();
+       //fnc();
     });
 };
