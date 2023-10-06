@@ -4,14 +4,17 @@ import { useState, useEffect } from "react"
 import ModalForm from "../Componentes/ModalForm"
 import CloseIcon from "@mui/icons-material/Close";
 import { getFileByName } from "./ServicesAyuda";
+import { IInfoFile } from "./VisualizadorAyudas";
 
 export const MostrarArchivos = ({
     handleClose,
-    valueTab
+    valueTab,
+    infoFile,
 
 }: {
     handleClose: Function
     valueTab: string
+    infoFile:IInfoFile
 }) => {
 
     const [archivoUrl, setArchivoUrl] = useState<string>("");
@@ -28,8 +31,8 @@ export const MostrarArchivos = ({
 
     useEffect(() => {
         valueTab == "Videos" ?
-        getFileByName('/PAUA_DEV/VIDEOS/TUTORIALES/', '2023-09-29 23:58:15SFyTGE _ Inicia Sesión - Brave 2023-09-29 16-09-57.mp4', saveVideo):
-        getFileByName('/PAUA_DEV/GUIAS/','2023-10-05 18:33:36Auditorias  Catálogo .pdf',savePDF)
+        getFileByName(process.env.REACT_APP_DOC_ROUTE+'/VIDEOS/TUTORIALES/',infoFile.nombre, saveVideo):
+        getFileByName(process.env.REACT_APP_DOC_ROUTE+'/GUIAS/', infoFile.nombre,savePDF)
     }, [])
 
 

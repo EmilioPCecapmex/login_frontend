@@ -29,6 +29,7 @@ export default function MUIXDataGrid(props: any) {
               quickFilterProps: { debounceMs: 500 },
             },
           }}
+          autoHeight={true}
           localeText={{
             noRowsLabel: "Sin filas",
             noResultsOverlayLabel: "Resultados no encontrados",

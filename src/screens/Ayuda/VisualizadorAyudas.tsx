@@ -38,7 +38,7 @@ interface IAyudaVideo {
     UltimaActualizacion: string
   }
 
-  interface IInfoFile{
+  export interface IInfoFile{
     nombre:string;
     ruta:string;
   }
@@ -61,7 +61,7 @@ export const VisualizadorAyudas =({
     const [archivoUrl, setArchivoUrl] = useState<string>("");
     const [modoVisualizacion, setModoVisualizacion] = useState<string>("");
     const [open, setOpen] = useState(false);
-    const [infoFile,setInfoFile]=useState<IInfoFile>();
+    const [infoFile,setInfoFile]=useState<IInfoFile>({nombre:"",ruta:""});
 
 
 
@@ -218,7 +218,8 @@ export const VisualizadorAyudas =({
 
             </Grid>
             {open?<MostrarArchivos 
-            handleClose={handleCloseModal}    
+            handleClose={handleCloseModal}   
+            infoFile={infoFile} 
             valueTab={valueTab}        
             />
             :null}
