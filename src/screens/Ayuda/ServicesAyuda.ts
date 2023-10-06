@@ -41,6 +41,7 @@ export const saveFile = (
               IdUsuario: localStorage.getItem("IdUsuario"),
             },
             handleClose
+            
           );
         } else {
           alertaError("Error al cargar archivo");
@@ -142,8 +143,8 @@ export const getAyuda = (
     });
 };
 
-export const deleteAyuda = (IdPreguntaFrecuente:string, IdUsuario:string,fnc:Function) => {
-  axios({
+export const deleteAyuda = async(IdPreguntaFrecuente:string, IdUsuario:string,fnc:Function) => {
+  await axios({
     method: "delete",
     url: process.env.REACT_APP_APPLICATION_DEV + "/api/ayuda",
     data: {IdPreguntaFrecuente:IdPreguntaFrecuente,
