@@ -30,14 +30,14 @@ export default function AppsModal({
   const openPage = (t: string, idapp: string) => {
     closeM();
     if (t !== "./admin") {
-      window.location.assign(
+      window.location.replace(
         t +
-        "?jwt=" +
-        localStorage.getItem("jwtToken") +
-        "&rf=" +
-        localStorage.getItem("refreshToken") +
-        "&IdApp=" +
-        idapp
+          "?jwt=" +
+          localStorage.getItem("jwtToken") +
+          "&rf=" +
+          localStorage.getItem("refreshToken") +
+          "&IdApp=" +
+          idapp
       );
       // localStorage.clear();
     } else if (t === "./admin") {
@@ -46,7 +46,14 @@ export default function AppsModal({
   };
   return (
     <Dialog open={openM} fullScreen>
-      <Grid container sx={{ display: "flex", maxHeightheight: "100vh", maxWidthwidth: "100vw" }}>
+      <Grid
+        container
+        sx={{
+          display: "flex",
+          maxHeightheight: "100vh",
+          maxWidthwidth: "100vw",
+        }}
+      >
         <Grid
           className="logoLogin"
           container
@@ -66,7 +73,6 @@ export default function AppsModal({
           />
         </Grid>
 
-
         <Grid
           container
           className="ApssLoginElementos"
@@ -80,7 +86,11 @@ export default function AppsModal({
           paddingTop={1}
           paddingBottom={5}
         >
-          <Typography variant="h5" className="NombreApp" sx={{ width: "100%", height: "10vh" }}>
+          <Typography
+            variant="h5"
+            className="NombreApp"
+            sx={{ width: "100%", height: "10vh" }}
+          >
             Favor de seleccionar la plataforma a la que deseas ingresar
           </Typography>
 
@@ -90,7 +100,12 @@ export default function AppsModal({
             paddingTop={3}
             spacing={{ xs: 2, md: 3 }}
             justifyContent={"space-evenly"}
-            sx={{ display: "flex", overflowY: "auto", maxHeight: "65vh", minHeight: "65vh" }}
+            sx={{
+              display: "flex",
+              overflowY: "auto",
+              maxHeight: "65vh",
+              minHeight: "65vh",
+            }}
           >
             {Object.values(apps)?.map((item) => {
               return (
@@ -134,12 +149,15 @@ export default function AppsModal({
                             }}
                           >
                             <Box sx={{ width: "95%", height: "200px" }}>
-                              <Typography variant="h5" className="NombreApp"
+                              <Typography
+                                variant="h5"
+                                className="NombreApp"
                                 sx={{
                                   // whiteSpace: "nowrap",
                                   overflow: "hidden",
                                   // textOverflow: "ellipsis",
-                                }}>
+                                }}
+                              >
                                 {item?.Nombre}
                               </Typography>
                               <Typography
@@ -163,17 +181,22 @@ export default function AppsModal({
               );
             })}
           </Grid>
-
         </Grid>
 
-
-        <Grid item
+        <Grid
+          item
           xl={12}
           xs={12}
           lg={12}
           md={12}
           sm={12}
-          sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "10vh" }}>
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "10vh",
+          }}
+        >
           <Button
             className="cancelarAppLogin"
             onClick={() => closeModal()}
@@ -182,7 +205,6 @@ export default function AppsModal({
             Regresar
           </Button>
         </Grid>
-
       </Grid>
     </Dialog>
   );

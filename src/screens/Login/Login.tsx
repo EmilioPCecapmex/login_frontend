@@ -235,7 +235,7 @@ export const Login = () => {
 
           if (arrayApps.length === 1) {
             if (arrayApps[0].Path !== "./admin") {
-              window.location.assign(
+              window.location.replace(
                 arrayApps[0].Path +
                   "?jwt=" +
                   localStorage.getItem("jwtToken") +
@@ -307,8 +307,8 @@ export const Login = () => {
   }, []);
   useEffect(() => {
     // setTimeout(() => {
-      localStorage.clear();
-      handleCloseAppsModal();
+    localStorage.clear();
+    handleCloseAppsModal();
     // }, 100);
 
     if (localStorage.getItem("jwtToken") !== null) {
