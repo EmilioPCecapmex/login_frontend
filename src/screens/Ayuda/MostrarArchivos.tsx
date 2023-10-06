@@ -7,17 +7,14 @@ import { getFileByName } from "./ServicesAyuda";
 
 export const MostrarArchivos = ({
     handleClose,
-    arrayAyudas,
     valueTab
 
 }: {
     handleClose: Function
-    arrayAyudas: any[]
     valueTab: string
 }) => {
 
     const [archivoUrl, setArchivoUrl] = useState<string>("");
-    const [modoVisualizacion, setModoVisualizacion] = useState<string>("");
 
     // const [valueTab, setValueTab] = useState<string>("Guias");
 

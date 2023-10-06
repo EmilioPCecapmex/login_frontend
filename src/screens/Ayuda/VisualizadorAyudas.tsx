@@ -38,7 +38,10 @@ interface IAyudaVideo {
     UltimaActualizacion: string
   }
 
-
+  interface IInfoFile{
+    nombre:string;
+    ruta:string;
+  }
 export const VisualizadorAyudas =({
     
     handleClose,
@@ -58,6 +61,7 @@ export const VisualizadorAyudas =({
     const [archivoUrl, setArchivoUrl] = useState<string>("");
     const [modoVisualizacion, setModoVisualizacion] = useState<string>("");
     const [open, setOpen] = useState(false);
+    const [infoFile,setInfoFile]=useState<IInfoFile>();
 
 
 
@@ -78,7 +82,12 @@ export const VisualizadorAyudas =({
                 
 
               <Tooltip title="Visualizar">
-                <IconButton onClick={() =>{setOpen(true)}
+                <IconButton onClick={() =>{
+                  console.log("dato row",v);
+                  
+                  setOpen(true);
+                  setInfoFile({ruta:v?.row?.RutaVideo,nombre:v?.row?.NombreArchivoServidor})
+                }
     
                 //  handleBorrarRegistro(v.row.id)
                 }>
@@ -113,7 +122,12 @@ export const VisualizadorAyudas =({
             return (
               <Box>
               <Tooltip title="Visualizar">
-                <IconButton onClick={() =>{setOpen(true)}
+                <IconButton onClick={() =>{
+                  setOpen(true)
+                  console.log(v);
+                  
+                  setInfoFile({ruta:v?.row?.RutaGuia,nombre:v?.row?.NombreArchivoServidor})
+                }
     
                   //handleBorrarRegistro(v.row.id)
                 }>
@@ -202,23 +216,13 @@ export const VisualizadorAyudas =({
             <MUIXDataGrid id={(row: any) => row.Id} columns={columnsGuia} rows={arrayAyudas} />
           ) : null}
 
-            
             </Grid>
-            {open?(<MostrarArchivos 
-            arrayAyudas={[]} 
+            {open?<MostrarArchivos 
             handleClose={handleCloseModal}    
             valueTab={valueTab}        
             />
-            ):(
-              ""
-              ) }
+            :null}
 
-            
-
-          
         </ModalForm>)
-
-        
-        
     )
 }
