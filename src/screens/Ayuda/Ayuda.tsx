@@ -15,6 +15,7 @@ import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
 import { GridColDef } from "@mui/x-data-grid";
 import AyudasModal, { ILista, Tabla } from "./AyudaModal";
 import { deleteAyuda, getAyuda } from "./ServicesAyuda";
+import Swal from "sweetalert2";
 
 export interface IAyudaVideo {
   Id: string,
@@ -70,7 +71,37 @@ const Ayuda = ({
   const [modo, setModo] = useState("");
   const [ayuda, setAyuda] = useState<Tabla[]>([]);
 
-
+function eliminar (v:any){
+  Swal.fire({
+    title: "¿Estás seguro de eliminar este registro?",
+    icon: "question",
+    showCancelButton: true,
+    
+    cancelButtonColor: "#af8c55",
+    cancelButtonText: "Cancelar",
+    confirmButtonText: "Eliminar",
+    confirmButtonColor: "#15212f",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      deleteAyuda(v.row.Id,localStorage.getItem("IdUsuario")||"",()=>{})
+        .then(function (response) {
+          alertaExito(()=>{},"¡Registro eliminado!");
+          if(valueTab==="Guias"){
+            getAyuda(setGuias, "0", "Guias")
+          }
+          if(valueTab==="Videos"){
+            getAyuda(setVideos, "0", "Videos")
+          }
+          if(valueTab==="Preguntas"){
+            getAyuda(setPreguntas, "0", "Preguntas")
+          }
+                })
+        .catch(function (error) {
+          alertaError();
+        });
+    }
+  });
+}
 
 
 
@@ -96,8 +127,7 @@ const Ayuda = ({
           <Box>
             <Tooltip title="Eliminar Guía">
             <IconButton onClick={() =>{
-              deleteAyuda(v.row.Id,localStorage.getItem("IdUsuario")||"",()=>{})
-              getAyuda(setGuias, "0", "Guias")
+                eliminar(v)              
             }
               }>
               <DeleteForeverIcon />
@@ -135,8 +165,9 @@ const Ayuda = ({
           <Box>
             <Tooltip title="Eliminar Video">
             <IconButton onClick={() =>{
-              deleteAyuda(v.row.Id,localStorage.getItem("IdUsuario")||"",()=>{})
-              getAyuda(setVideos, "0", "Videos")
+                                            eliminar(v)              
+
+              //deleteAyuda(v.row.Id,localStorage.getItem("IdUsuario")||"",()=>{}).then(() =>{getAyuda(setGuias, "0", "Videos")})
 
             }
 
@@ -172,8 +203,12 @@ const Ayuda = ({
           <Box>
             <Tooltip title="Eliminar Pregunta">
             <IconButton onClick={() =>{
-              deleteAyuda(v.row.Id,localStorage.getItem("IdUsuario")||"",()=>{})
-              getAyuda(setPreguntas, "0", "Preguntas")
+                              eliminar(v)              
+
+              
+              //deleteAyuda(v.row.Id,localStorage.getItem("IdUsuario")||"",()=>{}).then(() =>{getAyuda(setGuias, "0", "Preguntas")})
+
+              //getAyuda(setPreguntas, "0", "Preguntas")
 
             } 
             }>
@@ -201,9 +236,16 @@ const Ayuda = ({
 
   const handleClose = () => {
     setOpen(false);
-    getAyuda(setVideos, "0", "Videos")
-    getAyuda(setGuias, "0", "Guias")
-    getAyuda(setPreguntas, "0", "Preguntas")
+    if(valueTab==="Guias"){
+      getAyuda(setGuias, "0", "Guias")
+    }
+    if(valueTab==="Videos"){
+      getAyuda(setVideos, "0", "Videos")
+    }
+    if(valueTab==="Preguntas"){
+      getAyuda(setPreguntas, "0", "Preguntas")
+    }
+    
   };
 
   const handleOpen = (v: any) => {
@@ -216,15 +258,7 @@ const Ayuda = ({
 
   // useEffect(() => { getAyuda(setGuias, "0", "Guias") }, [])
   useEffect(()=>{
-    if(valueTab==="Guias"){
-      getAyuda(setGuias, "0", "Guias")
-    }
-    if(valueTab==="Videos"){
-      getAyuda(setVideos, "0", "Videos")
-    }
-    if(valueTab==="Preguntas"){
-      getAyuda(setPreguntas, "0", "Preguntas")
-    }
+    handleClose();
 
   },[valueTab])
 

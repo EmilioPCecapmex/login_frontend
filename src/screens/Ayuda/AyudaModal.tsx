@@ -68,6 +68,8 @@ export const AyudasModal = ({
 
   const [videoPreview, setVideoPreview] = useState("");
   const [Videos, setVideos] = useState<IAyudaVideo[]>([]);
+  const [slideropen, setslideropen] = useState(false);
+
 
 
   function enCambioFile(event: any) {
@@ -236,7 +238,9 @@ export const AyudasModal = ({
 
 
   return (
+    
     <ModalForm title="Administración de Ayudas" handleClose={handleClose}>
+      <SliderProgress open={slideropen} texto={"Cargando..."}></SliderProgress>
 
       <Grid
         container
@@ -325,8 +329,9 @@ export const AyudasModal = ({
                 className="aceptar"
                 onClick={() =>{
                   if(menu.Id!==""){
+                    setslideropen(true)
+
                     saveFile(TabValue,{nombreArchivo:nombreArchivo,archivo:newVideo},menu.Id,pregunta,respuesta,handleClose);
-                    
 
                   }
                   else{
@@ -352,6 +357,8 @@ export const AyudasModal = ({
               onClick={() =>{
                 if(menu.Id!==""){
                   if(pregunta!==""){
+                    setslideropen(true)
+
                   saveFile(TabValue,{nombreArchivo:nombreArchivo,archivo:newVideo},menu.Id,pregunta,respuesta,handleClose)
                   }
                   else{
@@ -380,6 +387,8 @@ export const AyudasModal = ({
                 if(menu.Id!==""){
                   if(pregunta!==""){
                     if(respuesta!==""){
+                      setslideropen(true)
+
                       let datos={
                       IdMenu:menu.Id,
                       Pregunta:pregunta,
