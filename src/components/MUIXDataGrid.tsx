@@ -19,6 +19,8 @@ export default function MUIXDataGrid(props: any) {
         sx={{
         fontFamily: "MontserratMedium",
         }}
+        getRowHeight={() => "auto"}
+
           components={{ Toolbar: GridToolbar }}
           componentsProps={{
             toolbar: {
