@@ -396,6 +396,7 @@ export const AyudasModal = ({
                       RutaGuia:"",
                       RutaVideo:"",
                       NombreArchivo:"",
+                      NombreArchivoServidor:"",
                       IdUsuario:localStorage.getItem("IdUsuario")||""
                       }
                       createAyuda(datos,handleClose)

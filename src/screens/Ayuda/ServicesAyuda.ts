@@ -37,7 +37,9 @@ export const saveFile = (
               Pregunta: pregunta,
               Texto: "",
               RutaGuia: data?.RESPONSE.RUTA,
+              RutaVideo:"",
               NombreArchivo: archivo.nombreArchivo,
+              NombreArchivoServidor: data?.RESPONSE.NOMBREIDENTIFICADOR,
               IdUsuario: localStorage.getItem("IdUsuario"),
             },
             handleClose
@@ -56,6 +58,7 @@ export const saveFile = (
               RutaGuia: "",
               RutaVideo: data?.RESPONSE.RUTA,
               NombreArchivo: archivo.nombreArchivo,
+              NombreArchivoServidor: data?.RESPONSE.NOMBREIDENTIFICADOR,
               IdUsuario: localStorage.getItem("IdUsuario"),
             },
             handleClose
