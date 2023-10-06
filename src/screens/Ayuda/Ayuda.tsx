@@ -16,7 +16,7 @@ import { GridColDef } from "@mui/x-data-grid";
 import AyudasModal, { ILista, Tabla } from "./AyudaModal";
 import { deleteAyuda, getAyuda } from "./ServicesAyuda";
 
-interface IAyudaVideo {
+export interface IAyudaVideo {
   Id: string,
   IdMenu: string,
   Menu: string,
@@ -25,7 +25,7 @@ interface IAyudaVideo {
   UltimaActualizacion: string
 }
 
-interface IAyudaGuia {
+export interface IAyudaGuia {
   Id: string,
   IdMenu: string,
   Menu: string,
@@ -35,7 +35,7 @@ interface IAyudaGuia {
   UltimaActualizacion: string
 }
 
-interface IAyudaPregunta {
+export interface IAyudaPregunta {
   Id: string,
   IdMenu: string,
   Menu: string,
@@ -97,6 +97,7 @@ const Ayuda = ({
             <Tooltip title="Eliminar Guía">
             <IconButton onClick={() =>{
               deleteAyuda(v.row.Id,localStorage.getItem("IdUsuario")||"",()=>{})
+              getAyuda(setGuias, "0", "Guias")
             }
               }>
               <DeleteForeverIcon />
@@ -119,7 +120,6 @@ const Ayuda = ({
       description: "Nombre Guía",
       width: 600,
     },
-
   ];
 
   const columnsVideo: GridColDef[] = [
@@ -136,6 +136,8 @@ const Ayuda = ({
             <Tooltip title="Eliminar Video">
             <IconButton onClick={() =>{
               deleteAyuda(v.row.Id,localStorage.getItem("IdUsuario")||"",()=>{})
+              getAyuda(setVideos, "0", "Videos")
+
             }
 
             
@@ -171,6 +173,8 @@ const Ayuda = ({
             <Tooltip title="Eliminar Pregunta">
             <IconButton onClick={() =>{
               deleteAyuda(v.row.Id,localStorage.getItem("IdUsuario")||"",()=>{})
+              getAyuda(setPreguntas, "0", "Preguntas")
+
             } 
             }>
               <DeleteForeverIcon />
@@ -197,7 +201,9 @@ const Ayuda = ({
 
   const handleClose = () => {
     setOpen(false);
-    //consulta({ NUMOPERACION: 4 });
+    getAyuda(setVideos, "0", "Videos")
+    getAyuda(setGuias, "0", "Guias")
+    getAyuda(setPreguntas, "0", "Preguntas")
   };
 
   const handleOpen = (v: any) => {

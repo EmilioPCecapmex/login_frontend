@@ -1,6 +1,6 @@
 import { Autocomplete, Button, Collapse, Divider, Grid, IconButton, List, ListItemButton, ListItemText, TextField, Tooltip, Typography } from "@mui/material";
 import ModalForm from "../Componentes/ModalForm";
-import Ayuda from "./Ayuda";
+import Ayuda, { IAyudaVideo } from "./Ayuda";
 import SliderProgress from "../Componentes/SliderProgress";
 import { TooltipPersonalizado } from "../Componentes/CustomizedTooltips";
 import { useEffect, useState } from "react";
@@ -15,7 +15,7 @@ import SelectValues from "../Interfaces/Share";
 import SelectFrag from "../Componentes/SelectFrag";
 import MUIXDataGrid from "../../components/MUIXDataGrid";
 import axios from "axios";
-import { createAyuda, getMenus, saveFile } from "./ServicesAyuda";
+import { createAyuda, getAyuda, getMenus, saveFile } from "./ServicesAyuda";
 import { alertaError } from "../../components/alertas/toast";
 import { MenuSharp } from "@mui/icons-material";
 
@@ -67,6 +67,7 @@ export const AyudasModal = ({
   const [respuesta, setRespuesta] = useState("");
 
   const [videoPreview, setVideoPreview] = useState("");
+  const [Videos, setVideos] = useState<IAyudaVideo[]>([]);
 
 
   function enCambioFile(event: any) {
@@ -325,10 +326,14 @@ export const AyudasModal = ({
                 onClick={() =>{
                   if(menu.Id!==""){
                     saveFile(TabValue,{nombreArchivo:nombreArchivo,archivo:newVideo},menu.Id,pregunta,respuesta,handleClose);
+                    
+
                   }
                   else{
                     alertaError("Seleccione un menú")
-                  }}
+                  }
+                  getAyuda(setVideos, "0", "Videos")
+                }
 
                 }
               >
