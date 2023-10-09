@@ -247,23 +247,8 @@ export const AyudasModal = ({
               >
                 Guardar
               </Button>
-              {/* {menu.Id ? (
-                <Button
-                  disabled={
-                    !menu.Id || menu.Id == "false" || !pregunta || !respuesta
-                  }
-                  className="aceptar"
-                // onClick={() => SavePreguntasFrecuentes(true)}
-                >
-                  Guardar y cerrar
-                </Button>
-              ) : (
-                ""
-              )} */}
             </>
-          ) : (
-            ""
-          )}
+          ) :null}
         </Grid>
       </Grid>
 
@@ -329,9 +314,7 @@ export const AyudasModal = ({
             ""
           )}
         </>
-      ) : (
-        ""
-      )}
+      ) :null}
 
       {TabValue == "Preguntas" ? (
         <>
@@ -354,8 +337,6 @@ export const AyudasModal = ({
             </Grid>
             <Grid item xs={12}>
               <TextField
-
-
                 inputProps={{ maxLength: 300 }}
                 margin="dense"
                 id="nombreEvento"
@@ -387,13 +368,8 @@ export const AyudasModal = ({
               />
             </Grid>
           </Grid>
-          {/* <Grid item xs={12}>
-            <MUIXDataGrid columns={columnsPreguntas} rows={preguntas} />
-          </Grid> */}
         </>
-      ) : (
-        ""
-      )}
+      ) :null}
 
       {TabValue == "Videos" || TabValue == "Guias" ?
 
@@ -421,18 +397,8 @@ export const AyudasModal = ({
         null}
 
       <Grid>
-
-
       </Grid>
-
-
-
     </ModalForm>
-
-
-
-
-
   );
 };
 

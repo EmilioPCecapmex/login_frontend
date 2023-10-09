@@ -1,7 +1,5 @@
 import { Box, Dialog, Grid, IconButton, Tooltip, Typography } from "@mui/material"
-import { GridCloseIcon } from "@mui/x-data-grid"
 import { useState, useEffect } from "react"
-import ModalForm from "../Componentes/ModalForm"
 import CloseIcon from "@mui/icons-material/Close";
 import { getFileByName } from "./ServicesAyuda";
 import { IInfoFile } from "./VisualizadorAyudas";

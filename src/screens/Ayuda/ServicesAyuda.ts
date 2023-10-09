@@ -89,13 +89,31 @@ export const getFileByName= async(ROUTE:string,NOMBRE:string,setState:Function)=
     }
   )
   .then(({ data }) => {
-    console.log("data",data);
-    
     setState(data.RESPONSE.FILE);
   })
   .catch((r) => {alertaError("Ocurrio un problema al obtener el archivo")});
 };
 
+export const deleteFile= async(ROUTE:string,NOMBRE:string,Id:string)=>{
+  await axios
+  .post(
+    process.env.REACT_APP_APPLICATION_FILES + "/api/ApiDoc/DeleteFile",
+    {
+      ROUTE: ROUTE,
+      NOMBRE: NOMBRE,
+    },
+    {
+      headers: {
+        Authorization: localStorage.getItem("jwtToken") || "",
+      },
+    }
+  )
+  .then((r) => {
+    console.log("data",r);
+    deleteAyuda(Id)
+  })
+  .catch((r) => {alertaError("Ocurrio un problema al eliminar el archivo")});
+};
 
 export const createAyuda = (data: any, handleClose: Function) => {
   axios
@@ -141,27 +159,25 @@ export const getAyuda = (
       },
     })
     .then((r) => {
-      console.log(r.data.data);
       setState(r.data.data);
     });
 };
 
-export const deleteAyuda = async(IdPreguntaFrecuente:string, IdUsuario:string,fnc:Function) => {
+export const deleteAyuda = async(IdPreguntaFrecuente:string) => {
   await axios({
     method: "delete",
     url: process.env.REACT_APP_APPLICATION_DEV + "/api/ayuda",
     data: {IdPreguntaFrecuente:IdPreguntaFrecuente,
-      IdUsuario: IdUsuario},
+      IdUsuario: localStorage.getItem("IdUsuario")||""},
     headers: {
       "Content-Type": "application/json",
       Authorization: localStorage.getItem("jwtToken") || "",
     },
   })
     .then((r) => {
-      alertaExito(fnc());
+      alertaExito(()=>{});
     })
     .catch(() => {
       alertaError();
-       //fnc();
     });
 };

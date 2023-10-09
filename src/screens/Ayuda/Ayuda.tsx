@@ -13,7 +13,7 @@ import ButtonsAdd from "../Componentes/ButtonsAdd";
 import { alertaError, alertaExito } from "../../components/alertas/toast";
 import { GridColDef } from "@mui/x-data-grid";
 import AyudasModal, { ILista, Tabla } from "./AyudaModal";
-import { deleteAyuda, getAyuda } from "./ServicesAyuda";
+import { deleteAyuda, deleteFile, getAyuda } from "./ServicesAyuda";
 import Swal from "sweetalert2";
 import MUIXDataGrid from "../../components/MUIXDataGrid";
 
@@ -51,10 +51,7 @@ const Ayuda = () => {
   const [Preguntas, setPreguntas] = useState<IAyudaPregunta[]>([]);
   const [Guias, setGuias] = useState<IAyudaGuia[]>([]);
   const [Videos, setVideos] = useState<IAyudaVideo[]>([]);
-
-
   const [open, setOpen] = useState(false);
-  const [agregar, setAgregar] = useState<boolean>(true);
 
 function eliminar (v:any){
   Swal.fire({
@@ -68,20 +65,14 @@ function eliminar (v:any){
     confirmButtonColor: "#15212f",
   }).then((result) => {
     if (result.isConfirmed) {
-      deleteAyuda(v.row.Id,localStorage.getItem("IdUsuario")||"",()=>{})
-        .then(function (response) {
+      console.log("valor v",v);
+      
+      deleteFile(v?.row?.RutaGuia,v?.row?.NombreArchivoServidor,v?.row?.Id)
+        .then((response)=>{
           alertaExito(()=>{},"¡Registro eliminado!");
-          if(valueTab==="Guias"){
-            getAyuda(setGuias, "0", "Guias")
-          }
-          if(valueTab==="Videos"){
-            getAyuda(setVideos, "0", "Videos")
-          }
-          if(valueTab==="Preguntas"){
-            getAyuda(setPreguntas, "0", "Preguntas")
-          }
+          obtenerDatos();
                 })
-        .catch(function (error) {
+        .catch((error)=>{
           alertaError();
         });
     }
@@ -201,6 +192,10 @@ function eliminar (v:any){
 
   const handleClose = () => {
     setOpen(false);
+    obtenerDatos();
+  };
+
+  const obtenerDatos=()=>{
     if(valueTab==="Guias"){
       getAyuda(setGuias, "0", "Guias")
     }
@@ -210,8 +205,7 @@ function eliminar (v:any){
     if(valueTab==="Preguntas"){
       getAyuda(setPreguntas, "0", "Preguntas")
     }
-    
-  };
+  }
 
   const handleOpen = (v: any) => {
    
@@ -219,11 +213,8 @@ function eliminar (v:any){
     
   };
 
-
-  // useEffect(() => { getAyuda(setGuias, "0", "Guias") }, [])
   useEffect(()=>{
-    handleClose();
-
+    obtenerDatos();
   },[valueTab])
 
 
@@ -242,15 +233,13 @@ function eliminar (v:any){
       >
         <TabContext value={String(valueTab)}>
           <Grid container sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
-            <Grid item xl={8} xs={8} lg={8} md={8} sm={8} sx={{ display: "flex", justifyContent: "space-evenly" }}>
-              <TabList onChange={handleChange} aria-label="lab API tabs example">
+            <Grid item xl={8} xs={10} lg={8} md={8} sm={10} sx={{ display: "flex", justifyContent: "space-evenly" }}>
+              <TabList onChange={handleChange} >
                 <Tab label="Guías" value="Guias" sx={{ fontSize: [30, 30, 30, 30, 30], }} style={{ textTransform: 'none' }} />
                 <Tab label="Videos" value="Videos" sx={{ fontSize: [30, 30, 30, 30, 30], }} style={{ textTransform: 'none' }} />
                 <Tab label="Preguntas" value="Preguntas" sx={{ fontSize: [30, 30, 30, 30, 30], }} style={{ textTransform: 'none' }} />
               </TabList>
-              {/* <ButtonsAdd> 
-                
-              </ButtonsAdd>  */}
+             
               {open ? (
                 <AyudasModal
                   TabValue={valueTab}
@@ -258,8 +247,8 @@ function eliminar (v:any){
                 />
               ) :null}
             </Grid>
-            <Grid item xl={2} xs={2} lg={2} md={2} sm={2} sx={{ display: "flex", justifyContent: "space-evenly" }}>
-              <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
+            <Grid item xl={2} xs={1.5} lg={2} md={2} sm={1.5} sx={{ display: "flex", justifyContent: "space-evenly" }}>
+              <ButtonsAdd handleOpen={handleOpen} agregar={true} />
             </Grid>
           </Grid>
         </TabContext>
