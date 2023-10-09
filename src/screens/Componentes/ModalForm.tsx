@@ -53,9 +53,10 @@ const ModalForm = ({ children, title, handleClose }: Props) => {
             </Grid>
           </Grid>
         </Grid>
-        <DialogContent>
-          <Box>{children}</Box>
-        </DialogContent>
+
+        <Grid container justifyContent="ccenter" alignItems="center">
+         {children}
+        </Grid>
       </Dialog>
     </div>
   );

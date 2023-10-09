@@ -45,31 +45,16 @@ export interface IAyudaPregunta {
   UltimaActualizacion: string
 }
 
-const Ayuda = ({
-  IdMenu,
-  //modo,
-}: {
-  IdMenu: string;
-  // modo: string;
-}) => {
+const Ayuda = () => {
 
   const [valueTab, setValueTab] = useState<string>("Guias");
-
-  const [reload, setReload] = useState("");
-
   const [Preguntas, setPreguntas] = useState<IAyudaPregunta[]>([]);
   const [Guias, setGuias] = useState<IAyudaGuia[]>([]);
   const [Videos, setVideos] = useState<IAyudaVideo[]>([]);
 
-  const [pregunta, setPregunta] = useState([]);
-  const [respuesta, setRespuesta] = useState([]);
-  const [idMenu, setIdMenu] = useState(IdMenu);
-  const [newVideo, setNewVideo] = useState(Object);
-  const [nombreArchivo, setNombreArchivo] = useState("");
+
   const [open, setOpen] = useState(false);
   const [agregar, setAgregar] = useState<boolean>(true);
-  const [modo, setModo] = useState("");
-  const [ayuda, setAyuda] = useState<Tabla[]>([]);
 
 function eliminar (v:any){
   Swal.fire({
@@ -104,10 +89,6 @@ function eliminar (v:any){
 }
 
 
-
-
-
-
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValueTab(newValue);
   };
@@ -119,7 +100,7 @@ function eliminar (v:any){
       headerName: "Acciones",
       description: "Acciones",
       sortable: false,
-      width: 80,
+      width: 100,
       renderCell: (v: any) => {
         console.log("v",v);
         
@@ -159,20 +140,12 @@ function eliminar (v:any){
       headerName: "Acciones",
       description: "Acciones",
       sortable: false,
-      width: 80,
+      width: 100,
       renderCell: (v: any) => {
         return (
           <Box>
             <Tooltip title="Eliminar Video">
-            <IconButton onClick={() =>{
-                                            eliminar(v)              
-
-              //deleteAyuda(v.row.Id,localStorage.getItem("IdUsuario")||"",()=>{}).then(() =>{getAyuda(setGuias, "0", "Videos")})
-
-            }
-
-            
-            }>
+            <IconButton onClick={() =>{eliminar(v)}}>
               <DeleteForeverIcon />
             </IconButton>
           </Tooltip>
@@ -197,20 +170,12 @@ function eliminar (v:any){
       headerName: "Acciones",
       description: "Acciones",
       sortable: false,
-      width: 80,
+      width: 100,
       renderCell: (v: any) => {
         return (
           <Box>
             <Tooltip title="Eliminar Pregunta">
-            <IconButton onClick={() =>{
-                              eliminar(v)              
-
-              
-              //deleteAyuda(v.row.Id,localStorage.getItem("IdUsuario")||"",()=>{}).then(() =>{getAyuda(setGuias, "0", "Preguntas")})
-
-              //getAyuda(setPreguntas, "0", "Preguntas")
-
-            } 
+            <IconButton onClick={() =>{eliminar(v)} 
             }>
               <DeleteForeverIcon />
             </IconButton>
@@ -249,10 +214,9 @@ function eliminar (v:any){
   };
 
   const handleOpen = (v: any) => {
-    //setTipoOperacion(1);
-    setModo("Agregar Registro");
+   
     setOpen(true);
-    //setVrows("");
+    
   };
 
 
@@ -289,19 +253,10 @@ function eliminar (v:any){
               </ButtonsAdd>  */}
               {open ? (
                 <AyudasModal
-                  // IdMenu={idMenu}
-                  //modo={"Administrar ayudas"}
-                  tipo={0}
                   TabValue={valueTab}
                   handleClose={handleClose}
-                  dt={{}}
-                  open={open}
-                //tipo={tipoOperacion}
-                //dt={vrows}
                 />
-              ) : (
-                ""
-              )}
+              ) :null}
             </Grid>
             <Grid item xl={2} xs={2} lg={2} md={2} sm={2} sx={{ display: "flex", justifyContent: "space-evenly" }}>
               <ButtonsAdd handleOpen={handleOpen} agregar={agregar} />
@@ -328,62 +283,7 @@ function eliminar (v:any){
             <MUIXDataGrid id={(row: any) => row.Id} columns={columnsGuia} rows={Guias} />
           ) : null}
 
-          {valueTab == "Videos" || valueTab == "Guias" ? (
-            <Grid container>
-
-              <Grid item xs={12}>
-                {/* <MUIXDataGrid
-      columns={valueTab == "Videos" ? columnsVideo : columnsGuia}
-      rows={preguntas}
-    /> */}
-              </Grid>
-
-
-              {/* {valueTab == "Videos" ? (
-            <>
-              <Button
-                disabled={
-                  !idMenu || idMenu == "false" || !nombreArchivo //||
-                  // !newVideo ||
-                  // !valueDepartamento
-                }
-                className="guardar"
-                //onClick={() => SaveVideo(false)}
-              >
-                Guardarrr
-              </Button>
-              {IdMenu ? (
-                <Button
-                  disabled={
-                    !idMenu || idMenu == "false" || !nombreArchivo || !newVideo
-                  }
-                  className="cerrar"
-                  //onClick={() => SaveVideo(true)}
-                >
-                  Guardar y cerrar
-                </Button>
-              ) : (
-                ""
-              )}
-            </>
-          ) : (
-            ""
-          )} */}
-            </Grid>
-
-
-          ) : (
-            ""
-          )}
         </Grid>
-
-
-
-
-
-
-
-
       </Grid>
     </>
   );

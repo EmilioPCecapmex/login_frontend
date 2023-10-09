@@ -26,9 +26,7 @@ const App = () => {
         <Route path="/validador" element={<Documentos />} />
         <Route path="/catalogos" element={<Catalogos />} />
         <Route path="/ayuda" element=
-        {<Ayuda 
-          //modo={""} 
-        IdMenu={""}/>} />
+        {<Ayuda/>} />
         <Route
           path="/generarSolicitud"
           element={

@@ -19,15 +19,13 @@ export const MostrarArchivos = ({
 
     const [archivoUrl, setArchivoUrl] = useState<string>("");
 
-    // const [valueTab, setValueTab] = useState<string>("Guias");
-
     const savePDF =(data:string)=>{
-     setArchivoUrl(`data:application/pdf;base64,${data}`);
+        setArchivoUrl(`data:application/pdf;base64,${data}`);
     }
 
     const saveVideo =(data:string)=>{
         setArchivoUrl(`data:video/mp4;base64,${data}`);
-       }
+    }
 
     useEffect(() => {
         valueTab == "Videos" ?
@@ -35,12 +33,8 @@ export const MostrarArchivos = ({
         getFileByName(process.env.REACT_APP_DOC_ROUTE+'/GUIAS/', infoFile.nombre,savePDF)
     }, [])
 
-
-
-
     return (
         <Dialog
-            //title="Visualizar" handleClose={handleClose}
             className="containerVizualizar"
             fullScreen
             sx={{ zIndex: 2000 }}
@@ -81,33 +75,8 @@ export const MostrarArchivos = ({
                     </Grid>
                 </Grid>
                 </Grid>
-                {/* <Tooltip title="Salir">
-                        <IconButton
-                             size="large"
-                            // className="cerrar"
-                             aria-label="close"
-                            onClick={() => handleClose()}
-                            sx={{
-                                fontSize: '24px', // Tamaño predeterminado del icono
-                                '@media (max-width: 600px)': {
-                                  fontSize: 25, // Pantalla extra pequeña (xs y sm)
-                                },
-                                '@media (min-width: 601px) and (max-width: 960px)': {
-                                  fontSize: 25, // Pantalla pequeña (md)
-                                },
-                                '@media (min-width: 961px) and (max-width: 1280px)': {
-                                  fontSize: 30, // Pantalla mediana (lg)
-                                },
-                                '@media (min-width: 1281px)': {
-                                  fontSize: 30, // Pantalla grande (xl)
-                                },
-                              }}
-                        >
-                            <GridCloseIcon />
-                        </IconButton>
-                    </Tooltip> */}
 
-                <Grid item   container xs={12} sm={12} md={12} lg={12} sx={{height:"90vh", display: "flex", justifyContent: "flex-end"}}>
+                <Grid item   container xs={12} sm={12} md={12} lg={12} sx={{height:"90vh", display: "flex", justifyContent: "center",alignItems:"center"}}>
                     {
                         valueTab == "Videos" ? (
 
@@ -115,8 +84,8 @@ export const MostrarArchivos = ({
                                 autoFocus
                                 loop
                                 autoPlay
-                                width={"100%"}
-                                height={"100%"}
+                                width={"98%"}
+                                height={"98%"}
                                 src={archivoUrl}
                                 id="video_player"
                                 controls
@@ -126,8 +95,8 @@ export const MostrarArchivos = ({
 
                             <iframe
                                 style={{
-                                    width: "100%",
-                                    height: "100%",
+                                    width: "98%",
+                                    height: "98%",
                                 }}
                                 src={`${archivoUrl}`}
                                 title="description"
