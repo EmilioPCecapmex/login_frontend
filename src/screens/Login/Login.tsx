@@ -500,7 +500,20 @@ export const Login = () => {
                   paddingRight={2}
                   justifyContent="flex-end"
                 >
+                  <Typography
+                  sx={{
+                   
+                    backgroundColor: "#f3f6f9",
+                    fontFamily: "MontserratSemiBold",
+                    fontSize: [15, 15, 15, 15, 20],
+                    color: "#808080",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
                   {actualYear()}
+                  </Typography>
                 </Grid>
                 <Grid
                   container
@@ -510,22 +523,53 @@ export const Login = () => {
                   md={3}
                   justifyContent="center"
                 >
+                  <Typography
+                  sx={{
+                    
+                    backgroundColor: "#f3f6f9",
+                    fontFamily: "MontserratSemiBold",
+                    fontSize: [15, 15, 15, 15, 20],
+                    color: "#808080",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
                   {ls.footerSecondText}
+                  </Typography>
                 </Grid>
                 <Grid item xs={3} sm={4} md={3}>
+                <Typography
+                  sx={{
+                    
+                    backgroundColor: "#f3f6f9",
+                    fontFamily: "MontserratSemiBold",
+                    fontSize: [15, 15, 15, 15, 20],
+                    color: "#808080",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
                   {ls.footerThirdText}
+                  </Typography>
                 </Grid>
               </Grid>
 
               <Box sx={{ position: "absolute", right: 5, bottom: 5 }}>
                 <Typography
                   sx={{
-                    fontFamily: "MontserratBold",
-                    fontSize: "10px",
+                    
+                    backgroundColor: "#f3f6f9",
+                    fontFamily: "MontserratSemiBold",
+                    fontSize: [15, 15, 15, 15, 20],
                     color: "#808080",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                   }}
                 >
-                  {" "}
+                
                   v.{process.env.REACT_APP_APPLICATION_VERSION}
                 </Typography>
               </Box>

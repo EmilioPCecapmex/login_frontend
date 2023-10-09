@@ -143,11 +143,11 @@ export const Forgot = () => {
         <Grid
           item
           container
-          xl={12}
-          xs={3}
-          lg={3}
-          md={3}
-          sm={3}
+          xl={8}
+          lg={8}
+          md={8}
+          sm={9}
+          xs={9}
           sx={{
             height: "80%",
             justifyContent: "center",
@@ -159,28 +159,28 @@ export const Forgot = () => {
           <Grid
             item
             container
-            xl={12}
-            xs={8}
+            xl={10}
             lg={10}
             md={10}
-            sm={10}
+            sm={12}
+            xs={12}
             //sx={st.loginBox}
             sx={{
               height: "100%",
               justifyContent: "center",
               alignItems: "center",
-              display: "flex",
+              display: "flex"
             }}
           >
             <Grid
               item
               container
               direction={"column"}
-              xl={3}
-              xs={3}
-              lg={3}
-              md={3}
-              sm={3}
+              xl={10}
+              lg={10}
+              md={12}
+              sm={12}
+              xs={12}
               sx={{
                 //height: "95%",
                 justifyItems: "center",
@@ -192,11 +192,11 @@ export const Forgot = () => {
                 //height={"5%"}
                 container
                 item
-                xl={12}
-                lg={3}
-                md={3}
-                sm={3}
-                xs={3}
+                xl={10}
+                lg={10}
+                md={10}
+                sm={12}
+                xs={12}
                 justifyContent="center"
                 alignItems="center"
               >
@@ -220,7 +220,7 @@ export const Forgot = () => {
                     fontFamily: "MontserratSemiBold",
                     color: "#858180",
                     textAlign: "center",
-                    fontSize: [15, 15, 15, 20, 20], // Tamaños de fuente para diferentes breakpoints
+                    fontSize: [10,15,15,15,20], // Tamaños de fuente para diferentes breakpoints
                    
                   }}
                 >
@@ -237,7 +237,7 @@ export const Forgot = () => {
                     fontFamily: "MontserratSemiBold",
                     color: "#858180",
                     textAlign: "center",
-                    fontSize: [10, 15, 15, 20, 10], // Tamaños de fuente para diferentes breakpoints
+                    fontSize: [10,15,15,15,20], // Tamaños de fuente para diferentes breakpoints
                    
                   }}>
                   {ls.secondaryText}
@@ -247,15 +247,14 @@ export const Forgot = () => {
               <Grid
                 item
                 container
-                xl={12}
+                xl={3}
                 lg={3}
                 md={3}
-                sm={3}
-                xs={3}
+                sm={6}
+                xs={6}
                 sx={{
                   display: "flex",
                   justifyContent: "center",
-                  width: "100%",
                   height: "15%",
                   mt: "2vh",
                 }}
@@ -265,7 +264,7 @@ export const Forgot = () => {
                   sx={{
                     borderRadius: 10,
                     height: "100%",
-                    width: "100%",
+                    width: "80%",
                     fontFamily: "MontserratMedium",
                     //fontSize: ".8vw",
                     justifyContent: "center",
@@ -287,7 +286,7 @@ export const Forgot = () => {
                       width: "80%",
                       padding: "8px",
                       fontFamily: "MontserratRegular",
-                      fontSize: ".8vw",
+                      fontSize: [10,15,15,15,20],
                     }}
                     style={{ color: userInputTextColor }}
                     onClickCapture={() => onClickTxtUsuario()}
@@ -313,13 +312,13 @@ export const Forgot = () => {
                 </Button>
               </Grid>
               <Grid item>
-                <Button onClick={() => navigate("../")}>{ls.forgot}</Button>
+                <Button onClick={() => navigate("../")} style={{ textTransform: 'none' }}>{ls.forgot}</Button >
               </Grid>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
-
+{/* FOOTER  5vh */}
       <Grid
         item
         container
