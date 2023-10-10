@@ -16,7 +16,8 @@ export const saveFile = (
   let dataArray = new FormData();
   dataArray.append("ROUTE", `${ruta}`);
   dataArray.append("ADDROUTE", "true");
-  dataArray.append("FILE", url); // probar mandar archivo.archivo
+  dataArray.append("FILE", url);
+  dataArray.append("TOKEN", localStorage.getItem("jwtToken")||""); // probar mandar archivo.archivo
 
   axios
     .post(
@@ -80,6 +81,7 @@ export const getFileByName= async(ROUTE:string,NOMBRE:string,setState:Function)=
     {
       ROUTE: ROUTE,
       NOMBRE: NOMBRE,
+      TOKEN: localStorage.getItem("jwtToken")||""
     },
     {
       headers: {
@@ -101,6 +103,7 @@ export const deleteFile= async(ROUTE:string,NOMBRE:string,Id:string)=>{
     {
       ROUTE: ROUTE,
       NOMBRE: NOMBRE,
+      TOKEN: localStorage.getItem("jwtToken")||""
     },
     {
       headers: {
