@@ -149,11 +149,12 @@ export const Forgot = () => {
           sm={9}
           xs={9}
           sx={{
-            height: "100%",
+            height: "80%",
             justifyContent: "center",
             alignItems: "center",
             display: "flex",
           }}
+          //sx={st.centerBox}
         >
           <Grid
             item
@@ -181,12 +182,14 @@ export const Forgot = () => {
               sm={12}
               xs={12}
               sx={{
-                height: "50%",
+                //height: "95%",
                 justifyItems: "center",
                 alignItems: "center",
+                display: "flex",
               }}
             >
               <Grid
+                //height={"5%"}
                 container
                 item
                 xl={10}
@@ -208,9 +211,11 @@ export const Forgot = () => {
                 />
               </Grid>
 
-              <Grid item xl={12} lg={12} md={12} sm={12} xs={12} sx={{display:"flex",justifyContent:"center",alignItems:"center",}}>
+              <Grid item>
                 <Typography
                   sx={{
+                    // whiteSpace: "nowrap",
+                    // overflow: "hidden",
                     textOverflow: "ellipsis",
                     fontFamily: "MontserratSemiBold",
                     color: "#858180",
@@ -256,7 +261,6 @@ export const Forgot = () => {
               >
                 <Grid
                   item
-                  xl={12} lg={12} md={12} sm={12} xs={12} 
                   sx={{
                     borderRadius: 10,
                     height: "100%",
@@ -268,6 +272,7 @@ export const Forgot = () => {
                     display: "flex",
                     border: 1,
                     borderColor: "#cccccc",
+                    mb: "2vh",
                   }}
                   style={{ backgroundColor: userInputColor }}
                 >
@@ -277,8 +282,9 @@ export const Forgot = () => {
                     placeholder={ls.placeholderUser}
                     onChange={(v) => onChangeUsuario(v.target.value)}
                     id="usrPlaceholder"
-                    sx={{display:"flex",
-                      width: "95%",
+                    sx={{
+                      width: "80%",
+                      padding: "8px",
                       fontFamily: "MontserratRegular",
                       fontSize: [10,15,15,15,20],
                     }}
@@ -287,21 +293,20 @@ export const Forgot = () => {
                     onBlurCapture={() => verifyUsuario()}
                   />
                 </Grid>
-              
+              </Grid>
 
-              <Grid item xl={12} lg={12} md={12} sm={12} xs={12} sx={{display:"flex",justifyContent:"center",alignItems:"center",}}>
+              <Grid item>
                 <Button
-                className="aceptar"
                   variant="outlined"
                   onMouseOver={() => onFocusButton()}
                   onMouseLeave={() => onFocusLeaveButton()}
                   sx={st.signInBtn}
                   onClick={() => getPassword()}
-                  // style={{
-                  //   backgroundColor: btnBgColor,
-                  //   color: btnTxtColor,
-                  //   borderColor: btnTxtColor,
-                  // }}
+                  style={{
+                    backgroundColor: btnBgColor,
+                    color: btnTxtColor,
+                    borderColor: btnTxtColor,
+                  }}
                 >
                   {ls.btnText}
                 </Button>
@@ -310,7 +315,7 @@ export const Forgot = () => {
                 <Button onClick={() => navigate("../")} style={{ textTransform: 'none' }}>{ls.forgot}</Button >
               </Grid>
             </Grid>
-          
+          </Grid>
         </Grid>
       </Grid>
 {/* FOOTER  5vh */}
@@ -376,8 +381,6 @@ export const Forgot = () => {
           </Typography>
         </Grid>
       </Grid>
-    </Grid>
-    </Grid>
     </Grid>
   );
 };
