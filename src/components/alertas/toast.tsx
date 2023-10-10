@@ -33,7 +33,7 @@ export function alertaInformativa(titulo:string) {
 
 export function alertaError(titulo = "Movimiento fallido") {
   Toast.fire({
-    icon: "error",
+    icon: "info",
     title: titulo,
     iconColor: "#af8c55",
     color: "#af8c55",

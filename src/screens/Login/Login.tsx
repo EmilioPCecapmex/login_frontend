@@ -28,7 +28,25 @@ interface IApps {
   Descripcion: string;
 }
 
+export const getUserDetail= (idUsuario:string,idApp:string)=>{
+  
+  axios.post(
+    process.env.REACT_APP_APPLICATION_DEV + '/api/userapp-detail',
+    {IdUsuario:idUsuario,IdApp:idApp},
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("jwtToken")||"",
+      },
+    }
+  ).then((r)=>{console.log(r.data);
+    localStorage.setItem('Menus',JSON.stringify(r.data.menus[0]))
+    
+  });
+}
+
 export const Login = () => {
+  let IdUsuario="";
   const urlParams = window.location.search;
   const query = new URLSearchParams(urlParams);
   const jwt = query.get("jwt");
@@ -64,6 +82,7 @@ export const Login = () => {
   const [openSlider, setOpenSlider] = useState(true);
   const [idUsuarioSolicitante, setIdUsuarioSolicitante] = useState("");
   const [mensajeSlider, setMensajeSlider] = useState("Validando...");
+  
 
   const [appsList, setAppsList] = useState<Array<IApps>>([
     {
@@ -245,6 +264,9 @@ export const Login = () => {
                 arrayApps[0].IdApp
               );
             } else {
+              localStorage.setItem("IdApp",arrayApps[0].IdApp)
+              IdUsuario=r.data.IdUsuario;
+              getUserDetail(r.data.IdUsuario,arrayApps[0].IdApp);
               navigate("./admin");
             }
           }
@@ -364,72 +386,46 @@ export const Login = () => {
                 >
                   {process.env.REACT_APP_APPLICATION_ENVIRONMENT}
                 </Typography>
-            </Grid>
-            <Grid
-              item
-              container
-              xl={12}
-              xs={12}
-              lg={12}
-              md={12}
-              sm={12}
-              sx={{
-                height: "90%",
-                justifyContent: "center",
-                alignItems: "center",
-                display: "flex",
-              }}
-            >
-              <Grid
-                item
-                container
-                xl={12}
-                xs={12}
-                lg={12}
-                md={12}
-                sm={12}
-                sx={{
-                  height: "100%",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  display: "flex",
-                }}
-              >
+                {/* <Typography sx={{ fontFamily: 'MontserratBold', color: '#ccc' }}>{jwt}</Typography> */}
+              </Box>
+              {openAppsModal ? (
+                <AppsModal
+                  openM={openAppsModal}
+                  closeM={handleCloseAppsModal}
+                  type={modalType}
+                  text={modalText}
+                  apps={appsList}
+                  idUsuario={IdUsuario}
+                />
+              ) : null}
 
-                <Grid
-                  item
-                  container
-                  xl={3}
-                  xs={3}
-                  lg={3}
-                  md={3}
-                  sm={3}
-                  sx={{
-                    height: "60%",
-                    justifyItems: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Grid
-                    container
-                    item
-                    xl={12}
-                    lg={12}
-                    md={12}
-                    sm={12}
-                    xs={12}
-                    sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "15vh" }}
-                  >
-                    <img
-                      alt="Logo"
-                      src={logo}
-                      style={{
-                        objectFit: "scale-down",
-                        width: "100%",
-                        height: "100%",
-                      }}
-                    />
-                  </Grid>
+              <AlertModal
+                openM={openModal}
+                closeM={handleCloseModal}
+                type={modalType}
+                text={modalText}
+              />
+              <Box sx={st.horizontalBox}>
+                <Box sx={st.centerBox}>
+                  <Box sx={st.loginBox}>
+                    <Grid container>
+                      <Grid
+                        container
+                        item
+                        xs={12}
+                        justifyContent="center"
+                        alignItems="flex-end"
+                      >
+                        <img
+                          alt="Logo"
+                          src={logo}
+                          style={{
+                            objectFit: "scale-down",
+                            width: "100%",
+                            height: "100%",
+                          }}
+                        />
+                      </Grid>
 
                   <Grid item xl={12} lg={12} md={12} sm={12} xs={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
                     <Typography
@@ -542,62 +538,89 @@ export const Login = () => {
             <Grid
               item
               container
-              xl={12}
-              xs={12}
-              lg={12}
-              md={12}
-              sm={12}
-              sx={{
-                height: "5%",
-                backgroundColor: "#f3f6f9",
-                fontFamily: "MontserratSemiBold",
-                fontSize: ".6vw",
-                color: "#808080",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
+              direction="row"
+              justifyContent="center"
             >
-              <Grid
-                item
-                container
-                xl={3}
-                xs={3}
-                lg={3}
-                md={3}
-                sm={3}
-                sx={{ display: "flex", justifyContent: "center" }}
-              >
-                <Typography sx={{ fontSize: [15, 15, 15, 15, 20] }}>
+              <Grid item container xs={10} justifyContent="center">
+                <Grid
+                  container
+                  xs={3}
+                  sm={4}
+                  md={3}
+                  paddingRight={2}
+                  justifyContent="flex-end"
+                >
+                  <Typography
+                  sx={{
+                   
+                    backgroundColor: "#f3f6f9",
+                    fontFamily: "MontserratSemiBold",
+                    fontSize: [15, 15, 15, 15, 20],
+                    color: "#808080",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
                   {actualYear()}
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                container
-                xl={4}
-                xs={6}
-                lg={4}
-                md={4}
-                sm={4}
-                sx={{ display: "flex", justifyContent: "center" }}
-              >
-                <Typography sx={{ fontSize: [15, 15, 15, 15, 20] }}>
+                  </Typography>
+                </Grid>
+                <Grid
+                  container
+                  item
+                  xs={6}
+                  sm={4}
+                  md={3}
+                  justifyContent="center"
+                >
+                  <Typography
+                  sx={{
+                    
+                    backgroundColor: "#f3f6f9",
+                    fontFamily: "MontserratSemiBold",
+                    fontSize: [15, 15, 15, 15, 20],
+                    color: "#808080",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
                   {ls.footerSecondText}
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                container
-                xl={3}
-                xs={3}
-                lg={3}
-                md={3}
-                sm={3}
-                sx={{ display: "flex", justifyContent: "center" }}
-              >
-                <Typography sx={{ fontSize: [15, 15, 15, 15, 20] }}>
+                  </Typography>
+                </Grid>
+                <Grid item xs={3} sm={4} md={3}>
+                <Typography
+                  sx={{
+                    
+                    backgroundColor: "#f3f6f9",
+                    fontFamily: "MontserratSemiBold",
+                    fontSize: [15, 15, 15, 15, 20],
+                    color: "#808080",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
                   {ls.footerThirdText}
+                  </Typography>
+                </Grid>
+              </Grid>
+
+              <Box sx={{ position: "absolute", right: 5, bottom: 5 }}>
+                <Typography
+                  sx={{
+                    
+                    backgroundColor: "#f3f6f9",
+                    fontFamily: "MontserratSemiBold",
+                    fontSize: [15, 15, 15, 15, 20],
+                    color: "#808080",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                
+                  v.{process.env.REACT_APP_APPLICATION_VERSION}
                 </Typography>
               </Grid>
             </Grid>

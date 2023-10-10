@@ -143,11 +143,11 @@ export const Forgot = () => {
         <Grid
           item
           container
-          xl={12}
-          xs={12}
-          lg={12}
-          md={12}
-          sm={12}
+          xl={8}
+          lg={8}
+          md={8}
+          sm={9}
+          xs={9}
           sx={{
             height: "100%",
             justifyContent: "center",
@@ -155,15 +155,31 @@ export const Forgot = () => {
             display: "flex",
           }}
         >
-      
+          <Grid
+            item
+            container
+            xl={10}
+            lg={10}
+            md={10}
+            sm={12}
+            xs={12}
+            //sx={st.loginBox}
+            sx={{
+              height: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              display: "flex"
+            }}
+          >
             <Grid
               item
               container
-              xl={3}
-              xs={3}
-              lg={3}
-              md={3}
-              sm={3}
+              direction={"column"}
+              xl={10}
+              lg={10}
+              md={12}
+              sm={12}
+              xs={12}
               sx={{
                 height: "50%",
                 justifyItems: "center",
@@ -173,12 +189,13 @@ export const Forgot = () => {
               <Grid
                 container
                 item
-                xl={12}
-                lg={12}
-                md={12}
+                xl={10}
+                lg={10}
+                md={10}
                 sm={12}
                 xs={12}
-                sx={{display:"flex",justifyContent:"center",alignItems:"center",height:"15vh"}}
+                justifyContent="center"
+                alignItems="center"
               >
                 <img
                   alt="Logo"
@@ -198,35 +215,52 @@ export const Forgot = () => {
                     fontFamily: "MontserratSemiBold",
                     color: "#858180",
                     textAlign: "center",
-                    fontSize: [15, 15, 15, 20, 20], // Tamaños de fuente para diferentes breakpoints
-
+                    fontSize: [10,15,15,15,20], // Tamaños de fuente para diferentes breakpoints
+                   
                   }}
                 >
                   {ls.signIn}
                 </Typography>
               </Grid>
 
-              <Grid item xl={12} lg={12} md={12} sm={12} xs={12} sx={{display:"flex",justifyContent:"center",alignItems:"center",}}>
-                <Typography sx={{
-                  textOverflow: "ellipsis",
-                  fontFamily: "MontserratSemiBold",
-                  color: "#858180",
-                  textAlign: "center",
-                  fontSize: [10, 10, 12, 12, 12], // Tamaños de fuente para diferentes breakpoints
-
-                }}>
+              <Grid item>
+                <Typography   sx={{
+                    // whiteSpace: "nowrap",
+                    // overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    
+                    fontFamily: "MontserratSemiBold",
+                    color: "#858180",
+                    textAlign: "center",
+                    fontSize: [10,15,15,15,20], // Tamaños de fuente para diferentes breakpoints
+                   
+                  }}>
                   {ls.secondaryText}
                 </Typography>
               </Grid>
 
-             
+              <Grid
+                item
+                container
+                xl={3}
+                lg={3}
+                md={3}
+                sm={6}
+                xs={6}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  height: "15%",
+                  mt: "2vh",
+                }}
+              >
                 <Grid
                   item
                   xl={12} lg={12} md={12} sm={12} xs={12} 
                   sx={{
                     borderRadius: 10,
-                    height: "7vh",
-                    width: "100%",
+                    height: "100%",
+                    width: "80%",
                     fontFamily: "MontserratMedium",
                     //fontSize: ".8vw",
                     justifyContent: "center",
@@ -246,7 +280,7 @@ export const Forgot = () => {
                     sx={{display:"flex",
                       width: "95%",
                       fontFamily: "MontserratRegular",
-                     fontSize: [10, 10, 12, 12, 12],ml:"2vw",
+                      fontSize: [10,15,15,15,20],
                     }}
                     style={{ color: userInputTextColor }}
                     onClickCapture={() => onClickTxtUsuario()}
@@ -272,14 +306,14 @@ export const Forgot = () => {
                   {ls.btnText}
                 </Button>
               </Grid>
-              <Grid item xl={12} lg={12} md={12} sm={12} xs={12} sx={{display:"flex",justifyContent:"center",alignItems:"center",}}>
-                <Button onClick={() => navigate("../")}>{ls.forgot}</Button>
+              <Grid item>
+                <Button onClick={() => navigate("../")} style={{ textTransform: 'none' }}>{ls.forgot}</Button >
               </Grid>
             </Grid>
           
         </Grid>
       </Grid>
-
+{/* FOOTER  5vh */}
       <Grid
         item
         container
@@ -342,6 +376,8 @@ export const Forgot = () => {
           </Typography>
         </Grid>
       </Grid>
+    </Grid>
+    </Grid>
     </Grid>
   );
 };

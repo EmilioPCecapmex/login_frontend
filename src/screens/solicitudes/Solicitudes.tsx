@@ -461,7 +461,7 @@ export const Solicitudes = () => {
       lg={12}
       md={12}
       sm={12} sx={{ height: "100vh", display: "flex", overflow: "auto" }}>
-      <Header />
+      <Header menuActual="Solicitudes"/>
 
       {/* <CommentsDialog
         open={openComments}
