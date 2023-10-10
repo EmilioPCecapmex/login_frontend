@@ -7,7 +7,6 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import {
   Box,
   Button,
-  Card,
   CardContent,
   FormControlLabel,
   FormGroup,
@@ -26,7 +25,6 @@ import { AppsDialog } from "../../components/appsDialog";
 import { Header } from "../../components/header";
 import { NewDialog } from "../../components/newDialog";
 import { isAdmin, sessionValid } from "../../funcs/validation";
-import { SolicitudModificarUsuario } from "../SolicitudDeUsuarios/SolicitudModificarUsuario";
 import "./style/Fonts.css";
 import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
 

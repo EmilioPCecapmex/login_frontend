@@ -1,11 +1,10 @@
 import { Box, Grid, IconButton, Tooltip } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
-import MUIXDataGrid from "../../components/MUIXDataGrid";
 import ModalForm from "../Componentes/ModalForm";
 import PreviewIcon from '@mui/icons-material/Preview';
-import { getAyuda } from "./ServicesAyuda";
 import { MostrarArchivos } from "./MostrarArchivos";
+import { useState } from "react";
+import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
 
 export interface IInfoFile {
   nombre: string;
@@ -124,7 +123,7 @@ export const VisualizadorAyudas = ({
   return (
     (<ModalForm
       title="Visualizar" handleClose={() => { handleClose() }}>
-      <Grid item sx={{ width: "100vw", height: "77vh" }}>
+      <Grid item sx={{ width: "100vw", height: "90vh", justifyContent:"center",alignItems:"center",displa:"flex" }}>
         {/* cambio a tabla preguntas */}
         {valueTab == "Preguntas" ? (
           <MUIXDataGrid id={(row: any) => row.Id} columns={columnsPreguntas} rows={arrayAyudas} />

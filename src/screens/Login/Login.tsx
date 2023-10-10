@@ -248,7 +248,7 @@ export const Login = () => {
             openAppModal(
               "success",
               r.data.AppIds[0].Msg ||
-                "tu usuario cuenta con acceso a las siguientes plataformas."
+              "tu usuario cuenta con acceso a las siguientes plataformas."
             );
           }
 
@@ -256,12 +256,12 @@ export const Login = () => {
             if (arrayApps[0].Path !== "./admin") {
               window.location.assign(
                 arrayApps[0].Path +
-                  "?jwt=" +
-                  localStorage.getItem("jwtToken") +
-                  "&rf=" +
-                  localStorage.getItem("refreshToken") +
-                  "&IdApp=" +
-                  arrayApps[0].IdApp
+                "?jwt=" +
+                localStorage.getItem("jwtToken") +
+                "&rf=" +
+                localStorage.getItem("refreshToken") +
+                "&IdApp=" +
+                arrayApps[0].IdApp
               );
             } else {
               localStorage.setItem("IdApp",arrayApps[0].IdApp)
@@ -329,8 +329,8 @@ export const Login = () => {
   }, []);
   useEffect(() => {
     // setTimeout(() => {
-      localStorage.clear();
-      handleCloseAppsModal();
+    localStorage.clear();
+    handleCloseAppsModal();
     // }, 100);
 
     if (localStorage.getItem("jwtToken") !== null) {
@@ -359,17 +359,273 @@ export const Login = () => {
         <>
           <SliderProgress open={openSlider} texto={mensajeSlider} />
 
-          <div className="ContentLogin">
-            <Grid item sx={st.parentBox}>
-              <Box sx={{ position: "absolute", top: 10, left: 10 }}>
-                <Typography
+          <Grid container sx={{ width: "100vw", height: "100vh" }}>
+            <AlertModal
+              openM={openModal}
+              closeM={handleCloseModal}
+              type={modalType}
+              text={modalText}
+            />
+            <Grid
+              item
+              container
+              xl={12}
+              xs={12}
+              lg={12}
+              md={12}
+              sm={12}
+              sx={{
+                height: "5%",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                display: "flex",ml:'2vw'
+              }}
+            >
+              <Typography
                   sx={{ fontFamily: "MontserratBold", color: "#ccc" }}
                 >
                   {process.env.REACT_APP_APPLICATION_ENVIRONMENT}
                 </Typography>
-                {/* <Typography sx={{ fontFamily: 'MontserratBold', color: '#ccc' }}>{jwt}</Typography> */}
-              </Box>
-              {openAppsModal ? (
+            </Grid>
+            <Grid
+              item
+              container
+              xl={12}
+              xs={12}
+              lg={12}
+              md={12}
+              sm={12}
+              sx={{
+                height: "90%",
+                justifyContent: "center",
+                alignItems: "center",
+                display: "flex",
+              }}
+            >
+              <Grid
+                item
+                container
+                xl={12}
+                xs={12}
+                lg={12}
+                md={12}
+                sm={12}
+                sx={{
+                  height: "100%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  display: "flex",
+                }}
+              >
+
+                <Grid
+                  item
+                  container
+                  xl={3}
+                  xs={3}
+                  lg={3}
+                  md={3}
+                  sm={3}
+                  sx={{
+                    height: "60%",
+                    justifyItems: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Grid
+                    container
+                    item
+                    xl={12}
+                    lg={12}
+                    md={12}
+                    sm={12}
+                    xs={12}
+                    sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "15vh" }}
+                  >
+                    <img
+                      alt="Logo"
+                      src={logo}
+                      style={{
+                        objectFit: "scale-down",
+                        width: "100%",
+                        height: "100%",
+                      }}
+                    />
+                  </Grid>
+
+                  <Grid item xl={12} lg={12} md={12} sm={12} xs={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
+                    <Typography
+                      sx={{
+                        textOverflow: "ellipsis",
+                        fontFamily: "MontserratSemiBold",
+                        color: "#858180",
+                        textAlign: "center",
+                        fontSize: [15, 15, 15, 20, 20], // Tamaños de fuente para diferentes breakpoints
+
+                      }}
+                    >
+                      {ls.signIn}
+                    </Typography>
+                  </Grid>
+
+                  <Grid item xl={12} lg={12} md={12} sm={12} xs={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
+                    <Typography sx={{
+                      textOverflow: "ellipsis",
+                      fontFamily: "MontserratSemiBold",
+                      color: "#858180",
+                      textAlign: "center",
+                      fontSize: [10, 10, 12, 12, 12], // Tamaños de fuente para diferentes breakpoints
+
+                    }}>
+                      {ls.secondaryText}
+                    </Typography>
+                  </Grid>
+
+
+                  <Grid
+                    item
+                    xl={12} lg={12} md={12} sm={12} xs={12}
+                    sx={{
+                      borderRadius: 10,
+                      height: "7vh",
+                      width: "100%",
+                      fontFamily: "MontserratMedium",
+                      //fontSize: ".8vw",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      display: "flex",
+                      border: 1,
+                      borderColor: "#cccccc",
+                    }}
+                    style={{ backgroundColor: userInputColor }}
+                  >
+                    <Input
+                            disableUnderline
+                            value={usuario}
+                            placeholder={ls.placeholderUser}
+                            onChange={(v) => onChangeUsuario(v.target.value)}
+                            id="usrPlaceholder"
+                            sx={st.userField}
+                            style={{ color: userInputTextColor }}
+                            onClickCapture={() => onClickTxtUsuario()}
+                            onBlurCapture={() => verifyUsuario()}
+                            onKeyDown={handleKeyDown}
+                          />
+                  </Grid>
+                  <Grid
+                    item
+                    xl={12} lg={12} md={12} sm={12} xs={12}
+                    sx={{
+                      borderRadius: 10,
+                      height: "7vh",
+                      width: "100%",
+                      fontFamily: "MontserratMedium",
+                      //fontSize: ".8vw",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      display: "flex",
+                      border: 1,
+                      borderColor: "#cccccc",
+                    }}
+                    style={{ backgroundColor: userInputColor }}
+                  >
+                    <Input
+                            disableUnderline
+                            placeholder={ls.placeholderPass}
+                            onChange={(v) => onChangePassword(v.target.value)}
+                            type="password"
+                            id="pswPlaceholder"
+                            sx={st.passField}
+                            style={{ color: contrasenaTextInputColor }}
+                            onClickCapture={() => onClickTxtContrasena()}
+                            onBlurCapture={() => verifyContrasena()}
+                            onKeyDown={handleKeyDown}
+                          />
+                  </Grid>
+
+
+                  <Grid item xl={12} lg={12} md={12} sm={12} xs={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
+                  <Button
+                          className="AceptarAppLogin"
+                          onClick={() => signIn()}
+                        >
+                          {ls.btnText}
+                        </Button>
+                  </Grid>
+                  
+                  <Grid item xl={12} lg={12} md={12} sm={12} xs={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
+                    <Button onClick={() => navigate("../recovery")}>{ls.forgot}</Button>
+                  </Grid>
+                </Grid>
+
+              </Grid>
+            </Grid>
+
+            <Grid
+              item
+              container
+              xl={12}
+              xs={12}
+              lg={12}
+              md={12}
+              sm={12}
+              sx={{
+                height: "5%",
+                backgroundColor: "#f3f6f9",
+                fontFamily: "MontserratSemiBold",
+                fontSize: ".6vw",
+                color: "#808080",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Grid
+                item
+                container
+                xl={3}
+                xs={3}
+                lg={3}
+                md={3}
+                sm={3}
+                sx={{ display: "flex", justifyContent: "center" }}
+              >
+                <Typography sx={{ fontSize: [15, 15, 15, 15, 20] }}>
+                  {actualYear()}
+                </Typography>
+              </Grid>
+              <Grid
+                item
+                container
+                xl={4}
+                xs={6}
+                lg={4}
+                md={4}
+                sm={4}
+                sx={{ display: "flex", justifyContent: "center" }}
+              >
+                <Typography sx={{ fontSize: [15, 15, 15, 15, 20] }}>
+                  {ls.footerSecondText}
+                </Typography>
+              </Grid>
+              <Grid
+                item
+                container
+                xl={3}
+                xs={3}
+                lg={3}
+                md={3}
+                sm={3}
+                sx={{ display: "flex", justifyContent: "center" }}
+              >
+                <Typography sx={{ fontSize: [15, 15, 15, 15, 20] }}>
+                  {ls.footerThirdText}
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+
+          {openAppsModal ? (
                 <AppsModal
                   openM={openAppsModal}
                   closeM={handleCloseAppsModal}
@@ -386,195 +642,6 @@ export const Login = () => {
                 type={modalType}
                 text={modalText}
               />
-              <Box sx={st.horizontalBox}>
-                <Box sx={st.centerBox}>
-                  <Box sx={st.loginBox}>
-                    <Grid container>
-                      <Grid
-                        container
-                        item
-                        xs={12}
-                        justifyContent="center"
-                        alignItems="flex-end"
-                      >
-                        <img
-                          alt="Logo"
-                          src={logo}
-                          style={{
-                            objectFit: "scale-down",
-                            width: "100%",
-                            height: "100%",
-                          }}
-                        />
-                      </Grid>
-
-                      <Grid container item xs={12} justifyContent="center">
-                        <Typography sx={st.loginText}>{ls.signIn}</Typography>
-                      </Grid>
-
-                      <Grid
-                        container
-                        item
-                        xs={12}
-                        justifyContent="center"
-                        sx={st.secondaryTextBox}
-                      >
-                        <Typography sx={st.secondaryText}>
-                          {ls.secondaryText}
-                        </Typography>
-                      </Grid>
-
-                      <Box sx={st.parentBoxUserField}>
-                        <Box
-                          style={{ backgroundColor: userInputColor }}
-                          sx={st.userFieldBox}
-                        >
-                          <Input
-                            disableUnderline
-                            value={usuario}
-                            placeholder={ls.placeholderUser}
-                            onChange={(v) => onChangeUsuario(v.target.value)}
-                            id="usrPlaceholder"
-                            sx={st.userField}
-                            style={{ color: userInputTextColor }}
-                            onClickCapture={() => onClickTxtUsuario()}
-                            onBlurCapture={() => verifyUsuario()}
-                            onKeyDown={handleKeyDown}
-                          />
-                        </Box>
-                      </Box>
-                      <Grid sx={st.parentBoxPassField}>
-                        <Grid
-                          style={{ backgroundColor: contrasenaInputColor }}
-                          sx={st.passFieldBox}
-                        >
-                          <Input
-                            disableUnderline
-                            placeholder={ls.placeholderPass}
-                            onChange={(v) => onChangePassword(v.target.value)}
-                            type="password"
-                            id="pswPlaceholder"
-                            sx={st.passField}
-                            style={{ color: contrasenaTextInputColor }}
-                            onClickCapture={() => onClickTxtContrasena()}
-                            onBlurCapture={() => verifyContrasena()}
-                            onKeyDown={handleKeyDown}
-                          />
-                        </Grid>
-                      </Grid>
-                      <Box sx={st.btnBox}>
-                        <Button
-                          className="AceptarAppLogin"
-                          onClick={() => signIn()}
-                        >
-                          {ls.btnText}
-                        </Button>
-                      </Box>
-                      <Box sx={st.forgotBox}>
-                        <Button
-                          onClick={() => navigate("./recovery")}
-                          sx={st.forgotBtn}
-                        >
-                          {ls.forgot}
-                        </Button>
-                      </Box>
-                    </Grid>
-                  </Box>
-                </Box>
-              </Box>
-            </Grid>
-          </div>
-          <div className="FooterLogin">
-            <Grid
-              paddingTop={2}
-              container
-              direction="row"
-              justifyContent="center"
-            >
-              <Grid item container xs={10} justifyContent="center">
-                <Grid
-                  container
-                  xs={3}
-                  sm={4}
-                  md={3}
-                  paddingRight={2}
-                  justifyContent="flex-end"
-                >
-                  <Typography
-                  sx={{
-                   
-                    backgroundColor: "#f3f6f9",
-                    fontFamily: "MontserratSemiBold",
-                    fontSize: [15, 15, 15, 15, 20],
-                    color: "#808080",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  {actualYear()}
-                  </Typography>
-                </Grid>
-                <Grid
-                  container
-                  item
-                  xs={6}
-                  sm={4}
-                  md={3}
-                  justifyContent="center"
-                >
-                  <Typography
-                  sx={{
-                    
-                    backgroundColor: "#f3f6f9",
-                    fontFamily: "MontserratSemiBold",
-                    fontSize: [15, 15, 15, 15, 20],
-                    color: "#808080",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  {ls.footerSecondText}
-                  </Typography>
-                </Grid>
-                <Grid item xs={3} sm={4} md={3}>
-                <Typography
-                  sx={{
-                    
-                    backgroundColor: "#f3f6f9",
-                    fontFamily: "MontserratSemiBold",
-                    fontSize: [15, 15, 15, 15, 20],
-                    color: "#808080",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  {ls.footerThirdText}
-                  </Typography>
-                </Grid>
-              </Grid>
-
-              <Box sx={{ position: "absolute", right: 5, bottom: 5 }}>
-                <Typography
-                  sx={{
-                    
-                    backgroundColor: "#f3f6f9",
-                    fontFamily: "MontserratSemiBold",
-                    fontSize: [15, 15, 15, 15, 20],
-                    color: "#808080",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                
-                  v.{process.env.REACT_APP_APPLICATION_VERSION}
-                </Typography>
-              </Box>
-            </Grid>
-          </div>
         </>
       )}
     </>
