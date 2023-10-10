@@ -42,8 +42,8 @@ export const MostrarArchivos = ({
 
             <Grid container sx={{ width: "100vw", height: "100vh", display: "flex", justifyContent: "flex-end" }}>
                 <Grid container item xs={12} sm={12} md={12} lg={12} sx={{height:"7vh", display: "flex", justifyContent: "flex-end"}}>
-                <Grid item xs={10} sm={10} md={10} lg={10} >
-                    <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <Grid item xs={10} sm={10} md={10} lg={10} sx={{display:"flex",alignItems:"Center", justifyContent: "center"}} >
+                    <Box sx={{ display: "flex", justifyContent: "center",alignItems:"Center" }}>
                         <Typography
                             fontFamily={"'Montserrat', sans-serif"}
                             sx={{
