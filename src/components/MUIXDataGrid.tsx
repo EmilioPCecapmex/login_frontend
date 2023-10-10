@@ -19,6 +19,8 @@ export default function MUIXDataGrid(props: any) {
         sx={{
         fontFamily: "MontserratMedium",
         }}
+        getRowHeight={() => "auto"}
+
           components={{ Toolbar: GridToolbar }}
           componentsProps={{
             toolbar: {
@@ -29,6 +31,7 @@ export default function MUIXDataGrid(props: any) {
               quickFilterProps: { debounceMs: 500 },
             },
           }}
+      
           localeText={{
             noRowsLabel: "Sin filas",
             noResultsOverlayLabel: "Resultados no encontrados",

@@ -28,7 +28,25 @@ interface IApps {
   Descripcion: string;
 }
 
+export const getUserDetail= (idUsuario:string,idApp:string)=>{
+  
+  axios.post(
+    process.env.REACT_APP_APPLICATION_DEV + '/api/userapp-detail',
+    {IdUsuario:idUsuario,IdApp:idApp},
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("jwtToken")||"",
+      },
+    }
+  ).then((r)=>{console.log(r.data);
+    localStorage.setItem('Menus',JSON.stringify(r.data.menus[0]))
+    
+  });
+}
+
 export const Login = () => {
+  let IdUsuario="";
   const urlParams = window.location.search;
   const query = new URLSearchParams(urlParams);
   const jwt = query.get("jwt");
@@ -64,6 +82,7 @@ export const Login = () => {
   const [openSlider, setOpenSlider] = useState(true);
   const [idUsuarioSolicitante, setIdUsuarioSolicitante] = useState("");
   const [mensajeSlider, setMensajeSlider] = useState("Validando...");
+  
 
   const [appsList, setAppsList] = useState<Array<IApps>>([
     {
@@ -245,6 +264,9 @@ export const Login = () => {
                 arrayApps[0].IdApp
               );
             } else {
+              localStorage.setItem("IdApp",arrayApps[0].IdApp)
+              IdUsuario=r.data.IdUsuario;
+              getUserDetail(r.data.IdUsuario,arrayApps[0].IdApp);
               navigate("./admin");
             }
           }
@@ -610,6 +632,7 @@ export const Login = () => {
                   type={modalType}
                   text={modalText}
                   apps={appsList}
+                  idUsuario={IdUsuario}
                 />
               ) : null}
 

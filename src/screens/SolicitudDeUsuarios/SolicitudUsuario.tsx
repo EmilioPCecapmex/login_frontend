@@ -696,7 +696,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           disabled={existeCorreo}
           fullWidth
           sx={{ mr: 4 }}
-          label="Teléfono Móbil"
+          label="Teléfono Móvil"
           value={infoUsuario.Celular}
           inputProps={{ maxLength: 10 }}
           variant="standard"

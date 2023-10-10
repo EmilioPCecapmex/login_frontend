@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardContent, Grid } from "@mui/material";
 import logo from "../assets/logo.svg";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { getUserDetail } from "../screens/Login/Login";
 
 export default function AppsModal({
   openM,
@@ -13,12 +14,14 @@ export default function AppsModal({
   type,
   text,
   apps,
+  idUsuario
 }: {
   openM: boolean;
   closeM: Function;
   type: string;
   text: string;
   apps: Object;
+  idUsuario:string;
 }) {
   const navigate = useNavigate();
 
@@ -41,6 +44,8 @@ export default function AppsModal({
       );
       // localStorage.clear();
     } else if (t === "./admin") {
+      getUserDetail(localStorage.getItem("IdUsuario")||"",idapp);
+      localStorage.setItem("IdApp",idapp)
       navigate(t);
     }
   };

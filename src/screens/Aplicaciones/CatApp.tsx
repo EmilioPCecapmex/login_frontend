@@ -275,7 +275,7 @@ export default function CatApps() {
       {/* no se que es esto de la linea de arriba pero si lo quito no funciona*/}
       {/* este box es solo para que muestre la barra de arriba gris con las opciones */}
 
-      <Header />
+      <Header menuActual={"Aplicaciones"} />
 
       {/* esta configuracion es del box que va a contener el card principal*/}
       <Grid
