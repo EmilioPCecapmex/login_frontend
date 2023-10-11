@@ -25,6 +25,9 @@ import { EditDialogApp } from "../../components/editApp";
 import { Header } from "../../components/header";
 import { NewDialogApp } from "../../components/newApp";
 import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
+import MenuIcon from '@mui/icons-material/Menu';
+import { AdminMenu } from "../AdminMenus/AdminMenu";
+
 
 // estructura que se va a llenar con la informacion que regresa el endpoint
 // tiene que tener el mismo nombre que regresa el endpoint
@@ -54,8 +57,12 @@ export default function CatApps() {
   const navigate = useNavigate();
   //Roles
   const [openRoles, setOpenRoles] = useState(false);
+  const [openAdminMenus, setOpenAdminMenus] = useState(false);
+  
   const [idApp, setIdApp] = useState("");
   const [app, setApp] = useState("");
+
+  
   // Set columns and rows for DataGrid
   const columns = [
     // primer columna del grid donde ponemos los botones de editar y eliminar
@@ -105,6 +112,20 @@ export default function CatApps() {
                 }}
               >
                 <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={"Administrar Menús "
+              //+ cellValues.row.Nombre
+            }>
+              <IconButton
+                sx={{ color: "black" }}
+                onClick={() => {
+                  setOpenAdminMenus(true);
+                  setIdApp(cellValues?.row?.Id);
+                  setApp(cellValues?.row?.Nombre);
+                }}
+              >
+                <MenuIcon />
               </IconButton>
             </Tooltip>
           </Box>
@@ -391,6 +412,14 @@ export default function CatApps() {
         <Roles
           open={openRoles}
           closeModal={() => setOpenRoles(false)}
+          idApp={idApp}
+          app={app}
+        />
+      )}
+      {openAdminMenus && (
+        <AdminMenu
+          open={openAdminMenus}
+          closeModal={() => setOpenAdminMenus(false)}
           idApp={idApp}
           app={app}
         />
