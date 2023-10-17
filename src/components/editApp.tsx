@@ -75,7 +75,7 @@ export const EditDialogApp = (props: EditDialogProps) => {
       alertaInformativa("No se detectaron cambios")
     }else{
       const { Nombre, Path, Descripcion, EstaActivo } = App;
-    if (Nombre === "" || Path === "" || Descripcion === "") {
+    if (Nombre === "" || Path === "") {
       Swal.fire({
         icon: "error",
         title: "Aviso",
@@ -192,7 +192,7 @@ export const EditDialogApp = (props: EditDialogProps) => {
                 control={
                   <Switch
                     checked={App.Estatus}
-                    onChange={(v) => setApp({ ...App, Estatus: v.target.checked })}
+                    onChange={(v) => setApp({ ...App, Estatus: v.target.checked ,EstaActivo:v.target.checked})}
                   />
                 }
                 label={App.Estatus ? "Activo" : "Inactivo"}
