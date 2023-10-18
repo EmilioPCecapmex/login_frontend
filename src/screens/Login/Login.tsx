@@ -28,25 +28,26 @@ interface IApps {
   Descripcion: string;
 }
 
-export const getUserDetail= (idUsuario:string,idApp:string)=>{
-  
+export const getUserDetail = (idUsuario: string, idApp: string) => {
+
   axios.post(
     process.env.REACT_APP_APPLICATION_DEV + '/api/userapp-detail',
-    {IdUsuario:idUsuario,IdApp:idApp},
+    { IdUsuario: idUsuario, IdApp: idApp },
     {
       headers: {
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("jwtToken")||"",
+        Authorization: localStorage.getItem("jwtToken") || "",
       },
     }
-  ).then((r)=>{console.log(r.data);
-    localStorage.setItem('Menus',JSON.stringify(r.data.menus[0]))
-    
+  ).then((r) => {
+    console.log(r.data);
+    localStorage.setItem('Menus', JSON.stringify(r.data.menus[0]))
+
   });
 }
 
 export const Login = () => {
-  let IdUsuario="";
+  let IdUsuario = "";
   const urlParams = window.location.search;
   const query = new URLSearchParams(urlParams);
   const jwt = query.get("jwt");
@@ -82,7 +83,7 @@ export const Login = () => {
   const [openSlider, setOpenSlider] = useState(true);
   const [idUsuarioSolicitante, setIdUsuarioSolicitante] = useState("");
   const [mensajeSlider, setMensajeSlider] = useState("Validando...");
-  
+
 
   const [appsList, setAppsList] = useState<Array<IApps>>([
     {
@@ -264,9 +265,9 @@ export const Login = () => {
                 arrayApps[0].IdApp
               );
             } else {
-              localStorage.setItem("IdApp",arrayApps[0].IdApp)
-              IdUsuario=r.data.IdUsuario;
-              getUserDetail(r.data.IdUsuario,arrayApps[0].IdApp);
+              localStorage.setItem("IdApp", arrayApps[0].IdApp)
+              IdUsuario = r.data.IdUsuario;
+              getUserDetail(r.data.IdUsuario, arrayApps[0].IdApp);
               navigate("./admin");
             }
           }
@@ -375,28 +376,7 @@ export const Login = () => {
               md={12}
               sm={12}
               sx={{
-                height: "5%",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                display: "flex",ml:'2vw'
-              }}
-            >
-              <Typography
-                  sx={{ fontFamily: "MontserratBold", color: "#ccc" }}
-                >
-                  {process.env.REACT_APP_APPLICATION_ENVIRONMENT}
-                </Typography>
-            </Grid>
-            <Grid
-              item
-              container
-              xl={12}
-              xs={12}
-              lg={12}
-              md={12}
-              sm={12}
-              sx={{
-                height: "90%",
+                height: "95%",
                 justifyContent: "center",
                 alignItems: "center",
                 display: "flex",
@@ -405,162 +385,225 @@ export const Login = () => {
               <Grid
                 item
                 container
-                xl={12}
-                xs={12}
-                lg={12}
-                md={12}
-                sm={12}
+                xl={8}
+                lg={8}
+                md={8}
+                sm={9}
+                xs={9}
                 sx={{
-                  height: "100%",
+                  height: "80%",
                   justifyContent: "center",
                   alignItems: "center",
                   display: "flex",
                 }}
+              //sx={st.centerBox}
               >
-
                 <Grid
                   item
                   container
-                  xl={3}
-                  xs={3}
-                  lg={3}
-                  md={3}
-                  sm={3}
+                  xl={10}
+                  lg={10}
+                  md={10}
+                  sm={12}
+                  xs={12}
+                  //sx={st.loginBox}
                   sx={{
-                    height: "60%",
-                    justifyItems: "center",
+                    height: "100%",
+                    justifyContent: "center",
                     alignItems: "center",
+                    display: "flex"
                   }}
                 >
                   <Grid
-                    container
                     item
-                    xl={12}
-                    lg={12}
+                    container
+                    direction={"column"}
+                    xl={10}
+                    lg={10}
                     md={12}
                     sm={12}
                     xs={12}
-                    sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "15vh" }}
+                    sx={{
+                      //height: "95%",
+                      justifyItems: "center",
+                      alignItems: "center",
+                      display: "flex",
+                    }}
                   >
-                    <img
-                      alt="Logo"
-                      src={logo}
-                      style={{
-                        objectFit: "scale-down",
-                        width: "100%",
-                        height: "100%",
-                      }}
-                    />
-                  </Grid>
+                    <Grid
+                      //height={"5%"}
+                      container
+                      item
+                      xl={10}
+                      lg={10}
+                      md={10}
+                      sm={12}
+                      xs={12}
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <img
+                        alt="Logo"
+                        src={logo}
+                        style={{
+                          objectFit: "scale-down",
+                          width: "100%",
+                          height: "100%",
+                        }}
+                      />
+                    </Grid>
 
-                  <Grid item xl={12} lg={12} md={12} sm={12} xs={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
-                    <Typography
-                      sx={{
+                    <Grid item>
+                      <Typography
+                        sx={{
+                          // whiteSpace: "nowrap",
+                          // overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          fontFamily: "MontserratSemiBold",
+                          color: "#858180",
+                          textAlign: "center",
+                          fontSize: [10, 15, 15, 15, 20], // Tamaños de fuente para diferentes breakpoints
+
+                        }}
+                      >
+                        {ls.signIn}
+                      </Typography>
+                    </Grid>
+
+                    <Grid item>
+                      <Typography sx={{
+                        // whiteSpace: "nowrap",
+                        // overflow: "hidden",
                         textOverflow: "ellipsis",
+
                         fontFamily: "MontserratSemiBold",
                         color: "#858180",
                         textAlign: "center",
-                        fontSize: [15, 15, 15, 20, 20], // Tamaños de fuente para diferentes breakpoints
+                        fontSize: [10, 15, 15, 15, 20], // Tamaños de fuente para diferentes breakpoints
 
+                      }}>
+                        {ls.secondaryText}
+                      </Typography>
+                    </Grid>
+
+                    <Grid
+                      item
+                      container
+                      xl={3}
+                      lg={3}
+                      md={3}
+                      sm={6}
+                      xs={6}
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        height: "15%",
+                        mt: "2vh",
                       }}
                     >
-                      {ls.signIn}
-                    </Typography>
-                  </Grid>
+                      <Grid
+                        item
+                        sx={{
+                          borderRadius: 10,
+                          height: "100%",
+                          width: "80%",
+                          fontFamily: "MontserratMedium",
+                          //fontSize: ".8vw",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          display: "flex",
+                          border: 1,
+                          borderColor: "#cccccc",
+                          mb: "2vh",
+                        }}
+                        style={{ backgroundColor: userInputColor }}
+                      >
+                        <Input
+                          disableUnderline
+                          value={usuario}
+                          placeholder={ls.placeholderUser}
+                          onChange={(v) => onChangeUsuario(v.target.value)}
+                          id="usrPlaceholder"
+                          sx={{
+                            width: "80%",
+                            padding: "8px",
+                            fontFamily: "MontserratRegular",
+                            fontSize: [10, 15, 15, 15, 20],
+                          }}
+                          style={{ color: userInputTextColor }}
+                          onClickCapture={() => onClickTxtUsuario()}
+                          onBlurCapture={() => verifyUsuario()}
+                        />
+                      </Grid>
+                    </Grid>
 
-                  <Grid item xl={12} lg={12} md={12} sm={12} xs={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
-                    <Typography sx={{
-                      textOverflow: "ellipsis",
-                      fontFamily: "MontserratSemiBold",
-                      color: "#858180",
-                      textAlign: "center",
-                      fontSize: [10, 10, 12, 12, 12], // Tamaños de fuente para diferentes breakpoints
+                    <Grid
+                      item
+                      container
+                      xl={3}
+                      lg={3}
+                      md={3}
+                      sm={6}
+                      xs={6}
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        height: "15%",
+                        
+                      }}
+                    >
+                      <Grid
+                        item
+                        sx={{
+                          borderRadius: 10,
+                          height: "100%",
+                          width: "80%",
+                          fontFamily: "MontserratMedium",
+                          //fontSize: ".8vw",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          display: "flex",
+                          border: 1,
+                          borderColor: "#cccccc",
+                          mb: "2vh",
+                        }}
+                        style={{ backgroundColor: userInputColor }}
+                      >
+                        <Input
+                          disableUnderline
+                          value={contrasena}
+                          placeholder={ls.placeholderPass}
+                          onChange={(v) => onChangePassword(v.target.value)}
+                          id="usrPlaceholder"
+                          sx={{
+                            width: "80%",
+                            padding: "8px",
+                            fontFamily: "MontserratRegular",
+                            fontSize: [10, 15, 15, 15, 20],
+                          }}
+                          style={{ color: userInputTextColor }}
+                          onClickCapture={() => onClickTxtUsuario()}
+                          onBlurCapture={() => verifyUsuario()}
+                        />
+                      </Grid>
+                    </Grid>
 
-                    }}>
-                      {ls.secondaryText}
-                    </Typography>
-                  </Grid>
-
-
-                  <Grid
-                    item
-                    xl={12} lg={12} md={12} sm={12} xs={12}
-                    sx={{
-                      borderRadius: 10,
-                      height: "7vh",
-                      width: "100%",
-                      fontFamily: "MontserratMedium",
-                      //fontSize: ".8vw",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      display: "flex",
-                      border: 1,
-                      borderColor: "#cccccc",
-                    }}
-                    style={{ backgroundColor: userInputColor }}
-                  >
-                    <Input
-                            disableUnderline
-                            value={usuario}
-                            placeholder={ls.placeholderUser}
-                            onChange={(v) => onChangeUsuario(v.target.value)}
-                            id="usrPlaceholder"
-                            sx={st.userField}
-                            style={{ color: userInputTextColor }}
-                            onClickCapture={() => onClickTxtUsuario()}
-                            onBlurCapture={() => verifyUsuario()}
-                            onKeyDown={handleKeyDown}
-                          />
-                  </Grid>
-                  <Grid
-                    item
-                    xl={12} lg={12} md={12} sm={12} xs={12}
-                    sx={{
-                      borderRadius: 10,
-                      height: "7vh",
-                      width: "100%",
-                      fontFamily: "MontserratMedium",
-                      //fontSize: ".8vw",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      display: "flex",
-                      border: 1,
-                      borderColor: "#cccccc",
-                    }}
-                    style={{ backgroundColor: userInputColor }}
-                  >
-                    <Input
-                            disableUnderline
-                            placeholder={ls.placeholderPass}
-                            onChange={(v) => onChangePassword(v.target.value)}
-                            type="password"
-                            id="pswPlaceholder"
-                            sx={st.passField}
-                            style={{ color: contrasenaTextInputColor }}
-                            onClickCapture={() => onClickTxtContrasena()}
-                            onBlurCapture={() => verifyContrasena()}
-                            onKeyDown={handleKeyDown}
-                          />
-                  </Grid>
-
-
-                  <Grid item xl={12} lg={12} md={12} sm={12} xs={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
-                  <Button
-                          className="AceptarAppLogin"
-                          onClick={() => signIn()}
-                        >
-                          {ls.btnText}
-                        </Button>
-                  </Grid>
-                  
-                  <Grid item xl={12} lg={12} md={12} sm={12} xs={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
-                    <Button onClick={() => navigate("../recovery")}>{ls.forgot}</Button>
+                    <Grid item>
+                      <Button
+                       className="aceptar"
+                       onClick={() => signIn()}
+                      >
+                        {ls.btnText}
+                      </Button>
+                    </Grid>
+                    <Grid item>
+                      <Button onClick={() => navigate("../recovery")} style={{ textTransform: 'none' }}>{ls.forgot}</Button >
+                    </Grid>
                   </Grid>
                 </Grid>
-
               </Grid>
             </Grid>
-
+            {/* FOOTER  5vh */}
             <Grid
               item
               container
@@ -604,7 +647,7 @@ export const Login = () => {
                 sm={4}
                 sx={{ display: "flex", justifyContent: "center" }}
               >
-                <Typography sx={{ fontSize: [15, 15, 15, 15, 20] }}>
+                <Typography sx={{ fontSize: [15, 15, 15, 15, 20] }} >
                   {ls.footerSecondText}
                 </Typography>
               </Grid>
@@ -619,29 +662,30 @@ export const Login = () => {
                 sx={{ display: "flex", justifyContent: "center" }}
               >
                 <Typography sx={{ fontSize: [15, 15, 15, 15, 20] }}>
-                  {ls.footerThirdText}
+                  {/* {ls.footerThirdText} */}
                 </Typography>
               </Grid>
             </Grid>
           </Grid>
 
-          {openAppsModal ? (
-                <AppsModal
-                  openM={openAppsModal}
-                  closeM={handleCloseAppsModal}
-                  type={modalType}
-                  text={modalText}
-                  apps={appsList}
-                  idUsuario={IdUsuario}
-                />
-              ) : null}
 
-              <AlertModal
-                openM={openModal}
-                closeM={handleCloseModal}
-                type={modalType}
-                text={modalText}
-              />
+          {openAppsModal ? (
+            <AppsModal
+              openM={openAppsModal}
+              closeM={handleCloseAppsModal}
+              type={modalType}
+              text={modalText}
+              apps={appsList}
+              idUsuario={IdUsuario}
+            />
+          ) : null}
+
+          <AlertModal
+            openM={openModal}
+            closeM={handleCloseModal}
+            type={modalType}
+            text={modalText}
+          />
         </>
       )}
     </>

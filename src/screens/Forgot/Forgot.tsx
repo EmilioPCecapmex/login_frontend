@@ -377,7 +377,7 @@ export const Forgot = () => {
           sx={{ display: "flex", justifyContent: "center" }}
         >
           <Typography sx={{ fontSize: [15, 15, 15, 15, 20] }}>
-            {ls.footerThirdText}
+            {/* {ls.footerThirdText} */}
           </Typography>
         </Grid>
       </Grid>

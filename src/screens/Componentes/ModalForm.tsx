@@ -54,7 +54,7 @@ const ModalForm = ({ children, title, handleClose }: Props) => {
           </Grid>
         </Grid>
 
-        <Grid container justifyContent="ccenter" alignItems="center">
+        <Grid container justifyContent="ccenter" alignItems="center" sx={{overflow:"auto"}}>
          {children}
         </Grid>
       </Dialog>

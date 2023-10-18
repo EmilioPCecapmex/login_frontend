@@ -120,6 +120,7 @@ export const Header = (
 
   const [option, setOption] = useState("Videos");
 
+  const nombreUsuario = localStorage.getItem("NombreUsuario")||"";
 
   return (
 
@@ -147,15 +148,15 @@ export const Header = (
           },
 
           "@media (min-width: 1140px)": {
-            width: "20%",
+            width: "30%",
           },
 
           "@media (min-width: 1400px)": {
-            width: "20%",
+            width: "30%",
           },
 
           "@media (min-width: 1870px)": {
-            width: "20%",
+            width: "30%",
           },
 
         }} >
@@ -166,13 +167,13 @@ export const Header = (
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",
-            textAlign: "center",
+            textAlign: "left",
             fontSize: [20, 20, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
             color: "#AF8C55"
           }}
         >
 
-          {localStorage.getItem("NombreUsuario")}
+          {nombreUsuario.toLocaleUpperCase()}
         </Typography>
       </Grid>
       {/* imagen */}
@@ -203,7 +204,7 @@ export const Header = (
           justifyContent: "flex-end",
 
           "@media (min-width: 480px)": {
-            width: "50%",
+            width: "20%",
           },
 
           "@media (min-width: 768px)": {
@@ -211,15 +212,15 @@ export const Header = (
           },
 
           "@media (min-width: 1140px)": {
-            width: "25%",
+            width: "30%",
           },
 
           "@media (min-width: 1400px)": {
-            width: "20%",
+            width: "30%",
           },
 
           "@media (min-width: 1870px)": {
-            width: "20%",
+            width: "30%",
           },
         }}
       > <>
@@ -272,7 +273,7 @@ export const Header = (
                 <MenuItem onClick={() => navigate("../ayuda")}><InfoOutlinedIcon sx={{mr:"10px"}} />Guias y Tutoriales</MenuItem>*/}
             {<MenuItem onClick={() => { getAyuda(setArrayAyudas, idMenu?.Id, "Videos"); setOpenVAyudas(true); setOption("Videos") }}>{IconsMenu("OndemandVideoIcon")}Ver Tutoriales </MenuItem>}
             {<MenuItem onClick={() => { getAyuda(setArrayAyudas, idMenu?.Id, "Guias"); setOpenVAyudas(true); setOption("Guias") }}>{IconsMenu("MenuBookIcon")}Ver Guías </MenuItem>}
-            {<MenuItem onClick={() => { getAyuda(setArrayAyudas, idMenu?.Id, "Preguntas"); setOpenVAyudas(true); setOption("Preguntas") }}>{IconsMenu("HelpIcon")}Preguntas </MenuItem>}
+            {<MenuItem onClick={() => { getAyuda(setArrayAyudas, idMenu?.Id, "Preguntas"); setOpenVAyudas(true); setOption("Preguntas") }}>{IconsMenu("HelpIcon")}Preguntas Frecuentes</MenuItem>}
             <MenuItem onClick={() => logoutFnc()}><PowerSettingsNewIcon sx={{ mr: "10px" }} />Cerrar Sesión </MenuItem>
 
           </Menu>

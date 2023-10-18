@@ -1,22 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-
-import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Box, Button, Grid, IconButton, Tab, TextField, Tooltip, Typography } from "@mui/material";
+import { TabContext, TabList } from "@mui/lab";
+import { Box, Grid, IconButton, Tab,  Tooltip} from "@mui/material";
 import { useState, useEffect } from "react";
-import { Create, IModify } from "../../components/dialogsCatalogos/Create";
 import { Header } from "../../components/header";
 import ButtonsAdd from "../Componentes/ButtonsAdd";
 import { alertaError, alertaExito } from "../../components/alertas/toast";
 import { GridColDef } from "@mui/x-data-grid";
-import AyudasModal, { ILista, Tabla } from "./AyudaModal";
-import { deleteAyuda, deleteFile, getAyuda } from "./ServicesAyuda";
+import AyudasModal from "./AyudaModal";
+import {deleteFile, getAyuda } from "./ServicesAyuda";
 import Swal from "sweetalert2";
-import MUIXDataGrid from "../../components/MUIXDataGrid";
-
+import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
 export interface IAyudaVideo {
   Id: string,
   IdMenu: string,
@@ -102,7 +97,7 @@ function eliminar (v:any){
                 eliminar(v)              
             }
               }>
-              <DeleteForeverIcon />
+              <DeleteIcon />
             </IconButton>
           </Tooltip>
           </Box>
@@ -137,7 +132,7 @@ function eliminar (v:any){
           <Box>
             <Tooltip title="Eliminar Video">
             <IconButton onClick={() =>{eliminar(v)}}>
-              <DeleteForeverIcon />
+              <DeleteIcon />
             </IconButton>
           </Tooltip>
           </Box>
@@ -168,7 +163,7 @@ function eliminar (v:any){
             <Tooltip title="Eliminar Pregunta">
             <IconButton onClick={() =>{eliminar(v)} 
             }>
-              <DeleteForeverIcon />
+              <DeleteIcon />
             </IconButton>
           </Tooltip>
           </Box>
