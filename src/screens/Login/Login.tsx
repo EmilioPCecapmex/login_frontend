@@ -255,7 +255,7 @@ export const Login = () => {
 
           if (arrayApps.length === 1) {
             if (arrayApps[0].Path !== "./admin") {
-              window.location.assign(
+              window.location.replace(
                 arrayApps[0].Path +
                 "?jwt=" +
                 localStorage.getItem("jwtToken") +
