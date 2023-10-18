@@ -49,6 +49,9 @@ const Toast = Swal.mixin({
 });
 
 export default function CatApps() {
+  document.title = "Aplicaciones";
+const camposCsv = ["Nombre", "Descripcion","Path","NombreUsuario","estatusLabel"];
+
   const navigate = useNavigate();
   //Roles
   const [openRoles, setOpenRoles] = useState(false);
@@ -364,6 +367,7 @@ export default function CatApps() {
             id={(row: any) => row.Id}
             columns={columns}
             rows={rows}
+            camposCsv={camposCsv}
           /></Grid>
           {/* aqui es el contenido del card,y ponemos primero un box y estamos dibujando el boton para agregar un nuevo registro */}
 

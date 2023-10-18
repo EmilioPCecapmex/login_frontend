@@ -1,11 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Box, Grid, IconButton, Tab, Tooltip, Typography } from "@mui/material";
+import { TabContext, TabList } from "@mui/lab";
+import { Box, Grid, IconButton, Tab, Tooltip } from "@mui/material";
 import { useState, useEffect } from "react";
-import { Create, IModify } from "../../components/dialogsCatalogos/Create";
+import { Create } from "../../components/dialogsCatalogos/Create";
 import { Header } from "../../components/header";
 import ButtonsAdd from "../Componentes/ButtonsAdd";
 import { getCatalogo } from "../../services/catalogosService";
@@ -60,9 +58,6 @@ const Catalogos = () => {
   const [entidades, setEntidades] = useState<Array<IEntidad>>([]);
 
   const [openCreate, setOpenCreate] = useState(false);
-
-  const [openDelete, setOpenDelete] = useState(false);
-  const [selectId, setSelectId] = useState(String);
 
   const [elemento, setElemento] = useState<IModifica>({
     ClaveSiregob: "",
@@ -260,6 +255,8 @@ const Catalogos = () => {
     });
   };
 
+  document.title = valueTab==="TipoEntidades"?"Tipo de entidades":"Entidades";
+  const camposCsv =valueTab==="TipoEntidades"? ["Nombre", "Descripcion"]:["Nombre","Direccion","Telefono","NombreTipoEntidad","Titular","EntidadPerteneceA","ControlInterno","ClaveSiregob",];
   return (
     <>
       <Header menuActual="Entidades"/>
@@ -287,7 +284,7 @@ const Catalogos = () => {
 
 
         <Grid item sx={{ width: "100vw", height: "77vh" }}>
-          <MUIXDataGrid  id={(row: any) => row.Id} columns={columns} rows={valueTab === "TipoEntidades" ? tipoEntidades : entidades} />
+          <MUIXDataGrid  id={(row: any) => row.Id} columns={columns} rows={valueTab === "TipoEntidades" ? tipoEntidades : entidades }  camposCsv={camposCsv}/>
         </Grid>
 
 

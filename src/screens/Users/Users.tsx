@@ -48,9 +48,10 @@ export interface Usuario {
   NombreModificadoPor: string;
   PuedeFirmar: number;
 }
-
 export default function Users() {
   const navigate = useNavigate();
+document.title = "Usuarios";
+const camposCsv = ["Nombre", "ApellidoPaterno","ApellidoMaterno","NombreUsuario","CorreoElectronico","EstaActivoLabel"];
 
   const Toast = Swal.mixin({
     toast: true,
@@ -410,6 +411,7 @@ export default function Users() {
             id={(row: any) => row.Id}
             columns={columns}
             rows={rows}
+            camposCsv={camposCsv}
           />
         </Grid>
 

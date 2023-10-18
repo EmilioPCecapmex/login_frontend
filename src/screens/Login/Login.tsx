@@ -431,7 +431,7 @@ export const Login = () => {
                     }}
                   >
                     <Grid
-                      //height={"5%"}
+                      // height={"5%"}
                       container
                       item
                       xl={10}
@@ -448,7 +448,7 @@ export const Login = () => {
                         style={{
                           objectFit: "scale-down",
                           width: "100%",
-                          height: "100%",
+                          // height: "100%",
                         }}
                       />
                     </Grid>
@@ -647,7 +647,7 @@ export const Login = () => {
                 sm={4}
                 sx={{ display: "flex", justifyContent: "center" }}
               >
-                <Typography sx={{ fontSize: [15, 15, 15, 15, 20] }} >
+                <Typography sx={{ fontSize: [15, 15, 15, 15, 20] }} onClick={()=>window.open(process.env.REACT_APP_APPLICATION_AVISOPRIVACIDAD,'_blank')}>
                   {ls.footerSecondText}
                 </Typography>
               </Grid>
