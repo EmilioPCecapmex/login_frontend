@@ -376,12 +376,34 @@ export const Login = () => {
               md={12}
               sm={12}
               sx={{
-                height: "95%",
+                height: "5%",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                display: "flex",ml:'2vw'
+              }}
+            >
+              <Typography
+                  sx={{ fontFamily: "MontserratBold", color: "#ccc" }}
+                >
+                  {process.env.REACT_APP_APPLICATION_ENVIRONMENT}
+                </Typography>
+            </Grid>
+            <Grid
+              item
+              container
+              xl={12}
+              xs={12}
+              lg={12}
+              md={12}
+              sm={12}
+              sx={{
+                height: "90%",
                 justifyContent: "center",
                 alignItems: "center",
                 display: "flex",
               }}
             >
+              
               <Grid
                 item
                 container
@@ -519,21 +541,23 @@ export const Login = () => {
                         style={{ backgroundColor: userInputColor }}
                       >
                         <Input
-                          disableUnderline
-                          value={usuario}
-                          placeholder={ls.placeholderUser}
-                          onChange={(v) => onChangeUsuario(v.target.value)}
-                          id="usrPlaceholder"
-                          sx={{
-                            width: "80%",
-                            padding: "8px",
-                            fontFamily: "MontserratRegular",
-                            fontSize: [10, 15, 15, 15, 20],
-                          }}
-                          style={{ color: userInputTextColor }}
-                          onClickCapture={() => onClickTxtUsuario()}
-                          onBlurCapture={() => verifyUsuario()}
-                        />
+                            disableUnderline
+                            value={usuario}
+                            placeholder={ls.placeholderUser}
+                            onChange={(v) => onChangeUsuario(v.target.value)}
+                            id="usrPlaceholder"
+                            sx={{
+                              width: "80%",
+                              padding: "8px",
+                              fontFamily: "MontserratRegular",
+                              fontSize: [10, 15, 15, 15, 20],
+                            }}
+                            style={{ color: userInputTextColor }}
+                            onClickCapture={() => onClickTxtUsuario()}
+                            onBlurCapture={() => verifyUsuario()}
+                            onKeyDown={handleKeyDown}
+                          />
+                        
                       </Grid>
                     </Grid>
 
@@ -570,21 +594,23 @@ export const Login = () => {
                         style={{ backgroundColor: userInputColor }}
                       >
                         <Input
-                          disableUnderline
-                          value={contrasena}
-                          placeholder={ls.placeholderPass}
-                          onChange={(v) => onChangePassword(v.target.value)}
-                          id="usrPlaceholder"
-                          sx={{
-                            width: "80%",
-                            padding: "8px",
-                            fontFamily: "MontserratRegular",
-                            fontSize: [10, 15, 15, 15, 20],
-                          }}
-                          style={{ color: userInputTextColor }}
-                          onClickCapture={() => onClickTxtUsuario()}
-                          onBlurCapture={() => verifyUsuario()}
-                        />
+                            disableUnderline
+                            placeholder={ls.placeholderPass}
+                            onChange={(v) => onChangePassword(v.target.value)}
+                            type="password"
+                            id="pswPlaceholder"
+                            sx={{
+                              width: "80%",
+                              padding: "8px",
+                              fontFamily: "MontserratRegular",
+                              fontSize: [10, 15, 15, 15, 20],
+                            }}
+                            style={{ color: contrasenaTextInputColor }}
+                            onClickCapture={() => onClickTxtContrasena()}
+                            onBlurCapture={() => verifyContrasena()}
+                            onKeyDown={handleKeyDown}
+                          />
+                        
                       </Grid>
                     </Grid>
 

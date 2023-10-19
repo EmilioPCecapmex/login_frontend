@@ -126,6 +126,27 @@ export const Forgot = () => {
         text={modalText}
       />
       <Grid
+              item
+              container
+              xl={12}
+              xs={12}
+              lg={12}
+              md={12}
+              sm={12}
+              sx={{
+                height: "5%",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                display: "flex",ml:'2vw'
+              }}
+            >
+              <Typography
+                  sx={{ fontFamily: "MontserratBold", color: "#ccc" }}
+                >
+                  {process.env.REACT_APP_APPLICATION_ENVIRONMENT}
+                </Typography>
+            </Grid>
+      <Grid
         item
         container
         xl={12}
@@ -134,7 +155,7 @@ export const Forgot = () => {
         md={12}
         sm={12}
         sx={{
-          height: "95%",
+          height: "90%",
           justifyContent: "center",
           alignItems: "center",
           display: "flex",
@@ -349,9 +370,10 @@ export const Forgot = () => {
           sx={{ display: "flex", justifyContent: "center" }}
         >
           <Typography sx={{ fontSize: [15, 15, 15, 15, 20] }}>
-            {actualYear()}
+            {/* {ls.footerThirdText} */}
           </Typography>
         </Grid>
+        
         <Grid
           item
           container
@@ -377,9 +399,10 @@ export const Forgot = () => {
           sx={{ display: "flex", justifyContent: "center" }}
         >
           <Typography sx={{ fontSize: [15, 15, 15, 15, 20] }}>
-            {/* {ls.footerThirdText} */}
+            {actualYear()}
           </Typography>
         </Grid>
+        
       </Grid>
     </Grid>
   );
