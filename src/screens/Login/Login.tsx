@@ -647,7 +647,7 @@ export const Login = () => {
                 sm={4}
                 sx={{ display: "flex", justifyContent: "center" }}
               >
-                <Typography sx={{ fontSize: [15, 15, 15, 15, 20] }} onClick={()=>window.open(process.env.REACT_APP_APPLICATION_AVISOPRIVACIDAD,'_blank')}>
+                <Typography sx={{ fontSize: [15, 15, 15, 15, 20] ,cursor:"pointer"}} onClick={()=>window.open(process.env.REACT_APP_APPLICATION_AVISOPRIVACIDAD,'_blank')}>
                   {ls.footerSecondText}
                 </Typography>
               </Grid>
