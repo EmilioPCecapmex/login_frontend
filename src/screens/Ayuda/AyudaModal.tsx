@@ -136,7 +136,7 @@ export const AyudasModal = ({
                 component="label"
                 sx={{textTransform:"none"}}
               >
-                Seleccionar {TabValue === "Videos" ? "Videos" : "Guías"}
+                Seleccionar {TabValue === "Videos" ? "Video" : "Guía"}
                 <input
                   hidden
                   accept={TabValue == "Videos" ? "video/*" : "application/pdf"}
@@ -211,7 +211,7 @@ export const AyudasModal = ({
               <>
                 <Button
 
-                  className="aceptar"
+                  className="cancelar"
                   onClick={() => {
                     if (menu.Id !== "") {
                       if (pregunta !== "") {
@@ -246,7 +246,7 @@ export const AyudasModal = ({
 
                   }
                 >
-                  Guardar
+                  Guardar Pregunta
                 </Button>
               </>
             ) : null}
