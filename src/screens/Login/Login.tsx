@@ -634,9 +634,10 @@ export const Login = () => {
                 sx={{ display: "flex", justifyContent: "center" }}
               >
                 <Typography sx={{ fontSize: [15, 15, 15, 15, 20] }}>
-                  {actualYear()}
+                  {/* {ls.footerThirdText} */}
                 </Typography>
               </Grid>
+              
               <Grid
                 item
                 container
@@ -662,9 +663,10 @@ export const Login = () => {
                 sx={{ display: "flex", justifyContent: "center" }}
               >
                 <Typography sx={{ fontSize: [15, 15, 15, 15, 20] }}>
-                  {/* {ls.footerThirdText} */}
+                  {actualYear()}
                 </Typography>
               </Grid>
+              
             </Grid>
           </Grid>
 
