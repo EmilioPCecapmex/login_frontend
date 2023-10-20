@@ -288,7 +288,7 @@ export const AyudasModal = ({
                 xs={11}>
                 <Grid>
                   <Typography variant="h6">
-                    Pregunta / Titulo de guia:{" "}
+                    Pregunta / Título de guia:
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>

@@ -276,6 +276,8 @@ export const Login = () => {
       .catch((error) => {
         if (error.response.status === 401) {
           openDialogModal("error", error.response.data.msg);
+        }else{
+          openDialogModal("error", "Por favor, intenta iniciar sesión de nuevo en unos minutos. Si el problema persiste, no dudes en ponerte en contacto con nuestro equipo de soporte técnico.");
         }
       });
   };
