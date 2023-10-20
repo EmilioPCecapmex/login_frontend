@@ -1,7 +1,13 @@
-import { Button, Dialog, DialogActions, DialogContent, TextField } from "@mui/material";
-import { useState } from "react";
+import { Autocomplete, Button, Dialog, DialogActions, DialogContent, Grid, TextField, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { alertaError } from "../../components/alertas/toast";
-import { createAdminMenu } from "./AdminMenuServices";
+import { createAdminMenu, getMenus, getMenusPadre } from "./AdminMenuServices";
+
+export interface IListaMenusPadre {
+  Id: string;
+  Label: string;
+  Path:string;
+}
 
 interface IElemento {
     Id: string;
@@ -23,6 +29,7 @@ export const DialogAdminMenu = (
         closeDialog,
         IdApp,
         movimiento,
+     
     }:{
         open: boolean;
         closeDialog: Function;
@@ -50,6 +57,8 @@ export const DialogAdminMenu = (
         IdUsuario: localStorage.getItem("IdUsuario") || "",
         IdApp: IdApp,
       });
+      const [menuPadre, setMenuPadre] = useState<IListaMenusPadre>({Id:"", Label: "",Path:""});
+      const [menusPadre, setMenusPadre] = useState<IListaMenusPadre[]>([]);
 
   
 
@@ -70,6 +79,11 @@ export const DialogAdminMenu = (
         //     alertaError();
         // }
       }
+
+
+      useEffect(() => {
+        getMenus(IdApp,setMenusPadre)
+      }, [])
 
 
     return(
@@ -94,7 +108,7 @@ export const DialogAdminMenu = (
           sx={{ mt: 3, width: "100%" }}
           title="Menu"
           label="Nombre de Menú"
-          placeholder="Nombre"
+          placeholder="Nombre de Menú"
           value={nuevoElemento.Menu || ""}
           onChange={(v) => {
             setNuevoElemento({
@@ -146,6 +160,8 @@ export const DialogAdminMenu = (
           placeholder="Orden"
           value={nuevoElemento.Orden || ""}
           onChange={(v) => {
+            console.log("v",v.target.value);
+            
             setNuevoElemento({
               ...nuevoElemento,
               Orden: Number(v.target.value)
@@ -153,23 +169,39 @@ export const DialogAdminMenu = (
           }}
           //InputProps={{ readOnly: movimiento === "eliminar" }}
         />
-        <TextField
-          multiline
-          sx={{ mt: 3, width: "100%" }}
-          title="Menú Padre"
-          label="Menú Padre"
-          placeholder="Menú Padre"
-          value={nuevoElemento.MenuPadre || ""}
-          onChange={(v) => {
-            setNuevoElemento({
-              ...nuevoElemento,
-              MenuPadre: v.target.value
-                .replaceAll("'", "")
-                .replaceAll('"', ""),
-            });
-          }}
-          //InputProps={{ readOnly: movimiento === "eliminar" }}
-        />
+        <Grid item xs={12} md={12} lg={12} sx={{mt: 3,width:"100%"}}>
+          
+          <Autocomplete
+          fullWidth
+            sx={{width:"100%"}}
+            noOptionsText="No se encontraron opciones"
+            clearText="Borrar"
+            closeText="Cerrar"
+            openText="Abrir"
+            options={menusPadre}
+            getOptionLabel={(menuPadre) =>
+              menuPadre.Label || "Seleccione Menú"
+            }
+            value={menuPadre}
+            onChange={(v) => {
+              // setNuevoElemento({
+              //   ...nuevoElemento,
+              //   MenuPadre: v.target.value
+              //     .replaceAll("'", "")
+              //     .replaceAll('"', ""),
+              // });
+            }}
+            renderInput={(params) => (
+              <TextField
+                key={params.id}
+                {...params}
+                variant="outlined"
+              // error={errores.secretaria.valid}
+              />
+            )}
+          />
+          </Grid>
+
         <TextField
           multiline
           sx={{ mt: 3, width: "100%" }}

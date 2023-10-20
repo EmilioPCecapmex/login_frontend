@@ -5,44 +5,71 @@ import { DialogAdminMenu } from "./DialogAdminMenu";
 import { useEffect, useState } from "react";
 import { getAdminMenu } from "./AdminMenuServices";
 import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
+import MenuIcon from '@mui/icons-material/Menu';
+import { AdminPermisos } from "../AdminPermisos/AdminPermisos";
+
 
 export interface IMenu {
-  ControlInterno: string;
-  Deleted: number;
-  Descripcion: string;
   Id: string;
-  Nombre: string;
+  mMenu: string;
+  Menu: string;
+  IdApp: string;
+  Descripcion: string;
   Nivel: number;
   Orden: number;
   MenuPadre: string;
   Icon: string;
   Path: string;
-
+  ControlInterno: string;
 }
 
 
-export function AdminMenu ({
-open,
-closeModal,
-idApp,
-app,
-}:{
-open: boolean;
-closeModal: Function;
-idApp: string;
-app: string;
+
+
+export function AdminMenu({
+  open,
+  closeModal,
+  idApp,
+  app,
+}: {
+  open: boolean;
+  closeModal: Function;
+  idApp: string;
+  app: string;
 }) {
-    const columns = [
-        {
-          field: "acciones",
-          headerName: "Acciones",
-          width: 175,
-          headerAlign: "left",
-          hideable: false,
-          renderCell: (cellValues: any) => {
-            return (
-              <Box>
-                {/* <Tooltip title={"Editar"}>
+
+
+  const [openAdminPermisos, setOpenAdminPermisos] = useState(false);
+  const [menuSeleccionado, setMenuSeleccionado] = useState<IMenu>({
+  Id: "",
+  mMenu: "",
+  Menu: "",
+  IdApp: "",
+  Descripcion: "",
+  Nivel: 0,
+  Orden: 0,
+  MenuPadre: "",
+  Icon: "",
+  Path: "",
+  ControlInterno: "",
+  });
+
+
+
+
+  const columns = [
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      width: 175,
+      headerAlign: "left",
+      hideable: false,
+      renderCell: (cellValues: any) => {
+        console.log("c3l svalues", cellValues);
+
+        return (
+          <Box>
+            {/* <Tooltip title={"Editar"}>
                   <IconButton
                     sx={{ color: "black" }}
                     onClick={(event) => {
@@ -54,7 +81,7 @@ app: string;
                     <EditIcon />
                   </IconButton>
                 </Tooltip> */}
-                {/* <Tooltip title={"Editar Acceso a Menús"}>
+            {/* <Tooltip title={"Editar Acceso a Menús"}>
                   <IconButton
                     sx={{ color: "black" }}
                     onClick={(event) => {
@@ -73,7 +100,7 @@ app: string;
                     <SettingsIcon />
                   </IconButton>
                 </Tooltip> */}
-                {/* <Tooltip title={"Eliminar"}>
+            {/* <Tooltip title={"Eliminar"}>
                   <IconButton
                     sx={{ color: "black" }}
                     onClick={(event) => {
@@ -86,98 +113,116 @@ app: string;
                     <DeleteIcon />
                   </IconButton>
                 </Tooltip> */}
-              </Box>
-            );
-          },
-        },
-        // {
-        //     field: "Id",
-        //     headerName: "Id",
-        //     width: 250,
-        //     hideable: false,
-        //     headerAlign: "left",
-    
-        // },
-        {
-          field: "Menu",
-          headerName: "Nombre Menú",
-          width: 300,
-          hideable: false,
-          headerAlign: "left",
-        },
-        {
-          field: "Descripcion",
-          headerName: "Descripción",
-          width: 500,
-          hideable: false,
-          headerAlign: "left",
-        },
-        {
-          field: "Nivel",
-          headerName: "Nivel",
-          width: 80,
-          hideable: false,
-          headerAlign: "left",
-        },
-        {
-          field: "Orden",
-          headerName: "Orden",
-          width: 80,
-          hideable: false,
-          headerAlign: "left",
-        },
-        {
-          field: "mMenu",
-          headerName: "Menú Padre",
-          width: 400,
-          hideable: false,
-          headerAlign: "left",
-        },
-        {
-          field: "Icon",
-          headerName: "Icon",
-          width: 100,
-          hideable: false,
-          headerAlign: "left",
-        },
-        {
-          field: "Path",
-          headerName: "Path",
-          width: 150,
-          hideable: false,
-          headerAlign: "left",
-        },
-        {
-          field: "ControlInterno",
-          headerName: "Control Interno",
-          width: 300,
-          hideable: false,
-          headerAlign: "left",
-        },
-        // {
-        //     field: "Deleted",
-        //     headerName: "Eliminado",
-        //     width: 150,
-        //     hideable: false,
-        //     headerAlign: "left",
-        //     renderCell: (cellValues: any) => {
-        //         return (
-        //             cellValues.row.Deleted===0?"Activo":"No Activo"
-        //         );
-        //     },
-        // }
-      ];
-      const [openDialogAdminMenu, setOpenDialogAdminMenu] = useState(false);
-      const [movimiento, setMovimiento] = useState("Agregar");
-      const [menus, setMenus] = useState<Array<IMenu>>([]);
-      const camposCsv = ["Nombre", "Descripcion", "ControlInterno", "Deleted"];
+            <Tooltip title={"Administrar Permisos "
+              //+ cellValues.row.Nombre
+            }>
+              <IconButton
+                sx={{ color: "black" }}
+                onClick={() => {
+                  setOpenAdminPermisos(true);
+                  setMenuSeleccionado(cellValues?.row)
+                  //setIdApp(cellValues?.row?.Id);
+                  //setApp(cellValues?.row?.Nombre);
+                }}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        );
+      },
+    },
+    // {
+    //     field: "Id",
+    //     headerName: "Id",
+    //     width: 250,
+    //     hideable: false,
+    //     headerAlign: "left",
 
-      useEffect(()=>{
-        getAdminMenu(idApp, setMenus)
-      },[""])
+    // },
+    {
+      field: "Menu",
+      headerName: "Nombre Menú",
+      width: 300,
+      hideable: false,
+      headerAlign: "left",
+    },
+    {
+      field: "Descripcion",
+      headerName: "Descripción",
+      width: 500,
+      hideable: false,
+      headerAlign: "left",
+    },
+    {
+      field: "Nivel",
+      headerName: "Nivel",
+      width: 80,
+      hideable: false,
+      headerAlign: "left",
+    },
+    {
+      field: "Orden",
+      headerName: "Orden",
+      width: 80,
+      hideable: false,
+      headerAlign: "left",
+    },
+    {
+      field: "mMenu",
+      headerName: "Menú Padre",
+      width: 400,
+      hideable: false,
+      headerAlign: "left",
+    },
+    {
+      field: "Icon",
+      headerName: "Icon",
+      width: 100,
+      hideable: false,
+      headerAlign: "left",
+    },
+    {
+      field: "Path",
+      headerName: "Path",
+      width: 150,
+      hideable: false,
+      headerAlign: "left",
+    },
+    {
+      field: "ControlInterno",
+      headerName: "Control Interno",
+      width: 300,
+      hideable: false,
+      headerAlign: "left",
+    },
+    // {
+    //     field: "Deleted",
+    //     headerName: "Eliminado",
+    //     width: 150,
+    //     hideable: false,
+    //     headerAlign: "left",
+    //     renderCell: (cellValues: any) => {
+    //         return (
+    //             cellValues.row.Deleted===0?"Activo":"No Activo"
+    //         );
+    //     },
+    // }
+  ];
+  const [openDialogAdminMenu, setOpenDialogAdminMenu] = useState(false);
+  const [movimiento, setMovimiento] = useState("Agregar");
+  const [menus, setMenus] = useState<Array<IMenu>>([]);
+  const camposCsv = ["Nombre", "Descripcion", "ControlInterno", "Deleted"];
 
+  useEffect(() => {
+    getAdminMenu(idApp, setMenus)
+  }, [])
+  useEffect(() => {
+    console.log("menuseleccionado", menuSeleccionado);
 
-return(<Dialog open={open} fullScreen>
+  }, [menuSeleccionado])
+
+  return (<Dialog open={open} fullScreen>
     {/* <Box
           sx={{
             width: "100vw",
@@ -190,103 +235,103 @@ return(<Dialog open={open} fullScreen>
         >
           <CircularProgress size={300} />
         </Box> */}
-        <Grid container sx={{ width: "100vw", height: "100vh" }}>
+    <Grid container sx={{ width: "100vw", height: "100vh" }}>
+      <Grid
+        container
+        item
+        xl={12}
+        sx={{
+          height: "10%",
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "center",
+          border: "1px solid"
+          // bgcolor: "#c4a57b",
+        }}
+      >
+        <Grid
+          item
+          xl={10}
+          xs={10}
+          lg={10}
+          md={10}
+          sm={10}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+
+          }}
+        >
+          <Typography
+            fontFamily={"'Montserrat', sans-serif"}
+            sx={{
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              textAlign: "center",
+              fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
+              color: "#AF8C55"
+            }}>
+
+            Menús
+          </Typography>
+        </Grid>
+        <Grid
+          item
+          xl={1}
+          xs={1}
+          lg={1}
+          md={1}
+          sm={1}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+
+          }}
+        >
+          <Tooltip title={"Salir"}>
+            <IconButton
+              onClick={() => {
+                closeModal();
+              }}
+            >
+              <CloseIcon sx={{
+                fontSize: [30, 30, 30, 40, 40]
+              }} />
+            </IconButton>
+          </Tooltip>
+        </Grid>
+      </Grid>
+
+      <Grid
+        container
+        item
+        xl={12}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "85%",
+
+        }}
+      >
+        <Grid sx={{ height: "100%", width: "100%" }}>
+          {/* este box es la leyenda que se encuentra arriba a la izquierda */}
+
           <Grid
             container
             item
-            xl={12}
             sx={{
-              height: "10%",
               display: "flex",
               justifyContent: "flex-end",
               alignItems: "center",
-              border: "1px solid"
-              // bgcolor: "#c4a57b",
-            }}
-          >
-            <Grid
-              item
-              xl={10}
-              xs={10}
-              lg={10}
-              md={10}
-              sm={10}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-
-              }}
-            >
-              <Typography
-                fontFamily={"'Montserrat', sans-serif"}
-                sx={{
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  textAlign: "center",
-                  fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
-                  color: "#AF8C55"
-                }}>
-
-                Menús
-              </Typography>
-            </Grid>
-            <Grid
-              item
-              xl={1}
-              xs={1}
-              lg={1}
-              md={1}
-              sm={1}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-
-              }}
-            >
-              <Tooltip title={"Salir"}>
-                <IconButton
-                  onClick={() => {
-                    closeModal();
-                  }}
-                >
-                  <CloseIcon sx={{
-                    fontSize: [30,30,30,40,40]
-                  }} />
-                </IconButton>
-              </Tooltip>
-            </Grid>
-          </Grid>
-
-          <Grid
-            container
-            item
-            xl={12}
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "85%",
+              width: "100%",
 
             }}
           >
-            <Grid sx={{ height: "100%", width: "100%" }}>
-              {/* este box es la leyenda que se encuentra arriba a la izquierda */}
-
-              <Grid
-                container
-                item
-                sx={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  alignItems: "center",
-                  width: "100%",
-
-                }}
-              >
-                {/* <Grid
+            {/* <Grid
                   item
                   xl={2}
                   xs={2}
@@ -316,95 +361,109 @@ return(<Dialog open={open} fullScreen>
                 }} />
                 </Grid> */}
 
-                <Grid
-                  item
-                  xl={8}
-                  xs={8}
-                  md={8}
+            <Grid
+              item
+              xl={8}
+              xs={8}
+              md={8}
+              sx={{
+                height: "10vh",
+                maxHeight: "10vh",
+                overflow: "clip",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+
+
+              }}
+
+            >
+              <Tooltip
+                //sx={{ fontFamily: "Montserrat-Bold"}}
+
+                title={app}>
+                <Typography
+                  fontFamily={"'Montserrat', sans-serif"}
                   sx={{
-                    height: "10vh",
-                    maxHeight: "10vh",
-                    overflow: "clip",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-
-
-                  }}
-
-                >
-                  <Tooltip
-                    //sx={{ fontFamily: "Montserrat-Bold"}}
-
-                    title={app}>
-                    <Typography
-                     fontFamily={"'Montserrat', sans-serif"}
-                     sx={{
-                       whiteSpace: "nowrap",
-                       overflow: "hidden",
-                       textOverflow: "ellipsis",
-                       textAlign: "center",
-                       fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
-                       color: "#AF8C55"
-                     }}
-                    >
-                      {app}
-                    </Typography>
-                  </Tooltip>
-                </Grid>
-
-                <Grid
-                  item
-                  xl={2}
-                  xs={2}
-                  md={2}
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    textAlign: "center",
+                    fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
+                    color: "#AF8C55"
                   }}
                 >
-                  <ButtonsAdd
-                    handleOpen={() => {
-                      setMovimiento("Agregar");
-                      setOpenDialogAdminMenu(true);
-                    }}
-                    agregar={true}
-                  />
-                </Grid>
-              </Grid>
+                  {app}
+                </Typography>
+              </Tooltip>
+            </Grid>
 
-              <Box
-                sx={{
-                  height: "88%",
-                  width: "100%",
-                  justifyContent: "center",
-                  display: "flex",
-                  paddingTop: "2vh",
+            <Grid
+              item
+              xl={2}
+              xs={2}
+              md={2}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <ButtonsAdd
+                handleOpen={() => {
+                  setMovimiento("Agregar");
+                  setOpenDialogAdminMenu(true);
                 }}
-              >
-                  <MUIXDataGrid
-                    id={Math.random}
-                    columns={columns}
-                    rows={menus}
-                    camposCsv={camposCsv}
-                  />
-              </Box>
+                agregar={true}
+              />
             </Grid>
           </Grid>
 
+          <Box
+            sx={{
+              height: "88%",
+              width: "100%",
+              justifyContent: "center",
+              display: "flex",
+              paddingTop: "2vh",
+            }}
+          >
+            <MUIXDataGrid
+              id={Math.random}
+              columns={columns}
+              rows={menus}
+              camposCsv={camposCsv}
+            />
+          </Box>
         </Grid>
+      </Grid>
 
-        {openDialogAdminMenu && (
-        <DialogAdminMenu
-          open={openDialogAdminMenu}
-          closeDialog={setOpenDialogAdminMenu}
-          //reloadData={registroData}
-          movimiento={movimiento}
-          IdApp={idApp}
-        />
-      )}
-        
-</Dialog>)
+    </Grid>
 
-  }
+    {openDialogAdminMenu && (
+      <DialogAdminMenu
+        open={openDialogAdminMenu}
+        closeDialog={setOpenDialogAdminMenu}
+        //reloadData={registroData}
+        movimiento={movimiento}
+        IdApp={idApp}
+      />
+    )}
+
+    {openAdminPermisos && (
+      <AdminPermisos
+        open={openAdminPermisos}
+        closeModal={() => setOpenAdminPermisos(false)}
+        //reloadData={registroData}
+        //movimiento={movimiento}
+
+        IdApp={idApp}
+        Menu={menuSeleccionado.Menu}
+        IdMenu={menuSeleccionado.Id}
+      />
+    )}
+
+  </Dialog>
+  )
+
+}

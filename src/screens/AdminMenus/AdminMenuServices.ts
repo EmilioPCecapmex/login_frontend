@@ -40,6 +40,36 @@ export const createAdminMenu = (data: any, fnc: Function) => {
     })
     .then((r) => {
       console.log(r.data.data);
-      alertaExito(fnc, "¡Registro creado!");
+      alertaExito(fnc, "Menú creado!");
+    });
+};
+
+export const getMenusPadre = (setState: Function,IdApp: String) => {
+  axios
+    .get(process.env.REACT_APP_APPLICATION_DEV + "/api/AdminMenu", {
+      params: { IdApp: IdApp,Tabla: "Menus", ValorCondicion: localStorage.getItem("IdApp") },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("jwtToken") || "",
+      },
+    })
+    .then((r) => {
+      console.log(r.data.data);
+      setState(r.data.data);
+    });
+};
+
+export const getMenus = (IdApp:string,setState: Function) => {
+  axios
+    .get(process.env.REACT_APP_APPLICATION_DEV + "/api/listas", {
+      params: { Tabla: "Menus", ValorCondicion: IdApp },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("jwtToken") || "",
+      },
+    })
+    .then((r) => {
+      console.log(r.data.data);
+      setState(r.data.data);
     });
 };

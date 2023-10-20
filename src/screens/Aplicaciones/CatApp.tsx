@@ -422,6 +422,7 @@ export default function CatApps() {
           closeModal={() => setOpenAdminMenus(false)}
           idApp={idApp}
           app={app}
+  
         />
       )}
     </Grid>
