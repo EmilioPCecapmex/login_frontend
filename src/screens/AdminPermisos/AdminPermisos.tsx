@@ -4,7 +4,37 @@ import CloseIcon from "@mui/icons-material/Close";
 import ButtonsAdd from "../Componentes/ButtonsAdd";
 import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
 import { DialogAdminPermisos } from "./DialogAdminPermisos";
-import { getAdminPermisos } from "./AdminPermisosServices";
+import { deleteAdminPermiso, getAdminPermisos } from "./AdminPermisosServices";
+import Swal from "sweetalert2";
+import { alertaError, alertaExito } from "../../components/alertas/toast";
+import DeleteIcon from "@mui/icons-material/Delete";
+
+
+function eliminar (v:any){
+  Swal.fire({
+    title: "¿Estás seguro de eliminar este permiso de forma permanente?",
+    icon: "question",
+    showCancelButton: true,
+    
+    cancelButtonColor: "#af8c55",
+    cancelButtonText: "Cancelar",
+    confirmButtonText: "Eliminar",
+    confirmButtonColor: "#15212f",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      console.log("valor v",v.row);
+      
+      deleteAdminPermiso(v?.row?.Id)
+        .then((response)=>{
+          alertaExito(()=>{},"¡Registro eliminado!");
+          //obtenerDatos();
+                })
+        .catch((error)=>{
+          alertaError();
+        });
+    }                      
+  });
+}
 
 export interface IPermiso {
     ControlInterno: string;
@@ -68,11 +98,11 @@ export function AdminPermisos ({
                         <SettingsIcon />
                       </IconButton>
                     </Tooltip> */}
-                    {/* <Tooltip title={"Eliminar"}>
+                    <Tooltip title={"Eliminar"}>
                       <IconButton
                         sx={{ color: "black" }}
-                        onClick={(event) => {
-                          handleDeleteBtnClick(cellValues);
+                        onClick={() => {
+                          eliminar(cellValues);
                           // setRegistroData(cellValues.row);
                           // setMovimiento("eliminar");
                           // setOpenDialogRoles(true);
@@ -80,7 +110,7 @@ export function AdminPermisos ({
                       >
                         <DeleteIcon />
                       </IconButton>
-                    </Tooltip> */}
+                    </Tooltip>
                   </Box>
                 );
               },

@@ -441,7 +441,7 @@ export function AdminMenu({
     </Grid>
 
     {openDialogAdminMenu && (
-      <DialogAdminMenu
+      <DialogAdminMenu                                     
         open={openDialogAdminMenu}
         closeDialog={setOpenDialogAdminMenu}
         //reloadData={registroData}

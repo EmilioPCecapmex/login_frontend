@@ -1,7 +1,8 @@
 import { Autocomplete, Button, Dialog, DialogActions, DialogContent, Grid, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { alertaError } from "../../components/alertas/toast";
-import { createAdminMenu, getMenus, getMenusPadre } from "./AdminMenuServices";
+import { createAdminMenu, getAdminMenu, getMenus, getMenusPadre } from "./AdminMenuServices";
+import { setMenus } from "../../services/localStorage";
 
 export interface IListaMenusPadre {
   Id: string;
@@ -65,6 +66,8 @@ export const DialogAdminMenu = (
 
       function sendRequest() {
         createAdminMenu(nuevoElemento, closeDialog);
+        
+
         // switch (movimiento) {
         //   case "Editar":
         //     //modifyRol(nuevoElemento, closeDialog);
@@ -170,7 +173,7 @@ export const DialogAdminMenu = (
           //InputProps={{ readOnly: movimiento === "eliminar" }}
         />
         <Grid item xs={12} md={12} lg={12} sx={{mt: 3,width:"100%"}}>
-          
+        
           <Autocomplete
           fullWidth
             sx={{width:"100%"}}
@@ -178,18 +181,29 @@ export const DialogAdminMenu = (
             clearText="Borrar"
             closeText="Cerrar"
             openText="Abrir"
+
             options={menusPadre}
             getOptionLabel={(menuPadre) =>
               menuPadre.Label || "Seleccione Menú"
             }
             value={menuPadre}
-            onChange={(v) => {
+            onChange={(event, newValue) => {
+              //console.log("event",event);
+              //console.log("newValue",newValue);
+              console.log("label",newValue?.Label);
+              setMenuPadre(newValue||{Id:"", Label: "",Path:""})
+              setNuevoElemento({...nuevoElemento, MenuPadre:newValue?.Id||""})
               // setNuevoElemento({
               //   ...nuevoElemento,
               //   MenuPadre: v.target.value
               //     .replaceAll("'", "")
               //     .replaceAll('"', ""),
               // });
+              // if (newValue != null) {
+              //   setMenuPadre(newValue);
+               
+              // }
+
             }}
             renderInput={(params) => (
               <TextField
@@ -200,6 +214,7 @@ export const DialogAdminMenu = (
               />
             )}
           />
+          
           </Grid>
 
         <TextField
