@@ -1,5 +1,4 @@
 import {
-  Badge,
   Grid,
   Hidden,
   IconButton,
@@ -8,16 +7,13 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import AppsIcon from "@mui/icons-material/Apps";
 import PostAddIcon from "@mui/icons-material/PostAdd";
-import axios from "axios";
-import DescriptionIcon from "@mui/icons-material/Description";
-import { COLOR } from "../screens/styles/colors";
 import { TimerCounter } from "./timer/timer";
 import MenuIcon from '@mui/icons-material/Menu';
 import BusinessIcon from '@mui/icons-material/Business';
@@ -28,6 +24,8 @@ import { VisualizadorAyudas } from "../screens/Ayuda/VisualizadorAyudas";
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import HelpIcon from "@mui/icons-material/Help";
 import { getAyuda } from "../screens/Ayuda/ServicesAyuda";
+import LockResetIcon from '@mui/icons-material/LockReset';
+import { ChangePassword } from "./changePassword/ChangePassword";
 
 
 
@@ -68,6 +66,8 @@ export const IconsMenu = (icon: string) => {
       return <MenuBookIcon sx={{ mr: "10px" }} />;
     case "HelpIcon":
       return <HelpIcon sx={{ mr: "10px" }} />;
+      case "LockResetIcon":
+      return <LockResetIcon sx={{ mr: "10px" }} />;
     default:
       return <ArrowForwardIosIcon sx={{ mr: "10px" }} />;
   }
@@ -115,6 +115,8 @@ export const Header = (
   // eslint-disable-next-line array-callback-return
   let idMenu = aux.find((menu: MenuObject) => { if (menu.Menu === menuActual) { return menu } })
   const [openVAyudas, setOpenVAyudas] = useState(false);
+
+  const [openChangePAssword, setOpenChangePassword] = useState(false);
 
   const [arrayAyudas, setArrayAyudas] = useState<any[]>([])
 
@@ -266,19 +268,16 @@ export const Header = (
             {menus.length > 0 && menus.map((item: MenuObject) => {
               return (<MenuItem onClick={() => navigate(item.Path)}>{IconsMenu(item.Icon || "")}{item.Menu} </MenuItem>)
             })}
-            {/* <MenuItem onClick={() => navigate("../admin")}><PeopleOutlineIcon sx={{mr:"10px"}} />Usuarios</MenuItem>
-                <MenuItem onClick={() => navigate("../app")}><AppsIcon sx={{mr:"10px"}} />Aplicaciones</MenuItem>
-                <MenuItem onClick={() => navigate("../catalogos")}><BusinessIcon sx={{mr:"10px"}} />Entidades</MenuItem>
-                <MenuItem onClick={() => navigate("../solicitudes")}><PostAddIcon sx={{mr:"10px"}}/>Solicitudes</MenuItem>
-                <MenuItem onClick={() => navigate("../ayuda")}><InfoOutlinedIcon sx={{mr:"10px"}} />Guias y Tutoriales</MenuItem>*/}
-            {<MenuItem onClick={() => { getAyuda(setArrayAyudas, idMenu?.Id, "Videos"); setOpenVAyudas(true); setOption("Videos") }}>{IconsMenu("OndemandVideoIcon")}Ver Tutoriales </MenuItem>}
-            {<MenuItem onClick={() => { getAyuda(setArrayAyudas, idMenu?.Id, "Guias"); setOpenVAyudas(true); setOption("Guias") }}>{IconsMenu("MenuBookIcon")}Ver Guías </MenuItem>}
-            {<MenuItem onClick={() => { getAyuda(setArrayAyudas, idMenu?.Id, "Preguntas"); setOpenVAyudas(true); setOption("Preguntas") }}>{IconsMenu("HelpIcon")}Preguntas Frecuentes</MenuItem>}
+            <MenuItem onClick={() => { getAyuda(setArrayAyudas, idMenu?.Id, "Videos"); setOpenVAyudas(true); setOption("Videos") }}>{IconsMenu("OndemandVideoIcon")}Ver Tutoriales </MenuItem>
+            <MenuItem onClick={() => { getAyuda(setArrayAyudas, idMenu?.Id, "Guias"); setOpenVAyudas(true); setOption("Guias") }}>{IconsMenu("MenuBookIcon")}Ver Guías </MenuItem>
+            <MenuItem onClick={() => { getAyuda(setArrayAyudas, idMenu?.Id, "Preguntas"); setOpenVAyudas(true); setOption("Preguntas") }}>{IconsMenu("HelpIcon")}Preguntas Frecuentes</MenuItem>
+            <MenuItem onClick={() => {setOpenChangePassword(true)}}>{IconsMenu("LockResetIcon")}Cambiar Contraseña</MenuItem>
             <MenuItem onClick={() => logoutFnc()}><PowerSettingsNewIcon sx={{ mr: "10px" }} />Cerrar Sesión </MenuItem>
 
           </Menu>
         </>
       </Grid>
+      {openChangePAssword?<ChangePassword onClose={()=>setOpenChangePassword(false)}/>:null}
       {openVAyudas ? <VisualizadorAyudas handleClose={() => { handleCloseVAyudas() }} arrayAyudas={arrayAyudas} valueTab={option}  /> : null}
     </Grid>
   );
