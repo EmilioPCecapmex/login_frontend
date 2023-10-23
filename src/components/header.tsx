@@ -277,7 +277,7 @@ export const Header = (
           </Menu>
         </>
       </Grid>
-      {openChangePAssword?<ChangePassword onClose={()=>setOpenChangePassword(false)}/>:null}
+      {openChangePAssword?<ChangePassword onClose={setOpenChangePassword}/>:null}
       {openVAyudas ? <VisualizadorAyudas handleClose={() => { handleCloseVAyudas() }} arrayAyudas={arrayAyudas} valueTab={option}  /> : null}
     </Grid>
   );
