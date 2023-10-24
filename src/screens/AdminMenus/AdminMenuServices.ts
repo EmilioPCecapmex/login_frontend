@@ -2,11 +2,9 @@ import axios from "axios";
 import { alertaError, alertaExito } from "../../components/alertas/toast";
 import Swal from "sweetalert2";
 
-
 export const getAdminMenu = (
     IdApp: string,
     setState: Function,
-    //bandera: Function
   ) => {
     axios({
       method: "get",
@@ -21,12 +19,8 @@ export const getAdminMenu = (
         if (data.data[0].Id) {
           setState(data.data);
         }
-        // setTimeout(() => {
-        //bandera();
-        // }, 750);
       })
       .catch(() => {
-        //bandera();
         setState([]);
       });
   };
@@ -40,7 +34,6 @@ export const createAdminMenu = (data: any, fnc: Function) => {
       },
     })
     .then((r) => {
-      console.log(r.data.data);
       alertaExito(fnc, "Menú creado!");
     });
 };
@@ -55,7 +48,6 @@ export const getMenusPadre = (setState: Function,IdApp: String) => {
       },
     })
     .then((r) => {
-      console.log(r.data.data);
       setState(r.data.data);
     });
 };
@@ -70,7 +62,6 @@ export const getMenus = (IdApp:string,setState: Function) => {
       },
     })
     .then((r) => {
-      console.log(r.data.data);
       setState(r.data.data);
     });
 };
@@ -87,12 +78,12 @@ export const deleteAdminMenu = async(IdMenu:string) => {
     },
   })
     .then((r) => {
-      console.log("r",r);
-      
-      if(r.data.data)
-      
-      {alertaExito(()=>{});}
-      else{alertaError()}
+      if(r.data.data){
+        alertaExito(()=>{});
+      }
+      else{
+        alertaError()
+      }
     })
     .catch(() => {
       alertaError();
@@ -102,7 +93,6 @@ export const deleteAdminMenu = async(IdMenu:string) => {
 export const editarMenu = (
   data: any,
   setOpen: Function,
-  //reloadData: Function
 ) => {
   axios({
     method: "put",
@@ -115,7 +105,6 @@ export const editarMenu = (
   })
     // aqui se recibe lo del endpoint en response
     .then((r) => {
-      //reloadData(String(Math.random()));
       alertaExito(()=>{});
       
       setOpen(false);

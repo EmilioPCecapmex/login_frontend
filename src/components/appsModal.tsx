@@ -33,15 +33,6 @@ export default function AppsModal({
   const openPage = (t: string, idapp: string) => {
     closeM();
     if (t !== "./admin") {
-      console.log(
-        t +
-          "?jwt=" +
-          localStorage.getItem("jwtToken") +
-          "&rf=" +
-          localStorage.getItem("refreshToken") +
-          "&IdApp=" +
-          idapp
-      );
       window.location.replace(
         t +
           "?jwt=" +

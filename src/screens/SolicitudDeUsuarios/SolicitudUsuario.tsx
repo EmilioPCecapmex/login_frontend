@@ -105,8 +105,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
   }
 
   useEffect(() => {
-    console.log(query.get("IdUsuario"));
-
     if (apps.length) {
       let aux = apps.find((app) => app.Id === props.idApp);
       if (aux) {
@@ -461,8 +459,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
         )
         .then((r) => {
           const data = r.data.result[0];
-          console.log(data);
-
           if (data) {
             setExisteCorreo(true);
             setInfoUsuario({
@@ -898,7 +894,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             <Button
               className="aceptar"
               onClick={() => {
-                // navigate(-1);
                 cleanData();
               }}
               sx={{ fontFamily: "MontserratRegular", mr: 2 }}
@@ -917,7 +912,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
               <Button
                 className="cancelar"
                 onClick={() => {
-                  // navigate(-1);
                   setBajaUsuario(true);
                 }}
                 sx={{ fontFamily: "MontserratRegular", mr: 2 }}
@@ -931,7 +925,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             <Button
               className="aceptar"
               onClick={() => {
-                // handleStoreBtn();
                 checkFill();
               }}
               sx={{ fontFamily: "MontserratRegular" }}

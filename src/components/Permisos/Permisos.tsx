@@ -1,16 +1,9 @@
-import { Box, Button, Card, CardContent, CircularProgress, Dialog, DialogContent, DialogTitle, Grid, IconButton, Tooltip, Typography } from "@mui/material";
+import { Box, CircularProgress, Dialog, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { getRoles } from "../Roles/RolesServices";
 import { useEffect, useState } from "react";
 import MUIXDataGrid from "../dataGridGenerico/MUIXDataGrid";
-import AppsIcon from '@mui/icons-material/Apps';
-import SettingsIcon from '@mui/icons-material/Settings';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
-
-import SecurityIcon from '@mui/icons-material/Security';
 import { createPermisoMenuRol, deletePermisoMenuRol, getPermisosMenu, getPermisosMenuRol } from "./PermisosServices";
 import { IMenus } from "../menus/Menus";
 
@@ -33,15 +26,12 @@ export function Permisos({ open, closeModal, menu, idApp, idRol }: { open: boole
     const [permisosMenu, setPermisosMenu] = useState<Array<IPermisos>>([])
     const [permisosFaltantes, setPermisosFaltantes] = useState<Array<IPermisos>>([])
     const [banderaMenus, setBanderaMenus] = useState(false);
-    const [banderaMenusRol, setBanderaMenusRol] = useState(false);
 
     function obtenerDatos() {
         getPermisosMenu(menu.Id, setPermisos, idApp, () => { setBanderaMenus(true) })
         getPermisosMenuRol(menu.Id, idRol, setPermisosMenu)
     }
     useEffect(() => {
-        console.log("menu", menu);
-
         obtenerDatos()
     }, [])
 
@@ -328,58 +318,8 @@ export function Permisos({ open, closeModal, menu, idApp, idRol }: { open: boole
                                         rows={permisosMenu}
                                         camposCsv={camposCsv}
                                     />
-                                    {
-                                        // permisosMenu.map((permiso) => {
-                                        //     return (
-                                        //         <Grid
-                                        //             container
-                                        //             sx={{
-                                        //                 display: "flex",
-                                        //                 height: "10%",
-                                        //                 width: "95%",
-                                        //                 border: "1px solid",
-                                        //                 bgcolor: "#c4a57b",
-                                        //                 boxShadow: 10,
-                                        //                 borderRadius: 2,
-                                        //                 alignItems: "center",
-                                        //                 justifyContent: "center",
-                                        //                 mt: "2vh",
-                                        //             }}
-                                        //         >
-                                        //             <Tooltip title={menu.Descripcion}>
-                                        //                 <Grid item width={"65%"}>
-                                        //                     <Typography
-                                        //                         fontFamily={"Montserrat-Ligth"}
-                                        //                         sx={{
-                                        //                             whiteSpace: "nowrap",
-                                        //                             overflow: "hidden",
-                                        //                             textOverflow: "ellipsis",
-                                        //                             fontSize: [20, 25, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
-                                        //                         }}
-                                        //                     >
-                                        //                         {permiso.Permiso}
-                                        //                     </Typography>
-                                        //                 </Grid>
-                                        //             </Tooltip>
-                                        //             <Grid item maxWidth={"20%"} sx={{ display: "flex" }}>
-                                        // <Tooltip title={"Quitar permiso " + permiso.Permiso}>
-                                        //     <IconButton
-                                        //         onClick={() => {
-                                        //             deletePermisoMenuRol(permiso.IdRelacion, obtenerDatos)
-                                        //         }}
-                                        //     >
-                                        //         <HighlightOffIcon  />
-                                        //     </IconButton>
-                                        // </Tooltip>
-
-                                        //             </Grid>
-                                        //         </Grid>
-                                        //     );
-                                        // })
-                                    }
                                 </Grid>
                             </Grid>
-                            {/* ############################ */}
                             <Grid item container sx={{ display: "flex", justifyContent: "center", height: "84vh" }}
                                 xs={12}
                                 sm={12}
@@ -431,65 +371,10 @@ export function Permisos({ open, closeModal, menu, idApp, idRol }: { open: boole
                                         rows={permisosFaltantes}
                                         camposCsv={camposCsv}
                                     />
-                                    {
-                                        // permisosFaltantes.map((permiso) => {
-                                        //     return (
-                                        //         <Grid
-                                        //             container
-                                        //             sx={{
-                                        //                 display: "flex",
-                                        //                 height: "10%",
-                                        //                 width: "95%",
-                                        //                 border: "1px solid",
-                                        //                 bgcolor: "#c4a57b",
-                                        //                 boxShadow: 10,
-                                        //                 borderRadius: 2,
-                                        //                 alignItems: "center",
-                                        //                 justifyContent: "center",
-                                        //                 mt: "2vh",
-                                        //             }}
-                                        //         >
-                                        //             <Grid item maxWidth={"10%"} minWidth={"10%"} sx={{ display: "flex" }}>
-                                        //                 {/*title={"Administrar permisos de " + menu.Descripcion}> */}
-                                        // <Tooltip
-                                        //     title={"Asignar permiso " + permiso.Permiso}
-                                        // >
-                                        //     <IconButton
-                                        //         onClick={() => {
-                                        //             createPermisoMenuRol(idRol, menu.Id, permiso.Id, localStorage.getItem("IdUsuario") || "", obtenerDatos)
-                                        //         }}
-                                        //     >
-                                        //         <ControlPointIcon/>
-                                        //     </IconButton>
-                                        // </Tooltip>
-                                        //             </Grid>
-                                        //             <Grid item maxWidth={"75%"} minWidth={"75%"}>
-                                        //                 <Tooltip title={menu.Descripcion}>
-                                        //                     <Typography
-                                        //                         fontFamily={"Montserrat-Ligth"}
-                                        //                         sx={{
-                                        //                             whiteSpace: "nowrap",
-                                        //                             overflow: "hidden",
-                                        //                             textOverflow: "ellipsis",
-                                        //                             fontSize: [20, 20, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
-                                        //                         }}
-                                        //                         textAlign={"end"}
-                                        //                     >
-                                        //                         {permiso.Permiso}
-                                        //                     </Typography>
-                                        //                 </Tooltip>
-                                        //             </Grid>
-                                        //         </Grid>
-                                        //     );
-                                        // })
-                                    }
+                                  
                                 </Grid>
                             </Grid>
-                            {/* ############################ */}
                         </Grid>
-
-
-
                     </Grid>
                 </Grid>
             )

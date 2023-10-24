@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-
 import DeleteIcon from "@mui/icons-material/Delete";
 import { TabContext, TabList } from "@mui/lab";
 import { Box, Grid, IconButton, Tab, Tooltip } from "@mui/material";
@@ -61,8 +59,6 @@ const Ayuda = () => {
       confirmButtonColor: "#15212f",
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log("valor v", v);
-
         deleteFile(v?.row?.RutaGuia, v?.row?.NombreArchivoServidor, v?.row?.Id)
           .then((response) => {
             alertaExito(() => { }, "¡Registro eliminado!");
@@ -90,8 +86,6 @@ const Ayuda = () => {
       sortable: false,
       width: 100,
       renderCell: (v: any) => {
-        console.log("v", v);
-
         return (
           <Box>
             <Tooltip title="Eliminar Guía">
@@ -257,16 +251,16 @@ const Ayuda = () => {
 
           {/* cambio a tabla preguntas */}
           {valueTab == "Preguntas" ? (
-            <MUIXDataGrid id={(row: any) => row.Id} columns={columnsPreguntas} rows={Preguntas} />
+            <MUIXDataGrid id={(row: any) => row.Id} columns={columnsPreguntas} rows={Preguntas} camposCsv={camposCsv}/>
 
           ) : null}
           {/* cambio a tablas videos y guías */}
           {valueTab == "Videos" ? (
-            <MUIXDataGrid id={(row: any) => row.Id} columns={columnsVideo} rows={Videos} />
+            <MUIXDataGrid id={(row: any) => row.Id} columns={columnsVideo} rows={Videos} camposCsv={camposCsv}/>
           ) : null}
 
           {valueTab == "Guias" ? (
-            <MUIXDataGrid id={(row: any) => row.Id} columns={columnsGuia} rows={Guias} />
+            <MUIXDataGrid id={(row: any) => row.Id} columns={columnsGuia} rows={Guias} camposCsv={camposCsv}/>
           ) : null}
 
         </Grid>

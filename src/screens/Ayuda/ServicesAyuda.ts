@@ -112,7 +112,6 @@ export const deleteFile= async(ROUTE:string,NOMBRE:string,Id:string)=>{
     }
   )
   .then((r) => {
-    console.log("data",r);
     deleteAyuda(Id)
   })
   .catch((r) => {alertaError("Ocurrio un problema al eliminar el archivo")});
@@ -128,7 +127,6 @@ export const createAyuda = (data: any, handleClose: Function) => {
       },
     })
     .then((r) => {
-      console.log(r.data.data);
       alertaExito(handleClose);
     });
 };
@@ -143,7 +141,6 @@ export const getMenus = (setState: Function) => {
       },
     })
     .then((r) => {
-      console.log(r.data.data);
       setState(r.data.data);
     });
 };

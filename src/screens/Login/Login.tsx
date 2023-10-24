@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.svg";
 import AlertModal from "../../components/alertModal";
 import AppsModal from "../../components/appsModal";
-import { JWT_Token, sessionValid } from "../../funcs/validation";
+import { JWT_Token } from "../../funcs/validation";
 import { UserServices } from "../../services/UserServices";
 import SliderProgress from "../Componentes/SliderProgress";
 import { SolicitudUsuario } from "../SolicitudDeUsuarios/SolicitudUsuario";
@@ -40,7 +40,6 @@ export const getUserDetail = (idUsuario: string, idApp: string) => {
       },
     }
   ).then((r) => {
-    console.log(r.data);
     localStorage.setItem('Menus', JSON.stringify(r.data.menus[0]))
 
   });

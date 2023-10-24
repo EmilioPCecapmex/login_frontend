@@ -55,12 +55,7 @@ export const theme = createTheme({
 });
 
 export const NewDialog = (props: NewDialogProps) => {
-  useEffect(() => {
-    console.log(props);
-
-  }, [])
-
-
+ 
   return (
     <Dialog
       open={props.newDialogOpen}

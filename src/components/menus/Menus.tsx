@@ -149,12 +149,10 @@ export function Menus({
   }
 
   useEffect(() => {
-    console.log("hola3");
     obtenerDatos();
   }, []);
 
   useEffect(() => {
-    console.log("hola4");
     // Obtener la diferencia entre los arrays
     const diferenciaMenus = menus.filter(
       (menu) => !menusRol.find((menuRol) => menuRol.Id === menu.Id)

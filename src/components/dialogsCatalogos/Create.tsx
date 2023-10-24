@@ -358,8 +358,6 @@ export const Create = ({
         <Button
           className="aceptar"
           onClick={() => {
-            console.log("nuevoElemento",nuevoElemento);
-            console.log("Elemento",Elemento);
             if(MismoObjeto(nuevoElemento,Elemento)){
               alertaInformativa("No se detectaron cambios")
             }else{

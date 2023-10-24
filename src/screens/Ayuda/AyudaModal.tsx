@@ -39,7 +39,7 @@ export const AyudasModal = ({
   function enCambioFile(event: any) {
     if (
       event?.target?.files[0] &&
-      event.target.files[0].type.split("/")[0] == "video"
+      event.target.files[0].type.split("/")[0] === "video"
     ) {
       setNombreArchivo(event?.target?.value?.split("\\")[2]);
       let file = event?.target!?.files[0]!;
@@ -48,7 +48,7 @@ export const AyudasModal = ({
 
     } else if (
       event?.target?.files[0] &&
-      event.target.files[0].type == "application/pdf"
+      event.target.files[0].type === "application/pdf"
     ) {
       setNombreArchivo(event?.target?.value?.split("\\")[2]);
       let file = event?.target!?.files[0]!;
@@ -139,7 +139,7 @@ export const AyudasModal = ({
                 Seleccionar {TabValue === "Videos" ? "Video" : "Guía"}
                 <input
                   hidden
-                  accept={TabValue == "Videos" ? "video/*" : "application/pdf"}
+                  accept={TabValue === "Videos" ? "video/*" : "application/pdf"}
                   onChange={(v) => {
                     enCambioFile(v);
                   }}
@@ -151,7 +151,7 @@ export const AyudasModal = ({
               ""
             )}
 
-            {TabValue == "Videos" && nombreArchivo !== '' ? (
+            {TabValue === "Videos" && nombreArchivo !== '' ? (
               <>
                 <Button
                   sx={{textTransform:"none"}}
@@ -177,7 +177,7 @@ export const AyudasModal = ({
               ""
             )}
 
-            {TabValue == "Guias" && nombreArchivo !== '' ? (
+            {TabValue === "Guias" && nombreArchivo !== '' ? (
               <>
                 <Button
 
@@ -207,7 +207,7 @@ export const AyudasModal = ({
               ""
             )}
 
-            {TabValue == "Preguntas" ? (
+            {TabValue === "Preguntas" ? (
               <>
                 <Button
 
@@ -253,7 +253,7 @@ export const AyudasModal = ({
           </Grid>
         </Grid>
 
-        {TabValue == "Videos" || TabValue == "Guias" ? (
+        {TabValue === "Videos" || TabValue === "Guias" ? (
           <>
 
             <Grid container
@@ -279,7 +279,7 @@ export const AyudasModal = ({
                 />
               </Grid>
             </Grid>
-            {TabValue == "Guias" ? (
+            {TabValue === "Guias" ? (
               <Grid container item
                 xl={11}
                 lg={11}
@@ -313,7 +313,7 @@ export const AyudasModal = ({
           </>
         ) : null}
 
-        {TabValue == "Preguntas" ? (
+        {TabValue === "Preguntas" ? (
           <>
             <Grid container item
               xl={11}
@@ -365,11 +365,11 @@ export const AyudasModal = ({
           </>
         ) : null}
 
-        {TabValue == "Videos" || TabValue == "Guias" ?
+        {TabValue === "Videos" || TabValue === "Guias" ?
 
           (<Grid container item height={"90vh"} width={"100vw"} sx={{ display: "flex", justifyContent: "Center", alignItems: "center" }}>
 
-            {TabValue == "Videos" ? (
+            {TabValue === "Videos" ? (
               <video
                 loop
                 autoPlay

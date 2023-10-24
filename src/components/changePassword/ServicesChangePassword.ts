@@ -10,8 +10,7 @@ export function changePassword(datos:any,fnc:Function){
         },
         headers: {
             'Authorization': localStorage.getItem("jwtToken")|| '',
-            'Content-Type': 'application/json', // Puedes ajustar el tipo de contenido según tu API
-            // Otros encabezados personalizados si es necesario
+            'Content-Type': 'application/json',
           }
       };
     
@@ -20,8 +19,6 @@ export function changePassword(datos:any,fnc:Function){
             alertaExito(fnc,"La contraseña se actualizo con exito.")
         })
         .catch(({response}) => {
-            console.log("error",response.data.error);
-            
             alertaError(response.data.error||"Error al actualizazr la contraseña");
         });
 }

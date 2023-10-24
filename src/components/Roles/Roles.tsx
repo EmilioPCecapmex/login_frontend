@@ -1,12 +1,7 @@
 import {
   Box,
-  Button,
-  Card,
-  CardContent,
   CircularProgress,
   Dialog,
-  DialogContent,
-  DialogTitle,
   Grid,
   IconButton,
   Tooltip,
@@ -17,7 +12,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useEffect, useState } from "react";
 import MUIXDataGrid from "../dataGridGenerico/MUIXDataGrid";
-import AppsIcon from "@mui/icons-material/Apps";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Menus } from "../menus/Menus";
 import { getRoles } from "./RolesServices";
@@ -93,16 +87,9 @@ export function Roles({
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
-                  if (cellValues.row.Id) {
-                    setIdRol(cellValues.row.Id);
-                  }
-
-                  if (cellValues.row.Nombre) {
-                    setRol(cellValues.row.Nombre);
-                  }
-
+                  if (cellValues.row.Id) {setIdRol(cellValues.row.Id);}
+                  if (cellValues.row.Nombre) {setRol(cellValues.row.Nombre);}
                   setOpenMenu(true);
-                  // handleDelete(event, cellValues);
                 }}
               >
                 <SettingsIcon />
@@ -111,12 +98,7 @@ export function Roles({
             <Tooltip title={"Eliminar"}>
               <IconButton
                 sx={{ color: "black" }}
-                onClick={(event) => {
-                  handleDeleteBtnClick(cellValues);
-                  // setRegistroData(cellValues.row);
-                  // setMovimiento("eliminar");
-                  // setOpenDialogRoles(true);
-                }}
+                onClick={(event) => {handleDeleteBtnClick(cellValues);}}
               >
                 <DeleteIcon />
               </IconButton>
@@ -125,14 +107,6 @@ export function Roles({
         );
       },
     },
-    // {
-    //     field: "Id",
-    //     headerName: "Id",
-    //     width: 250,
-    //     hideable: false,
-    //     headerAlign: "left",
-
-    // },
     {
       field: "Nombre",
       headerName: "Nombre",
@@ -154,18 +128,6 @@ export function Roles({
       hideable: false,
       headerAlign: "left",
     },
-    // {
-    //     field: "Deleted",
-    //     headerName: "Eliminado",
-    //     width: 150,
-    //     hideable: false,
-    //     headerAlign: "left",
-    //     renderCell: (cellValues: any) => {
-    //         return (
-    //             cellValues.row.Deleted===0?"Activo":"No Activo"
-    //         );
-    //     },
-    // }
   ];
 
   useEffect(() => {
@@ -174,8 +136,7 @@ export function Roles({
 
 
   const handleDeleteBtnClick = (cellValues: any) => {
-    console.log(cellValues);
-    
+   
     Swal.fire({
       title: "¿Estás seguro de eliminar este registro?",
       icon: "question",

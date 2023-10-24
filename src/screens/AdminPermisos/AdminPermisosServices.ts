@@ -6,7 +6,6 @@ import Swal from "sweetalert2";
 export const getAdminPermisos = (
   IdMenu: string,  
   setState: Function,
-    //bandera: Function
 )=>{
     axios({
         method: "get",
@@ -21,12 +20,8 @@ export const getAdminPermisos = (
           if (data.data[0].Id) {
             setState(data.data);
           }
-          // setTimeout(() => {
-          //bandera();
-          // }, 750);
         })
         .catch(() => {
-          //bandera();
           setState([]);
         });
 }
@@ -40,7 +35,6 @@ export const createAdminPermiso = (data: any, fnc: Function) => {
         },
       })
       .then((r) => {
-        console.log(r.data.data);
         alertaExito(fnc, "Permiso creado!");
       });
   };
@@ -79,8 +73,7 @@ export const createAdminPermiso = (data: any, fnc: Function) => {
       },
     })
       // aqui se recibe lo del endpoint en response
-      .then((r) => {
-        //reloadData(String(Math.random()));
+      .then((r) => { 
         alertaExito(()=>{});
         
         setOpen(false);

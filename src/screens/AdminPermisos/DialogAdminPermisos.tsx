@@ -2,7 +2,6 @@ import { Button, Dialog, DialogActions, DialogContent, TextField } from "@mui/ma
 import { useEffect, useState } from "react";
 import { alertaError } from "../../components/alertas/toast";
 import { createAdminPermiso, editarPermiso } from "./AdminPermisosServices";
-import { IPermiso } from "./AdminPermisos";
 
 export interface IElemento {
     Id: string;
@@ -72,9 +71,6 @@ export const DialogAdminPermisos = (
             case "Agregar":
             createAdminPermiso(nuevoElemento, closeDialog);
             break;
-        //   case "Eliminar":
-        //     //deleteRol(nuevoElemento, closeDialog);
-        //     break;
            default:
             alertaError();
         }
@@ -101,6 +97,7 @@ export const DialogAdminPermisos = (
       >
         <TextField
           sx={{ mt: 3, width: "100%" }}
+          inputProps={{maxlength:200}}
           title="Permiso"
           label="Nombre de Permiso"
           placeholder="Nombre de Permiso"
@@ -111,12 +108,11 @@ export const DialogAdminPermisos = (
               Permiso: v.target.value.replaceAll("'", "").replaceAll('"', ""),
             });
           }}
-          //InputProps={{ readOnly: movimiento === "eliminar" }}
         />
-
         <TextField
           multiline
           sx={{ mt: 3, width: "100%" }}
+          inputProps={{maxlength:200}}
           title="Descripción"
           label="Descripción"
           placeholder="Descripción"
@@ -129,12 +125,11 @@ export const DialogAdminPermisos = (
                 .replaceAll('"', ""),
             });
           }}
-          //InputProps={{ readOnly: movimiento === "eliminar" }}
         />
-        
         <TextField
           multiline
           sx={{ mt: 3, width: "100%" }}
+          inputProps={{maxlength:50}}
           title="Control Interno"
           label="Control Interno"
           placeholder="Control Interno"
@@ -147,7 +142,6 @@ export const DialogAdminPermisos = (
                 .replaceAll('"', ""),
             });
           }}
-          //InputProps={{ readOnly: movimiento === "eliminar" }}
         />
       </DialogContent>
 
