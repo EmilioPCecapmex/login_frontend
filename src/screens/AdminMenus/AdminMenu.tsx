@@ -1,12 +1,20 @@
 import { Box, CircularProgress, Dialog, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import ButtonsAdd from "../Componentes/ButtonsAdd";
 import CloseIcon from "@mui/icons-material/Close";
-import { DialogAdminMenu } from "./DialogAdminMenu";
+import { DialogAdminMenu, IElemento } from "./DialogAdminMenu";
 import { useEffect, useState } from "react";
-import { getAdminMenu } from "./AdminMenuServices";
+import { deleteAdminMenu, getAdminMenu } from "./AdminMenuServices";
 import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
 import MenuIcon from '@mui/icons-material/Menu';
+import DeleteIcon from "@mui/icons-material/Delete";
 import { AdminPermisos } from "../AdminPermisos/AdminPermisos";
+import Swal from "sweetalert2";
+import { alertaError, alertaExito } from "../../components/alertas/toast";
+import EditIcon from "@mui/icons-material/Edit";
+import SecurityIcon from "@mui/icons-material/Security";
+
+
+
 
 
 export interface IMenu {
@@ -53,6 +61,19 @@ export function AdminMenu({
   Path: "",
   ControlInterno: "",
   });
+  const [registroData, setRegistroData] = useState<IElemento>({
+    Id: "",
+    Menu: "",
+    Descripcion: "",
+    Nivel: 0,
+    Orden: 0,
+    MenuPadre: "",
+    Icon: "",
+    Path: "",
+    ControlInterno: "",
+    IdUsuario: "",
+    IdApp: "",
+  });
 
 
 
@@ -69,18 +90,20 @@ export function AdminMenu({
 
         return (
           <Box>
-            {/* <Tooltip title={"Editar"}>
+            <Tooltip title={"Editar"}>
                   <IconButton
                     sx={{ color: "black" }}
                     onClick={(event) => {
+                      console.log("cellValues.row",cellValues.row);
+                      
                       setRegistroData(cellValues.row);
                       setMovimiento("Editar");
-                      setOpenDialogRoles(true);
+                      setOpenDialogAdminMenu(true);
                     }}
                   >
                     <EditIcon />
                   </IconButton>
-                </Tooltip> */}
+                </Tooltip>
             {/* <Tooltip title={"Editar Acceso a Menús"}>
                   <IconButton
                     sx={{ color: "black" }}
@@ -100,11 +123,11 @@ export function AdminMenu({
                     <SettingsIcon />
                   </IconButton>
                 </Tooltip> */}
-            {/* <Tooltip title={"Eliminar"}>
+            <Tooltip title={"Eliminar"}>
                   <IconButton
                     sx={{ color: "black" }}
                     onClick={(event) => {
-                      handleDeleteBtnClick(cellValues);
+                      eliminar(cellValues);
                       // setRegistroData(cellValues.row);
                       // setMovimiento("eliminar");
                       // setOpenDialogRoles(true);
@@ -112,7 +135,7 @@ export function AdminMenu({
                   >
                     <DeleteIcon />
                   </IconButton>
-                </Tooltip> */}
+                </Tooltip>
             <Tooltip title={"Administrar Permisos "
               //+ cellValues.row.Nombre
             }>
@@ -125,7 +148,7 @@ export function AdminMenu({
                   //setApp(cellValues?.row?.Nombre);
                 }}
               >
-                <MenuIcon />
+                <SecurityIcon />
               </IconButton>
             </Tooltip>
           </Box>
@@ -214,13 +237,40 @@ export function AdminMenu({
   const [menus, setMenus] = useState<Array<IMenu>>([]);
   const camposCsv = ["Nombre", "Descripcion", "ControlInterno", "Deleted"];
 
-  useEffect(() => {
+  function actualizarDatos(){
     getAdminMenu(idApp, setMenus)
-  }, [])
+  }
   useEffect(() => {
-    console.log("menuseleccionado", menuSeleccionado);
+    if(!openDialogAdminMenu)
+      actualizarDatos()
+  }, [openDialogAdminMenu])
 
-  }, [menuSeleccionado])
+  function eliminar (v:any){
+    Swal.fire({
+      title: "¿Estas seguro que deseas eliminar el menú?",
+      icon: "info",
+      text: "Al eliminar este menú se eliminaran los permisos del menú y los roles que tengan acceso al menú lo perderán.", 
+      showCancelButton: true,
+      
+      cancelButtonColor: "#af8c55",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Eliminar",
+      confirmButtonColor: "#15212f",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log("valor v",v.row);
+        
+        deleteAdminMenu(v?.row?.Id)
+          .then((response)=>{
+            alertaExito(actualizarDatos,"¡Registro eliminado!");
+            //obtenerDatos();
+                  })
+          .catch((error)=>{
+            alertaError();
+          });
+      }                      
+    });
+  }
 
   return (<Dialog open={open} fullScreen>
     {/* <Box
@@ -444,7 +494,7 @@ export function AdminMenu({
       <DialogAdminMenu                                     
         open={openDialogAdminMenu}
         closeDialog={setOpenDialogAdminMenu}
-        //reloadData={registroData}
+        reloadData={registroData}
         movimiento={movimiento}
         IdApp={idApp}
       />

@@ -1,9 +1,10 @@
 import { Button, Dialog, DialogActions, DialogContent, TextField } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { alertaError } from "../../components/alertas/toast";
-import { createAdminPermiso } from "./AdminPermisosServices";
+import { createAdminPermiso, editarPermiso } from "./AdminPermisosServices";
+import { IPermiso } from "./AdminPermisos";
 
-interface IElemento {
+export interface IElemento {
     Id: string;
     Permiso: string;
     IdMenu: string;
@@ -21,6 +22,7 @@ export const DialogAdminPermisos = (
         movimiento,
         Menu,
         IdMenu,
+        reloadData,
     }:{
         open: boolean;
         closeDialog: Function;
@@ -28,6 +30,7 @@ export const DialogAdminPermisos = (
         movimiento: string;
         Menu: string;
         IdMenu: string;
+        reloadData: IElemento;
     }
 ) => {
 
@@ -44,27 +47,37 @@ export const DialogAdminPermisos = (
       const [nuevoElemento, setNuevoElemento] = useState<IElemento>({
         ...elementoVacio,
         IdUsuario: localStorage.getItem("IdUsuario") || "",
-        IdApp: IdApp, IdMenu: IdMenu
+        IdApp: IdApp, IdMenu: IdMenu,
       });
 
   
-
+      useEffect(() => {
+        if (reloadData && movimiento === "Editar") {
+          setNuevoElemento(
+            {
+              ...reloadData,
+              IdUsuario: localStorage.getItem("IdUsuario") || "",
+        IdApp: IdApp, IdMenu:IdMenu
+            }
+          )
+        }
+      }, []);
 
       function sendRequest() {
-        createAdminPermiso(nuevoElemento, closeDialog);
-        // switch (movimiento) {
-        //   case "Editar":
-        //     //modifyRol(nuevoElemento, closeDialog);
-        //     break;
-        //   case "Agregar":
-        //     createAdminMenu(nuevoElemento, closeDialog);
-        //     break;
+        
+        switch (movimiento) {
+            case "Editar":
+            editarPermiso(nuevoElemento, closeDialog);
+            break;
+            case "Agregar":
+            createAdminPermiso(nuevoElemento, closeDialog);
+            break;
         //   case "Eliminar":
         //     //deleteRol(nuevoElemento, closeDialog);
         //     break;
-        //   default:
-        //     alertaError();
-        // }
+           default:
+            alertaError();
+        }
       }
 
 

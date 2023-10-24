@@ -65,10 +65,9 @@ export const createAdminPermiso = (data: any, fnc: Function) => {
   };
 
   export const editarPermiso = (
-    path: string,
     data: any,
     setOpen: Function,
-    reloadData: Function
+    //reloadData: Function
   ) => {
     axios({
       method: "put",
@@ -81,7 +80,7 @@ export const createAdminPermiso = (data: any, fnc: Function) => {
     })
       // aqui se recibe lo del endpoint en response
       .then((r) => {
-        reloadData(String(Math.random()));
+        //reloadData(String(Math.random()));
         alertaExito(()=>{});
         
         setOpen(false);

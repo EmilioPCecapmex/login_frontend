@@ -1,5 +1,6 @@
 import axios from "axios";
-import { alertaExito } from "../../components/alertas/toast";
+import { alertaError, alertaExito } from "../../components/alertas/toast";
+import Swal from "sweetalert2";
 
 
 export const getAdminMenu = (
@@ -71,5 +72,64 @@ export const getMenus = (IdApp:string,setState: Function) => {
     .then((r) => {
       console.log(r.data.data);
       setState(r.data.data);
+    });
+};
+
+export const deleteAdminMenu = async(IdMenu:string) => {
+  await axios({
+    method: "delete",
+    url: process.env.REACT_APP_APPLICATION_DEV + "/api/AdminMenu",
+    data: {IdMenu:IdMenu,
+      IdUsuario: localStorage.getItem("IdUsuario")||""},
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: localStorage.getItem("jwtToken") || "",
+    },
+  })
+    .then((r) => {
+      console.log("r",r);
+      
+      if(r.data.data)
+      
+      {alertaExito(()=>{});}
+      else{alertaError()}
+    })
+    .catch(() => {
+      alertaError();
+    });
+};
+
+export const editarMenu = (
+  data: any,
+  setOpen: Function,
+  //reloadData: Function
+) => {
+  axios({
+    method: "put",
+    data: data,
+    url: process.env.REACT_APP_APPLICATION_DEV + "/api/AdminMenu",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: localStorage.getItem("jwtToken") || "",
+    },
+  })
+    // aqui se recibe lo del endpoint en response
+    .then((r) => {
+      //reloadData(String(Math.random()));
+      alertaExito(()=>{});
+      
+      setOpen(false);
+    })
+    .catch((e) => {
+      let mensaje =
+        e.response.data.error === "Ingrese IdModificador válido."
+          ? "No se detectaron cambios"
+          : e.response.data.error;
+      Swal.fire({
+        icon: "info",
+        confirmButtonColor: "#000E4E",
+        title: "Mensaje",
+        text: "( " + mensaje + " ) ",
+      });
     });
 };
