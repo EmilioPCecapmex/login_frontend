@@ -255,7 +255,6 @@ const Catalogos = () => {
     });
   };
 
-  document.title = valueTab==="TipoEntidades"?"Tipo de entidades":"Entidades";
   const camposCsv =valueTab==="TipoEntidades"? ["Nombre", "Descripcion"]:["Nombre","Direccion","Telefono","NombreTipoEntidad","Titular","EntidadPerteneceA","ControlInterno","ClaveSiregob",];
   return (
     <>
@@ -284,7 +283,7 @@ const Catalogos = () => {
 
 
         <Grid item sx={{ width: "100vw", height: "77vh" }}>
-          <MUIXDataGrid  id={(row: any) => row.Id} columns={columns} rows={valueTab === "TipoEntidades" ? tipoEntidades : entidades }  camposCsv={camposCsv}/>
+          <MUIXDataGrid  id={(row: any) => row.Id} columns={columns} rows={valueTab === "TipoEntidades" ? tipoEntidades : entidades }  camposCsv={camposCsv} exportTitle={valueTab === "TipoEntidades" ? "Catálogo de Tipo de Entidades" : "Catálogo de Entidades"}/>
         </Grid>
 
 

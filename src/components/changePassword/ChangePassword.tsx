@@ -1,7 +1,9 @@
-import {Button, Dialog, Grid, TextField, Typography, useMediaQuery, useTheme } from "@mui/material"
+import {Button, Dialog, Grid, IconButton, InputAdornment, TextField, Typography, useMediaQuery, useTheme } from "@mui/material"
 import { useState } from "react"
 import { alertaError } from "../alertas/toast";
 import { changePassword } from "./ServicesChangePassword";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 
 export const ChangePassword = ({ onClose }: { onClose: Function }) => {
@@ -26,6 +28,10 @@ export const ChangePassword = ({ onClose }: { onClose: Function }) => {
        if(newPassword===password){  alertaError("La nueva contraseña no puede ser igual a la contraseña actual. Por favor, elige una contraseña diferente."); return false}
        return true;
     }
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showNewPasswordConfirmed, setShowNewPasswordConfirmed] = useState(false);
 
     return (
         <Dialog
@@ -60,14 +66,24 @@ export const ChangePassword = ({ onClose }: { onClose: Function }) => {
                 <Grid item xl={8} lg={8} md={8} sm={11} xs={11} sx={{ height: "20%",display:"flex",alignItems:"center",justifyContent:"center" }}>
                     
                     <TextField
-                   id="outlined-password-input"
                    
-                   type="password"
-                   autoComplete="current-password"
                     fullWidth
                     label="Constraseña Actual:"
                     value={password}
                     onChange={(e)=>{validaPassword(e.target.value,setPassword)}}
+                    type={showPassword ? 'text' : 'password'}
+                    InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={() => setShowPassword(!showPassword)}
+                              edge="end"
+                            >
+                              {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
                      />
                 </Grid>
 
@@ -78,6 +94,19 @@ export const ChangePassword = ({ onClose }: { onClose: Function }) => {
                     label="Nueva Contraseña:"
                     value={newPassword}
                     onChange={(e)=>{validaPassword(e.target.value,setNewPassword)}}
+                    type={showNewPassword ? 'text' : 'password'}
+                    InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={() => setShowNewPassword(!showNewPassword)}
+                              edge="end"
+                            >
+                              {showNewPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
                      />
                 </Grid>
 
@@ -88,6 +117,19 @@ export const ChangePassword = ({ onClose }: { onClose: Function }) => {
                     label="Confirmar Nueva Constraseña:"
                     value={newPasswordConfirmed}
                     onChange={(e)=>{validaPassword(e.target.value,setNewPasswordConfirmed)}}
+                    type={showNewPasswordConfirmed ? 'text' : 'password'}
+                    InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={() => setShowNewPasswordConfirmed(!showNewPasswordConfirmed)}
+                              edge="end"
+                            >
+                              {showNewPasswordConfirmed ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
                      />
                 </Grid>
 

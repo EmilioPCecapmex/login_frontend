@@ -208,7 +208,12 @@ export default function MUIXDataGrid(props: any) {
       setAnchorEl(null);
     };  
     const apiRef = useGridApiContext();
-    const handleExport = () => {apiRef.current.exportDataAsCsv({fields: props.camposCsv, utf8WithBom:true}) ; handleClose()} 
+    const handleExport = () => {
+      const tituloPagina=document.title;
+      document.title = props?.exportTitle || "Título predeterminado";
+      apiRef.current.exportDataAsCsv({fields: props.camposCsv, utf8WithBom:true}) ;
+      document.title = tituloPagina || "Tesoreria Virtual"; handleClose()
+    } 
     const handlePrint = () => { apiRef.current.exportDataAsPrint({fields: props.camposCsv}) ; handleClose()} 
     return (
       <GridToolbarContainer sx={{display:"flex", justifyContent:"space-between"}}>
@@ -234,12 +239,12 @@ export default function MUIXDataGrid(props: any) {
               </ListItemIcon>
               Descarga CSV
             </MenuItem>
-            <MenuItem onClick={handlePrint}>
+            {/* <MenuItem onClick={handlePrint}>
               <ListItemIcon>
                 <Print fontSize="small" />
               </ListItemIcon>
               Imprimir
-            </MenuItem>
+            </MenuItem> */}
           </Menu>        
         {/* campo de buscar */}
         <GridToolbarQuickFilter 

@@ -368,6 +368,7 @@ export function AdminMenu({
               columns={columns}
               rows={menus}
               camposCsv={camposCsv}
+              exportTitle={"Menús de la aplicacion " + app}
             />
           </Box>
         </Grid>

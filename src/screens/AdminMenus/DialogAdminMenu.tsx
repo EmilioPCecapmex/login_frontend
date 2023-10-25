@@ -1,4 +1,4 @@
-import { Autocomplete, Button, Dialog, DialogActions, DialogContent, Grid, TextField } from "@mui/material";
+import { Autocomplete, Button, Dialog, DialogActions, DialogContent, Grid, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { alertaError } from "../../components/alertas/toast";
 import { createAdminMenu, editarMenu, getMenus } from "./AdminMenuServices";
@@ -174,7 +174,7 @@ export const DialogAdminMenu = (
           }}
         />
         <Grid item xs={12} md={12} lg={12} sx={{ mt: 3, width: "100%" }}>
-
+        <Typography variant="body2"> Menu Padre: </Typography>
           <Autocomplete
             fullWidth
             sx={{ width: "100%" }}
@@ -262,16 +262,7 @@ export const DialogAdminMenu = (
         </Button>
         <Button
           className="aceptar"
-          onClick={() => {
-            if (
-              nuevoElemento.Descripcion === "" ||
-              nuevoElemento.ControlInterno === ""
-            ) {
-              alertaError("Captura todos los datos");
-            } else {
-              sendRequest();
-            }
-          }}
+          onClick={() => {sendRequest();}}
         >
           {movimiento}
         </Button>

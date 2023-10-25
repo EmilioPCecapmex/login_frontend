@@ -306,6 +306,7 @@ export function AdminPermisos({
               columns={columns}
               rows={permisos}
               camposCsv={camposCsv}
+              exportTitle={"Permisos del Menú " + Menu}
             />
           </Box>
         </Grid>

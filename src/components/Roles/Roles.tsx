@@ -42,7 +42,6 @@ export function Roles({
   idApp: string;
   app: string;
 }) {
-  document.title = "Roles";
 
   const [roles, setRoles] = useState<Array<IRol>>([]);
   const [bandera, setBandera] = useState(false);
@@ -383,6 +382,7 @@ export function Roles({
                     columns={columns}
                     rows={roles}
                     camposCsv={camposCsv}
+                    exportTitle={"Roles de la Aplicacion " + app}
                   />
               </Box>
             </Grid>

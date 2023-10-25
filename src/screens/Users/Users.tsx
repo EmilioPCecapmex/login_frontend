@@ -50,7 +50,6 @@ export interface Usuario {
 }
 export default function Users() {
   const navigate = useNavigate();
-document.title = "Usuarios";
 const camposCsv = ["Nombre", "ApellidoPaterno","ApellidoMaterno","NombreUsuario","CorreoElectronico","EstaActivoLabel"];
 
   const Toast = Swal.mixin({
@@ -412,6 +411,7 @@ const camposCsv = ["Nombre", "ApellidoPaterno","ApellidoMaterno","NombreUsuario"
             columns={columns}
             rows={rows}
             camposCsv={camposCsv}
+            exportTitle={"Catálogo de Usuarios"}
           />
         </Grid>
 

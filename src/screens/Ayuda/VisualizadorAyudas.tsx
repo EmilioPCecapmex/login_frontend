@@ -126,16 +126,16 @@ export const VisualizadorAyudas = ({
       <Grid item sx={{ width: "100vw", height: "90vh", justifyContent:"center",alignItems:"center",displa:"flex" }}>
         {/* cambio a tabla preguntas */}
         {valueTab == "Preguntas" ? (
-          <MUIXDataGrid id={(row: any) => row.Id} columns={columnsPreguntas} rows={arrayAyudas} />
+          <MUIXDataGrid id={(row: any) => row.Id} columns={columnsPreguntas} rows={arrayAyudas} exportTitle={"Preguntas Frecuentes"}/>
 
         ) : null}
         {/* cambio a tabla videos*/}
         {valueTab == "Videos" ? (
-          <MUIXDataGrid id={(row: any) => row.Id} columns={columnsVideo} rows={arrayAyudas} />
+          <MUIXDataGrid id={(row: any) => row.Id} columns={columnsVideo} rows={arrayAyudas} exportTitle={"Videos Tutoriales"}/>
         ) : null}
         {/* cambio a tabla guías */}
         {valueTab == "Guias" ? (
-          <MUIXDataGrid id={(row: any) => row.Id} columns={columnsGuia} rows={arrayAyudas} />
+          <MUIXDataGrid id={(row: any) => row.Id} columns={columnsGuia} rows={arrayAyudas} exportTitle={"Guías"}/>
         ) : null}
 
       </Grid>

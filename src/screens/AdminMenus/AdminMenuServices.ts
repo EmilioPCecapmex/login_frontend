@@ -1,6 +1,7 @@
 import axios from "axios";
 import { alertaError, alertaExito } from "../../components/alertas/toast";
 import Swal from "sweetalert2";
+import { IListaMenusPadre } from "./DialogAdminMenu";
 
 export const getAdminMenu = (
     IdApp: string,
@@ -35,7 +36,8 @@ export const createAdminMenu = (data: any, fnc: Function) => {
     })
     .then((r) => {
       alertaExito(fnc, "Menú creado!");
-    });
+    }).catch(({response})=>{
+    alertaError(response?.data?.error)});
 };
 
 export const getMenusPadre = (setState: Function,IdApp: String) => {
@@ -62,7 +64,16 @@ export const getMenus = (IdApp:string,setState: Function) => {
       },
     })
     .then((r) => {
-      setState(r.data.data);
+      let aux:IListaMenusPadre[] =[]
+      aux.push({
+        Id: "",
+        Label: "No aplica",
+        Path: "",
+      })
+      r.data.data.map((item: IListaMenusPadre)=>aux.push(item))
+      
+      
+      setState(aux);
     });
 };
 

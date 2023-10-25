@@ -45,7 +45,6 @@ const Ayuda = () => {
   const [Guias, setGuias] = useState<IAyudaGuia[]>([]);
   const [Videos, setVideos] = useState<IAyudaVideo[]>([]);
   const [open, setOpen] = useState(false);
-  document.title = valueTab === "Preguntas" ? "Preguntas" : valueTab === "Videos"?"Videos":"Guias";
   const camposCsv = valueTab === "Preguntas" ? ["Menu","Pregunta","Texto",] : valueTab === "Videos"?[ "Menu","NombreArchivo"]:["Menu","Pregunta","NombreArchivo"];
   function eliminar(v: any) {
     Swal.fire({
@@ -251,16 +250,16 @@ const Ayuda = () => {
 
           {/* cambio a tabla preguntas */}
           {valueTab == "Preguntas" ? (
-            <MUIXDataGrid id={(row: any) => row.Id} columns={columnsPreguntas} rows={Preguntas} camposCsv={camposCsv}/>
+            <MUIXDataGrid id={(row: any) => row.Id} columns={columnsPreguntas} rows={Preguntas} camposCsv={camposCsv} exportTitle={"Preguntas Frecuentes"}/>
 
           ) : null}
           {/* cambio a tablas videos y guías */}
           {valueTab == "Videos" ? (
-            <MUIXDataGrid id={(row: any) => row.Id} columns={columnsVideo} rows={Videos} camposCsv={camposCsv}/>
+            <MUIXDataGrid id={(row: any) => row.Id} columns={columnsVideo} rows={Videos} camposCsv={camposCsv} exportTitle={"Videos Tutoriales"}/>
           ) : null}
 
           {valueTab == "Guias" ? (
-            <MUIXDataGrid id={(row: any) => row.Id} columns={columnsGuia} rows={Guias} camposCsv={camposCsv}/>
+            <MUIXDataGrid id={(row: any) => row.Id} columns={columnsGuia} rows={Guias} camposCsv={camposCsv} exportTitle={"Guías"}/>
           ) : null}
 
         </Grid>

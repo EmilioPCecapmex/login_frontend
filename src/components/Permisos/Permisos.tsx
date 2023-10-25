@@ -17,7 +17,6 @@ interface IPermisos {
 }
 
 export function Permisos({ open, closeModal, menu, idApp, idRol }: { open: boolean, closeModal: Function, menu: IMenus, idApp: string, idRol: string }) {
-    document.title = "Roles";
 
     const camposCsv = ["Nombre", "Descripcion"];
 
@@ -317,6 +316,7 @@ export function Permisos({ open, closeModal, menu, idApp, idRol }: { open: boole
                                         columns={columnsAsignados}
                                         rows={permisosMenu}
                                         camposCsv={camposCsv}
+                                        exportTitle={"Permisos Asignados al Menu " + menu.Menu}
                                     />
                                 </Grid>
                             </Grid>
@@ -370,6 +370,7 @@ export function Permisos({ open, closeModal, menu, idApp, idRol }: { open: boole
                                         columns={columnsSinAsignar}
                                         rows={permisosFaltantes}
                                         camposCsv={camposCsv}
+                                        exportTitle={"Permisos Sin Asignar al Menu " + menu.Menu}
                                     />
                                   
                                 </Grid>

@@ -45,7 +45,6 @@ export function Menus({
   rol: string;
   idApp: string;
 }) {
-  document.title = "Menus";
   const camposCsv = ["Nombre", "Descripcion"];
   const columnsAsignados = [
     {
@@ -366,6 +365,7 @@ export function Menus({
                     columns={columnsAsignados}
                     rows={menusRol}
                     camposCsv={camposCsv}
+                    exportTitle={"Menús Relacionados al Rol " + rol}
                   />
                   {
                     // menusRolFilter.map((menu) => {
@@ -483,7 +483,7 @@ export function Menus({
                         fontSize: [20, 20, 20, 25, 25], // Tamaños de fuente para diferentes breakpoints
                         
                     }}
-                  >Menús Disponibles para Relacionar al Menú</Typography>
+                  >Menús Disponibles para Relacionar al Rol</Typography>
                 </Grid>
 
                 <Grid
@@ -509,6 +509,7 @@ export function Menus({
                     columns={columnsSinAsignar}
                     rows={menusFaltantes}
                     camposCsv={camposCsv}
+                    exportTitle={"Menús Disponibles para Relacionar al Rol" + rol}
                   />
                   {
                     // menusFaltantesFilter.map((menu) => {
