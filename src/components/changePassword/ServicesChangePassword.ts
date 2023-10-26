@@ -16,7 +16,7 @@ export function changePassword(datos:any,fnc:Function){
     
       axios(config)
         .then((response) => {
-            alertaExito(fnc,"La contraseña se actualizo con exito.")
+            alertaExito(fnc," ¡Contraseña Actualizada!")
         })
         .catch(({response}) => {
             alertaError(response.data.error||"Error al actualizazr la contraseña");

@@ -102,7 +102,7 @@ export const Forgot = () => {
           if (r.status === 200) {
             setModalType("success");
             setModalText(
-              "Se ha generado una nueva contraseña, porfavor revisa tu correo electronico registrado."
+              "Se ha generado una nueva contraseña, porfavor revisa tu correo electrónico registrado."
             );
             handleOpenModal();
           }

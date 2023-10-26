@@ -68,7 +68,7 @@ export const ChangePassword = ({ onClose }: { onClose: Function }) => {
                     <TextField
                    
                     fullWidth
-                    label="Constraseña Actual:"
+                    label="Contraseña Actual:"
                     value={password}
                     onChange={(e)=>{validaPassword(e.target.value,setPassword)}}
                     type={showPassword ? 'text' : 'password'}
@@ -114,7 +114,7 @@ export const ChangePassword = ({ onClose }: { onClose: Function }) => {
                 <Grid item xl={8} lg={8} md={8} sm={11} xs={11} sx={{ height: "20%",display:"flex",alignItems:"center",justifyContent:"center", }}>
                 <TextField
                 fullWidth
-                    label="Confirmar Nueva Constraseña:"
+                    label="Confirmar Nueva Contraseña:"
                     value={newPasswordConfirmed}
                     onChange={(e)=>{validaPassword(e.target.value,setNewPasswordConfirmed)}}
                     type={showNewPasswordConfirmed ? 'text' : 'password'}
