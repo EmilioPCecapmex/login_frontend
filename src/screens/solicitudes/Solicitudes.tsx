@@ -460,7 +460,8 @@ export const Solicitudes = () => {
       xs={12}
       lg={12}
       md={12}
-      sm={12} sx={{ height: "100vh", display: "flex", overflow: "auto" }}>
+      sm={12} 
+      sx={{ height: "100vh", width:"100vw", display: "flex", overflow: "auto" }}>
       <Header menuActual="Solicitudes"/>
 
       {/* <CommentsDialog
@@ -521,7 +522,7 @@ export const Solicitudes = () => {
             <Grid
               sx={{
                 width: "98%",
-                height: "88%",
+                height: "75vh",
                 alignItems: "center",
                 bgcolor: "#fff",
                 boxShadow: "15",
