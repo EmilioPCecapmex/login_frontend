@@ -17,6 +17,7 @@ import Swal from "sweetalert2";
 import { UserServices } from "../../services/UserServices";
 import { getCatalogo } from "../../services/catalogosService";
 import { IEntidadPadre, IRol } from "./ICatalogos";
+import SliderProgress from "../Componentes/SliderProgress";
 
 export interface NewDialogProps {
   modoModal: boolean;
@@ -188,7 +189,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
   };
 
   function isValidEmail() {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const emailRegex = /^[a-zA-Z0-9ñÑ._%+-]+@[a-zA-Z0-9ñÑ.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(infoUsuario.CorreoElectronico);
   }
 
@@ -393,7 +394,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
 
   useEffect(() => {
     getAllUserTypes();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [infoUsuario.Aplicacion]);
 
   useEffect(() => {
@@ -520,6 +520,15 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     }
   };
 
+  const [datosObtenidos,setDatosObtenidos]=useState(true);
+
+  useEffect(()=>{
+    if(entidades.length > 0 && apps.length > 0 && usertypes.length > 0){
+      setDatosObtenidos(false)
+    }
+
+  },[entidades,apps,usertypes])
+
   return (
     <Grid
       container
@@ -527,6 +536,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       alignContent={"space-around"}
       height={"90vh"}
     >
+      <SliderProgress open={datosObtenidos} texto="Obteniendo datos"/>
       <Grid item xs={10} md={4.5}>
         <TextField
           disabled={IdUsuario !== ""}
@@ -838,6 +848,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
 
       <Grid item xs={10} md={4.5}>
         <Typography variant="body2">Entidad: </Typography>
+        
         <Autocomplete
           noOptionsText="No se encontraron opciones"
           clearText="Borrar"
@@ -861,6 +872,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             option.Nombre === value.Nombre || value.Nombre === ""
           }
         />
+        
       </Grid>
 
       <Grid
