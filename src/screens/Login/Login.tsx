@@ -330,14 +330,19 @@ export const Login = () => {
     // }
   }, []);
   useEffect(() => {
-    // setTimeout(() => {
-    localStorage.clear();
-    handleCloseAppsModal();
-    // }, 100);
-
-    if (localStorage.getItem("jwtToken") !== null) {
+    if(!(jwt && idAppSolicitante)){
       localStorage.clear();
+    }else{
+      handleCloseAppsModal();
     }
+    // // setTimeout(() => {
+    // localStorage.clear();
+    // handleCloseAppsModal();
+    // // }, 100);
+
+    // if (localStorage.getItem("jwtToken") !== null) {
+    //   localStorage.clear();
+    // }
   }, []);
 
   return (
