@@ -330,10 +330,12 @@ export const Login = () => {
     // }
   }, []);
   useEffect(() => {
+    // setTimeout(() => {
+    localStorage.clear();
+    handleCloseAppsModal();
+    // }, 100);
 
-    if(jwt && idAppSolicitante){
-      handleCloseAppsModal();
-    }else{
+    if (localStorage.getItem("jwtToken") !== null) {
       localStorage.clear();
     }
   }, []);
