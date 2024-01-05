@@ -4,6 +4,7 @@ import {
 } from "@mui/icons-material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import ForwardToInboxIcon from "@mui/icons-material/ForwardToInbox";
 import {
   Box,
   Button,
@@ -20,13 +21,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-// import MUIXDataGrid from "../../components/MUIXDataGrid";
 import { AppsDialog } from "../../components/appsDialog";
 import { Header } from "../../components/header";
 import { NewDialog } from "../../components/newDialog";
 import { isAdmin, sessionValid } from "../../funcs/validation";
 import "./style/Fonts.css";
 import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
+import { alertaExito, alertaInformativa } from "../../components/alertas/toast";
 
 export interface Usuario {
   EstaActivoLabel: string;
@@ -48,9 +49,17 @@ export interface Usuario {
   NombreModificadoPor: string;
   PuedeFirmar: number;
 }
+
 export default function Users() {
   const navigate = useNavigate();
-const camposCsv = ["Nombre", "ApellidoPaterno","ApellidoMaterno","NombreUsuario","CorreoElectronico","EstaActivoLabel"];
+  const camposCsv = [
+    "Nombre",
+    "ApellidoPaterno",
+    "ApellidoMaterno",
+    "NombreUsuario",
+    "CorreoElectronico",
+    "EstaActivoLabel",
+  ];
 
   const Toast = Swal.mixin({
     toast: true,
@@ -82,7 +91,7 @@ const camposCsv = ["Nombre", "ApellidoPaterno","ApellidoMaterno","NombreUsuario"
     setNewDialogOpen(false);
   };
 
-  const getDatosDocumento = (nombreUsuario: any) => {
+  const getDatosDocumento = (nombreUsuario = "", nombre = "") => {
     axios
       .get(process.env.REACT_APP_APPLICATION_DEV + "/api/docSolicitudUsuario", {
         params: {
@@ -91,19 +100,81 @@ const camposCsv = ["Nombre", "ApellidoPaterno","ApellidoMaterno","NombreUsuario"
         headers: {
           Authorization: localStorage.getItem("jwtToken") || "",
         },
+        responseType: "blob",
       })
-      .then((r) => {
-        if (r.status === 200 && r.data.result[0].length !== 0) {
-          imprimirSolicitud(r.data.result[0][0]);
+      .then((response) => {
+        console.log("response", response);
+        if (response.status !== 200 && response.status !== 201) {
+          alertaInformativa("No se encontro información.");
         } else {
-          Toast.fire({
-            icon: "info",
-            title: "¡No se encontro solicitud!",
-          });
+          // Obtén el nombre del archivo del servidor
+          const contentDisposition = response.headers["content-disposition"];
+          const matches =
+            contentDisposition && contentDisposition.match(/filename="(.+)"/);
+          const nombreArchivo = matches
+            ? matches[1]
+            : `${nombre.toUpperCase()}.pdf`;
+
+          // Crea un enlace temporal y simula un clic para descargar el archivo
+          const url = window.URL.createObjectURL(
+            new Blob([response.data], { type: "application/pdf" })
+          );
+          const link = document.createElement("a");
+          link.setAttribute("download", nombreArchivo);
+          link.setAttribute("href", url);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
         }
+      })
+      .catch((error) => {
+        alertaInformativa("No se encontro información.");
+
+        console.error("Error al obtener el documento:", error);
       });
   };
 
+  // const getDatosDocumento = (nombreUsuario: any) => {
+  //   axios
+  //     .get(process.env.REACT_APP_APPLICATION_DEV + "/api/docSolicitudUsuario", {
+  //       params: {
+  //         NombreUsuario: nombreUsuario,
+  //       },
+  //       headers: {
+  //         Authorization: localStorage.getItem("jwtToken") || "",
+  //       },responseType: "blob",
+  //     })
+  //     .then((r) => { // Obtén el nombre del archivo del encabezado Content-Disposition
+  //       console.log(r);
+
+  //       // Crea un enlace temporal y simula un clic para descargar el archivo
+  //       const a = window.URL || window.webkitURL;
+  //       const url = a.createObjectURL(new Blob([r.data], { type: "application/pdf" }));
+  //       let link = document.createElement("a");
+  //       link.setAttribute("download",nombreUsuario );
+  //       link.setAttribute("href", url);
+  //       document.body.appendChild(link);
+  //       link.click();
+  //     }).catch((error) => {
+  //       console.error("Error al obtener el documento:", error);
+  //     });
+  // };
+
+  const sendCredentials = (NombreUsuario: string, Correo: string) => {
+    axios
+      .post(
+        process.env.REACT_APP_APPLICATION_DEV + "/api/reesend-credentials",
+        { NombreUsuario: NombreUsuario, Correo: Correo },
+        {
+          headers: {
+            Authorization: localStorage.getItem("jwtToken") || "",
+          },
+        }
+      )
+      .then((r) => {
+        alertaExito(() => {}, "Se envio el correo.");
+      });
+  };
   const [appsDialogOpen, setAppsDialogOpen] = useState(false);
   const [appsDialogUsuario, setAppsDialogUsuario] = useState<Usuario>();
   const handleAppsDialogOpen = () => setAppsDialogOpen(true);
@@ -185,7 +256,7 @@ const camposCsv = ["Nombre", "ApellidoPaterno","ApellidoMaterno","NombreUsuario"
     {
       field: "acciones",
       headerName: "Acciones",
-      width: 110,
+      width: 150,
       headerAlign: "center",
       renderCell: (cellValues: any) => {
         return (
@@ -196,9 +267,16 @@ const camposCsv = ["Nombre", "ApellidoPaterno","ApellidoMaterno","NombreUsuario"
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
-                  getDatosDocumento(cellValues.row.NombreUsuario);
-                  //imprimirDocumento(event, cellValues);
-                  // handleAppsBtnClick(event, cellValues);
+                  console.log(cellValues.row);
+                  alertaInformativa("Obteniendo información.");
+                  getDatosDocumento(
+                    cellValues.row.NombreUsuario,
+                    cellValues.row.Nombre +
+                      " " +
+                      cellValues.row.ApellidoPaterno +
+                      " " +
+                      cellValues.row.ApellidoMaterno
+                  );
                 }}
               >
                 <FileDownloadIcon />
@@ -208,9 +286,6 @@ const camposCsv = ["Nombre", "ApellidoPaterno","ApellidoMaterno","NombreUsuario"
             <Tooltip title={"Editar - " + cellValues.row.NombreUsuario}>
               <IconButton
                 sx={{ color: "black" }}
-                // onClick={(event) => {
-                //   handleEditBtnClick(event, cellValues);
-                // }}
                 onClick={(event) => {
                   setIdApp("");
                   handleAppsBtnClick(event, cellValues);
@@ -220,17 +295,25 @@ const camposCsv = ["Nombre", "ApellidoPaterno","ApellidoMaterno","NombreUsuario"
                 <EditIcon />
               </IconButton>
             </Tooltip>
-
-            {/* <Tooltip title={"Visualizar acceso a plataformas"}>
+            <Tooltip
+              title={
+                "enviar correo de acceso a " + cellValues.row.NombreUsuario
+              }
+            >
               <IconButton
-                sx={{color:"black"}}
+                sx={{ color: "black" }}
                 onClick={(event) => {
-                  handleAppsBtnClick(event, cellValues);
+                  console.log("cell", cellValues.row);
+
+                  sendCredentials(
+                    cellValues?.row?.NombreUsuario,
+                    cellValues?.row?.CorreoElectronico
+                  );
                 }}
               >
-                <AccountTreeIcon />
+                <ForwardToInboxIcon />
               </IconButton>
-            </Tooltip> */}
+            </Tooltip>
           </Box>
         );
       },
@@ -293,7 +376,7 @@ const camposCsv = ["Nombre", "ApellidoPaterno","ApellidoMaterno","NombreUsuario"
 
   return (
     <Grid container sx={{ width: "100vw", height: "100vh" }}>
-      <Header menuActual="Usuarios"/>
+      <Header menuActual="Usuarios" />
 
       <Grid sx={{ height: "84vh", width: "100vw" }}>
         <Grid
@@ -304,49 +387,54 @@ const camposCsv = ["Nombre", "ApellidoPaterno","ApellidoMaterno","NombreUsuario"
           sx={{
             height: "12%",
             "@media (min-width: 480px)": {
-              height: "14%"
+              height: "14%",
             },
             "@media (min-width: 768px)": {
-              height: "11.5%"
+              height: "11.5%",
             },
           }}
         >
-          <Grid item
+          <Grid
+            item
             sx={{
               display: "flex",
-              alignItems: "center"
-            }}>
+              alignItems: "center",
+            }}
+          >
             <Tooltip title="Menu actual: Usuarios">
               <CardContent>
-                <PeopleAltIcon sx={{ color: "#AF8C55", fontSize: [30, 30, 30, 40, 40] }} />
+                <PeopleAltIcon
+                  sx={{ color: "#AF8C55", fontSize: [30, 30, 30, 40, 40] }}
+                />
               </CardContent>
             </Tooltip>
-            
-              <Typography
-                fontFamily={"'Montserrat', sans-serif"}
-                sx={{
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  textAlign: "center",
-                  fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
-                  color: "#AF8C55"
-                }}>
-                Usuarios
-              </Typography>
-            
+
+            <Typography
+              fontFamily={"'Montserrat', sans-serif"}
+              sx={{
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                textAlign: "center",
+                fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
+                color: "#AF8C55",
+              }}
+            >
+              Usuarios
+            </Typography>
           </Grid>
 
-          <CardContent sx={{
-            "@media (min-width: 480px)": {
-              flexDirection: "column",
-            },
-            "@media (min-width: 768px)": {
-              flexDirection: "row",
-              display: "flex"
-            },
-
-          }}>
+          <CardContent
+            sx={{
+              "@media (min-width: 480px)": {
+                flexDirection: "column",
+              },
+              "@media (min-width: 768px)": {
+                flexDirection: "row",
+                display: "flex",
+              },
+            }}
+          >
             <Grid item>
               <FormGroup>
                 <FormControlLabel
@@ -356,15 +444,17 @@ const camposCsv = ["Nombre", "ApellidoPaterno","ApellidoMaterno","NombreUsuario"
                     />
                   }
                   label={
-                    <Typography sx={{
-                      fontSize: ".7rem",
-                      "@media (min-width: 480px)": {
+                    <Typography
+                      sx={{
                         fontSize: ".7rem",
-                      },
-                      "@media (min-width: 768px)": {
-                        fontSize: "1rem",
-                      },
-                    }}>
+                        "@media (min-width: 480px)": {
+                          fontSize: ".7rem",
+                        },
+                        "@media (min-width: 768px)": {
+                          fontSize: "1rem",
+                        },
+                      }}
+                    >
                       Usuarios Inactivos
                     </Typography>
                   }
@@ -372,7 +462,7 @@ const camposCsv = ["Nombre", "ApellidoPaterno","ApellidoMaterno","NombreUsuario"
               </FormGroup>
             </Grid>
 
-            <Grid >
+            <Grid>
               <Button
                 className="aceptar"
                 variant="text"
@@ -389,18 +479,19 @@ const camposCsv = ["Nombre", "ApellidoPaterno","ApellidoMaterno","NombreUsuario"
                 }}
                 startIcon={<PersonAddIcon />}
               >
-                <Typography sx={{
-                  fontSize: ".7rem",
-                  "@media (min-width: 480px)": {
+                <Typography
+                  sx={{
                     fontSize: ".7rem",
-                  },
-                  "@media (min-width: 768px)": {
-                    fontSize: "1rem",
-                  },
-                }}>
+                    "@media (min-width: 480px)": {
+                      fontSize: ".7rem",
+                    },
+                    "@media (min-width: 768px)": {
+                      fontSize: "1rem",
+                    },
+                  }}
+                >
                   Registrar Usuario
                 </Typography>
-
               </Button>
             </Grid>
           </CardContent>
@@ -414,15 +505,15 @@ const camposCsv = ["Nombre", "ApellidoPaterno","ApellidoMaterno","NombreUsuario"
             exportTitle={"Catálogo de Usuarios"}
           />
         </Grid>
-
       </Grid>
-      {newDialogOpen ? <NewDialog
-        newDialogOpen={newDialogOpen}
-        handleNewDialogClose={handleNewDialogClose}
-        idUsuario={idUsuario}
-        idApp={idApp}
-      /> : null}
-
+      {newDialogOpen ? (
+        <NewDialog
+          newDialogOpen={newDialogOpen}
+          handleNewDialogClose={handleNewDialogClose}
+          idUsuario={idUsuario}
+          idApp={idApp}
+        />
+      ) : null}
 
       {appsDialogOpen ? (
         <AppsDialog
@@ -434,8 +525,6 @@ const camposCsv = ["Nombre", "ApellidoPaterno","ApellidoMaterno","NombreUsuario"
           setIdApp={setIdApp}
         />
       ) : null}
-
-
     </Grid>
   );
 }
@@ -474,19 +563,19 @@ export const imprimirSolicitud = (datos: any) => {
       datos?.Estatus === 0
         ? "PENDIENTE"
         : datos?.Estatus === 1
-          ? "ACEPTADA"
-          : datos?.Estatus === 2
-            ? "RECHAZADA"
-            : datos?.Estatus === 3
-              ? "SE SOLICITO MODIFICACIÓN"
-              : "SE DESCONOCE",
+        ? "ACEPTADA"
+        : datos?.Estatus === 2
+        ? "RECHAZADA"
+        : datos?.Estatus === 3
+        ? "SE SOLICITO MODIFICACIÓN"
+        : "SE DESCONOCE",
   };
   let dataArray = new FormData();
   dataArray.append("data", JSON.stringify(objeto));
   axios
     .post(
       process.env.REACT_APP_APPLICATION_GENERASOLICITUD +
-      "/api/generasolicitud",
+        "/api/generasolicitud",
       dataArray,
       {
         headers: {
@@ -512,5 +601,5 @@ export const imprimirSolicitud = (datos: any) => {
       document.body.appendChild(link);
       link.click();
     })
-    .catch((r) => { });
+    .catch((r) => {});
 };
