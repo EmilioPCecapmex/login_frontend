@@ -103,7 +103,6 @@ export default function Users() {
         responseType: "blob",
       })
       .then((response) => {
-        console.log("response", response);
         if (response.status !== 200 && response.status !== 201) {
           alertaInformativa("No se encontro información.");
         } else {
@@ -133,32 +132,6 @@ export default function Users() {
         console.error("Error al obtener el documento:", error);
       });
   };
-
-  // const getDatosDocumento = (nombreUsuario: any) => {
-  //   axios
-  //     .get(process.env.REACT_APP_APPLICATION_DEV + "/api/docSolicitudUsuario", {
-  //       params: {
-  //         NombreUsuario: nombreUsuario,
-  //       },
-  //       headers: {
-  //         Authorization: localStorage.getItem("jwtToken") || "",
-  //       },responseType: "blob",
-  //     })
-  //     .then((r) => { // Obtén el nombre del archivo del encabezado Content-Disposition
-  //       console.log(r);
-
-  //       // Crea un enlace temporal y simula un clic para descargar el archivo
-  //       const a = window.URL || window.webkitURL;
-  //       const url = a.createObjectURL(new Blob([r.data], { type: "application/pdf" }));
-  //       let link = document.createElement("a");
-  //       link.setAttribute("download",nombreUsuario );
-  //       link.setAttribute("href", url);
-  //       document.body.appendChild(link);
-  //       link.click();
-  //     }).catch((error) => {
-  //       console.error("Error al obtener el documento:", error);
-  //     });
-  // };
 
   const sendCredentials = (NombreUsuario: string, Correo: string) => {
     axios
@@ -267,7 +240,6 @@ export default function Users() {
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
-                  console.log(cellValues.row);
                   alertaInformativa("Obteniendo información.");
                   getDatosDocumento(
                     cellValues.row.NombreUsuario,
@@ -303,8 +275,6 @@ export default function Users() {
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
-                  console.log("cell", cellValues.row);
-
                   sendCredentials(
                     cellValues?.row?.NombreUsuario,
                     cellValues?.row?.CorreoElectronico
