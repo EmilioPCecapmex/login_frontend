@@ -30,10 +30,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 import moment from "moment";
 import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
-import { CommentsDialog } from "../../components/commentsDialog";
+import { alertaInformativa } from "../../components/alertas/toast";
 import { Header } from "../../components/header";
-import { imprimirSolicitud } from "../Users/Users";
 import { COLOR } from "../styles/colors";
 import { IApps } from "./IApps";
 import { IDetalleSolicitud, ISolicitud, iOnChangeInfo } from "./ISolicitud";
@@ -175,18 +173,6 @@ export const Solicitudes = () => {
       });
   };
 
-  const Toast = Swal.mixin({
-    toast: true,
-    position: "bottom-end",
-    showConfirmButton: false,
-    timer: 5000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener("mouseenter", Swal.stopTimer);
-      toast.addEventListener("mouseleave", Swal.resumeTimer);
-    },
-  });
-
   const getSolicitudes = () => {
     axios
       .get(process.env.REACT_APP_APPLICATION_DEV + "/api/solicitudes", {
@@ -226,34 +212,6 @@ export const Solicitudes = () => {
       });
   };
 
-  // const getDetalleUsuario = () => {
-  //   axios
-  //     .post(
-  //       process.env.REACT_APP_APPLICATION_DEV + "/api/user-detail",
-  //       {
-  //         IdUsuario: detalleSolicitud[0].Id,
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: localStorage.getItem("jwtToken") || "",
-  //         },
-  //       }
-  //     )
-  //     .then((r) => {
-  //       if (r.status === 200) {
-  //         setDetalleUsuario(r.data.data);
-  //       }
-  //     })
-  //     .catch((r) => {
-  //       if (r.response.status === 409) {
-  //         Toast.fire({
-  //           icon: "error",
-  //           title: "Busqueda Fallida!",
-  //         });
-  //       }
-  //     });
-  // };
-
   const [IdSolicitud, setIdSolicitud] = useState("");
 
   const getDatosDocumento = () => {
@@ -268,19 +226,38 @@ export const Solicitudes = () => {
           headers: {
             Authorization: localStorage.getItem("jwtToken") || "",
           },
+          responseType: "blob",
         }
       )
-      .then((r) => {
-        if (r.status === 200) {
-          imprimirSolicitud(r.data.result[0][0]);
+      .then(
+        (response) => {
+        if (response.status !== 200 && response.status !== 201) {
+          alertaInformativa("No se encontro información.");
         } else {
-          Toast.fire({
-            icon: "info",
-            title: "¡Error al imprimir la solicitud!",
-            iconColor: "#af8c55",
-            color: "#af8c55",
-          });
+          // Obtén el nombre del archivo del servidor
+          const contentDisposition = response.headers["content-disposition"];
+          const matches =
+            contentDisposition && contentDisposition.match(/filename="(.+)"/);
+          const nombreArchivo = matches
+            ? matches[1]
+            : `${detalleSolicitud[0]?.Nombre+" "+detalleSolicitud[0]?.ApellidoPaterno+" "+detalleSolicitud[0]?.ApellidoMaterno.toUpperCase()}.pdf`;
+
+          // Crea un enlace temporal y simula un clic para descargar el archivo
+          const url = window.URL.createObjectURL(
+            new Blob([response.data], { type: "application/pdf" })
+          );
+          const link = document.createElement("a");
+          link.setAttribute("download", nombreArchivo);
+          link.setAttribute("href", url);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
         }
+      })
+      .catch((error) => {
+        alertaInformativa("No se encontro información.");
+
+        console.error("Error al obtener el documento:", error);
       });
   };
 
@@ -301,35 +278,6 @@ export const Solicitudes = () => {
   useEffect(() => {
     setPuedeFirmar(detalleSolicitud[0].PuedeFirmar === 1);
   }, [detalleSolicitud]);
-
-  // const [comentCount, setComentCount] = useState(0);
-
-  ///////////////////
-  // const getComentarios = () => {
-  //   axios({
-  //     method: "get",
-  //     url:
-  //       process.env.REACT_APP_APPLICATION_DEV + "/api/comentarios-solicitudes",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: localStorage.getItem("jwtToken") || "",
-  //     },
-  //     params: {
-  //       IdUsuario: localStorage.getItem("IdUsuario"),
-  //       IdSolicitud: solicitudSeleccionada,
-  //     },
-  //   })
-  //     .then(function (response) {
-  //       setComentCount(response.data.data.length);
-  //     })
-  //     .catch(function (error) {
-  //       Swal.fire({
-  //         icon: "error",
-  //         title: "Mensaje",
-  //         text: "(" + error.response.status + ") " + error.response.data.msg,
-  //       });
-  //     });
-  // };
 
   const itemSelected = (x: number, id: string) => {
     setSelectedIndex(x);

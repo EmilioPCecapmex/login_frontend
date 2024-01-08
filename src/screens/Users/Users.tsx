@@ -102,7 +102,8 @@ export default function Users() {
         },
         responseType: "blob",
       })
-      .then((response) => {
+      .then(
+        (response) => {
         if (response.status !== 200 && response.status !== 201) {
           alertaInformativa("No se encontro información.");
         } else {
