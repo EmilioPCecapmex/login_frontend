@@ -105,70 +105,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     return patron.test(Nombre);
   }
 
-  useEffect(() => {
-    if (apps.length) {
-      let aux = apps.find((app) => app.Id === props.idApp);
-      if (aux) {
-        setInfoUsuario({
-          ...infoUsuario,
-          Aplicacion: { Id: aux?.Id!, Nombre: aux?.Nombre! },
-        });
-
-        if (IdUsuario) {
-          axios
-            .post(
-              process.env.REACT_APP_APPLICATION_DEV + "/api/userapp-detail",
-              {
-                IdUsuario: IdUsuario,
-                IdApp: props.idApp,
-              },
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  authorization: localStorage.getItem("jwtToken") || "",
-                },
-              }
-            )
-            .then((r) => {
-              const data = r.data.data;
-              const roles = r.data.roles[0];
-
-              setInfoUsuario({
-                ...infoUsuario,
-                Nombre: data.Nombre,
-                ApellidoPaterno: data.ApellidoPaterno,
-                ApellidoMaterno: data.ApellidoMaterno,
-                NombreUsuario: data.NombreUsuario,
-                CorreoElectronico: data.CorreoElectronico,
-                Aplicacion: {
-                  Id: props.idApp || "",
-                  Nombre: data.Aplicacion || "",
-                },
-                TipoUsuario: {
-                  Id: data.IdTipoUsuario || "",
-                  Nombre: data.TipoUsuario || "",
-                },
-                Puesto: data.Puesto,
-                CURP: data.CURP,
-                RFC: data.RFC,
-                Celular: data.Celular,
-                Telefono: data.Telefono,
-                Ext: data.Ext,
-                Roles: roles || [],
-                Entidad: {
-                  Id: data.IdEntidad || "",
-                  Nombre:
-                    entidades.find((ent) => ent.Id === data.IdEntidad)
-                      ?.Nombre! || "",
-                },
-                PuedeFirmar: data.PuedeFirmar === 1,
-              });
-            });
-        }
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [apps]);
+  
 
   const Toast = Swal.mixin({
     toast: false,
@@ -392,34 +329,11 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     });
   };
 
-  useEffect(() => {
-    getAllUserTypes();
-  }, [infoUsuario.Aplicacion]);
+  
 
-  useEffect(() => {
-    getCatalogo("apps", setApps, "", props.token);
-    getCatalogo("lista-entidades", setEntidades, "", props.token);
+  
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (props.idApp !== "") {
-      let aux = apps.find((app) => app.Id === props.idApp);
-
-      if (aux) {
-        setInfoUsuario({
-          ...infoUsuario,
-          Aplicacion: { Id: aux?.Id!, Nombre: aux?.Nombre! },
-        });
-      }
-      getCatalogo("roles", setRoles, props.idApp, props.token);
-    }
-  }, [apps]);
-
-  const cleanData = (
-    // CorreoElectronico: string, usuario: string
-    ) => {
+  const cleanData = () => {
     setInfoUsuario({
       ...infoUsuario,
       Nombre: "",
@@ -523,12 +437,105 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
   const [datosObtenidos,setDatosObtenidos]=useState(true);
 
   useEffect(()=>{
-    if(entidades.length > 0 && apps.length > 0 && usertypes.length > 0){
-      setDatosObtenidos(false)
+    if(entidades.length > 0 && apps.length > 0 && usertypes.length > 0 && infoUsuario.Entidad.Id!==""&& infoUsuario.Entidad.Id && infoUsuario.Entidad.Nombre&& infoUsuario.Entidad.Nombre!==""){
+      setTimeout(function() {
+        // Tu código aquí, se ejecutará después de 2 segundos
+        setDatosObtenidos(false)
+        console.log("Han pasado 2 segundos");
+    }, 2000);
     }
 
   },[entidades,apps,usertypes])
 
+  useEffect(() => {
+    getCatalogo("apps", setApps, "", props.token);
+    getCatalogo("lista-entidades", setEntidades, "", props.token);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (props.idApp !== "") {
+      let aux = apps.find((app) => app.Id === props.idApp);
+
+      if (aux) {
+        setInfoUsuario({
+          ...infoUsuario,
+          Aplicacion: { Id: aux?.Id!, Nombre: aux?.Nombre! },
+        });
+      }
+      getCatalogo("roles", setRoles, props.idApp, props.token);
+    }
+  }, [apps]);
+
+  useEffect(() => {
+    getAllUserTypes();
+  }, [infoUsuario.Aplicacion]);
+
+  useEffect(() => {
+    if (apps.length) {
+      let aux = apps.find((app) => app.Id === props.idApp);
+      if (aux) {
+        setInfoUsuario({
+          ...infoUsuario,
+          Aplicacion: { Id: aux?.Id!, Nombre: aux?.Nombre! },
+        });
+
+        if (IdUsuario) {
+          axios
+            .post(
+              process.env.REACT_APP_APPLICATION_DEV + "/api/userapp-detail",
+              {
+                IdUsuario: IdUsuario,
+                IdApp: props.idApp,
+              },
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  authorization: localStorage.getItem("jwtToken") || "",
+                },
+              }
+            )
+            .then((r) => {
+              const data = r.data.data;
+              const roles = r.data.roles[0];
+
+              setInfoUsuario({
+                ...infoUsuario,
+                Nombre: data.Nombre,
+                ApellidoPaterno: data.ApellidoPaterno,
+                ApellidoMaterno: data.ApellidoMaterno,
+                NombreUsuario: data.NombreUsuario,
+                CorreoElectronico: data.CorreoElectronico,
+                Aplicacion: {
+                  Id: props.idApp || "",
+                  Nombre: data.Aplicacion || "",
+                },
+                TipoUsuario: {
+                  Id: data.IdTipoUsuario || "",
+                  Nombre: data.TipoUsuario || "",
+                },
+                Puesto: data.Puesto,
+                CURP: data.CURP,
+                RFC: data.RFC,
+                Celular: data.Celular,
+                Telefono: data.Telefono,
+                Ext: data.Ext,
+                Roles: roles || [],
+                Entidad: {
+                  Id: data.IdEntidad || "",
+                  Nombre:
+                    entidades.find((ent) => ent.Id === data.IdEntidad)
+                      ?.Nombre! || "",
+                },
+                PuedeFirmar: data.PuedeFirmar === 1,
+              });
+            });
+        }
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [apps]);
   return (
     <Grid
       container
@@ -536,7 +543,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       alignContent={"space-around"}
       height={"90vh"}
     >
-      <SliderProgress open={datosObtenidos} texto="Obteniendo datos"/>
+      <SliderProgress open={datosObtenidos} fnc={()=>props.handleDialogClose(false)} texto="Obteniendo datos"/>
       <Grid item xs={10} md={4.5}>
         <TextField
           disabled={IdUsuario !== ""}

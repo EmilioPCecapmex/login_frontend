@@ -1,16 +1,16 @@
-import { CircularProgress, Dialog, Grid, Typography } from '@mui/material';
+import { Button, CircularProgress, Dialog, Grid, Typography } from '@mui/material';
 import { green } from '@mui/material/colors';
 import * as React from 'react';
 
-
 const SliderProgress = ({
   open,
-  texto
+  texto,
+  fnc,
 }: {
   open: boolean,
-  texto: string
+  texto: string,
+  fnc?: Function
 }) => {
-
   const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const timer = React.useRef<number>();
@@ -25,15 +25,15 @@ const SliderProgress = ({
   };
 
   React.useEffect(() => {
+    setTimeout(function() {
+      // Tu código aquí, se ejecutará después de 2 segundos
+      setLoading(true)
+  }, 4000); // El tiempo está en milisegundos, por lo que 2000 ms = 2 segundos
+  
     return () => {
       clearTimeout(timer.current);
     };
   }, []);
-
- 
-
-
-
 
   return (
     <Dialog fullScreen
@@ -51,18 +51,18 @@ const SliderProgress = ({
               color: "#AF8C55",
             }}
           />
-
-        </ Grid>
+        </Grid>
         <Grid item >
-
           <Typography variant='h4' className='Cargando'>
             {texto ? texto : "Cargando .."}
           </Typography>
-        </ Grid>
+        </Grid>
+        <Grid item >
+          {loading && fnc && <Button onClick={()=>fnc()}>Cerrar</Button>}
+        </Grid>
       </Grid>
-
     </Dialog>
-  )
+  );
 }
 
-export default SliderProgress
+export default SliderProgress;
