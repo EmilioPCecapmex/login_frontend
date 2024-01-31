@@ -543,7 +543,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       alignContent={"space-around"}
       height={"90vh"}
     >
-      <SliderProgress open={datosObtenidos} fnc={()=>props.handleDialogClose(false)} texto="Obteniendo datos"/>
+      {/* <SliderProgress open={datosObtenidos} fnc={()=>props.handleDialogClose(false)} texto="Obteniendo datos"/> */}
       <Grid item xs={10} md={4.5}>
         <TextField
           disabled={IdUsuario !== ""}
