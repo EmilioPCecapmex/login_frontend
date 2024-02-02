@@ -105,8 +105,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     return patron.test(Nombre);
   }
 
-  
-
   const Toast = Swal.mixin({
     toast: false,
     position: "center",
@@ -329,10 +327,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     });
   };
 
-  
-
-  
-
   const cleanData = () => {
     setInfoUsuario({
       ...infoUsuario,
@@ -437,35 +431,23 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
   const [datosObtenidos,setDatosObtenidos]=useState(true);
 
   useEffect(()=>{
-    if(entidades.length > 0 && apps.length > 0 && usertypes.length > 0 && infoUsuario.Entidad.Id!==""&& infoUsuario.Entidad.Id && infoUsuario.Entidad.Nombre&& infoUsuario.Entidad.Nombre!==""){
-      setTimeout(function() {
-        // Tu código aquí, se ejecutará después de 2 segundos
-        setDatosObtenidos(false)
-        console.log("Han pasado 2 segundos");
-    }, 2000);
-    }
+    if((infoUsuario.Entidad.Nombre!=='' && infoUsuario.NombreUsuario ) || !props.idApp || !localStorage.getItem("IdApp")!)
+        setDatosObtenidos(false) 
+  },[infoUsuario.Entidad.Nombre])
 
-  },[entidades,apps,usertypes])
 
-  useEffect(() => {
-    getCatalogo("apps", setApps, "", props.token);
-    getCatalogo("lista-entidades", setEntidades, "", props.token);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
+  useEffect(() => {if(apps.length>0){
+  
     if (props.idApp !== "") {
       let aux = apps.find((app) => app.Id === props.idApp);
-
       if (aux) {
         setInfoUsuario({
           ...infoUsuario,
-          Aplicacion: { Id: aux?.Id!, Nombre: aux?.Nombre! },
+          Aplicacion: {Id:aux.Id,Nombre:aux.Nombre },
         });
+        getCatalogo("roles", setRoles, props.idApp, props.token);
       }
-      getCatalogo("roles", setRoles, props.idApp, props.token);
-    }
+    }}
   }, [apps]);
 
   useEffect(() => {
@@ -473,69 +455,85 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
   }, [infoUsuario.Aplicacion]);
 
   useEffect(() => {
-    if (apps.length) {
-      let aux = apps.find((app) => app.Id === props.idApp);
-      if (aux) {
-        setInfoUsuario({
-          ...infoUsuario,
-          Aplicacion: { Id: aux?.Id!, Nombre: aux?.Nombre! },
-        });
 
-        if (IdUsuario) {
-          axios
-            .post(
-              process.env.REACT_APP_APPLICATION_DEV + "/api/userapp-detail",
-              {
-                IdUsuario: IdUsuario,
-                IdApp: props.idApp,
-              },
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  authorization: localStorage.getItem("jwtToken") || "",
-                },
+    getCatalogo("apps", setApps, "", props.token);
+    getCatalogo("lista-entidades", setEntidades, "", props.token);
+    console.log("IdUsuario",IdUsuario);
+    console.log("",);
+    
+    if (IdUsuario) {
+      console.log("IdUsuario",IdUsuario);
+      console.log("props.idApp",props.idApp);
+      axios
+        .post(
+          process.env.REACT_APP_APPLICATION_DEV + "/api/userapp-detail",
+          {
+            IdUsuario: IdUsuario,
+            IdApp: props.idApp,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: localStorage.getItem("jwtToken") || "",
+            },
+          }
+        )
+        .then((r) => {
+          const data = r.data.data;
+          const roles = r.data.roles[0];
+          console.log("data",data);
+          console.log("roles",roles);
+          setInfoUsuario({
+            ...infoUsuario,
+            Nombre: data.Nombre,
+            ApellidoPaterno: data.ApellidoPaterno,
+            ApellidoMaterno: data.ApellidoMaterno,
+            NombreUsuario: data.NombreUsuario,
+            CorreoElectronico: data.CorreoElectronico,
+            Aplicacion: {
+              Id: props.idApp || "",
+              Nombre: data.Aplicacion || "",
+            },
+            TipoUsuario: {
+              Id: data.IdTipoUsuario || "",
+              Nombre: data.TipoUsuario || "",
+            },
+            Puesto: data.Puesto,
+            CURP: data.CURP,
+            RFC: data.RFC,
+            Celular: data.Celular,
+            Telefono: data.Telefono,
+            Ext: data.Ext,
+            Roles: roles || [],
+            Entidad: {
+              Id: data.IdEntidad || "",
+              Nombre:data.Entidad || "",
+            },
+            PuedeFirmar: data.PuedeFirmar === 1,
+          });
+
+          if(!data.Entidad ||!data.Nombre||!data.ApellidoPaterno||!data.ApellidoMaterno||!data.NombreUsuario||!data.CorreoElectronico||!data.Aplicacion||!data.IdTipoUsuario||!data.TipoUsuario||!data.Puesto||!roles){
+            
+            Swal.fire({
+              icon: "info",
+              title: "Mensaje",
+              iconColor: "#af8c55",
+              color: "#af8c55",
+              text: "La información del usuario está incompleta. Contacte con un administrador.",
+              confirmButtonText: "Aceptar",
+              confirmButtonColor:"#15212f",
+              showCloseButton: true,  // Muestra el botón de cerrar para que el usuario pueda cerrar la alerta
+            }).then((result) => {
+              if (result.isConfirmed) {
+                // Aquí puedes agregar tu lógica personalizada para el botón "OK"
+                props.handleDialogClose(false);
               }
-            )
-            .then((r) => {
-              const data = r.data.data;
-              const roles = r.data.roles[0];
-
-              setInfoUsuario({
-                ...infoUsuario,
-                Nombre: data.Nombre,
-                ApellidoPaterno: data.ApellidoPaterno,
-                ApellidoMaterno: data.ApellidoMaterno,
-                NombreUsuario: data.NombreUsuario,
-                CorreoElectronico: data.CorreoElectronico,
-                Aplicacion: {
-                  Id: props.idApp || "",
-                  Nombre: data.Aplicacion || "",
-                },
-                TipoUsuario: {
-                  Id: data.IdTipoUsuario || "",
-                  Nombre: data.TipoUsuario || "",
-                },
-                Puesto: data.Puesto,
-                CURP: data.CURP,
-                RFC: data.RFC,
-                Celular: data.Celular,
-                Telefono: data.Telefono,
-                Ext: data.Ext,
-                Roles: roles || [],
-                Entidad: {
-                  Id: data.IdEntidad || "",
-                  Nombre:
-                    entidades.find((ent) => ent.Id === data.IdEntidad)
-                      ?.Nombre! || "",
-                },
-                PuedeFirmar: data.PuedeFirmar === 1,
-              });
             });
-        }
-      }
+          }
+        });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [apps]);
+  }, []);
   return (
     <Grid
       container
@@ -543,7 +541,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       alignContent={"space-around"}
       height={"90vh"}
     >
-      {/* <SliderProgress open={datosObtenidos} fnc={()=>props.handleDialogClose(false)} texto="Obteniendo datos"/> */}
+      <SliderProgress open={datosObtenidos} fnc={()=>props.handleDialogClose(false)} texto="Obteniendo datos"/>
       <Grid item xs={10} md={4.5}>
         <TextField
           disabled={IdUsuario !== ""}
