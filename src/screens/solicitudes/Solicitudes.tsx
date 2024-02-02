@@ -602,7 +602,7 @@ export const Solicitudes = () => {
 
         <Hidden mdDown>
           <Grid
-            container
+            container 
             item
             xs={12}
             md={8}

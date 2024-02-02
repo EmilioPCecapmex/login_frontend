@@ -276,10 +276,29 @@ export default function Users() {
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
-                  sendCredentials(
-                    cellValues?.row?.NombreUsuario,
-                    cellValues?.row?.CorreoElectronico
-                  );
+                  Swal.fire({
+                    icon: "info",
+                    title: "Mensaje",
+                    iconColor: "#af8c55",
+                    color: "#af8c55",
+                    text: `¿Está seguro de que desea reenviar las credenciales de ${cellValues?.row?.Nombre+ " " +cellValues?.row?.ApellidoPaterno+ " " +cellValues?.row?.ApellidoMaterno} ? Esta acción generará una nueva contraseña que se enviará al usuario.`,
+                    showCloseButton: true,
+                    showCancelButton: true,  // Muestra el botón de cancelar
+                    confirmButtonText: "Aceptar",
+                    confirmButtonColor: "#15212f",
+                    cancelButtonText: "Cancelar",
+                    cancelButtonColor: "#AF8C55",
+                  }).then((result) => {
+                    // Handle the result after the user clicks on Aceptar or Cancelar
+                    if (result.isConfirmed) {
+                      sendCredentials(
+                        cellValues?.row?.NombreUsuario,
+                        cellValues?.row?.CorreoElectronico
+                      );
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                      // Código para la lógica cuando el usuario hace clic en Cancelar
+                    }
+                  }); 
                 }}
               >
                 <ForwardToInboxIcon />
