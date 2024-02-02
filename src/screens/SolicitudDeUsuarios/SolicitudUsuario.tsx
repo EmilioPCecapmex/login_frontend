@@ -430,10 +430,11 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
 
   const [datosObtenidos,setDatosObtenidos]=useState(true);
 
-  // useEffect(()=>{
-  //   if((infoUsuario.Entidad.Nombre!=='' && infoUsuario.NombreUsuario ) || !props.idApp || !localStorage.getItem("IdApp")!)
-  //       setDatosObtenidos(false) 
-  // },[infoUsuario.Entidad.Nombre])
+  useEffect(()=>{
+    const isInfoUsuarioValid = Object.values(infoUsuario).every(value => value !== null && value !== undefined && value !== '');
+    if (isInfoUsuarioValid) {
+        setDatosObtenidos(false) }
+  },[infoUsuario])
 
 
   useEffect(() => {if(apps.length>0){
@@ -538,9 +539,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
                 props.handleDialogClose(false);
               }
             });
-          }
-          else{
-            setDatosObtenidos(false) 
           }
         });
     }
