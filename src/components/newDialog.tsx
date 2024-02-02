@@ -1,22 +1,16 @@
-import { ThemeProvider } from "@emotion/react";
 import {
-  AppBar,
-  Button,
   Dialog,
-  DialogContent,
   Grid,
   IconButton,
   Slide,
-  Toolbar,
   Tooltip,
   Typography,
-  createTheme,
+  createTheme
 } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
-import { forwardRef, useEffect } from "react";
-import { SolicitudUsuario } from "../screens/SolicitudDeUsuarios/SolicitudUsuario";
-import { Header } from "./header";
 import { GridCloseIcon } from "@mui/x-data-grid";
+import { forwardRef } from "react";
+import { SolicitudUsuario } from "../screens/SolicitudDeUsuarios/SolicitudUsuario";
 
 export interface NewDialogProps {
   newDialogOpen: boolean;
@@ -147,14 +141,14 @@ export const NewDialog = (props: NewDialogProps) => {
       sm={12}
         sx={{ display: "flex", justifyContent: "center", alignItems: "center", height:"90vh"}}
       >
-        <SolicitudUsuario
+        {props.newDialogOpen?<SolicitudUsuario
           handleDialogClose={props.handleNewDialogClose}
           modoModal={false}
           token={""}
           idUsuarioSolicitante={""}
           idUsuarioModificado={props.idUsuario}
           idApp={props.idApp}
-        />
+        />:null}
       </Grid>
       </Grid>
     </Dialog>

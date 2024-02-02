@@ -511,8 +511,17 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             },
             PuedeFirmar: data.PuedeFirmar === 1,
           });
-
-          if(!data.Entidad ||!data.Nombre||!data.ApellidoPaterno||!data.ApellidoMaterno||!data.NombreUsuario||!data.CorreoElectronico||!data.Aplicacion||!data.IdTipoUsuario||!data.TipoUsuario||!data.Puesto||!roles){
+            console.log("data.Entidad ",data.Entidad );
+            console.log("data.Nombre",data.Nombre);
+            console.log("data.ApellidoPaterno",data.ApellidoPaterno);
+            console.log("ApellidoMaterno",data.ApellidoMaterno);
+            console.log("data.NombreUsuario",data.NombreUsuario);
+            console.log("data.CorreoElectronico",data.CorreoElectronico);
+            console.log("data.Aplicacion",data.Aplicacion);
+            console.log("data.IdTipoUsuario",data.IdTipoUsuario);
+            console.log("data.Puesto",data.Puesto);
+            console.log("data.TipoUsuario",data.TipoUsuario);
+          if(!data.Entidad ||!data.Nombre||!data.ApellidoPaterno||!data.ApellidoMaterno||!data.NombreUsuario||!data.CorreoElectronico||!data.Aplicacion||!data.IdTipoUsuario||!data.TipoUsuario||!data.Puesto){
             
             Swal.fire({
               icon: "info",
