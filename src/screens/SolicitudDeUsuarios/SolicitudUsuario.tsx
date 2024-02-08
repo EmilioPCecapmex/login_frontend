@@ -431,10 +431,9 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
   const [datosObtenidos,setDatosObtenidos]=useState(true);
 
   useEffect(()=>{
-    const isInfoUsuarioValid = Object.values(infoUsuario).every(value => value !== null && value !== undefined && value !== '');
-    if (isInfoUsuarioValid) {
-        setDatosObtenidos(false) }
-  },[infoUsuario])
+    if((infoUsuario.Entidad.Nombre!=='' && infoUsuario.NombreUsuario ) || !props.idApp || !localStorage.getItem("IdApp")!)
+        setDatosObtenidos(false) 
+  },[infoUsuario.Entidad.Nombre])
 
 
   useEffect(() => {if(apps.length>0){
