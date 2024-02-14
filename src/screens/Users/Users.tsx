@@ -181,7 +181,10 @@ export default function Users() {
     axios({
       method: "get",
       url: process.env.REACT_APP_APPLICATION_DEV + "/api/users",
-      params: { IdUsuario: localStorage.getItem("IdUsuario") },
+      params: { 
+        IdUsuario: localStorage.getItem("IdUsuario"),
+        IdApp: "",
+    },
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",
