@@ -458,12 +458,9 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
 
     getCatalogo("apps", setApps, "", props.token);
     getCatalogo("lista-entidades", setEntidades, "", props.token);
-    console.log("IdUsuario",IdUsuario);
-    console.log("",);
+    
     
     if (IdUsuario) {
-      console.log("IdUsuario",IdUsuario);
-      console.log("props.idApp",props.idApp);
       axios
         .post(
           process.env.REACT_APP_APPLICATION_DEV + "/api/userapp-detail",
@@ -481,8 +478,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
         .then((r) => {
           const data = r.data.data;
           const roles = r.data.roles[0];
-          console.log("data",data);
-          console.log("roles",roles);
           setInfoUsuario({
             ...infoUsuario,
             Nombre: data.Nombre,
@@ -745,9 +740,10 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
               : ""
           }
           onChange={(v) => {
+            if(/^[0-9]+$/.test(v.target.value)||v.target.value==="")
             setInfoUsuario({
               ...infoUsuario,
-              Telefono: /^[0-9]+$/.test(v.target.value) ? v.target.value : "",
+              Telefono: v.target.value
             });
           }}
         />
@@ -761,10 +757,11 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           type="tel"
           inputProps={{ maxLength: 4 }}
           onChange={(v) => {
+            if(/^[0-9*]+$/.test(v.target.value) || v.target.value===""){
             setInfoUsuario({
               ...infoUsuario,
-              Ext: /^[0-9]+$/.test(v.target.value) ? v.target.value : "",
-            });
+              Ext: v.target.value
+            });}
           }}
         />
       </Grid>

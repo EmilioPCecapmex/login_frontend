@@ -19,7 +19,7 @@ import {
   Typography,
   FormControl,
   Select,
-  MenuItem
+  MenuItem,
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -186,16 +186,16 @@ export default function Users() {
 
   const [apps, setApps] = useState<Array<IApps>>([]);
 
-  const getAllUsers = (idApp?:string) => {
-  console.log("selectedAppId: en el axios ",selectedAppId);
-  console.log("idApp: en el axios ",idApp);
-    
+  const getAllUsers = (idApp?: string) => {
+    console.log("selectedAppId: en el axios ", selectedAppId);
+    console.log("idApp: en el axios ", idApp);
+
     axios({
       method: "get",
       url: process.env.REACT_APP_APPLICATION_DEV + "/api/users",
       params: {
         IdUsuario: localStorage.getItem("IdUsuario"),
-        IdApp: idApp || "" ,
+        IdApp: idApp || "",
       },
       headers: {
         "Content-Type": "application/json",
@@ -215,19 +215,16 @@ export default function Users() {
           );
         }
         if (idApp !== "") {
-         console.log("Entre en el if");
-          
+          console.log("Entre en el if");
+
           setRows(rows);
         } else {
-          
-         console.log("Entre en el else");
+          console.log("Entre en el else");
           setRows(rows);
           // setTimeout(() => {
           //   getAllUsers();
           // }, 60000);
         }
-
-        
       })
       .catch(function (error) {
         Swal.fire({
@@ -252,7 +249,6 @@ export default function Users() {
         },
       })
       .then((response) => {
-        
         setApps(response.data.data);
       })
       .catch(function (error) {
@@ -268,11 +264,9 @@ export default function Users() {
     getAllUsers();
     getAllApps();
     console.log("se repite");
-    
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showAllUsers]);
-
- 
 
   const [idUsuario, setIdUsuario] = useState("");
 
@@ -282,6 +276,7 @@ export default function Users() {
       headerName: "Acciones",
       width: 150,
       headerAlign: "center",
+      align:"center",
       renderCell: (cellValues: any) => {
         return (
           <Box>
@@ -370,24 +365,28 @@ export default function Users() {
       width: 200,
       hideable: false,
       headerAlign: "center",
+      align:"center",
     },
     {
       field: "ApellidoPaterno",
       headerName: "Apellido Paterno",
       width: 200,
       headerAlign: "center",
+      align:"center",
     },
     {
       field: "ApellidoMaterno",
       headerName: "Apellido Materno",
       width: 200,
       headerAlign: "center",
+      align:"center",
     },
     {
       field: "NombreUsuario",
       headerName: "Nombre Usuario",
       width: 200,
       headerAlign: "center",
+      align:"center",
     },
     {
       field: "CorreoElectronico",
@@ -399,18 +398,21 @@ export default function Users() {
       headerName: "Creador",
       width: 150,
       headerAlign: "center",
+      align:"center",
     },
     {
       field: "NombreModificadoPor",
       headerName: "Actualizado Por",
       width: 150,
       headerAlign: "center",
+      align:"center",
     },
     {
       field: "EstaActivoLabel",
       headerName: "Estatus",
       width: 110,
       headerAlign: "center",
+      align:"center",
     },
   ];
 
@@ -420,13 +422,10 @@ export default function Users() {
     }
   }, [idApp]);
 
-  const actualizar =()=>{
-   setSelectedAppId("")
-    getAllUsers("")
-    
-  }
-
- 
+  const actualizar = () => {
+    setSelectedAppId("");
+    getAllUsers("");
+  };
 
   return (
     <Grid container sx={{ width: "100vw", height: "100vh" }}>
@@ -478,34 +477,6 @@ export default function Users() {
             </Typography>
           </Grid>
 
-          <Grid item xl={4}>
-            
-            <FormControl   fullWidth>
-            <InputLabel
-             // variant="standard"
-              sx={{ fontFamily: "MontserratMedium" }}
-            >
-              Aplicación
-            </InputLabel>
-              <Select
-                value={selectedAppId}
-                label="Aplicación"
-                onChange={(e) => {
-                  setSelectedAppId(e.target.value)
-                  getAllUsers(e.target.value)
-                  
-                }}
-              >
-                {apps.map((app) => (
-                  <MenuItem key={app.Id} value={app.Id}>
-                    {app.Nombre}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-
-          
 
           <CardContent
             sx={{
@@ -516,8 +487,38 @@ export default function Users() {
                 flexDirection: "row",
                 display: "flex",
               },
+              width:"50%",
+              display:"flex",justifyContent:"space-around"
             }}
           >
+            <Grid item xl={4}>
+            <FormControl fullWidth>
+              <InputLabel
+                // variant="standard"
+                sx={{ fontFamily: "MontserratMedium" }}
+              >
+               Filtrar por Aplicación
+              </InputLabel>
+              <Select
+                value={selectedAppId}
+                label="Filtrar por Aplicación"
+                onChange={(e) => {
+                  setSelectedAppId(e.target.value);
+                  getAllUsers(e.target.value);
+                }}
+              >
+                  <MenuItem key={1} value={""}>
+                   Todas las Aplicaciones
+                  </MenuItem>
+                {apps.map((app) => (
+                  <MenuItem key={app.Id} value={app.Id}>
+                    {app.Nombre}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+
             <Grid item>
               <FormGroup>
                 <FormControlLabel
@@ -550,16 +551,15 @@ export default function Users() {
                 className="aceptar"
                 variant="text"
                 onClick={() => {
-                  actualizar()
+                  actualizar();
                 }}
                 sx={{
                   fontFamily: "MontserratBold",
                   backgroundColor: "#DFA94F",
                   color: "#000001",
                   boxShadow: 4,
-                  marginRight: "5px", 
+                  marginRight: "5px",
                 }}
-                
               >
                 <Typography
                   sx={{

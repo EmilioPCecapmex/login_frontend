@@ -172,7 +172,6 @@ export const getListas = (Tabla:string,ValorCondicion:string,setState: Function)
       },
     })
     .then(({data}) => {
-      console.log("xd",data.data);
       
       setState(data.data);
     }).catch(()=>alertaError("Ocurrio un error al obtener los datos."));
