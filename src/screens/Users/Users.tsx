@@ -13,9 +13,13 @@ import {
   FormGroup,
   Grid,
   IconButton,
+  InputLabel,
   Switch,
   Tooltip,
   Typography,
+  FormControl,
+  Select,
+  MenuItem
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -28,6 +32,7 @@ import { isAdmin, sessionValid } from "../../funcs/validation";
 import "./style/Fonts.css";
 import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
 import { alertaExito, alertaInformativa } from "../../components/alertas/toast";
+import { IApps } from "../SolicitudDeUsuarios/SolicitudUsuario";
 
 export interface Usuario {
   EstaActivoLabel: string;
@@ -102,8 +107,7 @@ export default function Users() {
         },
         responseType: "blob",
       })
-      .then(
-        (response) => {
+      .then((response) => {
         if (response.status !== 200 && response.status !== 201) {
           alertaInformativa("No se encontro información.");
         } else {
@@ -151,6 +155,9 @@ export default function Users() {
   };
   const [appsDialogOpen, setAppsDialogOpen] = useState(false);
   const [appsDialogUsuario, setAppsDialogUsuario] = useState<Usuario>();
+  const [idApp, setIdApp] = useState("");
+  const [selectedAppId, setSelectedAppId] = useState("");
+
   const handleAppsDialogOpen = () => setAppsDialogOpen(true);
 
   const handleAppsBtnClick = (event: any, cellValues: any) => {
@@ -177,11 +184,18 @@ export default function Users() {
     // eslint-disable-next-line
   }, []);
 
+  const [apps, setApps] = useState<Array<IApps>>([]);
+
   const getAllUsers = () => {
+    console.log("selectedAppId: en el axios ",selectedAppId);
+    
     axios({
       method: "get",
       url: process.env.REACT_APP_APPLICATION_DEV + "/api/users",
-      params: { IdUsuario: localStorage.getItem("IdUsuario") },
+      params: {
+        IdUsuario: localStorage.getItem("IdUsuario"),
+        IdApp: selectedAppId,
+      },
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",
@@ -199,8 +213,15 @@ export default function Users() {
             x.EstaActivoLabel.includes("Activo")
           );
         }
+        if (selectedAppId !== "") {
+          console.log("Entre en el if");
+          
+          setRows(rows);
+        } else {
+          console.log("Entre en el else");
+          setRows(rows);
+        }
 
-        setRows(rows);
         setTimeout(() => {
           getAllUsers();
         }, 60000);
@@ -218,13 +239,43 @@ export default function Users() {
       });
   };
 
+  const getAllApps = () => {
+    axios
+      .get(process.env.REACT_APP_APPLICATION_DEV + "/api/apps", {
+        params: { IdUsuario: localStorage.getItem("IdUsuario") },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("jwtToken") || "",
+        },
+      })
+      .then((response) => {
+        
+        setApps(response.data.data);
+      })
+      .catch(function (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Mensaje",
+          text: "(" + error.response.status + ") " + error.response.data.msg,
+        });
+      });
+  };
+
   useEffect(() => {
     getAllUsers();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showAllUsers]);
 
+  useEffect(() => {
+    getAllApps();
+    // setSelectedAppId(apps.Nombre[0])
+    
+    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const [idUsuario, setIdUsuario] = useState("");
-  const [idApp, setIdApp] = useState("");
 
   const columns = [
     {
@@ -281,9 +332,15 @@ export default function Users() {
                     title: "Mensaje",
                     iconColor: "#af8c55",
                     color: "#af8c55",
-                    text: `¿Está seguro de que desea reenviar las credenciales de ${cellValues?.row?.Nombre+ " " +cellValues?.row?.ApellidoPaterno+ " " +cellValues?.row?.ApellidoMaterno} ? Esta acción generará una nueva contraseña que se enviará al usuario.`,
+                    text: `¿Está seguro de que desea reenviar las credenciales de ${
+                      cellValues?.row?.Nombre +
+                      " " +
+                      cellValues?.row?.ApellidoPaterno +
+                      " " +
+                      cellValues?.row?.ApellidoMaterno
+                    } ? Esta acción generará una nueva contraseña que se enviará al usuario.`,
                     showCloseButton: true,
-                    showCancelButton: true,  // Muestra el botón de cancelar
+                    showCancelButton: true, // Muestra el botón de cancelar
                     confirmButtonText: "Aceptar",
                     confirmButtonColor: "#15212f",
                     cancelButtonText: "Cancelar",
@@ -298,7 +355,7 @@ export default function Users() {
                     } else if (result.dismiss === Swal.DismissReason.cancel) {
                       // Código para la lógica cuando el usuario hace clic en Cancelar
                     }
-                  }); 
+                  });
                 }}
               >
                 <ForwardToInboxIcon />
@@ -364,6 +421,8 @@ export default function Users() {
     }
   }, [idApp]);
 
+ 
+
   return (
     <Grid container sx={{ width: "100vw", height: "100vh" }}>
       <Header menuActual="Usuarios" />
@@ -412,6 +471,32 @@ export default function Users() {
             >
               Usuarios
             </Typography>
+          </Grid>
+
+          <Grid item xl={4}>
+            <InputLabel
+              variant="standard"
+              sx={{ fontFamily: "MontserratMedium" }}
+            >
+              Aplicación
+            </InputLabel>
+            <FormControl required  fullWidth>
+              <Select
+                value={selectedAppId}
+                label="Aplicación"
+                onChange={(e) => {
+                  setSelectedAppId(e.target.value)
+                  getAllUsers()
+                  
+                }}
+              >
+                {apps.map((app) => (
+                  <MenuItem key={app.Id} value={app.Id}>
+                    {app.Nombre}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
 
           <CardContent
@@ -486,6 +571,7 @@ export default function Users() {
             </Grid>
           </CardContent>
         </Grid>
+
         <Grid item sx={{ width: "100vw", height: "77vh" }}>
           <MUIXDataGrid
             id={(row: any) => row.Id}

@@ -26,7 +26,7 @@ export interface AppsDialogProps {
 export const AppsDialog = (props: AppsDialogProps) => {
   const [apps, setApps] = useState([]);
 
-  const getAllApps = (appsUser: any) => {
+   const getAllApps = (appsUser: any) => {
     axios({
       method: "get",
       url: process.env.REACT_APP_APPLICATION_DEV + "/api/apps",
