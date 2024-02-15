@@ -23,13 +23,13 @@ export const AcordionesGenericos = ({
 }) => {
   const [entidades, setEntidades] = useState<ILista[]>([]);
 
-  useEffect(() => {
-    getListas(tabla, id, setEntidades);
-  }, []);
-
   const [expanded, setExpanded] = useState("");
   const [add, setAdd] = useState(false);
   const [entidadSelected, setEntidadSelected] = useState<ILista>();
+
+  useEffect(() => {
+    getListas(tabla, id, setEntidades);
+  }, []);
   return (
     <>
       {entidades.length > 0 ? (
@@ -87,7 +87,7 @@ export const AcordionesGenericos = ({
                     }}
                     agregar={true}
                   />
-                  {expanded === item.Id ? (
+                  {expanded === item.Id && !add? (
                     <Grid sx={{ width: "100%",display:"flex", justifyItems:"center",flexDirection:"column",mt:"2vh" }}>
                       <AcordionesGenericos
                         id={item.Id}
