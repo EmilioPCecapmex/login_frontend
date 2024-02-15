@@ -221,11 +221,12 @@ export default function Users() {
           
           console.log("Entre en el else");
           setRows(rows);
+          // setTimeout(() => {
+          //   getAllUsers();
+          // }, 60000);
         }
 
-        setTimeout(() => {
-          getAllUsers();
-        }, 60000);
+        
       })
       .catch(function (error) {
         Swal.fire({
@@ -265,7 +266,8 @@ export default function Users() {
   useEffect(() => {
     getAllUsers();
     getAllApps();
-
+    console.log("se repite");
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showAllUsers]);
 
@@ -470,13 +472,14 @@ export default function Users() {
           </Grid>
 
           <Grid item xl={4}>
+            
+            <FormControl   fullWidth>
             <InputLabel
-              variant="standard"
+             // variant="standard"
               sx={{ fontFamily: "MontserratMedium" }}
             >
               Aplicación
             </InputLabel>
-            <FormControl required  fullWidth>
               <Select
                 value={selectedAppId}
                 label="Aplicación"
