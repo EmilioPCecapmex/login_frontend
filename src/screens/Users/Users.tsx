@@ -187,14 +187,15 @@ export default function Users() {
   const [apps, setApps] = useState<Array<IApps>>([]);
 
   const getAllUsers = (idApp?:string) => {
-    console.log("selectedAppId: en el axios ",selectedAppId);
+  console.log("selectedAppId: en el axios ",selectedAppId);
+  console.log("idApp: en el axios ",idApp);
     
     axios({
       method: "get",
       url: process.env.REACT_APP_APPLICATION_DEV + "/api/users",
       params: {
         IdUsuario: localStorage.getItem("IdUsuario"),
-        IdApp: idApp||selectedAppId,
+        IdApp: idApp || "" ,
       },
       headers: {
         "Content-Type": "application/json",
@@ -213,13 +214,13 @@ export default function Users() {
             x.EstaActivoLabel.includes("Activo")
           );
         }
-        if (selectedAppId !== "") {
-          console.log("Entre en el if");
+        if (idApp !== "") {
+         console.log("Entre en el if");
           
           setRows(rows);
         } else {
           
-          console.log("Entre en el else");
+         console.log("Entre en el else");
           setRows(rows);
           // setTimeout(() => {
           //   getAllUsers();
@@ -419,6 +420,12 @@ export default function Users() {
     }
   }, [idApp]);
 
+  const actualizar =()=>{
+   setSelectedAppId("")
+    getAllUsers("")
+    
+  }
+
  
 
   return (
@@ -498,6 +505,8 @@ export default function Users() {
             </FormControl>
           </Grid>
 
+          
+
           <CardContent
             sx={{
               "@media (min-width: 480px)": {
@@ -534,6 +543,38 @@ export default function Users() {
                   }
                 />
               </FormGroup>
+            </Grid>
+
+            <Grid>
+              <Button
+                className="aceptar"
+                variant="text"
+                onClick={() => {
+                  actualizar()
+                }}
+                sx={{
+                  fontFamily: "MontserratBold",
+                  backgroundColor: "#DFA94F",
+                  color: "#000001",
+                  boxShadow: 4,
+                  marginRight: "5px", 
+                }}
+                
+              >
+                <Typography
+                  sx={{
+                    fontSize: ".7rem",
+                    "@media (min-width: 480px)": {
+                      fontSize: ".7rem",
+                    },
+                    "@media (min-width: 768px)": {
+                      fontSize: "1rem",
+                    },
+                  }}
+                >
+                  Actualizar Usuarios
+                </Typography>
+              </Button>
             </Grid>
 
             <Grid>
