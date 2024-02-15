@@ -186,7 +186,7 @@ export default function Users() {
 
   const [apps, setApps] = useState<Array<IApps>>([]);
 
-  const getAllUsers = () => {
+  const getAllUsers = (idApp?:string) => {
     console.log("selectedAppId: en el axios ",selectedAppId);
     
     axios({
@@ -194,7 +194,7 @@ export default function Users() {
       url: process.env.REACT_APP_APPLICATION_DEV + "/api/users",
       params: {
         IdUsuario: localStorage.getItem("IdUsuario"),
-        IdApp: selectedAppId,
+        IdApp: idApp||selectedAppId,
       },
       headers: {
         "Content-Type": "application/json",
@@ -218,6 +218,7 @@ export default function Users() {
           
           setRows(rows);
         } else {
+          
           console.log("Entre en el else");
           setRows(rows);
         }
@@ -263,17 +264,12 @@ export default function Users() {
 
   useEffect(() => {
     getAllUsers();
+    getAllApps();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showAllUsers]);
 
-  useEffect(() => {
-    getAllApps();
-    // setSelectedAppId(apps.Nombre[0])
-    
-    
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+ 
 
   const [idUsuario, setIdUsuario] = useState("");
 
@@ -486,7 +482,7 @@ export default function Users() {
                 label="Aplicación"
                 onChange={(e) => {
                   setSelectedAppId(e.target.value)
-                  getAllUsers()
+                  getAllUsers(e.target.value)
                   
                 }}
               >
