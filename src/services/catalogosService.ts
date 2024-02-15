@@ -1,6 +1,6 @@
 import axios from "axios";
 import Swal from "sweetalert2";
-import { alertaError } from "../components/alertas/toast";
+import { alertaError, alertaExito } from "../components/alertas/toast";
 
 const Toast = Swal.mixin({
   toast: true,
@@ -56,7 +56,7 @@ export const modificarCatalogo = (
   path: string,
   data: any,
   setOpen: Function,
-  reloadData: Function
+  reloadData?: Function
 ) => {
   axios({
     method: "put",
@@ -69,14 +69,7 @@ export const modificarCatalogo = (
   })
     // aqui se recibe lo del endpoint en response
     .then((r) => {
-      reloadData(String(Math.random()));
-      Toast.fire({
-        icon: "success",
-        title: `¡Registro Editado!`,
-        confirmButtonColor: "#000E4E",
-        iconColor: "#af8c55",
-        color: "#af8c55",
-      });
+      alertaExito(()=>{},`¡Registro Editado!`)
       setOpen(false);
     })
     .catch((e) => {
@@ -97,7 +90,7 @@ export const createCatalogo = (
   path: string,
   data: any,
   setOpen: Function,
-  reloadData: Function
+  reloadData?: Function
 ) => {
   axios({
     method: "post",
@@ -110,13 +103,7 @@ export const createCatalogo = (
   })
     // aqui se recibe lo del endpoint en response
     .then((r) => {
-      reloadData(String(Math.random()));
-      Toast.fire({
-        icon: "success",
-        title: `¡Registro Creado!`,
-        iconColor: "#af8c55",
-        color: "#af8c55",
-      });
+      alertaExito(()=>{},`¡Registro Creado!`)
       setOpen(false);
     })
     .catch((e) => {
@@ -173,4 +160,19 @@ export const EliminarCatalogo = (
         text: "( " + mensaje + " ) ",
       });
     });
+};
+
+export const getListas = (Tabla:string,ValorCondicion:string,setState: Function) => {
+  axios
+    .get(process.env.REACT_APP_APPLICATION_DEV + "/api/listas", {
+      params: { Tabla: Tabla, ValorCondicion: ValorCondicion },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("jwtToken") || "",
+      },
+    })
+    .then(({data}) => {
+      
+      setState(data.data);
+    }).catch(()=>alertaError("Ocurrio un error al obtener los datos."));
 };

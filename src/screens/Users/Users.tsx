@@ -13,9 +13,13 @@ import {
   FormGroup,
   Grid,
   IconButton,
+  InputLabel,
   Switch,
   Tooltip,
   Typography,
+  FormControl,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -28,6 +32,7 @@ import { isAdmin, sessionValid } from "../../funcs/validation";
 import "./style/Fonts.css";
 import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
 import { alertaExito, alertaInformativa } from "../../components/alertas/toast";
+import { IApps } from "../SolicitudDeUsuarios/SolicitudUsuario";
 
 export interface Usuario {
   EstaActivoLabel: string;
@@ -102,8 +107,7 @@ export default function Users() {
         },
         responseType: "blob",
       })
-      .then(
-        (response) => {
+      .then((response) => {
         if (response.status !== 200 && response.status !== 201) {
           alertaInformativa("No se encontro información.");
         } else {
@@ -151,6 +155,9 @@ export default function Users() {
   };
   const [appsDialogOpen, setAppsDialogOpen] = useState(false);
   const [appsDialogUsuario, setAppsDialogUsuario] = useState<Usuario>();
+  const [idApp, setIdApp] = useState("");
+  const [selectedAppId, setSelectedAppId] = useState("");
+
   const handleAppsDialogOpen = () => setAppsDialogOpen(true);
 
   const handleAppsBtnClick = (event: any, cellValues: any) => {
@@ -177,11 +184,19 @@ export default function Users() {
     // eslint-disable-next-line
   }, []);
 
-  const getAllUsers = () => {
+  const [apps, setApps] = useState<Array<IApps>>([]);
+
+  const getAllUsers = (idApp?: string) => {
+    console.log("selectedAppId: en el axios ", selectedAppId);
+    console.log("idApp: en el axios ", idApp);
+
     axios({
       method: "get",
       url: process.env.REACT_APP_APPLICATION_DEV + "/api/users",
-      params: { IdUsuario: localStorage.getItem("IdUsuario") },
+      params: {
+        IdUsuario: localStorage.getItem("IdUsuario"),
+        IdApp: idApp || "",
+      },
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",
@@ -199,11 +214,17 @@ export default function Users() {
             x.EstaActivoLabel.includes("Activo")
           );
         }
+        if (idApp !== "") {
+          console.log("Entre en el if");
 
-        setRows(rows);
-        setTimeout(() => {
-          getAllUsers();
-        }, 60000);
+          setRows(rows);
+        } else {
+          console.log("Entre en el else");
+          setRows(rows);
+          // setTimeout(() => {
+          //   getAllUsers();
+          // }, 60000);
+        }
       })
       .catch(function (error) {
         Swal.fire({
@@ -218,13 +239,36 @@ export default function Users() {
       });
   };
 
+  const getAllApps = () => {
+    axios
+      .get(process.env.REACT_APP_APPLICATION_DEV + "/api/apps", {
+        params: { IdUsuario: localStorage.getItem("IdUsuario") },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("jwtToken") || "",
+        },
+      })
+      .then((response) => {
+        setApps(response.data.data);
+      })
+      .catch(function (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Mensaje",
+          text: "(" + error.response.status + ") " + error.response.data.msg,
+        });
+      });
+  };
+
   useEffect(() => {
     getAllUsers();
+    getAllApps();
+    console.log("se repite");
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showAllUsers]);
 
   const [idUsuario, setIdUsuario] = useState("");
-  const [idApp, setIdApp] = useState("");
 
   const columns = [
     {
@@ -232,6 +276,7 @@ export default function Users() {
       headerName: "Acciones",
       width: 150,
       headerAlign: "center",
+      align:"center",
       renderCell: (cellValues: any) => {
         return (
           <Box>
@@ -281,9 +326,15 @@ export default function Users() {
                     title: "Mensaje",
                     iconColor: "#af8c55",
                     color: "#af8c55",
-                    text: `¿Está seguro de que desea reenviar las credenciales de ${cellValues?.row?.Nombre+ " " +cellValues?.row?.ApellidoPaterno+ " " +cellValues?.row?.ApellidoMaterno} ? Esta acción generará una nueva contraseña que se enviará al usuario.`,
+                    text: `¿Está seguro de que desea reenviar las credenciales de ${
+                      cellValues?.row?.Nombre +
+                      " " +
+                      cellValues?.row?.ApellidoPaterno +
+                      " " +
+                      cellValues?.row?.ApellidoMaterno
+                    } ? Esta acción generará una nueva contraseña que se enviará al usuario.`,
                     showCloseButton: true,
-                    showCancelButton: true,  // Muestra el botón de cancelar
+                    showCancelButton: true, // Muestra el botón de cancelar
                     confirmButtonText: "Aceptar",
                     confirmButtonColor: "#15212f",
                     cancelButtonText: "Cancelar",
@@ -298,7 +349,7 @@ export default function Users() {
                     } else if (result.dismiss === Swal.DismissReason.cancel) {
                       // Código para la lógica cuando el usuario hace clic en Cancelar
                     }
-                  }); 
+                  });
                 }}
               >
                 <ForwardToInboxIcon />
@@ -314,24 +365,28 @@ export default function Users() {
       width: 200,
       hideable: false,
       headerAlign: "center",
+      align:"center",
     },
     {
       field: "ApellidoPaterno",
       headerName: "Apellido Paterno",
       width: 200,
       headerAlign: "center",
+      align:"center",
     },
     {
       field: "ApellidoMaterno",
       headerName: "Apellido Materno",
       width: 200,
       headerAlign: "center",
+      align:"center",
     },
     {
       field: "NombreUsuario",
       headerName: "Nombre Usuario",
       width: 200,
       headerAlign: "center",
+      align:"center",
     },
     {
       field: "CorreoElectronico",
@@ -343,18 +398,21 @@ export default function Users() {
       headerName: "Creador",
       width: 150,
       headerAlign: "center",
+      align:"center",
     },
     {
       field: "NombreModificadoPor",
       headerName: "Actualizado Por",
       width: 150,
       headerAlign: "center",
+      align:"center",
     },
     {
       field: "EstaActivoLabel",
       headerName: "Estatus",
       width: 110,
       headerAlign: "center",
+      align:"center",
     },
   ];
 
@@ -363,6 +421,11 @@ export default function Users() {
       setNewDialogOpen(true);
     }
   }, [idApp]);
+
+  const actualizar = () => {
+    setSelectedAppId("");
+    getAllUsers("");
+  };
 
   return (
     <Grid container sx={{ width: "100vw", height: "100vh" }}>
@@ -414,6 +477,7 @@ export default function Users() {
             </Typography>
           </Grid>
 
+
           <CardContent
             sx={{
               "@media (min-width: 480px)": {
@@ -423,8 +487,38 @@ export default function Users() {
                 flexDirection: "row",
                 display: "flex",
               },
+              width:"50%",
+              display:"flex",justifyContent:"space-around"
             }}
           >
+            <Grid item xl={4}>
+            <FormControl fullWidth>
+              <InputLabel
+                // variant="standard"
+                sx={{ fontFamily: "MontserratMedium" }}
+              >
+               Filtrar por Aplicación
+              </InputLabel>
+              <Select
+                value={selectedAppId}
+                label="Filtrar por Aplicación"
+                onChange={(e) => {
+                  setSelectedAppId(e.target.value);
+                  getAllUsers(e.target.value);
+                }}
+              >
+                  <MenuItem key={1} value={""}>
+                   Todas las Aplicaciones
+                  </MenuItem>
+                {apps.map((app) => (
+                  <MenuItem key={app.Id} value={app.Id}>
+                    {app.Nombre}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+
             <Grid item>
               <FormGroup>
                 <FormControlLabel
@@ -450,6 +544,37 @@ export default function Users() {
                   }
                 />
               </FormGroup>
+            </Grid>
+
+            <Grid>
+              <Button
+                className="aceptar"
+                variant="text"
+                onClick={() => {
+                  actualizar();
+                }}
+                sx={{
+                  fontFamily: "MontserratBold",
+                  backgroundColor: "#DFA94F",
+                  color: "#000001",
+                  boxShadow: 4,
+                  marginRight: "5px",
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: ".7rem",
+                    "@media (min-width: 480px)": {
+                      fontSize: ".7rem",
+                    },
+                    "@media (min-width: 768px)": {
+                      fontSize: "1rem",
+                    },
+                  }}
+                >
+                  Actualizar Usuarios
+                </Typography>
+              </Button>
             </Grid>
 
             <Grid>
@@ -486,6 +611,7 @@ export default function Users() {
             </Grid>
           </CardContent>
         </Grid>
+
         <Grid item sx={{ width: "100vw", height: "77vh" }}>
           <MUIXDataGrid
             id={(row: any) => row.Id}

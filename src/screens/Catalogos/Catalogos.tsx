@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { alertaError, alertaExito } from "../../components/alertas/toast";
 import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
+import { ArbolEntidades } from "../../components/dialogsCatalogos/ArbolEntidades";
 
 export interface IEntidad {
   ClaveSiregob: string;
@@ -26,6 +27,25 @@ export interface IEntidad {
   Telefono: string;
   Titular: string;
   UltimaActualizacion: string;
+}
+
+export const newCatalogo={
+  ClaveSiregob: "",
+  ControlInterno: "",
+  Direccion: "",
+  EntidadPerteneceA: "",
+  FechaCreacion: "",
+  Id: "",
+  IdEntidadPerteneceA: "",
+  IdTitular: "",
+  IdTipoEntidad: "",
+  Nombre: "",
+  NombreTipoEntidad: "",
+  Telefono: "",
+  Titular: "",
+  UltimaActualizacion: "",
+  Descripcion: "",
+  IdUsuario: localStorage.getItem("IdUsuario") || "",
 }
 
 export interface ITipoEntidad {
@@ -59,24 +79,7 @@ const Catalogos = () => {
 
   const [openCreate, setOpenCreate] = useState(false);
 
-  const [elemento, setElemento] = useState<IModifica>({
-    ClaveSiregob: "",
-    ControlInterno: "",
-    Direccion: "",
-    EntidadPerteneceA: "",
-    FechaCreacion: "",
-    Id: "",
-    IdEntidadPerteneceA: "",
-    IdTitular: "",
-    IdTipoEntidad: "",
-    Nombre: "",
-    NombreTipoEntidad: "",
-    Telefono: "",
-    Titular: "",
-    UltimaActualizacion: "",
-    Descripcion: "",
-    IdUsuario: localStorage.getItem("IdUsuario") || "",
-  });
+  const [elemento, setElemento] = useState<IModifica>(newCatalogo);
 
   useEffect(() => {
     getCatalogo("lista-entidades", setEntidades, "", "");
@@ -128,20 +131,20 @@ const Catalogos = () => {
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
-                  let ruta=""
+                  let ruta = "";
                   switch (valueTab) {
                     case "TipoEntidades":
-                      ruta="eliminar-tipo-entidad";
+                      ruta = "eliminar-tipo-entidad";
                       break;
                     case "Entidades":
-                      ruta="eliminar-entidad";
+                      ruta = "eliminar-entidad";
                       break;
                     default:
-                      ruta="/";
+                      ruta = "/";
                       break;
                   }
 
-                  handleDeleteBtnClick(cellValues,ruta);
+                  handleDeleteBtnClick(cellValues, ruta);
                 }}
               >
                 <DeleteIcon />
@@ -215,25 +218,26 @@ const Catalogos = () => {
     },
   ];
 
-  const [reload, setReload] = useState("");
-
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValueTab(newValue);
   };
 
-  const handleDeleteBtnClick = (cellValues: any,ruta:string) => {
+  const handleDeleteBtnClick = (cellValues: any, ruta: string) => {
     Swal.fire({
       title: "¿Estás seguro de eliminar este registro?",
       icon: "question",
       showCancelButton: true,
-    
+
       cancelButtonColor: "#af8c55",
       cancelButtonText: "Cancelar",
       confirmButtonText: "Eliminar",
       confirmButtonColor: "#15212f",
     }).then((result) => {
       if (result.isConfirmed) {
-        const data = { Id: cellValues.row.Id,IdUsuario:localStorage.getItem("IdUsuario") };
+        const data = {
+          Id: cellValues.row.Id,
+          IdUsuario: localStorage.getItem("IdUsuario"),
+        };
         axios({
           method: "delete",
           url: process.env.REACT_APP_APPLICATION_DEV + `/api/${ruta}`,
@@ -244,7 +248,7 @@ const Catalogos = () => {
           data: data,
         })
           .then(function (response) {
-            alertaExito(()=>{},"Registro eliminado!")
+            alertaExito(() => {}, "Registro eliminado!");
             getCatalogo("lista-entidades", setEntidades, "", "");
             getCatalogo("lista-tipo-entidades", setTipoEntidades, "", "");
           })
@@ -255,10 +259,22 @@ const Catalogos = () => {
     });
   };
 
-  const camposCsv =valueTab==="TipoEntidades"? ["Nombre", "Descripcion"]:["Nombre","Direccion","Telefono","NombreTipoEntidad","Titular","EntidadPerteneceA","ControlInterno","ClaveSiregob",];
+  const camposCsv =
+    valueTab === "TipoEntidades"
+      ? ["Nombre", "Descripcion"]
+      : [
+          "Nombre",
+          "Direccion",
+          "Telefono",
+          "NombreTipoEntidad",
+          "Titular",
+          "EntidadPerteneceA",
+          "ControlInterno",
+          "ClaveSiregob",
+        ];
   return (
     <>
-      <Header menuActual="Entidades"/>
+      <Header menuActual="Entidades" />
       <Grid
         container
         item
@@ -268,44 +284,81 @@ const Catalogos = () => {
         sx={{ maxHeight: "90vh", maxWidth: "100vw" }}
       >
         <TabContext value={String(valueTab)}>
-          <Grid container sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
-            <Grid item xl={8} xs={8} lg={8} md={8} sm={8} sx={{ display: "flex", justifyContent: "space-evenly" }}>
-              <TabList onChange={handleChange} aria-label="lab API tabs example">
-                <Tab label="Tipo de entidades " value="TipoEntidades" sx={{ fontSize: [30, 30, 30, 30, 30], }} style={{ textTransform: 'none' }}/>
-                <Tab label="Entidades" value="Entidades" sx={{ fontSize: [30, 30, 30, 30, 30], }} style={{ textTransform: 'none' }} />
+          <Grid
+            container
+            sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}
+          >
+            <Grid
+              item
+              xl={8}
+              xs={8}
+              lg={8}
+              md={8}
+              sm={8}
+              sx={{ display: "flex", justifyContent: "space-evenly" }}
+            >
+              <TabList
+                onChange={handleChange}
+                aria-label="lab API tabs example"
+              >
+                <Tab
+                  label="Tipo de entidades "
+                  value="TipoEntidades"
+                  sx={{ fontSize: [30, 30, 30, 30, 30] }}
+                  style={{ textTransform: "none" }}
+                />
+                <Tab
+                  label="Entidades"
+                  value="Entidades"
+                  sx={{ fontSize: [30, 30, 30, 30, 30] }}
+                  style={{ textTransform: "none" }}
+                />
               </TabList>
             </Grid>
-            <Grid item xl={2} xs={2} lg={2} md={2} sm={2} sx={{ display: "flex", justifyContent: "space-evenly" }}>
+            <Grid
+              item
+              xl={2}
+              xs={2}
+              lg={2}
+              md={2}
+              sm={2}
+              sx={{ display: "flex", justifyContent: "space-evenly" }}
+            >
               <ButtonsAdd handleOpen={setOpenCreate} agregar={true} />
             </Grid>
           </Grid>
         </TabContext>
 
-
         <Grid item sx={{ width: "100vw", height: "77vh" }}>
-          <MUIXDataGrid  id={(row: any) => row.Id} columns={columns} rows={valueTab === "TipoEntidades" ? tipoEntidades : entidades }  camposCsv={camposCsv} exportTitle={valueTab === "TipoEntidades" ? "Catálogo de Tipo de Entidades" : "Catálogo de Entidades"}/>
+          <MUIXDataGrid
+            id={(row: any) => row.Id}
+            columns={columns}
+            rows={valueTab === "TipoEntidades" ? tipoEntidades : entidades}
+            camposCsv={camposCsv}
+            exportTitle={
+              valueTab === "TipoEntidades"
+                ? "Catálogo de Tipo de Entidades"
+                : "Catálogo de Entidades"
+            }
+          />
         </Grid>
-
-
-
-
-
-
       </Grid>
 
-
-      {openCreate && (
-        <Create
-          open={openCreate}
-          setOpen={setOpenCreate}
-          catalogo={valueTab}
-          reloadData={setReload}
-          data={elemento}
-        />
-      )}
-
-      
-
+      {openCreate ? (
+        valueTab === "Entidades" &&  !elemento.Id? (
+          <ArbolEntidades
+            open={openCreate}
+            setOpen={setOpenCreate}
+          />
+        ) : (
+          <Create
+            open={openCreate}
+            setOpen={setOpenCreate}
+            catalogo={valueTab}
+            data={elemento}
+          />
+        )
+      ) : null}
     </>
   );
 };

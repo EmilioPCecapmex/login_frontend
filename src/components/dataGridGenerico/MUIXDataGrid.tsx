@@ -1,279 +1,156 @@
-import * as React from "react";
-import { DataGrid, esES as gridEsES, GridToolbarQuickFilter,useGridApiContext, GridToolbarContainer,} from "@mui/x-data-grid";
-import { createTheme, Fade, ListItemIcon, Menu, MenuItem, ThemeProvider } from "@mui/material";
-import Button from '@mui/material/Button';
+import React, { useState } from "react";
+import { ThemeProvider, createTheme } from "@mui/material";
 import { esES as coreEsES } from "@mui/material/locale";
-import {Download, Print} from '@mui/icons-material';
+import {
+  DataGrid,
+  GridColumnVisibilityModel,
+  GridToolbar,
+  esES as gridEsES,
+} from "@mui/x-data-grid";
 import "../../Globals.css"
 
 const theme = createTheme(coreEsES, gridEsES);
 
-const localeText = {
-// Root
-  noRowsLabel: "No se ha encontrado datos.",
-  noResultsOverlayLabel: "No se ha encontrado ningún resultado",
+export default function MUIXDataGridGeneral(props: any) {
+  const [pageSize, setPageSize] = useState(25);
+  // const [selectionModel, setSelectionModel] = useState<any[]>([]);
 
-  //* Density selector toolbar button text
-  // toolbarDensity: 'Density',
-  // toolbarDensityLabel: 'Density',
-  // toolbarDensityCompact: 'Compact',
-  // toolbarDensityStandard: 'Standard',
-  // toolbarDensityComfortable: 'Comfortable',
+  // const handleSelectionModelChange = (newSelectionModel: any) => {
+  //   setSelectionModel(newSelectionModel);
+  //   props.setRowSelected(newSelectionModel);
+  //   console.log("Filas seleccionadas:", newSelectionModel);
+  // };
 
-  //* Columns selector toolbar button text
-  // toolbarColumns: 'Columns',
-  // toolbarColumnsLabel: 'Select columns',
+  // const [columnVisibilityModel, setColumnVisibilityModel] =
+  //   React.useState<GridColumnVisibilityModel>({
+  //     id: false,
+  //     Route: false,
+  //     ciid: false,
+  //     ctaid: false,
+  //     cefid: false,
+  //     cgfid: false,
+  //     csid: false,
+  //     iduaa: false,
+  //     idAuditoria: false,
+  //     ctid: false,
+  //     coaid: false,
+  //     cuaaid: false,
+  //     caaid: false,
+  //     crid: false,
+  //     idtipo: false,
+  //     Tema: false,
+  //     Observaciones: false,
+  //     magneticos: false,
+  //     FechaRecibido: false,
+  //     FechaEntrega: false,
+  //     FechaCreacion: false,
+  //     UltimaActualizacion: false,
+  //     creado: false,
+  //     modi: false,
+  //   });
 
-  //* Filters toolbar button text
-  // toolbarFilters: 'Filters',
-  // toolbarFiltersLabel: 'Show filters',
-  // toolbarFiltersTooltipHide: 'Hide filters',
-  // toolbarFiltersTooltipShow: 'Show filters',
-  // toolbarFiltersTooltipActive: (count) =>
-  //   count !== 1 ? `${count} active filters` : `${count} active filter`,
+  // const hasData = props.rows.length < 8;
 
-  //* Quick filter toolbar field
-  toolbarQuickFilterPlaceholder: 'Buscar…',
-  toolbarQuickFilterLabel: 'Buscar',
-  toolbarQuickFilterDeleteIconLabel: 'Limpiar',
-
-  //* Export selector toolbar button text
-  // toolbarExport: 'Export',
-  // toolbarExportLabel: 'Export',
-  // toolbarExportCSV: 'Download as CSV',
-  // toolbarExportPrint: 'Print',
-  // toolbarExportExcel: 'Download as Excel',
-
-  //* Columns panel text
-  columnsPanelTextFieldLabel: 'Busca columna',
-  columnsPanelTextFieldPlaceholder: 'Título de columna',
-  //* columnsPanelDragIconLabel: 'Reorder column',
-  columnsPanelShowAllButton: 'Muestra todo',
-  columnsPanelHideAllButton: 'Oculta todo',
-
-  //* Filter panel text
-  // filterPanelAddFilter: 'Add filter',
-  // filterPanelRemoveAll: 'Remove all',
-  // filterPanelDeleteIconLabel: 'Delete',
-  // filterPanelLogicOperator: 'Logic operator',
-  // filterPanelOperator: 'Operator',
-  // filterPanelOperatorAnd: 'And',
-  // filterPanelOperatorOr: 'Or',
-  // filterPanelColumns: 'Columns',
-  // filterPanelInputLabel: 'Value',
-  // filterPanelInputPlaceholder: 'Filter value',
-
-  //* Filter operators text--------------------------
-  // filterOperatorContains: 'contains',
-  // filterOperatorEquals: 'equals',
-  // filterOperatorStartsWith: 'starts with',
-  // filterOperatorEndsWith: 'ends with',
-  // filterOperatorIs: 'is',
-  // filterOperatorNot: 'is not',
-  // filterOperatorAfter: 'is after',
-  // filterOperatorOnOrAfter: 'is on or after',
-  // filterOperatorBefore: 'is before',
-  // filterOperatorOnOrBefore: 'is on or before',
-  // filterOperatorIsEmpty: 'is empty',
-  // filterOperatorIsNotEmpty: 'is not empty',
-  // filterOperatorIsAnyOf: 'is any of',
-  // 'filterOperator=': '=',
-  // 'filterOperator!=': '!=',
-  // 'filterOperator>': '>',
-  // 'filterOperator>=': '>=',
-  // 'filterOperator<': '<',
-  // 'filterOperator<=': '<=',
-
-  //* Header filter operators text-------------------
-  // headerFilterOperatorContains: 'Contains',
-  // headerFilterOperatorEquals: 'Equals',
-  // headerFilterOperatorStartsWith: 'Starts with',
-  // headerFilterOperatorEndsWith: 'Ends with',
-  // headerFilterOperatorIs: 'Is',
-  // headerFilterOperatorNot: 'Is not',
-  // headerFilterOperatorAfter: 'Is after',
-  // headerFilterOperatorOnOrAfter: 'Is on or after',
-  // headerFilterOperatorBefore: 'Is before',
-  // headerFilterOperatorOnOrBefore: 'Is on or before',
-  // headerFilterOperatorIsEmpty: 'Is empty',
-  // headerFilterOperatorIsNotEmpty: 'Is not empty',
-  // headerFilterOperatorIsAnyOf: 'Is any of',
-  // 'headerFilterOperator=': 'Equals',
-  // 'headerFilterOperator!=': 'Not equals',
-  // 'headerFilterOperator>': 'Greater than',
-  // 'headerFilterOperator>=': 'Greater than or equal to',
-  // 'headerFilterOperator<': 'Less than',
-  // 'headerFilterOperator<=': 'Less than or equal to',
-
-  //* Filter values text----------
-  // filterValueAny: 'any',
-  // filterValueTrue: 'true',
-  // filterValueFalse: 'false',
-
-  //* Column menu text
-  columnMenuLabel: 'Menú',
-  columnMenuShowColumns: 'Muestra columnas',
-  columnMenuManageColumns: 'Manage columns',
-  columnMenuFilter: "Filtrar",
-  columnMenuHideColumn: 'Columnas ocultas',
-  columnMenuUnsort: 'Sin ordenar',
-  columnMenuSortAsc: "Ordenar de forma acendente",
-  columnMenuSortDesc: "Ordenar de forma decendente",
-
-  //* Column header text
-  // columnHeaderFiltersTooltipActive: (count) =>
-  //   count !== 1 ? `${count} active filters` : `${count} active filter`,
-  // columnHeaderFiltersLabel: 'Show filters',
-  columnHeaderSortIconLabel: 'Ordenar',
-
-  //* Rows selected footer text
-  // footerRowSelected: (count) =>
-  //   count !== 1
-  //     ? `${count.toLocaleString()} rows selected`
-  //     : `${count.toLocaleString()} row selected`,
-
-  //* Total row amount footer text
-  footerTotalRows: 'Total de renglones:',
-
-  //* Total visible row amount footer text
-  // footerTotalVisibleRows: (visibleCount, totalCount) =>
-  //   `${visibleCount.toLocaleString()} of ${totalCount.toLocaleString()}`,
-
-  //* Checkbox selection text
-  // checkboxSelectionHeaderName: 'Checkbox selection',
-  // checkboxSelectionSelectAllRows: 'Select all rows',
-  // checkboxSelectionUnselectAllRows: 'Unselect all rows',
-  // checkboxSelectionSelectRow: 'Select row',
-  // checkboxSelectionUnselectRow: 'Unselect row',
-
-  //* Boolean cell text
-  booleanCellTrueLabel: 'si',
-  booleanCellFalseLabel: 'no',
-
-  //* Actions cell more text
-  actionsCellMore: 'más',
-
-  //* Column pinning text
-  // pinToLeft: 'Fija a la izquierda',
-  // pinToRight: 'Fija a la derecha',
-  // unpin: 'Sin fijar',
-
-  //* Tree Data
-  // treeDataGroupingHeaderName: 'Group',
-  // treeDataExpand: 'see children',
-  // treeDataCollapse: 'hide children',
-
-  //* Grouping columns
-  // groupingColumnHeaderName: 'Group',
-  // groupColumn: (name) => `Group by ${name}`,
-  // unGroupColumn: (name) => `Stop grouping by ${name}`,
-
-  //* Master/detail
-  // detailPanelToggle: 'Detail panel toggle',
-  // expandDetailPanel: 'Expand',
-  // collapseDetailPanel: 'Collapse',
-
-  //* Used core components translation keys
-  // MuiTablePagination: {},
-
-  //* Row reordering text
-  // rowReorderingHeaderName: 'Row reordering',
-
-  //* Aggregation
-  // aggregationMenuItemHeader: 'Aggregation',
-  // aggregationFunctionLabelSum: 'sum',
-  // aggregationFunctionLabelAvg: 'avg',
-  // aggregationFunctionLabelMin: 'min',
-  // aggregationFunctionLabelMax: 'max',
-  // aggregationFunctionLabelSize: 'size',
-
-};
-
-export default function MUIXDataGrid(props: any) {
-
-  const [pageSize, setPageSize] = React.useState(25);
-
+  // const Data = props.rows.length === 0;
   const changePageSize = (v: number) => {
     setPageSize(v);
   };
-
-  // barra personalizada
-  function CustomToolbar() {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-      setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-      setAnchorEl(null);
-    };  
-    const apiRef = useGridApiContext();
-    const handleExport = () => {
-      const tituloPagina=document.title;
-      document.title = props?.exportTitle || "Título predeterminado";
-      apiRef.current.exportDataAsCsv({fields: props.camposCsv, utf8WithBom:true}) ;
-      document.title = tituloPagina || "Tesoreria Virtual"; handleClose()
-    } 
-    const handlePrint = () => { apiRef.current.exportDataAsPrint({fields: props.camposCsv}) ; handleClose()} 
-    return (
-      <GridToolbarContainer sx={{display:"flex", justifyContent:"space-between"}}>
-        <Button
-          aria-controls={open ? 'fade-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
-          onClick={handleClick}
-          className="aceptar"
-        >
-          Exportar
-        </Button>
-          <Menu
-            MenuListProps={{'aria-labelledby': 'fade-button',}}
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            TransitionComponent={Fade}
-          >
-            <MenuItem onClick={handleExport}>
-              <ListItemIcon>
-                <Download fontSize="small" />
-              </ListItemIcon>
-              Descarga CSV
-            </MenuItem>
-            {/* <MenuItem onClick={handlePrint}>
-              <ListItemIcon>
-                <Print fontSize="small" />
-              </ListItemIcon>
-              Imprimir
-            </MenuItem> */}
-          </Menu>        
-        {/* campo de buscar */}
-        <GridToolbarQuickFilter 
-          quickFilterParser={(searchInput: string) =>
-            searchInput
-              .split(',')
-              .map((value) => value.trim())
-              .filter((value) => value !== '')
-          }
-        />
-      </GridToolbarContainer>
-    );
-  }
   return (
     <>
       <ThemeProvider theme={theme}>
         <DataGrid
-          localeText={localeText}        
-          disableSelectionOnClick
-          // esconde el menu de los ... de la primer columna
-          disableColumnMenu
-          components={{Toolbar:  CustomToolbar,}}
+          {...props.rows}
           columns={props.columns}
           rows={props.rows}
-          rowsPerPageOptions={[10, 25, 50, 100]}
+          density="compact"
+          autoHeight={false}
+          stickyHeader
+          // checkboxSelection
+          // rowSelectionModel={selectionModel}
+          // onRowSelectionModelChange={handleSelectionModelChange}
+          // columnVisibilityModel={columnVisibilityModel}
+          // onColumnVisibilityModelChange={(newModel) =>
+          //   setColumnVisibilityModel(newModel)
+          // }
           onPageSizeChange={(v) => changePageSize(v)}
+          rowsPerPageOptions={[10, 25, 50]}
+          disableRowSelectionOnClick
+          getRowId={(row) => (row.Id ? row.Id : row.id)}
+          rowHeight={255}
           pageSize={pageSize}
-          getRowId={props.id}
-          
+          getRowHeight={() => "auto"}
+          // sx={{
+            
+          //   fontFamily: "Poppins, sans-serif",
+          //   fontWeight: "600",
+          //   fontSize: "12px",
+          //   overflow: "auto",
+          //   "& .super-app.positive": {
+          //     color: "#000000",
+          //   },
+          //   "& .MuiDataGrid-root .MuiDataGrid-columnsContainer": {
+          //     backgroundColor: "#f8f9fa", // Color de fondo del encabezado
+          //   },
+          // }}
+          components={{ Toolbar: GridToolbar }}
+          componentsProps={{
+            toolbar: {
+              label: "Buscar",
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 500 },
+              csvOptions: {
+                fileName: props.modulo,
+                utf8WithBom: true,
+              },
+            },
+          }}
+          localeText={{
+            columnsPanelHideAllButton: "Ocultar todo",
+            columnsPanelShowAllButton: "Mostrar todo",
+            columnsPanelTextFieldPlaceholder: "",
+            columnsPanelTextFieldLabel: "Buscar",
+            noRowsLabel: "No se ha encontrado datos.",
+            noResultsOverlayLabel: "No se ha encontrado ningún resultado",
+            toolbarColumns: "Columnas",
+            toolbarExport: "Exportar",
+            toolbarColumnsLabel: "Seleccionar columnas",
+            toolbarFilters: "Filtros",
+            toolbarFiltersLabel: "Ver filtros",
+            toolbarFiltersTooltipHide: "Quitar filtros",
+            toolbarFiltersTooltipShow: "Ver filtros",
+            toolbarQuickFilterPlaceholder: "Buscar",
+            toolbarExportCSV: "Descargar como CSV",
+            toolbarExportPrint: "Imprimir",
+            checkboxSelectionSelectRow: "Filas seleccionadas",
+            checkboxSelectionSelectAllRows: "Seleccionar todas las filas",
+            errorOverlayDefaultLabel: "Ha ocurrido un error.",
+            footerRowSelected: (count) =>
+              count > 1
+                ? `${count.toLocaleString()} filas seleccionadas`
+                : `${count.toLocaleString()} fila seleccionada`,
+            footerTotalRows: "Filas Totales:",
+            columnMenuLabel: "Menú",
+            columnMenuShowColumns: "Mostrar columnas",
+            columnMenuFilter: "Filtro",
+            columnMenuHideColumn: "Ocultar",
+            columnMenuUnsort: "Desordenar",
+            columnMenuSortAsc: "Ordenar ASC",
+            columnMenuSortDesc: "Ordenar DESC",
+            columnHeaderFiltersTooltipActive: (count) =>
+              count > 1 ? `${count} filtros activos` : `${count} filtro activo`,
+            columnHeaderFiltersLabel: "Mostrar filtros",
+            columnHeaderSortIconLabel: "Ordenar",
+            filterPanelColumns: "Columnas",
+            filterOperatorContains: "Contiene",
+            filterOperatorEquals: "Igual",
+            filterOperatorStartsWith: "Comienza Con",
+            filterOperatorEndsWith: "Termina Con",
+            filterOperatorIsEmpty: "Es Vacio",
+            filterOperatorIsNotEmpty: "No Vacio",
+            filterOperatorIsAnyOf: "Es Cualquiera de",
+            filterPanelInputLabel: "Valor",
+            filterPanelInputPlaceholder: "Valor Filtrado",
+          }}
         />
       </ThemeProvider>
     </>
