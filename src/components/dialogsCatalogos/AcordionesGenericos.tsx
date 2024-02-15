@@ -22,17 +22,14 @@ export const AcordionesGenericos = ({
   id: string;
 }) => {
   const [entidades, setEntidades] = useState<ILista[]>([]);
-  //------------------------CATALOGOS-------------------------------------------
 
   useEffect(() => {
     getListas(tabla, id, setEntidades);
   }, []);
 
-  //------------------------CATALOGOS-------------------------------------------
-
   const [expanded, setExpanded] = useState("");
   const [add, setAdd] = useState(false);
-
+  const [entidadSelected, setEntidadSelected] = useState<ILista>();
   return (
     <>
       {entidades.length > 0 ? (
@@ -79,17 +76,19 @@ export const AcordionesGenericos = ({
                   sx={{
                     display: "flex",
                     alignItems: "end",
-                    flexDirection: "column",
+                    flexDirection: "column"
                   }}
                 >
                   <ButtonsAdd
+                    title={"Agregar Dependencia a " + item.Label}
                     handleOpen={() => {
                       setAdd(true);
+                      setEntidadSelected({Id: item.Id,Label:item.Label})
                     }}
                     agregar={true}
                   />
                   {expanded === item.Id ? (
-                    <Grid sx={{ width: "100%",display:"flex", justifyItems:"center" }}>
+                    <Grid sx={{ width: "100%",display:"flex", justifyItems:"center",flexDirection:"column",mt:"2vh" }}>
                       <AcordionesGenericos
                         id={item.Id}
                         tabla="EntidadesHijas"
@@ -111,6 +110,7 @@ export const AcordionesGenericos = ({
           setOpen={setAdd}
           catalogo={"Entidades"}
           data={newCatalogo}
+          EntidadPadre={entidadSelected}
         />
       ) : null}
     </>

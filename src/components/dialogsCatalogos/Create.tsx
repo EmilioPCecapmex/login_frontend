@@ -18,6 +18,7 @@ import {
 import { IUsuarios } from "../../screens/SolicitudDeUsuarios/ICatalogos";
 import { IModifica } from "../../screens/Catalogos/Catalogos";
 import { alertaInformativa } from "../alertas/toast";
+import { ILista } from "../../screens/Ayuda/AyudaModal";
 
 export interface IModify {
   Entidad: { Id: string; Nombre: string };
@@ -43,11 +44,13 @@ export const Create = ({
   setOpen,
   catalogo,
   data,
+  EntidadPadre = { Id: "", Label: "" },
 }: {
   open: boolean;
   setOpen: Function;
   catalogo: string;
   data: IModifica;
+  EntidadPadre?:ILista;
 }) => {
 
   const [nuevoElemento, setNuevoElemento] = useState({
@@ -104,6 +107,14 @@ export const Create = ({
     getCatalogo("lista-entidades-select", setEntidades, "", "");
     getCatalogo("lista-tipo-entidades", setTipoEntidades, "", "");
   }, []);
+
+  useEffect(()=>{
+    console.log("EntidadPAdre",EntidadPadre);
+    
+    if(entidades.length>0 && EntidadPadre.Id!=="" && EntidadPadre.Label!==""){
+      setNuevoElemento({...nuevoElemento,PerteneceA:{Id:EntidadPadre.Id,Nombre:EntidadPadre.Label,}})
+    }
+  },[entidades])
 
 
   //------------------------CATALOGOS-------------------------------------------
@@ -269,6 +280,7 @@ export const Create = ({
           <Grid sx={{ mt: 3, width: "100%" }}>
             <Typography variant="body2"> Pertenece A: </Typography>
             <Autocomplete
+              disabled={EntidadPadre.Id!==""}
               noOptionsText="No se encontraron opciones"
               clearText="Borrar"
               closeText="Cerrar"
