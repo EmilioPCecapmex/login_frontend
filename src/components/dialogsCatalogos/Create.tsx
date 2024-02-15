@@ -42,13 +42,11 @@ export const Create = ({
   open,
   setOpen,
   catalogo,
-  reloadData,
   data,
 }: {
   open: boolean;
   setOpen: Function;
   catalogo: string;
-  reloadData: Function;
   data: IModifica;
 }) => {
 
@@ -377,8 +375,7 @@ export const Create = ({
                     ClaveSiregob: nuevoElemento.ClaveSiregob,
                     IdUsuario: localStorage.getItem("IdUsuario"),
                   },
-                  setOpen,
-                  reloadData
+                  setOpen
                 )
               : createCatalogo(
                   ruta,
@@ -394,8 +391,7 @@ export const Create = ({
                     ClaveSiregob: nuevoElemento.ClaveSiregob,
                     IdUsuario: localStorage.getItem("IdUsuario"),
                   },
-                  setOpen,
-                  reloadData
+                  setOpen
                 );
             }
             
