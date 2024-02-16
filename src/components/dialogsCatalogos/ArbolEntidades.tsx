@@ -7,6 +7,10 @@ import {
   Grid,
 } from "@mui/material";
 import { AcordionesGenericos } from "./AcordionesGenericos";
+import ButtonsAdd from "../../screens/Componentes/ButtonsAdd";
+import { useState } from "react";
+import { Create } from "./Create";
+import { newCatalogo } from "../../screens/Catalogos/Catalogos";
 
 export const ArbolEntidades = ({
   open,
@@ -15,8 +19,11 @@ export const ArbolEntidades = ({
   open: boolean;
   setOpen: Function;
 }) => {
+  const [add, setAdd] = useState(false);
+
   return (
-    <Dialog
+  <>
+  <Dialog
       open={open}
       onClose={() => {
         setOpen(false);
@@ -24,8 +31,26 @@ export const ArbolEntidades = ({
       fullWidth
       maxWidth={"xl"}
     >
-      <DialogTitle>Entidades:</DialogTitle>
-      <DialogContent
+
+      {add?<Create
+        open={add}
+        setOpen={setAdd}
+        catalogo={"Entidades"}
+        data={newCatalogo}
+      />:
+      <>
+      <DialogTitle>
+        <Grid sx={{display:"flex", width:"100%", justifyContent:"space-between"}}>
+          Entidades:
+          <ButtonsAdd
+            title={"Agregar Entidad"}
+            handleOpen={() => {
+              setAdd(true);
+            }}
+            agregar={true}
+          />
+        </Grid>
+      </DialogTitle><DialogContent
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -35,12 +60,18 @@ export const ArbolEntidades = ({
         <Grid sx={{ width: "100%" }}>
           <AcordionesGenericos id="" tabla="EntidadesMatrices" />
         </Grid>
-      </DialogContent>
-      <DialogActions>
+
+       
+      </DialogContent><DialogActions>
+       
         <Button className="cancelar" onClick={() => setOpen(false)}>
           Cerrar
         </Button>
       </DialogActions>
+      </>
+      }
     </Dialog>
+  </>
+    
   );
 };
