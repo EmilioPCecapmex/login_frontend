@@ -5,6 +5,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Grid,
+  TextField,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -17,11 +18,16 @@ import { newCatalogo } from "../../screens/Catalogos/Catalogos";
 export const AcordionesGenericos = ({
   tabla,
   id,
+  filtro
 }: {
   tabla: string;
   id: string;
+  filtro?:string
 }) => {
   const [entidades, setEntidades] = useState<ILista[]>([]);
+  const [entidadesFiltered, setEntidadesFiltered] = useState<ILista[]>([]);
+  const [filtroHijo, setFiltroHijo] = useState('');
+  
 
   const [expanded, setExpanded] = useState("");
   const [add, setAdd] = useState(false);
@@ -30,10 +36,33 @@ export const AcordionesGenericos = ({
   useEffect(() => {
     getListas(tabla, id, setEntidades);
   }, []);
+
+  useEffect(() => {
+    // Filtrar las entidades según el valor del filtro
+    if(filtro && filtro!==''){
+      const entidadesFiltradas = entidades.filter((entidad) =>
+      entidad.Label.toLowerCase().includes(filtro.toLowerCase())
+    );
+    setEntidadesFiltered(entidadesFiltradas);
+    }else{
+      setEntidadesFiltered(entidades);
+    }
+    // Actualizar el estado de las entidades filtradas
+    
+  }, [filtro]);
+
+  useEffect(() => {
+    // Filtrar las entidades según el valor del filtro
+    
+    setEntidadesFiltered(entidades);
+ 
+    // Actualizar el estado de las entidades filtradas
+    
+  }, [entidades]);
   return (
     <>
-      {entidades.length > 0 ? (
-        entidades.map((item) => {
+      {entidadesFiltered.length > 0 ? (
+        entidadesFiltered.map((item) => {
           return (
             <Accordion
               expanded={expanded === item.Id}
@@ -71,37 +100,53 @@ export const AcordionesGenericos = ({
                   </Grid>
                 </Grid>
               </AccordionSummary>
-              <AccordionDetails>
-                <Grid
-                  sx={{
-                    display: "flex",
-                    alignItems: "end",
-                    flexDirection: "column"
-                  }}
-                >
-                  <ButtonsAdd
-                    title={"Agregar Dependencia a " + item.Label}
-                    handleOpen={() => {
-                      setAdd(true);
-                      setEntidadSelected({Id: item.Id,Label:item.Label})
+              {expanded === item.Id && !add ? (
+                <AccordionDetails sx={{display:"flex",flexDirection:"column",alignContent:"end"}}>
+                  <Grid
+                    sx={{
+                      display: "flex",
+                      alignItems: "end",justifyContent:"flex-end",
                     }}
-                    agregar={true}
-                  />
-                  {expanded === item.Id && !add? (
-                    <Grid sx={{ width: "100%",display:"flex", justifyItems:"center",flexDirection:"column",mt:"2vh" }}>
-                      <AcordionesGenericos
-                        id={item.Id}
-                        tabla="EntidadesHijas"
-                      />
-                    </Grid>
-                  ) : null}
-                </Grid>
-              </AccordionDetails>
+                  >
+                    <TextField label="Buscar" value={filtroHijo} onChange={(v)=>setFiltroHijo(v.target.value)} sx={{mr:"2vw", width:["70%","70%","50%","40%","40%"]}}/>
+                    <ButtonsAdd
+                      title={"Agregar Dependencia a " + item.Label}
+                      handleOpen={() => {
+                        setAdd(true);
+                        setEntidadSelected({ Id: item.Id, Label: item.Label });
+                      }}
+                      agregar={true}
+                    />
+                  </Grid>
+
+                  <Grid
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      justifyItems: "center",
+                      flexDirection: "column",
+                      mt: "2vh",
+                    }}
+                  >
+                    <AcordionesGenericos id={item.Id} tabla="EntidadesHijas" filtro={filtroHijo} />
+                  </Grid>
+                </AccordionDetails>
+              ) : null}
             </Accordion>
           );
         })
       ) : (
-        <Typography> No se encontraron dependencias</Typography>
+        <Grid
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyItems: "center",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography> No se encontraron dependencias</Typography>{" "}
+        </Grid>
       )}
 
       {add ? (

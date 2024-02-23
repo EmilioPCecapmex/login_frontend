@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
+  TextField,
 } from "@mui/material";
 import { AcordionesGenericos } from "./AcordionesGenericos";
 import ButtonsAdd from "../../screens/Componentes/ButtonsAdd";
@@ -21,6 +22,7 @@ export const ArbolEntidades = ({
   setOpen: Function;
 }) => {
   const [add, setAdd] = useState(false);
+  const [filtroHijo, setFiltroHijo] = useState("");
 
   return (
     <>
@@ -43,13 +45,23 @@ export const ArbolEntidades = ({
           <>
             <DialogTitle>
               <Grid
+                container
                 sx={{
                   display: "flex",
                   width: "100%",
                   justifyContent: "space-between",
                 }}
               >
-                Entidades:
+                <Grid item xl={4} lg={4} md={4} sm={12} xs={12}> 
+                  Entidades:
+                </Grid>
+                <Grid item sx={{display:"flex",justifyContent:"flex-end"}} xl={8} lg={8} md={8} sm={12} xs={12}>
+                  <TextField
+                  label="Buscar"
+                  value={filtroHijo}
+                  onChange={(v) => setFiltroHijo(v.target.value)}
+                  sx={{mr:"2vw", width:["80%","80%","80%","60%","50%"]}}
+                />
                 <ButtonsAdd
                   title={"Agregar Entidad"}
                   handleOpen={() => {
@@ -57,6 +69,9 @@ export const ArbolEntidades = ({
                   }}
                   agregar={true}
                 />
+                </Grid>
+                
+                
               </Grid>
             </DialogTitle>
             <DialogContent
@@ -67,8 +82,7 @@ export const ArbolEntidades = ({
               }}
             >
               <Grid sx={{ width: "100%" }}>
-                
-                <AcordionesGenericos id="" tabla="EntidadesMatrices" />
+                <AcordionesGenericos id="" tabla="EntidadesMatrices"  filtro={filtroHijo}/>
               </Grid>
             </DialogContent>
             <DialogActions>
