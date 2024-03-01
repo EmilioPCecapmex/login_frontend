@@ -20,6 +20,7 @@ import {
   FormControl,
   Select,
   MenuItem,
+  Hidden,
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -33,6 +34,9 @@ import "./style/Fonts.css";
 import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
 import { alertaExito, alertaInformativa } from "../../components/alertas/toast";
 import { IApps } from "../SolicitudDeUsuarios/SolicitudUsuario";
+import SyncIcon from "@mui/icons-material/Sync";
+
+// ...
 
 export interface Usuario {
   EstaActivoLabel: string;
@@ -153,6 +157,7 @@ export default function Users() {
         alertaExito(() => {}, "Se envio el correo.");
       });
   };
+
   const [appsDialogOpen, setAppsDialogOpen] = useState(false);
   const [appsDialogUsuario, setAppsDialogUsuario] = useState<Usuario>();
   const [idApp, setIdApp] = useState("");
@@ -263,8 +268,6 @@ export default function Users() {
   useEffect(() => {
     getAllUsers();
     getAllApps();
-    console.log("se repite");
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showAllUsers]);
 
@@ -276,7 +279,7 @@ export default function Users() {
       headerName: "Acciones",
       width: 150,
       headerAlign: "center",
-      align:"center",
+      align: "center",
       renderCell: (cellValues: any) => {
         return (
           <Box>
@@ -319,14 +322,14 @@ export default function Users() {
               }
             >
               <IconButton
-  sx={{ color: "black" }}
-  onClick={(event) => {
-    Swal.fire({
-      icon: "info",
-      title: "Mensaje",
-      iconColor: "#af8c55",
-      // color: "#af8c55",
-      html: `
+                sx={{ color: "black" }}
+                onClick={(event) => {
+                  Swal.fire({
+                    icon: "info",
+                    title: "Mensaje",
+                    iconColor: "#af8c55",
+                    // color: "#af8c55",
+                    html: `
         <div>
           <p>¿Está seguro de que desea reenviar las credenciales de 
               ${cellValues?.row?.Nombre} ${cellValues?.row?.ApellidoPaterno} ${cellValues?.row?.ApellidoMaterno}?
@@ -339,26 +342,24 @@ export default function Users() {
           
         </div>
       `,
-      showCloseButton: true,
-      showCancelButton: true,
-      confirmButtonText: "Aceptar",
-      confirmButtonColor: "#15212f",
-      cancelButtonText: "Cancelar",
-      cancelButtonColor: "#AF8C55",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        sendCredentials(
-          cellValues?.row?.NombreUsuario,
-          cellValues?.row?.CorreoElectronico
-        );
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        // Código para la lógica cuando el usuario hace clic en Cancelar
-      }
-    });
-  }}
->
-
-
+                    showCloseButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: "Aceptar",
+                    confirmButtonColor: "#15212f",
+                    cancelButtonText: "Cancelar",
+                    cancelButtonColor: "#AF8C55",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      sendCredentials(
+                        cellValues?.row?.NombreUsuario,
+                        cellValues?.row?.CorreoElectronico
+                      );
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                      // Código para la lógica cuando el usuario hace clic en Cancelar
+                    }
+                  });
+                }}
+              >
                 <ForwardToInboxIcon />
               </IconButton>
             </Tooltip>
@@ -372,28 +373,28 @@ export default function Users() {
       width: 200,
       hideable: false,
       headerAlign: "center",
-      align:"center",
+      align: "center",
     },
     {
       field: "ApellidoPaterno",
       headerName: "Apellido Paterno",
       width: 200,
       headerAlign: "center",
-      align:"center",
+      align: "center",
     },
     {
       field: "ApellidoMaterno",
       headerName: "Apellido Materno",
       width: 200,
       headerAlign: "center",
-      align:"center",
+      align: "center",
     },
     {
       field: "NombreUsuario",
       headerName: "Nombre Usuario",
       width: 200,
       headerAlign: "center",
-      align:"center",
+      align: "center",
     },
     {
       field: "CorreoElectronico",
@@ -405,21 +406,21 @@ export default function Users() {
       headerName: "Creador",
       width: 150,
       headerAlign: "center",
-      align:"center",
+      align: "center",
     },
     {
       field: "NombreModificadoPor",
       headerName: "Actualizado Por",
       width: 150,
       headerAlign: "center",
-      align:"center",
+      align: "center",
     },
     {
       field: "EstaActivoLabel",
       headerName: "Estatus",
       width: 110,
       headerAlign: "center",
-      align:"center",
+      align: "center",
     },
   ];
 
@@ -435,198 +436,274 @@ export default function Users() {
   };
 
   return (
-    <Grid container sx={{ width: "100vw", height: "100vh" }}>
-      <Header menuActual="Usuarios" />
-
-      <Grid sx={{ height: "84vh", width: "100vw" }}>
-        <Grid
-          display={"flex"}
-          justifyContent={"space-between"}
-          alignItems={"center"}
-          width={"100vw"}
-          sx={{
-            height: "12%",
-            "@media (min-width: 480px)": {
-              height: "14%",
-            },
-            "@media (min-width: 768px)": {
-              height: "11.5%",
-            },
-          }}
-        >
-          <Grid
-            item
-            sx={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <Tooltip title="Menu actual: Usuarios">
-              <CardContent>
-                <PeopleAltIcon
-                  sx={{ color: "#AF8C55", fontSize: [30, 30, 30, 40, 40] }}
-                />
-              </CardContent>
-            </Tooltip>
-
-            <Typography
-              fontFamily={"'Montserrat', sans-serif"}
-              sx={{
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                textAlign: "center",
-                fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
-                color: "#AF8C55",
-              }}
-            >
-              Usuarios
-            </Typography>
-          </Grid>
-
-
-          <CardContent
-            sx={{
-              "@media (min-width: 480px)": {
-                flexDirection: "column",
-              },
-              "@media (min-width: 768px)": {
-                flexDirection: "row",
-                display: "flex",
-              },
-              width:"50%",
-              display:"flex",justifyContent:"space-around"
-            }}
-          >
-            <Grid item xl={4}>
-            <FormControl fullWidth>
-              <InputLabel
-                // variant="standard"
-                sx={{ fontFamily: "MontserratMedium" }}
-              >
-               Filtrar por Aplicación
-              </InputLabel>
-              <Select
-                value={selectedAppId}
-                label="Filtrar por Aplicación"
-                onChange={(e) => {
-                  setSelectedAppId(e.target.value);
-                  getAllUsers(e.target.value);
-                }}
-              >
-                  <MenuItem key={1} value={""}>
-                   Todas las Aplicaciones
-                  </MenuItem>
-                {apps.map((app) => (
-                  <MenuItem key={app.Id} value={app.Id}>
-                    {app.Nombre}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-
-            <Grid item>
-              <FormGroup>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      onChange={(v) => setShowAllUsers(v.target.checked)}
-                    />
-                  }
-                  label={
-                    <Typography
-                      sx={{
-                        fontSize: ".7rem",
-                        "@media (min-width: 480px)": {
-                          fontSize: ".7rem",
-                        },
-                        "@media (min-width: 768px)": {
-                          fontSize: "1rem",
-                        },
-                      }}
-                    >
-                      Usuarios Inactivos
-                    </Typography>
-                  }
-                />
-              </FormGroup>
-            </Grid>
-
-            <Grid>
-              <Button
-                className="aceptar"
-                variant="text"
-                onClick={() => {
-                  actualizar();
-                }}
-                sx={{
-                  fontFamily: "MontserratBold",
-                  backgroundColor: "#DFA94F",
-                  color: "#000001",
-                  boxShadow: 4,
-                  marginRight: "5px",
-                }}
-              >
-                <Typography
-                  sx={{
-                    fontSize: ".7rem",
-                    "@media (min-width: 480px)": {
-                      fontSize: ".7rem",
-                    },
-                    "@media (min-width: 768px)": {
-                      fontSize: "1rem",
-                    },
-                  }}
-                >
-                  Actualizar Usuarios
-                </Typography>
-              </Button>
-            </Grid>
-
-            <Grid>
-              <Button
-                className="aceptar"
-                variant="text"
-                onClick={() => {
-                  setIdApp("");
-                  setIdUsuario("");
-                  setNewDialogOpen(true);
-                }}
-                sx={{
-                  fontFamily: "MontserratBold",
-                  backgroundColor: "#DFA94F",
-                  color: "#000001",
-                  boxShadow: 4,
-                }}
-                startIcon={<PersonAddIcon />}
-              >
-                <Typography
-                  sx={{
-                    fontSize: ".7rem",
-                    "@media (min-width: 480px)": {
-                      fontSize: ".7rem",
-                    },
-                    "@media (min-width: 768px)": {
-                      fontSize: "1rem",
-                    },
-                  }}
-                >
-                  Registrar Usuario
-                </Typography>
-              </Button>
-            </Grid>
-          </CardContent>
+    <>
+      <Grid container sx={{ maxWidthwidth: "100vw", maxHeightheight: "100vh" }}>
+        <Grid item xl={12} xs={12} lg={12} md={12} sm={12}>
+          <Header menuActual="Usuarios" />
         </Grid>
 
-        <Grid item sx={{ width: "100vw", height: "77vh" }}>
-          <MUIXDataGrid
-            id={(row: any) => row.Id}
-            columns={columns}
-            rows={rows}
-            camposCsv={camposCsv}
-            exportTitle={"Catálogo de Usuarios"}
-          />
+        <Grid
+          item
+          container
+          xl={12}
+          lg={12}
+          md={12}
+          sm={12}
+          xs={12}
+          sx={{ height: "90vh" }}
+        >
+          {/* ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+          <Grid
+            item
+            container
+            xl={12}
+            lg={12}
+            md={12}
+            sm={12}
+            xs={12}
+            display={"flex"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+            sx={{ height: ["25%", "12%", "12%", "12%", "12%"] }}
+          >
+            <Hidden smDown>
+              <Grid
+                item
+                xl={2}
+                lg={2}
+                md={2}
+                sm={3}
+                xs={12}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <Tooltip title="Menu actual: Usuarios">
+                  <CardContent>
+                    <PeopleAltIcon
+                      sx={{ color: "#AF8C55", fontSize: [30, 30, 30, 40, 40] }}
+                    />
+                  </CardContent>
+                </Tooltip>
+
+                <Typography
+                  fontFamily={"'Montserrat', sans-serif"}
+                  sx={{
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    textAlign: "center",
+                    fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
+                    color: "#AF8C55",
+                  }}
+                >
+                  Usuarios
+                </Typography>
+              </Grid>
+            </Hidden>
+            <Grid
+              item
+              container
+              xl={10}
+              lg={10}
+              md={10}
+              sm={9}
+              xs={12}
+              sx={{
+                display: "flex",
+                justifyContent: "space-around",
+              }}
+            >
+              <Grid
+                container
+                item
+                xl={12}
+                lg={12}
+                md={12}
+                sm={12}
+                xs={12}
+                sx={{
+                  justifyContent: "flex-end",
+                  display: "flex",
+                }}
+              >
+                <Grid
+                  item
+                  container
+                  xl={5}
+                  lg={5}
+                  md={5}
+                  sm={5}
+                  xs={12}
+                  sx={{ justifyContent: "center", alignItems: "center" }}
+                >
+                  <FormControl
+                    sx={{ width: ["95%", "90%", "80%", "80%", "80%"] }}
+                  >
+                    <InputLabel
+                      // variant="standard"
+                      sx={{
+                        fontFamily: "MontserratMedium",
+                        justifyContent: "flex-start",
+                      }}
+                    >
+                      Filtrar por Aplicación
+                    </InputLabel>
+                    <Select
+                      value={selectedAppId}
+                      label="Filtrar por Aplicación"
+                      onChange={(e) => {
+                        setSelectedAppId(e.target.value);
+                        getAllUsers(e.target.value);
+                      }}
+                    >
+                      <MenuItem key={1} value={""}>
+                        Todas las Aplicaciones
+                      </MenuItem>
+                      {apps.map((app) => (
+                        <MenuItem key={app.Id} value={app.Id}>
+                          {app.Nombre}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+
+                <Grid
+                  item
+                  container
+                  xl={5}
+                  lg={5}
+                  md={5}
+                  sm={7}
+                  xs={12}
+                  sx={{ justifyContent: "center", alignItems: "center" }}
+                >
+                  <Grid
+                    item
+                    container
+                    xl={3}
+                    lg={3}
+                    md={3}
+                    sm={6}
+                    xs={12}
+                    sx={{ justifyContent: "flex-end" }}
+                  >
+                    <FormGroup>
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            onChange={(v) => setShowAllUsers(v.target.checked)}
+                          />
+                        }
+                        label={
+                          <Typography
+                            sx={{
+                              fontSize: [
+                                ".7rem",
+                                ".7rem",
+                                ".7rem",
+                                "1rem",
+                                "1rem",
+                              ],
+                            }}
+                          >
+                            Usuarios Inactivos
+                          </Typography>
+                        }
+                      />
+                    </FormGroup>
+                  </Grid>
+
+                  <Grid
+                    item
+                    container
+                    xl={9}
+                    lg={9}
+                    md={9}
+                    sm={6}
+                    xs={12}
+                    sx={{ justifyContent: "flex-end" }}
+                  >
+                    <Button
+                      className="aceptar"
+                      variant="text"
+                      onClick={() => {
+                        actualizar();
+                      }}
+                      sx={{
+                        fontFamily: "MontserratBold",
+                        backgroundColor: "#DFA94F",
+                        color: "#000001",
+                        boxShadow: 4,
+                        mr: ["1vw", "1vw", "0vw", "1vw", "1vw"],
+                        width: ["auto", "90%", "auto", "auto", "auto"],
+                      }}
+                      startIcon={<SyncIcon />}
+                    >
+                      <Typography
+                        sx={{
+                          fontSize: [".7rem", ".7rem", ".7rem", "1rem", "1rem"],
+                        }}
+                      >
+                        Actualizar Usuarios
+                      </Typography>
+                    </Button>
+
+                    <Button
+                      className="aceptar"
+                      variant="text"
+                      onClick={() => {
+                        setIdApp("");
+                        setIdUsuario("");
+                        setNewDialogOpen(true);
+                      }}
+                      sx={{
+                        fontFamily: "MontserratBold",
+                        backgroundColor: "#DFA94F",
+                        color: "#000001",
+                        boxShadow: 4,
+                        mr: ["1vw", "1vw", "0vw", "1vw", "1vw"],
+                        width: ["auto", "90%", "auto", "auto", "auto"],
+                      }}
+                      startIcon={<PersonAddIcon />}
+                    >
+                      <Typography
+                        sx={{
+                          fontSize: [".7rem", ".7rem", ".7rem", "1rem", "1rem"],
+                        }}
+                      >
+                        Registrar Usuario
+                      </Typography>
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Grid>
+              {/* zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz */}
+            </Grid>
+            {/* zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz */}
+          </Grid>
+
+          {/* ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+
+          <Grid
+            item
+            xl={12}
+            xs={12}
+            lg={12}
+            md={12}
+            sm={12}
+            sx={{ height: ["75%", "88%", "88%", "88%", "88%"] }}
+          >
+            <MUIXDataGrid
+              id={(row: any) => row.Id}
+              columns={columns}
+              rows={rows}
+              camposCsv={camposCsv}
+              exportTitle={"Catálogo de Usuarios"}
+            />
+          </Grid>
         </Grid>
       </Grid>
       {newDialogOpen ? (
@@ -648,7 +725,7 @@ export default function Users() {
           setIdApp={setIdApp}
         />
       ) : null}
-    </Grid>
+    </>
   );
 }
 

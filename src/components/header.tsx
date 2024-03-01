@@ -139,29 +139,30 @@ export const Header = (
     >
       <TimerCounter />
       {/* grid del nombre */}
-      <Grid item
-        sx={{
-          "@media (min-width: 480px)": {
-            width: "50%",
-          },
+      <Grid item xl={4} lg={4} md={3} sm={10} xs={9}
+        // sx={{
+        //   "@media (min-width: 480px)": {
+        //     width: "50%",
+        //   },
 
-          "@media (min-width: 768px)": {
-            width: "30%",
-          },
+        //   "@media (min-width: 768px)": {
+        //     width: "30%",
+        //   },
 
-          "@media (min-width: 1140px)": {
-            width: "30%",
-          },
+        //   "@media (min-width: 1140px)": {
+        //     width: "30%",
+        //   },
 
-          "@media (min-width: 1400px)": {
-            width: "30%",
-          },
+        //   "@media (min-width: 1400px)": {
+        //     width: "30%",
+        //   },
 
-          "@media (min-width: 1870px)": {
-            width: "30%",
-          },
+        //   "@media (min-width: 1870px)": {
+        //     width: "30%",
+        //   },
 
-        }} >
+        // }} 
+        >
         <Typography
           paddingLeft={3}
           fontFamily={"'Montserrat', sans-serif"}
@@ -174,10 +175,10 @@ export const Header = (
             color: "#AF8C55"
           }}
         >
-
           {nombreUsuario.toLocaleUpperCase()}
         </Typography>
       </Grid>
+      
       {/* imagen */}
       <Grid item display={"flex"} justifyContent="center">
         <Hidden mdDown>
@@ -198,33 +199,34 @@ export const Header = (
       <Grid
         item
         display={"flex"}
-        height={"100%"}
+        // height={"100%"}
         justifyContent={"flex-end"}
-        sx={{
-          height: "40px",
-          alignItems: "center",
-          justifyContent: "flex-end",
+        xl={4} lg={4} md={3} sm={2} xs={3}
+        // sx={{
+        //   height: "40px",
+        //   alignItems: "center",
+        //   justifyContent: "flex-end",
 
-          "@media (min-width: 480px)": {
-            width: "20%",
-          },
+        //   "@media (min-width: 480px)": {
+        //     width: "20%",
+        //   },
 
-          "@media (min-width: 768px)": {
-            width: "30%",
-          },
+        //   "@media (min-width: 768px)": {
+        //     width: "30%",
+        //   },
 
-          "@media (min-width: 1140px)": {
-            width: "30%",
-          },
+        //   "@media (min-width: 1140px)": {
+        //     width: "30%",
+        //   },
 
-          "@media (min-width: 1400px)": {
-            width: "30%",
-          },
+        //   "@media (min-width: 1400px)": {
+        //     width: "30%",
+        //   },
 
-          "@media (min-width: 1870px)": {
-            width: "30%",
-          },
-        }}
+        //   "@media (min-width: 1870px)": {
+        //     width: "30%",
+        //   },
+        // }}
       > <>
           <Tooltip title="Menú">
             <IconButton

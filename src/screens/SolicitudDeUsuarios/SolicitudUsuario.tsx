@@ -18,6 +18,7 @@ import { UserServices } from "../../services/UserServices";
 import { getCatalogo } from "../../services/catalogosService";
 import { IEntidadPadre, IRol } from "./ICatalogos";
 import SliderProgress from "../Componentes/SliderProgress";
+import { alertaInformativa } from "../../components/alertas/toast";
 
 export interface NewDialogProps {
   modoModal: boolean;
@@ -206,12 +207,9 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
         // confirmButtonColor: "#15212f",
         confirmButtonText: "Aceptar",
         customClass: {
-          confirmButton: "aceptar" // Agrega una clase CSS personalizada al botón de confirmación
-        }
-
+          confirmButton: "aceptar", // Agrega una clase CSS personalizada al botón de confirmación
+        },
       });
-
-
     } else {
       handleStoreBtn();
     }
@@ -236,10 +234,10 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       TipoSolicitud: bajaUsuario
         ? "BAJA"
         : existeCorreo
-          ? "VINCULACION"
-          : IdUsuario
-            ? "MODIFICACION"
-            : "ALTA",
+        ? "VINCULACION"
+        : IdUsuario
+        ? "MODIFICACION"
+        : "ALTA",
       IdApp: infoUsuario.Aplicacion.Id,
       CreadoPor: props.idUsuarioSolicitante
         ? props.idUsuarioSolicitante
@@ -258,6 +256,8 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
         : String(localStorage.getItem("jwtToken"))
     )
       .then((res) => {
+        console.log(res.status);
+
         if (res.status === 200) {
           if (
             res.data.data[0][0].Respuesta === "406" ||
@@ -269,6 +269,8 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
               iconColor: "#af8c55",
               color: "#af8c55",
               text: res.data.data[0][0].Mensaje,
+              confirmButtonText: "Aceptar",
+                      confirmButtonColor: "#15212f",
             });
 
           if (res.data.data[0][0].Respuesta === "201") {
@@ -276,11 +278,11 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
               icon: "success",
               title: "Mensaje",
               text: "¡Se creo la solicitud!",
-              confirmButtonColor: "#15212f",
               confirmButtonText: "Aceptar",
+                      confirmButtonColor: "#15212f",
               customClass: {
-                confirmButton: "aceptar" // Agrega una clase CSS personalizada al botón de confirmación
-              }
+                confirmButton: "aceptar", // Agrega una clase CSS personalizada al botón de confirmación
+              },
             }).then((result) => {
               if (result.isConfirmed) {
                 props.handleDialogClose(false);
@@ -289,24 +291,39 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           }
 
           // setUserTypes(res?.data?.data);
+        } else if (res.status === 409) {
+          Swal.fire({
+            icon: "info",
+            title: "Mensaje",
+            iconColor: "#af8c55",
+            color: "#af8c55",
+            text: ` Sucedio un error ${res.data.error}`,
+            confirmButtonText: "Aceptar",
+            confirmButtonColor: "#15212f",
+          });
+          // alertaInformativa()
         } else {
           Swal.fire({
             icon: "info",
             title: "Mensaje",
             iconColor: "#af8c55",
             color: "#af8c55",
-            text: "(" + res.response.status + ") ",
+            text: " Sucedio un error",
+            confirmButtonText: "Aceptar",
+                    confirmButtonColor: "#15212f",
           });
           setBajaUsuario(false);
         }
       })
       .catch((error) => {
+        console.log("error", error.data.error);
+
         Swal.fire({
           icon: "info",
           title: "Mensaje",
           iconColor: "#af8c55",
           color: "#af8c55",
-          text: "Error al realizar el registro",
+          text: "Error al realizar el registro " + error,
         });
       });
   };
@@ -333,10 +350,10 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       Nombre: "",
       ApellidoPaterno: "",
       ApellidoMaterno: "",
-      NombreUsuario:"",
+      NombreUsuario: "",
       //  usuario,
       CorreoElectronico: "",
-        // CorreoElectronico,
+      // CorreoElectronico,
       Puesto: "",
       CURP: "",
       RFC: "",
@@ -422,32 +439,36 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             setExisteNUsuario(false);
           }
         })
-        .catch((err) => { });
+        .catch((err) => {});
     } else {
       setExisteNUsuario(false);
     }
   };
 
-  const [datosObtenidos,setDatosObtenidos]=useState(true);
+  const [datosObtenidos, setDatosObtenidos] = useState(true);
 
-  useEffect(()=>{
-    if((infoUsuario.Entidad.Nombre!=='' && infoUsuario.NombreUsuario ) || !props.idApp || !localStorage.getItem("IdApp")!)
-        setDatosObtenidos(false) 
-  },[infoUsuario.Entidad.Nombre])
+  useEffect(() => {
+    if (
+      (infoUsuario.Entidad.Nombre !== "" && infoUsuario.NombreUsuario) ||
+      !props.idApp ||
+      !localStorage.getItem("IdApp")!
+    )
+      setDatosObtenidos(false);
+  }, [infoUsuario.Entidad.Nombre]);
 
-
-  useEffect(() => {if(apps.length>0){
-  
-    if (props.idApp !== "") {
-      let aux = apps.find((app) => app.Id === props.idApp);
-      if (aux) {
-        setInfoUsuario({
-          ...infoUsuario,
-          Aplicacion: {Id:aux.Id,Nombre:aux.Nombre },
-        });
-        getCatalogo("roles", setRoles, props.idApp, props.token);
+  useEffect(() => {
+    if (apps.length > 0) {
+      if (props.idApp !== "") {
+        let aux = apps.find((app) => app.Id === props.idApp);
+        if (aux) {
+          setInfoUsuario({
+            ...infoUsuario,
+            Aplicacion: { Id: aux.Id, Nombre: aux.Nombre },
+          });
+          getCatalogo("roles", setRoles, props.idApp, props.token);
+        }
       }
-    }}
+    }
   }, [apps]);
 
   useEffect(() => {
@@ -455,11 +476,9 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
   }, [infoUsuario.Aplicacion]);
 
   useEffect(() => {
-
     getCatalogo("apps", setApps, "", props.token);
     getCatalogo("lista-entidades", setEntidades, "", props.token);
-    
-    
+
     if (IdUsuario) {
       axios
         .post(
@@ -502,31 +521,42 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             Roles: roles || [],
             Entidad: {
               Id: data.IdEntidad || "",
-              Nombre:data.Entidad || "",
+              Nombre: data.Entidad || "",
             },
             PuedeFirmar: data.PuedeFirmar === 1,
           });
-            console.log("data.Entidad ",data.Entidad );
-            console.log("data.Nombre",data.Nombre);
-            console.log("data.ApellidoPaterno",data.ApellidoPaterno);
-            console.log("ApellidoMaterno",data.ApellidoMaterno);
-            console.log("data.NombreUsuario",data.NombreUsuario);
-            console.log("data.CorreoElectronico",data.CorreoElectronico);
-            console.log("data.Aplicacion",data.Aplicacion);
-            console.log("data.IdTipoUsuario",data.IdTipoUsuario);
-            console.log("data.Puesto",data.Puesto);
-            console.log("data.TipoUsuario",data.TipoUsuario);
-          if(!data.Entidad ||!data.Nombre||!data.ApellidoPaterno||!data.ApellidoMaterno||!data.NombreUsuario||!data.CorreoElectronico||!data.Aplicacion||!data.IdTipoUsuario||!data.TipoUsuario||!data.Puesto){
-            
+          console.log("data.Entidad ", data.Entidad);
+          console.log("data.Nombre", data.Nombre);
+          console.log("data.ApellidoPaterno", data.ApellidoPaterno);
+          console.log("ApellidoMaterno", data.ApellidoMaterno);
+          console.log("data.NombreUsuario", data.NombreUsuario);
+          console.log("data.CorreoElectronico", data.CorreoElectronico);
+          console.log("data.Aplicacion", data.Aplicacion);
+          console.log("data.IdTipoUsuario", data.IdTipoUsuario);
+          console.log("data.Puesto", data.Puesto);
+          console.log("data.TipoUsuario", data.TipoUsuario);
+          if (
+            !data.Entidad ||
+            !data.Nombre ||
+            !data.ApellidoPaterno ||
+            !data.ApellidoMaterno ||
+            !data.NombreUsuario ||
+            !data.CorreoElectronico ||
+            !data.Aplicacion ||
+            !data.IdTipoUsuario ||
+            !data.TipoUsuario ||
+            !data.Puesto
+          ) {
             Swal.fire({
               icon: "info",
               title: "Mensaje",
               iconColor: "#af8c55",
               color: "#af8c55",
-              text: "La información del usuario está incompleta. Contacte con un administrador.",
+              text:
+                "La información del usuario está incompleta. Contacte con un administrador.",
               confirmButtonText: "Aceptar",
-              confirmButtonColor:"#15212f",
-              showCloseButton: true,  // Muestra el botón de cerrar para que el usuario pueda cerrar la alerta
+              confirmButtonColor: "#15212f",
+              showCloseButton: true, // Muestra el botón de cerrar para que el usuario pueda cerrar la alerta
             }).then((result) => {
               if (result.isConfirmed) {
                 // Aquí puedes agregar tu lógica personalizada para el botón "OK"
@@ -545,7 +575,11 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       alignContent={"space-around"}
       height={"90vh"}
     >
-      <SliderProgress open={datosObtenidos} fnc={()=>props.handleDialogClose(false)} texto="Obteniendo datos"/>
+      <SliderProgress
+        open={datosObtenidos}
+        fnc={() => props.handleDialogClose(false)}
+        texto="Obteniendo datos"
+      />
       <Grid item xs={10} md={4.5}>
         <TextField
           disabled={IdUsuario !== ""}
@@ -557,8 +591,8 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             !isValidEmail() && infoUsuario.CorreoElectronico.length > 0
               ? "Ingresa correo válido: correo@correo.com | correo@correo.com.mx"
               : isValidEmail() && infoUsuario.CorreoElectronico.length > 0
-                ? "Correo válido"
-                : ""
+              ? "Correo válido"
+              : ""
           }
           value={infoUsuario.CorreoElectronico}
           inputProps={{ maxLength: 100 }}
@@ -567,8 +601,8 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
               ...infoUsuario,
               CorreoElectronico: v.target.value,
             });
-            
-              existeEmail(v.target.value);
+
+            existeEmail(v.target.value);
           }}
         />
       </Grid>
@@ -583,11 +617,11 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           variant="standard"
           helperText={
             infoUsuario.NombreUsuario.length > 0 &&
-              infoUsuario.NombreUsuario.length < 4
+            infoUsuario.NombreUsuario.length < 4
               ? "Ingresa nombre de usuario de entre 4 a 30 dígitos"
               : existeNUsuario
-                ? "Nombre de usuario actualmente en uso"
-                : ""
+              ? "Nombre de usuario actualmente en uso"
+              : ""
           }
           value={infoUsuario.NombreUsuario}
           inputProps={{ minLength: 4, maxLength: 30 }}
@@ -749,11 +783,11 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
               : ""
           }
           onChange={(v) => {
-            if(/^[0-9]+$/.test(v.target.value)||v.target.value==="")
-            setInfoUsuario({
-              ...infoUsuario,
-              Telefono: v.target.value
-            });
+            if (/^[0-9]+$/.test(v.target.value) || v.target.value === "")
+              setInfoUsuario({
+                ...infoUsuario,
+                Telefono: v.target.value,
+              });
           }}
         />
 
@@ -766,11 +800,12 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           type="tel"
           inputProps={{ maxLength: 4 }}
           onChange={(v) => {
-            if(/^[0-9*]+$/.test(v.target.value) || v.target.value===""){
-            setInfoUsuario({
-              ...infoUsuario,
-              Ext: v.target.value
-            });}
+            if (/^[0-9*]+$/.test(v.target.value) || v.target.value === "") {
+              setInfoUsuario({
+                ...infoUsuario,
+                Ext: v.target.value,
+              });
+            }
           }}
         />
       </Grid>
@@ -859,7 +894,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
 
       <Grid item xs={10} md={4.5}>
         <Typography variant="body2">Entidad: </Typography>
-        
+
         <Autocomplete
           noOptionsText="No se encontraron opciones"
           clearText="Borrar"
@@ -883,21 +918,42 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             option.Nombre === value.Nombre || value.Nombre === ""
           }
         />
-        
       </Grid>
 
       <Grid
-        item container
-
-        xs={10} sm={10} md={10} lg={10} xl={10}
-
-
-
+        item
+        container
+        xs={10}
+        sm={10}
+        md={10}
+        lg={10}
+        xl={10}
         display={"flex"}
         justifyContent="space-between"
       >
-        <Grid item container xs={6} sm={6} md={6} lg={6} xl={6} sx={{display: "flex",}}>
-          <Grid item xs={6} sm={6} md={6} lg={6} xl={6} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <Grid
+          item
+          container
+          xs={6}
+          sm={6}
+          md={6}
+          lg={6}
+          xl={6}
+          sx={{ display: "flex" }}
+        >
+          <Grid
+            item
+            xs={6}
+            sm={6}
+            md={6}
+            lg={6}
+            xl={6}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <FormControlLabel
               control={
                 <Switch
@@ -910,27 +966,63 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
                   }
                 />
               }
-              label={infoUsuario.PuedeFirmar ? "Puede firmar" : "No puede firmar"}
+              label={
+                infoUsuario.PuedeFirmar ? "Puede firmar" : "No puede firmar"
+              }
             />
           </Grid>
-          <Grid item xs={6} sm={6} md={6} lg={6} xl={6} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <Button
-              className="aceptar"
-              onClick={() => {
-                cleanData();
-              }}
-              sx={{ fontFamily: "MontserratRegular", mr: 2 }}
-            >
-              Limpiar Datos
-            </Button>
+          <Grid
+            item
+            xs={6}
+            sm={6}
+            md={6}
+            lg={6}
+            xl={6}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {IdUsuario === "" ? (
+              <Button
+                className="aceptar"
+                onClick={() => {
+                  cleanData();
+                }}
+                sx={{ fontFamily: "MontserratRegular", mr: 2 }}
+              >
+                Limpiar Datos
+              </Button>
+            ) : null}
           </Grid>
-
-
-
         </Grid>
-        <Grid item xs={6} sm={6} md={6} lg={6} xl={6} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <Grid item xs={6} sm={6} md={6} lg={6} xl={6} sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
-
+        <Grid
+          item
+          xs={6}
+          sm={6}
+          md={6}
+          lg={6}
+          xl={6}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Grid
+            item
+            xs={6}
+            sm={6}
+            md={6}
+            lg={6}
+            xl={6}
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+            }}
+          >
             {IdUsuario && (
               <Button
                 className="cancelar"
@@ -943,8 +1035,19 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
               </Button>
             )}
           </Grid>
-          <Grid item xs={6} sm={6} md={6} lg={6} xl={6} sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
-
+          <Grid
+            item
+            xs={6}
+            sm={6}
+            md={6}
+            lg={6}
+            xl={6}
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+            }}
+          >
             <Button
               className="aceptar"
               onClick={() => {
@@ -955,9 +1058,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
               {IdUsuario ? "Solicitar Modificación" : "Solicitar Usuario"}
             </Button>
           </Grid>
-
-
-
         </Grid>
       </Grid>
       <Dialog open={bajaUsuario} onClose={() => setBajaUsuario(false)}>
