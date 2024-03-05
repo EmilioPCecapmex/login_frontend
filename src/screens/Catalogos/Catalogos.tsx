@@ -291,10 +291,10 @@ const Catalogos = () => {
             <Grid
               item
               xl={8}
-              xs={8}
               lg={8}
               md={8}
-              sm={8}
+              sm={10} 
+              xs={10}
               sx={{ display: "flex", justifyContent: "space-evenly" }}
             >
               <TabList
