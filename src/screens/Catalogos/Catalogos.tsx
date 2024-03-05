@@ -300,6 +300,7 @@ const Catalogos = () => {
               <TabList
                 onChange={handleChange}
                 aria-label="lab API tabs example"
+                variant="scrollable"
               >
                 <Tab
                   label="Tipo de entidades "
