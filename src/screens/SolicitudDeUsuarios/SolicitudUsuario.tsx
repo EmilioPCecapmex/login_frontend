@@ -574,7 +574,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       display={"flex"}
       justifyContent={"space-evenly"}
       alignContent={"space-around"}
-      spacing={2}
+      spacing={4}
     >
       
       <Grid item xs={10} md={4.5} >
