@@ -18,7 +18,6 @@ import { UserServices } from "../../services/UserServices";
 import { getCatalogo } from "../../services/catalogosService";
 import { IEntidadPadre, IRol } from "./ICatalogos";
 import SliderProgress from "../Componentes/SliderProgress";
-import { alertaInformativa } from "../../components/alertas/toast";
 
 export interface NewDialogProps {
   modoModal: boolean;
@@ -569,18 +568,16 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
+    
     <Grid
-      container
+      container item
+      display={"flex"}
       justifyContent={"space-evenly"}
       alignContent={"space-around"}
-      height={"90vh"}
+      spacing={2}
     >
-      <SliderProgress
-        open={datosObtenidos}
-        fnc={() => props.handleDialogClose(false)}
-        texto="Obteniendo datos"
-      />
-      <Grid item xs={10} md={4.5}>
+      
+      <Grid item xs={10} md={4.5} >
         <TextField
           disabled={IdUsuario !== ""}
           label="Correo Electrónico"
@@ -606,6 +603,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           }}
         />
       </Grid>
+
       <Grid item xs={10} md={4.5}>
         <TextField
           disabled={existeCorreo || IdUsuario !== ""}
@@ -745,7 +743,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           disabled={existeCorreo}
           fullWidth
           sx={{ mr: 4 }}
-          label="Teléfono Móvil"
+          label="Teléfono Móvil "
           value={infoUsuario.Celular}
           inputProps={{ maxLength: 10 }}
           variant="standard"
@@ -923,23 +921,22 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       <Grid
         item
         container
-        xs={10}
-        sm={10}
-        md={10}
-        lg={10}
-        xl={10}
-        display={"flex"}
-        justifyContent="space-between"
+        xs={12}
+        sm={12}
+        md={12}
+        lg={12}
+        xl={12}
+        sx={{display:"flex",justifyContent:"space-evenly",alignItems:"center"}}
       >
         <Grid
           item
           container
-          xs={6}
-          sm={6}
+          xs={11.5}
+          sm={11.5}
           md={6}
           lg={6}
           xl={6}
-          sx={{ display: "flex" }}
+          sx={{ display: "flex",justifyContent:'space-between' }}
         >
           <Grid
             item
@@ -966,9 +963,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
                   }
                 />
               }
-              label={
-                infoUsuario.PuedeFirmar ? "Puede firmar" : "No puede firmar"
-              }
+              label={infoUsuario.PuedeFirmar ? "Puede firmar" : "No puede firmar"}
             />
           </Grid>
           <Grid
@@ -997,10 +992,11 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             ) : null}
           </Grid>
         </Grid>
+
         <Grid
           item
-          xs={6}
-          sm={6}
+          xs={11.5}
+          sm={11.5}
           md={6}
           lg={6}
           xl={6}
@@ -1019,8 +1015,8 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             xl={6}
             sx={{
               display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
+              justifyContent: "center",
+              
             }}
           >
             {IdUsuario && (
@@ -1044,7 +1040,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             xl={6}
             sx={{
               display: "flex",
-              justifyContent: "flex-end",
+              justifyContent: "center",
               alignItems: "center",
             }}
           >
@@ -1053,13 +1049,20 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
               onClick={() => {
                 checkFill();
               }}
-              sx={{ fontFamily: "MontserratRegular" }}
+              sx={{ fontFamily: "MontserratRegular", }}
             >
               {IdUsuario ? "Solicitar Modificación" : "Solicitar Usuario"}
             </Button>
           </Grid>
         </Grid>
       </Grid>
+
+      {/* <SliderProgress
+        open={datosObtenidos}
+        fnc={() => props.handleDialogClose(false)}
+        texto="Obteniendo datos"
+      />
+
       <Dialog open={bajaUsuario} onClose={() => setBajaUsuario(false)}>
         <DialogTitle sx={{ fontFamily: "MontserratSemiBold" }}>
           Baja de Usuario
@@ -1089,7 +1092,9 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             Aceptar
           </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
     </Grid>
+    
+    
   );
 };

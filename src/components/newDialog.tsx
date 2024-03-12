@@ -72,7 +72,6 @@ export const NewDialog = (props: NewDialogProps) => {
           justifyContent: "flex-end",
           alignItems: "center",
           border: "1px solid"
-          // bgcolor: "#c4a57b",
         }}
       >
         <Grid
@@ -96,7 +95,7 @@ export const NewDialog = (props: NewDialogProps) => {
               overflow: "hidden",
               textOverflow: "ellipsis",
               textAlign: "center",
-              fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
+              fontSize: [25, 30, 40, 40, 40], // Tamaños de fuente para diferentes breakpoints
               color: "#AF8C55"
             }}>
 
@@ -112,9 +111,8 @@ export const NewDialog = (props: NewDialogProps) => {
           sm={1}
           sx={{
             display: "flex",
-            justifyContent: "center",
+            justifyContent: "flex-end",
             alignItems: "center",
-
           }}
         >
           <Tooltip title={"Salir"}>
@@ -124,7 +122,7 @@ export const NewDialog = (props: NewDialogProps) => {
               }}
             >
               <GridCloseIcon sx={{
-                fontSize: [30, 30, 30, 40, 40]
+                fontSize: [20, 30, 30, 40, 40]
               }} />
             </IconButton>
           </Tooltip>
@@ -139,7 +137,7 @@ export const NewDialog = (props: NewDialogProps) => {
       lg={12}
       md={12}
       sm={12}
-        sx={{ display: "flex", justifyContent: "center", alignItems: "center", height:"90vh"}}
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center", height:"90vh",overflow:"auto"}}
       >
         {props.newDialogOpen?<SolicitudUsuario
           handleDialogClose={props.handleNewDialogClose}
