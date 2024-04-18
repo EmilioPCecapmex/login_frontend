@@ -1,29 +1,25 @@
+import CloseIcon from "@mui/icons-material/Close";
+import ControlPointIcon from "@mui/icons-material/ControlPoint";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import SecurityIcon from "@mui/icons-material/Security";
 import {
   Box,
   CircularProgress,
   Dialog,
   Grid,
   IconButton,
-  InputAdornment,
-  TextField,
   Tooltip,
-  Typography,
+  Typography
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 import { useEffect, useState } from "react";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import ControlPointIcon from "@mui/icons-material/ControlPoint";
-import SecurityIcon from "@mui/icons-material/Security";
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { Permisos } from "../Permisos/Permisos";
+import MUIXDataGrid from "../dataGridGenerico/MUIXDataGrid";
 import {
   createMenuRol,
   deleteMenuRol,
   getMenus,
   getMenusRol,
 } from "./MenusServices";
-import { GridSearchIcon } from "@mui/x-data-grid";
-import MUIXDataGrid from "../dataGridGenerico/MUIXDataGrid";
 
 export interface IMenus {
   Descripcion: string;
@@ -367,94 +363,6 @@ export function Menus({
                     camposCsv={camposCsv}
                     exportTitle={"Menús Relacionados al Rol " + rol}
                   />
-                  {
-                    // menusRolFilter.map((menu) => {
-                    //   return (
-                    //     <Grid
-                    //       container
-                    //       sx={{
-                    //         display: "flex",
-                    //         height: "10%",
-                    //         width: "95%",
-                    //         border: "1px solid",
-                    //         bgcolor: "#c4a57b",
-                    //         boxShadow: 10,
-                    //         borderRadius: 2,
-                    //         alignItems: "center",
-                    //         justifyContent: "center",
-                    //         mt: "2vh",
-                    //       }}
-                    //     >
-                    //       <Tooltip title={menu.Descripcion}>
-                    //         <Grid item width={"65%"}>
-                    //           <Typography
-                    //             fontFamily={"Montserrat-Ligth"}
-                    //             sx={{
-                    //               whiteSpace: "nowrap",
-                    //               overflow: "hidden",
-                    //               textOverflow: "ellipsis",
-                    //               fontSize: [20, 25, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
-                    //             }}
-                    //           >
-                    //             {menu.Descripcion}
-                    //           </Typography>
-                    //         </Grid>
-                    //       </Tooltip>
-                    //       <Grid item maxWidth={"20%"} sx={{ display: "flex" }}>
-                    //         {/*title={"Administrar permisos de " + menu.Descripcion}> */}
-                    //         <Tooltip title={"Administrar permisos"}>
-                    //           <IconButton
-                    //             onClick={() => {
-                    //               setMenu(menu);
-                    //               setOpenPermisos(true);
-                    //             }}
-                    //           >
-                    //             <SecurityIcon sx={{
-                    //               fontSize: '24px', // Tamaño predeterminado del icono
-                    //               '@media (max-width: 600px)': {
-                    //                 fontSize: 30, // Pantalla extra pequeña (xs y sm)
-                    //               },
-                    //               '@media (min-width: 601px) and (max-width: 960px)': {
-                    //                 fontSize: 40, // Pantalla pequeña (md)
-                    //               },
-                    //               '@media (min-width: 961px) and (max-width: 1280px)': {
-                    //                 fontSize: 40, // Pantalla mediana (lg)
-                    //               },
-                    //               '@media (min-width: 1281px)': {
-                    //                 fontSize: 40, // Pantalla grande (xl)
-                    //               },
-                    //             }} />
-                    //           </IconButton>
-                    //         </Tooltip>
-                    //         {/*title={"Quitar acceso a menu " + menu.Descripcion}> */}
-                    //         <Tooltip title={"Quitar acceso"}>
-                    //           <IconButton
-                    //             onClick={() => {
-                    //               deleteMenuRol(menu.IdRelacion, obtenerDatos);
-                    //             }}
-                    //           >
-                    //             <HighlightOffIcon sx={{
-                    //               fontSize: '24px', // Tamaño predeterminado del icono
-                    //               '@media (max-width: 600px)': {
-                    //                 fontSize: 30, // Pantalla extra pequeña (xs y sm)
-                    //               },
-                    //               '@media (min-width: 601px) and (max-width: 960px)': {
-                    //                 fontSize: 40, // Pantalla pequeña (md)
-                    //               },
-                    //               '@media (min-width: 961px) and (max-width: 1280px)': {
-                    //                 fontSize: 40, // Pantalla mediana (lg)
-                    //               },
-                    //               '@media (min-width: 1281px)': {
-                    //                 fontSize: 40, // Pantalla grande (xl)
-                    //               },
-                    //             }} />
-                    //           </IconButton>
-                    //         </Tooltip>
-                    //       </Grid>
-                    //     </Grid>
-                    //   );
-                    // })
-                  }
 
                 </Grid>
               </Grid>
@@ -511,77 +419,7 @@ export function Menus({
                     camposCsv={camposCsv}
                     exportTitle={"Menús Disponibles para Relacionar al Rol" + rol}
                   />
-                  {
-                    // menusFaltantesFilter.map((menu) => {
-                    //   return (
-                    //     <Grid
-                    //       container
-                    //       sx={{
-                    //         display: "flex",
-                    //         height: "10%",
-                    //         width: "95%",
-                    //         border: "1px solid",
-                    //         bgcolor: "#c4a57b",
-                    //         boxShadow: 10,
-                    //         borderRadius: 2,
-                    //         alignItems: "center",
-                    //         justifyContent: "center",
-                    //         mt: "2vh",
-                    //       }}
-                    //     >
-                    //       <Grid item maxWidth={"10%"} minWidth={"10%"} sx={{ display: "flex" }}>
-                    //         {/*title={"Administrar permisos de " + menu.Descripcion}> */}
-                    //         <Tooltip
-                    //           title={"Dar acceso a menu " + menu.Descripcion}
-                    //         >
-                    //           <IconButton
-                    //             onClick={() => {
-                    //               createMenuRol(
-                    //                 idRol,
-                    //                 menu.Id,
-                    //                 localStorage.getItem("IdUsuario") || "",
-                    //                 obtenerDatos
-                    //               );
-                    //             }}
-                    //           >
-                    //             <ControlPointIcon sx={{
-                    //               fontSize: '24px', // Tamaño predeterminado del icono
-                    //               '@media (max-width: 600px)': {
-                    //                 fontSize: 30, // Pantalla extra pequeña (xs y sm)
-                    //               },
-                    //               '@media (min-width: 601px) and (max-width: 960px)': {
-                    //                 fontSize: 40, // Pantalla pequeña (md)
-                    //               },
-                    //               '@media (min-width: 961px) and (max-width: 1280px)': {
-                    //                 fontSize: 40, // Pantalla mediana (lg)
-                    //               },
-                    //               '@media (min-width: 1281px)': {
-                    //                 fontSize: 40, // Pantalla grande (xl)
-                    //               },
-                    //             }} />
-                    //           </IconButton>
-                    //         </Tooltip>
-                    //       </Grid>
-                    //       <Grid item maxWidth={"75%"} minWidth={"75%"}>
-                    //         <Tooltip title={menu.Descripcion}>
-                    //           <Typography
-                    //             fontFamily={"Montserrat-Ligth"}
-                    //             sx={{
-                    //               whiteSpace: "nowrap",
-                    //               overflow: "hidden",
-                    //               textOverflow: "ellipsis",
-                    //               fontSize: [20, 20, 25, 25, 25], // Tamaños de fuente para diferentes breakpoints
-                    //             }}
-                    //             textAlign={"end"}
-                    //           >
-                    //             {menu.Descripcion}
-                    //           </Typography>
-                    //         </Tooltip>
-                    //       </Grid>
-                    //     </Grid>
-                    //   );
-                    // })
-                  }
+                
                 </Grid>
               </Grid>
               {/* ############################ */}

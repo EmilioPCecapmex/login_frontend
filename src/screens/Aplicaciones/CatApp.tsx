@@ -5,6 +5,8 @@ import {
 } from "@mui/icons-material";
 import AppsIcon from "@mui/icons-material/Apps";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import MenuIcon from "@mui/icons-material/Menu";
+import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import {
   Box,
   Button,
@@ -19,13 +21,12 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Roles } from "../../components/Roles/Roles";
+import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
 import { EditDialogApp } from "../../components/editApp";
 import { Header } from "../../components/header";
+import { HistoricoDialog } from "../../components/historico/HistoricoDialog";
 import { NewDialogApp } from "../../components/newApp";
-import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
-import MenuIcon from '@mui/icons-material/Menu';
 import { AdminMenu } from "../AdminMenus/AdminMenu";
-
 
 // estructura que se va a llenar con la informacion que regresa el endpoint
 // tiene que tener el mismo nombre que regresa el endpoint
@@ -52,17 +53,23 @@ const Toast = Swal.mixin({
 });
 
 export default function CatApps() {
-const camposCsv = ["Nombre", "Descripcion","Path","NombreUsuario","estatusLabel"];
+  const camposCsv = [
+    "Nombre",
+    "Descripcion",
+    "Path",
+    "NombreUsuario",
+    "estatusLabel",
+  ];
 
   const navigate = useNavigate();
   //Roles
   const [openRoles, setOpenRoles] = useState(false);
   const [openAdminMenus, setOpenAdminMenus] = useState(false);
-  
+  const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
+
   const [idApp, setIdApp] = useState("");
   const [app, setApp] = useState("");
 
-  
   // Set columns and rows for DataGrid
   const columns = [
     // primer columna del grid donde ponemos los botones de editar y eliminar
@@ -75,9 +82,12 @@ const camposCsv = ["Nombre", "Descripcion","Path","NombreUsuario","estatusLabel"
       renderCell: (cellValues: any) => {
         return (
           <Box>
-            <Tooltip title={"Editar App "
-              //+ cellValues.row.Nombre
-            }>
+            <Tooltip
+              title={
+                "Editar App "
+                //+ cellValues.row.Nombre
+              }
+            >
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
@@ -88,9 +98,12 @@ const camposCsv = ["Nombre", "Descripcion","Path","NombreUsuario","estatusLabel"
               </IconButton>
             </Tooltip>
 
-            <Tooltip title={"Administrar Roles "
-              //+ cellValues.row.Nombre
-            }>
+            <Tooltip
+              title={
+                "Administrar Roles "
+                //+ cellValues.row.Nombre
+              }
+            >
               <IconButton
                 sx={{ color: "black" }}
                 onClick={(event) => {
@@ -102,21 +115,13 @@ const camposCsv = ["Nombre", "Descripcion","Path","NombreUsuario","estatusLabel"
                 <ManageAccountsIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title={"Eliminar App "
-              //+ cellValues.row.Nombre
-            }>
-              <IconButton
-                sx={{ color: "black" }}
-                onClick={(event) => {
-                  handleDeleteBtnClick(event, cellValues);
-                }}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={"Administrar Menús "
-              //+ cellValues.row.Nombre
-            }>
+
+            <Tooltip
+              title={
+                "Administrar Menús "
+                //+ cellValues.row.Nombre
+              }
+            >
               <IconButton
                 sx={{ color: "black" }}
                 onClick={() => {
@@ -126,6 +131,43 @@ const camposCsv = ["Nombre", "Descripcion","Path","NombreUsuario","estatusLabel"
                 }}
               >
                 <MenuIcon />
+              </IconButton>
+            </Tooltip>
+
+
+            <Tooltip
+              title={
+                "Movimientos Historicos"
+                //+ cellValues.row.Nombre
+              }
+            >
+              <IconButton
+                sx={{ color: "black" }}
+                onClick={() => {
+                  setOpenTrazabilidad(true);
+                  setIdApp(cellValues?.row?.Id);
+                  setApp(cellValues?.row?.Nombre);
+                }}
+              >
+                <TimelineOutlinedIcon />
+              </IconButton>
+            </Tooltip>
+
+           
+
+            <Tooltip
+              title={
+                "Eliminar App "
+                //+ cellValues.row.Nombre
+              }
+            >
+              <IconButton
+                sx={{ color: "black" }}
+                onClick={(event) => {
+                  handleDeleteBtnClick(event, cellValues);
+                }}
+              >
+                <DeleteIcon />
               </IconButton>
             </Tooltip>
           </Box>
@@ -151,7 +193,7 @@ const camposCsv = ["Nombre", "Descripcion","Path","NombreUsuario","estatusLabel"
     {
       field: "Path",
       headerName: "Ruta",
-      flex: .5,
+      flex: 0.5,
       hideable: false,
       headerAlign: "center",
     },
@@ -159,7 +201,7 @@ const camposCsv = ["Nombre", "Descripcion","Path","NombreUsuario","estatusLabel"
     {
       field: "estatusLabel",
       headerName: "Estatus",
-      flex: .5,
+      flex: 0.5,
       headerAlign: "center",
     },
   ];
@@ -173,7 +215,7 @@ const camposCsv = ["Nombre", "Descripcion","Path","NombreUsuario","estatusLabel"
     if (changed === true) {
       Toast.fire({
         icon: "success",
-        title: "¡Aplicación Editada!" ,
+        title: "¡Aplicación Editada!",
         iconColor: "#af8c55",
         color: "#af8c55",
       });
@@ -213,7 +255,7 @@ const camposCsv = ["Nombre", "Descripcion","Path","NombreUsuario","estatusLabel"
       // text: ` ${cellValues.row.Nombre}`,
       icon: "question",
       showCancelButton: true,
-      
+
       cancelButtonColor: "#af8c55",
       cancelButtonText: "Cancelar",
       confirmButtonText: "Eliminar",
@@ -309,8 +351,7 @@ const camposCsv = ["Nombre", "Descripcion","Path","NombreUsuario","estatusLabel"
         }}
       >
         {/* este componente es la card que se encuentra en el centro en donde vamos a meter todo lo de la pantalla */}
-        <Grid container
-          sx={{ height: "84vh", width: "100vw" }}>
+        <Grid container sx={{ height: "84vh", width: "100vw" }}>
           {/* este box es la leyenda que se encuentra arriba a la izquierda */}
           <Grid
             sx={{
@@ -321,40 +362,44 @@ const camposCsv = ["Nombre", "Descripcion","Path","NombreUsuario","estatusLabel"
               height: "11.5%",
             }}
           >
-            <Grid item
+            <Grid
+              item
               sx={{
                 display: "flex",
                 width: "50%",
-                alignItems: "center"
+                alignItems: "center",
               }}
             >
               <Tooltip title="Menu actual: Aplicaciones">
-              <CardContent>
-                <AppsIcon sx={{color: "#AF8C55", fontSize: [30,30,30,40,40]}} />
-              </CardContent>
+                <CardContent>
+                  <AppsIcon
+                    sx={{ color: "#AF8C55", fontSize: [30, 30, 30, 40, 40] }}
+                  />
+                </CardContent>
               </Tooltip>
-              
+
               <Typography
-                 fontFamily={"'Montserrat', sans-serif"}
-                 sx={{
-                   whiteSpace: "nowrap",
-                   overflow: "hidden",
-                   textOverflow: "ellipsis",
-                   textAlign: "center",
-                   fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
-                   color: "#AF8C55"
-                 }}
+                fontFamily={"'Montserrat', sans-serif"}
+                sx={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  textAlign: "center",
+                  fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
+                  color: "#AF8C55",
+                }}
               >
                 Aplicaciones
               </Typography>
-              
             </Grid>
 
-            <CardContent sx={{
-              width: "50%",
-              justifyContent: "end",
-              display: "flex",
-            }}>
+            <CardContent
+              sx={{
+                width: "50%",
+                justifyContent: "end",
+                display: "flex",
+              }}
+            >
               <Button
                 className="aceptar"
                 onClick={(event) => handleNewBtnClick(event)}
@@ -363,38 +408,35 @@ const camposCsv = ["Nombre", "Descripcion","Path","NombreUsuario","estatusLabel"
                 }}
                 startIcon={<AddIcon />}
               >
-                <Typography sx={{
-                  fontSize: ".7rem",
-                  "@media (min-width: 480px)": {
+                <Typography
+                  sx={{
                     fontSize: ".7rem",
-                  },
-                  "@media (min-width: 768px)": {
-                    fontSize: "1rem",
-                  },
-                }}>
+                    "@media (min-width: 480px)": {
+                      fontSize: ".7rem",
+                    },
+                    "@media (min-width: 768px)": {
+                      fontSize: "1rem",
+                    },
+                  }}
+                >
                   Registrar Aplicación
                 </Typography>
               </Button>
             </CardContent>
-
 
             {/* <Grid container item justifyContent="flex-end">
               
             </Grid> */}
           </Grid>
           <Grid item sx={{ width: "100vw", height: "77vh" }}>
-          <MUIXDataGrid
-            id={(row: any) => row.Id}
-            columns={columns}
-            rows={rows}
-            camposCsv={camposCsv}
-            exportTitle={"Catálogo de Aplicaciones"}
-          /></Grid>
-          {/* aqui es el contenido del card,y ponemos primero un box y estamos dibujando el boton para agregar un nuevo registro */}
-
-          {/* boton a la derecha para agregar una aplicacion nueva */}
-
-          {/* Grid del listado,aqui se asigna el id unico que tiene que tener cada renglon, asi que asignamos el campo ID que se obtiene del endpoint */}
+            <MUIXDataGrid
+              id={(row: any) => row.Id}
+              columns={columns}
+              rows={rows}
+              camposCsv={camposCsv}
+              exportTitle={"Catálogo de Aplicaciones"}
+            />
+          </Grid>
         </Grid>
       </Grid>
       {newDialogOpen && (
@@ -424,9 +466,9 @@ const camposCsv = ["Nombre", "Descripcion","Path","NombreUsuario","estatusLabel"
           closeModal={() => setOpenAdminMenus(false)}
           idApp={idApp}
           app={app}
-  
         />
       )}
+      {openTrazabilidad && <HistoricoDialog st="Aplicaciones" Id={idApp} closeModal={()=>setOpenTrazabilidad(false)} />}
     </Grid>
   );
 }

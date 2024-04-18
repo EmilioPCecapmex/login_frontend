@@ -9,9 +9,8 @@ import Swal from "sweetalert2";
 import { alertaError, alertaExito } from "../../components/alertas/toast";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-
-
-
+import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
+import { HistoricoDialog } from "../../components/historico/HistoricoDialog";
 
 
 export interface IPermiso {
@@ -35,6 +34,7 @@ export function AdminPermisos({
   IdMenu: string;
   IdApp: string;
 }) {
+  const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
   const columns = [
     {
       field: "acciones",
@@ -56,6 +56,24 @@ export function AdminPermisos({
                 }}
               >
                 <EditIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip
+              title={
+                "Movimientos Historicos"
+                //+ cellValues.row.Nombre
+              }
+            >
+              <IconButton
+                sx={{ color: "black" }}
+                onClick={() => {
+                  setOpenTrazabilidad(true);
+                  setRegistroData(cellValues.row);
+                  // setIdApp(cellValues?.row?.Id);
+                  // setApp(cellValues?.row?.Nombre);
+                }}
+              >
+                <TimelineOutlinedIcon />
               </IconButton>
             </Tooltip>
           
@@ -326,7 +344,8 @@ export function AdminPermisos({
 
       />
     )}
-
+  {openTrazabilidad && <HistoricoDialog st="Permisos" Id={registroData.Id} closeModal={()=>setOpenTrazabilidad(false)} />}
+    
   </Dialog>)
 
 }

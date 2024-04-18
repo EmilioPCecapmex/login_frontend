@@ -20,6 +20,8 @@ import { DialogRoles } from "./DialogRoles";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { alertaError, alertaExito } from "../alertas/toast";
+import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
+import { HistoricoDialog } from "../historico/HistoricoDialog";
 
 export interface IRol {
   ControlInterno: string;
@@ -48,6 +50,7 @@ export function Roles({
 
   const [openMenus, setOpenMenu] = useState(false);
   const [openDialogRoles, setOpenDialogRoles] = useState(false);
+  const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
   const [movimiento, setMovimiento] = useState("Agregar");
   const [registroData, setRegistroData] = useState<IRol>({
     ControlInterno: "",
@@ -64,7 +67,7 @@ export function Roles({
     {
       field: "acciones",
       headerName: "Acciones",
-      width: 175,
+      width: 200,
       headerAlign: "left",
       hideable: false,
       renderCell: (cellValues: any) => {
@@ -94,6 +97,23 @@ export function Roles({
                 <SettingsIcon />
               </IconButton>
             </Tooltip>
+            <Tooltip
+              title={
+                "Movimientos Historicos"
+                //+ cellValues.row.Nombre
+              }
+            >
+              <IconButton
+                sx={{ color: "black" }}
+                onClick={() => {
+                  setIdRol(cellValues.row.Id)
+                  setOpenTrazabilidad(true);
+                }}
+              >
+                <TimelineOutlinedIcon />
+              </IconButton>
+            </Tooltip>
+
             <Tooltip title={"Eliminar"}>
               <IconButton
                 sx={{ color: "black" }}
@@ -280,35 +300,6 @@ export function Roles({
 
                 }}
               >
-                {/* <Grid
-                  item
-                  xl={2}
-                  xs={2}
-                  md={2}
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-
-                  }}
-
-                >
-                  <AppsIcon sx={{
-                  fontSize: '24px', // Tamaño predeterminado del icono
-                  '@media (max-width: 600px)': {
-                    fontSize: 30, // Pantalla extra pequeña (xs y sm)
-                  },
-                  '@media (min-width: 601px) and (max-width: 960px)': {
-                    fontSize: 30, // Pantalla pequeña (md)
-                  },
-                  '@media (min-width: 961px) and (max-width: 1280px)': {
-                    fontSize: 40, // Pantalla mediana (lg)
-                  },
-                  '@media (min-width: 1281px)': {
-                    fontSize: 40, // Pantalla grande (xl)
-                  },
-                }} />
-                </Grid> */}
 
                 <Grid
                   item
@@ -410,6 +401,8 @@ export function Roles({
           IdApp={idApp}
         />
       )}
+      {openTrazabilidad && <HistoricoDialog st="Roles" Id={idRol} closeModal={()=>setOpenTrazabilidad(false)} />}
+    
     </Dialog>
   );
 }

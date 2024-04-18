@@ -12,6 +12,8 @@ import axios from "axios";
 import { alertaError, alertaExito } from "../../components/alertas/toast";
 import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
 import { ArbolEntidades } from "../../components/dialogsCatalogos/ArbolEntidades";
+import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
+import { HistoricoDialog } from "../../components/historico/HistoricoDialog";
 
 export interface IEntidad {
   ClaveSiregob: string;
@@ -29,7 +31,7 @@ export interface IEntidad {
   UltimaActualizacion: string;
 }
 
-export const newCatalogo={
+export const newCatalogo = {
   ClaveSiregob: "",
   ControlInterno: "",
   Direccion: "",
@@ -46,7 +48,7 @@ export const newCatalogo={
   UltimaActualizacion: "",
   Descripcion: "",
   IdUsuario: localStorage.getItem("IdUsuario") || "",
-}
+};
 
 export interface ITipoEntidad {
   Nombre: string;
@@ -105,12 +107,12 @@ const Catalogos = () => {
         IdUsuario: localStorage.getItem("IdUsuario") || "",
       });
   }, [openCreate]);
-
+  const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
   const columns = [
     {
       field: "acciones",
       headerName: "Acciones",
-      width: 100,
+      width: 150,
       headerAlign: "center",
       hideable: false,
       renderCell: (cellValues: any) => {
@@ -127,6 +129,26 @@ const Catalogos = () => {
                 <EditIcon />
               </IconButton>
             </Tooltip>
+
+            <Tooltip
+              title={
+                "Movimientos Historicos"
+                //+ cellValues.row.Nombre
+              }
+            >
+              <IconButton
+                sx={{ color: "black" }}
+                onClick={() => {
+                  setElemento(cellValues.row);
+                  setOpenTrazabilidad(true);
+                  // setIdApp(cellValues?.row?.Id);
+                  // setApp(cellValues?.row?.Nombre);
+                }}
+              >
+                <TimelineOutlinedIcon />
+              </IconButton>
+            </Tooltip>
+
             <Tooltip title={"Eliminar"}>
               <IconButton
                 sx={{ color: "black" }}
@@ -293,7 +315,7 @@ const Catalogos = () => {
               xl={8}
               lg={8}
               md={8}
-              sm={10} 
+              sm={10}
               xs={10}
               sx={{ display: "flex", justifyContent: "space-evenly" }}
             >
@@ -346,11 +368,8 @@ const Catalogos = () => {
       </Grid>
 
       {openCreate ? (
-        valueTab === "Entidades" &&  !elemento.Id? (
-          <ArbolEntidades
-            open={openCreate}
-            setOpen={setOpenCreate}
-          />
+        valueTab === "Entidades" && !elemento.Id ? (
+          <ArbolEntidades open={openCreate} setOpen={setOpenCreate} />
         ) : (
           <Create
             open={openCreate}
@@ -360,6 +379,8 @@ const Catalogos = () => {
           />
         )
       ) : null}
+        {openTrazabilidad && <HistoricoDialog st={valueTab} Id={elemento.Id} closeModal={()=>setOpenTrazabilidad(false)} />}
+    
     </>
   );
 };
