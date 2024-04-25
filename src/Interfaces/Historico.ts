@@ -52,10 +52,19 @@ export interface IHPermiso{
     Permiso: string;
     Descripcion: string;
     ControlInterno: string;
-    idMenu: string;
+    IdMenu: string;
     Menu: string;
     IdApp: string;
     App: string;
+}
+
+export interface IHMenuPermisoRol {
+    IdMenu: string;
+    Menu: string;
+    IdPermiso: string;
+    Permiso: string;
+    IdRol: string;
+    Rol: string;
 }
 
 
@@ -89,6 +98,11 @@ export function isIHMenu(str: string): boolean {
 }
 
 export function isIHPermiso(str: string): boolean {
-    const keys: Array<keyof IHPermiso> = ['Permiso', 'Descripcion', 'ControlInterno', 'idMenu', 'Menu', 'IdApp', 'App'];
+    const keys: Array<keyof IHPermiso> = ['Permiso', 'Descripcion', 'ControlInterno', 'IdMenu', 'Menu', 'IdApp', 'App'];
     return isValidString<IHPermiso>(str, keys);
+}
+
+export function isIHMenuPermisoRol(str: string): boolean {
+    const keys: Array<keyof IHMenuPermisoRol> = ['IdMenu', 'Menu', 'IdPermiso', 'Permiso', 'IdRol', 'Rol'];
+    return isValidString<IHMenuPermisoRol>(str, keys);
 }

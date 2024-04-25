@@ -92,7 +92,7 @@ export const deletePermisoMenuRol = (IdRelacion: string, fnc: Function) => {
   axios({
     method: "delete",
     url: process.env.REACT_APP_APPLICATION_DEV + "/api/permiso-menu-rol",
-    data: { Id: IdRelacion },
+    data: { Id: IdRelacion, IdUsuario:localStorage.getItem("IdUsuario") || "" },
     headers: {
       "Content-Type": "application/json",
       Authorization: localStorage.getItem("jwtToken") || "",
