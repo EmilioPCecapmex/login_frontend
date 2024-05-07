@@ -13,45 +13,7 @@ const theme = createTheme(coreEsES, gridEsES);
 
 export default function MUIXDataGridGeneral(props: any) {
   const [pageSize, setPageSize] = useState(25);
-  // const [selectionModel, setSelectionModel] = useState<any[]>([]);
-
-  // const handleSelectionModelChange = (newSelectionModel: any) => {
-  //   setSelectionModel(newSelectionModel);
-  //   props.setRowSelected(newSelectionModel);
-  //   console.log("Filas seleccionadas:", newSelectionModel);
-  // };
-
-  // const [columnVisibilityModel, setColumnVisibilityModel] =
-  //   React.useState<GridColumnVisibilityModel>({
-  //     id: false,
-  //     Route: false,
-  //     ciid: false,
-  //     ctaid: false,
-  //     cefid: false,
-  //     cgfid: false,
-  //     csid: false,
-  //     iduaa: false,
-  //     idAuditoria: false,
-  //     ctid: false,
-  //     coaid: false,
-  //     cuaaid: false,
-  //     caaid: false,
-  //     crid: false,
-  //     idtipo: false,
-  //     Tema: false,
-  //     Observaciones: false,
-  //     magneticos: false,
-  //     FechaRecibido: false,
-  //     FechaEntrega: false,
-  //     FechaCreacion: false,
-  //     UltimaActualizacion: false,
-  //     creado: false,
-  //     modi: false,
-  //   });
-
-  // const hasData = props.rows.length < 8;
-
-  // const Data = props.rows.length === 0;
+  
   const changePageSize = (v: number) => {
     setPageSize(v);
   };
@@ -65,13 +27,6 @@ export default function MUIXDataGridGeneral(props: any) {
           density="compact"
           autoHeight={false}
           stickyHeader
-          // checkboxSelection
-          // rowSelectionModel={selectionModel}
-          // onRowSelectionModelChange={handleSelectionModelChange}
-          // columnVisibilityModel={columnVisibilityModel}
-          // onColumnVisibilityModelChange={(newModel) =>
-          //   setColumnVisibilityModel(newModel)
-          // }
           onPageSizeChange={(v) => changePageSize(v)}
           rowsPerPageOptions={[10, 25, 50]}
           disableRowSelectionOnClick
@@ -79,19 +34,7 @@ export default function MUIXDataGridGeneral(props: any) {
           rowHeight={255}
           pageSize={pageSize}
           getRowHeight={() => "auto"}
-          // sx={{
-            
-          //   fontFamily: "Poppins, sans-serif",
-          //   fontWeight: "600",
-          //   fontSize: "12px",
-          //   overflow: "auto",
-          //   "& .super-app.positive": {
-          //     color: "#000000",
-          //   },
-          //   "& .MuiDataGrid-root .MuiDataGrid-columnsContainer": {
-          //     backgroundColor: "#f8f9fa", // Color de fondo del encabezado
-          //   },
-          // }}
+          
           components={{ Toolbar: GridToolbar }}
           componentsProps={{
             toolbar: {

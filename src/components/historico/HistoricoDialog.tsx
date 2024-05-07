@@ -1,19 +1,16 @@
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
+import CloseIcon from "@mui/icons-material/Close";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import ManageSearchOutlinedIcon from "@mui/icons-material/ManageSearchOutlined";
-import SafetyCheckOutlinedIcon from "@mui/icons-material/SafetyCheckOutlined";
-import VerifiedUserOutlinedIcon from "@mui/icons-material/VerifiedUserOutlined";
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import ManageSearchOutlinedIcon from "@mui/icons-material/ManageSearchOutlined";
+import VerifiedUserOutlinedIcon from "@mui/icons-material/VerifiedUserOutlined";
+import { TimelineOppositeContent,Timeline ,TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineSeparator } from "@mui/lab";
 import {
-  Button,
   Dialog,
-  DialogContent,
-  DialogTitle,
-  Divider,
   Grid,
   IconButton,
   Tooltip,
-  Typography,
+  Typography
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import {
@@ -29,15 +26,6 @@ import {
   isIHRolMenu,
 } from "../../Interfaces/Historico";
 import { getMovimientosTrazabilidad } from "../../services/hisotoricoService";
-import Timeline from "@mui/lab/Timeline";
-import TimelineItem from "@mui/lab/TimelineItem";
-import TimelineSeparator from "@mui/lab/TimelineSeparator";
-import TimelineConnector from "@mui/lab/TimelineConnector";
-import TimelineContent from "@mui/lab/TimelineContent";
-import TimelineDot from "@mui/lab/TimelineDot";
-import { TimelineOppositeContent } from "@mui/lab";
-import { GridCloseIcon } from "@mui/x-data-grid";
-import CloseIcon from "@mui/icons-material/Close";
 
 const styleTextField = {
   borderTop: "1px groove",
@@ -53,10 +41,6 @@ function IconSwitch({ Movimiento }: { Movimiento: string }) {
     return <VerifiedUserOutlinedIcon />;
   else if (Movimiento.toUpperCase().includes("MODIFICACIÓN"))
     return <ManageSearchOutlinedIcon />;
-  // else if (Movimiento.toUpperCase().includes("AUTORIZACIÓN"))
-  //   return <SafetyCheckOutlinedIcon />;
-  // else if (Movimiento.toUpperCase().includes("AUTORIZADA"))
-  //   return <VerifiedUserOutlinedIcon />;
   else if (Movimiento.toUpperCase().includes("ELIMINACIÓN"))
     return <HighlightOffIcon />;
   
@@ -208,7 +192,6 @@ export const HistoricoDialog = ({
     return (
       <>
         {trazabilidad.map((step, index) => {
-          console.log(step.Contenido);
 
           let auxContenido: IHApp | IHRol | IHRolMenu | IHMenu = JSON.parse(
             step.Contenido

@@ -257,8 +257,6 @@ export const Solicitudes = () => {
       })
       .catch((error) => {
         alertaInformativa("No se encontro información.");
-
-        console.error("Error al obtener el documento:", error);
       });
   };
   const [IdSolicitud, setIdSolicitud] = useState("");

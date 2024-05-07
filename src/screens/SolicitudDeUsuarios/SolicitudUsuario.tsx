@@ -255,7 +255,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
         : String(localStorage.getItem("jwtToken"))
     )
       .then((res) => {
-        console.log(res.status);
 
         if (res.status === 200) {
           if (
@@ -315,8 +314,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
         }
       })
       .catch((error) => {
-        console.log("error", error.data.error);
-
         Swal.fire({
           icon: "info",
           title: "Mensaje",
@@ -524,16 +521,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             },
             PuedeFirmar: data.PuedeFirmar === 1,
           });
-          console.log("data.Entidad ", data.Entidad);
-          console.log("data.Nombre", data.Nombre);
-          console.log("data.ApellidoPaterno", data.ApellidoPaterno);
-          console.log("ApellidoMaterno", data.ApellidoMaterno);
-          console.log("data.NombreUsuario", data.NombreUsuario);
-          console.log("data.CorreoElectronico", data.CorreoElectronico);
-          console.log("data.Aplicacion", data.Aplicacion);
-          console.log("data.IdTipoUsuario", data.IdTipoUsuario);
-          console.log("data.Puesto", data.Puesto);
-          console.log("data.TipoUsuario", data.TipoUsuario);
           if (
             !data.Entidad ||
             !data.Nombre ||

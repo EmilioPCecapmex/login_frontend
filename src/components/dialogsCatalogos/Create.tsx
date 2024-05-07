@@ -109,7 +109,6 @@ export const Create = ({
   }, []);
 
   useEffect(()=>{
-    console.log("EntidadPAdre",EntidadPadre);
     
     if(entidades.length>0 && EntidadPadre.Id!=="" && EntidadPadre.Label!==""){
       setNuevoElemento({...nuevoElemento,PerteneceA:{Id:EntidadPadre.Id,Nombre:EntidadPadre.Label,}})

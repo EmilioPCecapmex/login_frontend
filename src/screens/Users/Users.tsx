@@ -137,8 +137,6 @@ export default function Users() {
       })
       .catch((error) => {
         alertaInformativa("No se encontro información.");
-
-        console.error("Error al obtener el documento:", error);
       });
   };
 
@@ -192,9 +190,6 @@ export default function Users() {
   const [apps, setApps] = useState<Array<IApps>>([]);
 
   const getAllUsers = (idApp?: string) => {
-    console.log("selectedAppId: en el axios ", selectedAppId);
-    console.log("idApp: en el axios ", idApp);
-
     axios({
       method: "get",
       url: process.env.REACT_APP_APPLICATION_DEV + "/api/users",
@@ -220,15 +215,9 @@ export default function Users() {
           );
         }
         if (idApp !== "") {
-          console.log("Entre en el if");
-
           setRows(rows);
         } else {
-          console.log("Entre en el else");
           setRows(rows);
-          // setTimeout(() => {
-          //   getAllUsers();
-          // }, 60000);
         }
       })
       .catch(function (error) {
