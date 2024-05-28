@@ -27,6 +27,8 @@ import { Header } from "../../components/header";
 import { HistoricoDialog } from "../../components/historico/HistoricoDialog";
 import { NewDialogApp } from "../../components/newApp";
 import { AdminMenu } from "../AdminMenus/AdminMenu";
+import CampaignIcon from '@mui/icons-material/Campaign';
+import { AdminAvisos } from "../AvisosApp/AdminAvisos";
 
 // estructura que se va a llenar con la informacion que regresa el endpoint
 // tiene que tener el mismo nombre que regresa el endpoint
@@ -66,6 +68,8 @@ export default function CatApps() {
   const [openRoles, setOpenRoles] = useState(false);
   const [openAdminMenus, setOpenAdminMenus] = useState(false);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
+  const [openAdminAvisos, setOpenAdminAvisos] = useState(false);
+
 
   const [idApp, setIdApp] = useState("");
   const [app, setApp] = useState("");
@@ -153,7 +157,23 @@ export default function CatApps() {
               </IconButton>
             </Tooltip>
 
-           
+            <Tooltip
+              title={
+                "Administrar Avisos"
+                //+ cellValues.row.Nombre
+              }
+            >
+              <IconButton
+                sx={{ color: "black" }}
+                onClick={() => {
+                  setOpenAdminAvisos(true);
+                  setIdApp(cellValues?.row?.Id);
+                  setApp(cellValues?.row?.Nombre);
+                }}
+              >
+                <CampaignIcon />
+              </IconButton>
+            </Tooltip>
 
             <Tooltip
               title={
@@ -469,6 +489,14 @@ export default function CatApps() {
         />
       )}
       {openTrazabilidad && <HistoricoDialog st="Aplicaciones" Id={idApp} closeModal={()=>setOpenTrazabilidad(false)} />}
+      {openAdminAvisos && (
+        <AdminAvisos
+          open={openAdminAvisos}
+          closeModal={() => setOpenAdminAvisos(false)}
+          idApp={idApp}
+          app={app}
+        />
+      )}
     </Grid>
   );
 }
