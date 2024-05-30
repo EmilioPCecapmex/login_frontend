@@ -9,6 +9,8 @@ import { DialogAdminAvisos } from "./DialogAdminAvisos";
 import { deleteAdminAviso, getAdminAvisos } from "./AdminAvisosServices";
 import Swal from "sweetalert2";
 import { alertaError, alertaExito } from "../../components/alertas/toast";
+import RttIcon from '@mui/icons-material/Rtt';
+import InfoIcon from '@mui/icons-material/Info';
 export interface IAviso {
   Id: string;
   FechaFin: string;
@@ -109,9 +111,22 @@ export const AdminAvisos  = ({
         {
           field: "TextoInc",
           headerName: "Aviso",
-          width: 900,
+          width: 50,
           hideable: false,
           headerAlign: "left",
+
+          renderCell: (cellValues: any) => {
+            console.log("cellValues",cellValues);
+            let texto:string=cellValues.row.TextoInc;
+            
+            return (
+              <Box sx={{display:'flex',justifyContent:'center',width:'100%'}}>
+              <Tooltip title={texto}>
+              <InfoIcon/>
+              
+              </Tooltip></Box>
+            );
+          },
         },
         {
           field: "FechaInicio",
