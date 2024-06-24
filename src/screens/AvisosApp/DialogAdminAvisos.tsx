@@ -35,13 +35,26 @@ export const DialogAdminAvisos = ({
   };
   const handleFilterFInicio = (v: any) => {
     setFInicio(v);
+    
   };
   const handleFilterFFin = (v: any) => {
     setFFin(v);
   };
 
   function sendRequest() {
-    let obj = {
+    if(FInicio){
+      console.log("entre al primer if");
+      console.log("FFIn",FFin);
+      
+          if (FInicio.isAfter(FFin)){
+      console.log("entre al seugndo if");
+
+      alertaError("¡Rango de fechas no válido!")
+            
+    }else{
+      console.log("entre al else ");
+
+      let obj = {
       FechaFin: FFin ? dayjs(FFin).format('YYYY-MM-DD HH:mm:ss') : null,
       FechaInicio: FInicio ? dayjs(FInicio).format('YYYY-MM-DD HH:mm:ss') : null,
       Id: movimiento === 'Editar' ? reloadData.Id || "" : '',
@@ -61,6 +74,10 @@ export const DialogAdminAvisos = ({
       default:
         alertaError();
     }
+    }
+
+    }
+    
   }
 
   useEffect(() => {
