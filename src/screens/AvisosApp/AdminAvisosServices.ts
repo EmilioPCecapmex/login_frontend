@@ -34,7 +34,7 @@ export const createAdminAvisos = (data: any, fnc: Function) => {
       },
     })
     .then((r) => {
-      alertaExito(fnc, "Aviso creado!");
+      alertaExito(fnc, "¡Aviso creado!");
     }).catch(({response})=>{
     alertaError(response?.data?.error)});
 };
