@@ -7,6 +7,7 @@ import { Card, CardContent, Grid } from "@mui/material";
 import logo from "../assets/logo.svg";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { getUserDetail } from "../screens/Login/Login";
+import { DialogMantenimiento } from "./dialogMantenimiento/DialogMantenimiento";
 
 export default function AppsModal({
   openM,
@@ -50,6 +51,7 @@ export default function AppsModal({
     }
   };
   return (
+    // <DialogMantenimiento/>
     <Dialog open={openM} fullScreen>
       <Grid
         container

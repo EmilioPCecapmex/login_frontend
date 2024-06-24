@@ -133,36 +133,13 @@ export const Header = (
       sx={{
         height: "10vh",
         width: "100%",
-        border: "1px solid #b3afaf",
+        borderBottom: "1px solid #b3afaf",
         justifyContent: "space-between"
       }}
     >
       <TimerCounter />
       {/* grid del nombre */}
-      <Grid item xl={4} lg={4} md={3} sm={10} xs={9}
-        // sx={{
-        //   "@media (min-width: 480px)": {
-        //     width: "50%",
-        //   },
-
-        //   "@media (min-width: 768px)": {
-        //     width: "30%",
-        //   },
-
-        //   "@media (min-width: 1140px)": {
-        //     width: "30%",
-        //   },
-
-        //   "@media (min-width: 1400px)": {
-        //     width: "30%",
-        //   },
-
-        //   "@media (min-width: 1870px)": {
-        //     width: "30%",
-        //   },
-
-        // }} 
-        >
+      <Grid item xl={4} lg={4} md={3} sm={10} xs={9}        >
         <Typography
           paddingLeft={3}
           fontFamily={"'Montserrat', sans-serif"}
