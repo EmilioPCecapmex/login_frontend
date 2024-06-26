@@ -10,6 +10,8 @@ export interface ILista {
   Label: string;
 }
 
+export const newILista={ Id: "", Label: "" }
+
 export interface Tabla {
   Opcion: string;
   IdMenu: string;

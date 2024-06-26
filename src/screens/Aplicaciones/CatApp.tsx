@@ -421,7 +421,7 @@ export default function CatApps() {
                 display: "flex",
               }}
             >
-               {/* <Button
+               <Button
                 className="aceptar"
                 onClick={(event) => setOpenAdminAvisosDialog(true)}
                 sx={{
@@ -442,7 +442,7 @@ export default function CatApps() {
                 >
                   Crear Aviso
                 </Typography>
-              </Button> */}
+              </Button>
 
               <Button
                 className="aceptar"
@@ -522,7 +522,7 @@ export default function CatApps() {
         />
       )}
 
-      {openAdminAvisosDialog && <DialogAdminAvisos open={openAdminAvisosDialog} movimiento=""  IdApp="zxcxzc" closeDialog={setOpenAdminAvisosDialog} reloadData={""}/>}
+      {openAdminAvisosDialog && <DialogAdminAvisos open={openAdminAvisosDialog} movimiento="Agregar"  IdApp="" App="" closeDialog={setOpenAdminAvisosDialog} reloadData={{}}/>}
     </Grid>
   );
 }
