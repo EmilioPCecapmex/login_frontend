@@ -38,6 +38,7 @@ export const AdminAvisos  = ({
     const [avisos, setAvisos] = useState<Array<IAviso>>([]);
     const camposCsv = ["TextoInc", "string", "string"];
     const [vrows, setVrows] = useState({});
+    
 
 
     function eliminar(v: any) {
@@ -153,7 +154,7 @@ export const AdminAvisos  = ({
       useEffect(() => {        
         if (!openDialogAdminAvisos){ 
           actualizarDatos();
-        setVrows({})
+          setVrows({})
       }
       }, [openDialogAdminAvisos]);
 
@@ -333,6 +334,8 @@ export const AdminAvisos  = ({
               reloadData={vrows}
               movimiento={movimiento}
               IdApp={idApp}
+              App={app}
+              
             />
           )}
        

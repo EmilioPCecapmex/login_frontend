@@ -29,6 +29,7 @@ import { NewDialogApp } from "../../components/newApp";
 import { AdminMenu } from "../AdminMenus/AdminMenu";
 import CampaignIcon from '@mui/icons-material/Campaign';
 import { AdminAvisos } from "../AvisosApp/AdminAvisos";
+import { DialogAdminAvisos } from "../AvisosApp/DialogAdminAvisos";
 
 // estructura que se va a llenar con la informacion que regresa el endpoint
 // tiene que tener el mismo nombre que regresa el endpoint
@@ -69,7 +70,7 @@ export default function CatApps() {
   const [openAdminMenus, setOpenAdminMenus] = useState(false);
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
   const [openAdminAvisos, setOpenAdminAvisos] = useState(false);
-
+  const [openAdminAvisosDialog, setOpenAdminAvisosDialog] = useState(false);
 
   const [idApp, setIdApp] = useState("");
   const [app, setApp] = useState("");
@@ -420,6 +421,29 @@ export default function CatApps() {
                 display: "flex",
               }}
             >
+               <Button
+                className="aceptar"
+                onClick={(event) => setOpenAdminAvisosDialog(true)}
+                sx={{
+                  boxShadow: 4,mr:"1vw"
+                }}
+                startIcon={<CampaignIcon />}
+              >
+                <Typography
+                  sx={{
+                    fontSize: ".7rem",
+                    "@media (min-width: 480px)": {
+                      fontSize: ".7rem",
+                    },
+                    "@media (min-width: 768px)": {
+                      fontSize: "1rem",
+                    },
+                  }}
+                >
+                  Crear Aviso
+                </Typography>
+              </Button>
+
               <Button
                 className="aceptar"
                 onClick={(event) => handleNewBtnClick(event)}
@@ -497,6 +521,8 @@ export default function CatApps() {
           app={app}
         />
       )}
+
+      {openAdminAvisosDialog && <DialogAdminAvisos open={openAdminAvisosDialog} movimiento="Agregar"  IdApp="" App="" closeDialog={setOpenAdminAvisosDialog} reloadData={{}}/>}
     </Grid>
   );
 }
