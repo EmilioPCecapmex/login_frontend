@@ -114,6 +114,7 @@ export const DialogAdminMenu = (
         <TextField
           sx={{ mt: 3, width: "100%" }}
           title="Menu"
+          required
           label="Nombre de Menú"
           placeholder="Nombre de Menú"
           value={nuevoElemento.Menu || ""}

@@ -229,7 +229,10 @@ export function AdminMenu({
       if (result.isConfirmed) {
         deleteAdminMenu(v?.row?.Id)
           .then((response) => {
-            alertaExito(actualizarDatos, "¡Registro eliminado!");
+            if(response!=undefined)
+              alertaExito(actualizarDatos, "¡Registro eliminado!");
+            else
+              alertaError();
           })
           .catch((error) => {
             alertaError();
