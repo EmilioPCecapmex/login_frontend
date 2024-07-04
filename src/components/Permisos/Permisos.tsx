@@ -65,7 +65,7 @@ export function Permisos({ open, closeModal, menu, idApp, idRol }: { open: boole
                         <Tooltip title={"Quitar permiso " + cellValues.row.Permiso}>
                             <IconButton
                                 onClick={() => {
-                                    deletePermisoMenuRol(cellValues.row.IdRelacion, obtenerDatos)
+                                    deletePermisoMenuRol(cellValues.row.IdRelacion, localStorage.getItem("IdUsuario") || "", obtenerDatos)
                                 }}
                             >
                                 <HighlightOffIcon />

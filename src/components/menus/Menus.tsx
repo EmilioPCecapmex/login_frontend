@@ -73,7 +73,7 @@ export function Menus({
             <Tooltip title={"Quitar acceso"}>
               <IconButton
                 onClick={() => {
-                  deleteMenuRol(cellValues.row.IdRelacion, obtenerDatos);
+                  deleteMenuRol(cellValues.row.IdRelacion, localStorage.getItem("IdUsuario") || "", obtenerDatos);
                 }}
               >
                 <HighlightOffIcon />

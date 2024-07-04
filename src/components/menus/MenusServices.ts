@@ -52,7 +52,7 @@ export const getMenusRol = (IdRol: string, setState: Function) => {
     });
 };
 
-export const deleteMenuRol = (IdRelacion: string, fnc: Function) => {
+export const deleteMenuRol = (IdRelacion: string, CreadoPor: string,fnc: Function) => {
   axios({
     method: "delete",
     url: process.env.REACT_APP_APPLICATION_DEV + "/api/menu-rol",

@@ -88,7 +88,7 @@ export const createPermisoMenuRol = (
     });
 };
 
-export const deletePermisoMenuRol = (IdRelacion: string, fnc: Function) => {
+export const deletePermisoMenuRol = (IdRelacion: string, CreadoPor:string, fnc: Function) => {
   axios({
     method: "delete",
     url: process.env.REACT_APP_APPLICATION_DEV + "/api/permiso-menu-rol",
