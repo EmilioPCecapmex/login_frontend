@@ -4,91 +4,91 @@ import { alertaError } from "../../components/alertas/toast";
 import { createAdminPermiso, editarPermiso } from "./AdminPermisosServices";
 
 export interface IElemento {
-    Id: string;
-    Permiso: string;
-    IdMenu: string;
-    Descripcion: string;
-    ControlInterno: string;
-    IdUsuario: string;
-    IdApp: string;
-  }
+  Id: string;
+  Permiso: string;
+  IdMenu: string;
+  Descripcion: string;
+  ControlInterno: string;
+  IdUsuario: string;
+  IdApp: string;
+}
 
 export const DialogAdminPermisos = (
-    {
-        open,
-        closeDialog,
-        IdApp,
-        movimiento,
-        Menu,
-        IdMenu,
-        reloadData,
-    }:{
-        open: boolean;
-        closeDialog: Function;
-        IdApp: string;
-        movimiento: string;
-        Menu: string;
-        IdMenu: string;
-        reloadData: IElemento;
-    }
+  {
+    open,
+    closeDialog,
+    IdApp,
+    movimiento,
+    Menu,
+    IdMenu,
+    reloadData,
+  }: {
+    open: boolean;
+    closeDialog: Function;
+    IdApp: string;
+    movimiento: string;
+    Menu: string;
+    IdMenu: string;
+    reloadData: IElemento;
+  }
 ) => {
 
-    const elementoVacio = {
-        Id: "",
-        Permiso: "",
-        IdMenu: "",
-        Descripcion: "",
-        ControlInterno:"",
-        IdUsuario: "",
-        IdApp: "",
-      };
+  const elementoVacio = {
+    Id: "",
+    Permiso: "",
+    IdMenu: "",
+    Descripcion: "",
+    ControlInterno: "",
+    IdUsuario: "",
+    IdApp: "",
+  };
 
-      const [nuevoElemento, setNuevoElemento] = useState<IElemento>({
-        ...elementoVacio,
-        IdUsuario: localStorage.getItem("IdUsuario") || "",
-        IdApp: IdApp, IdMenu: IdMenu,
-      });
+  const [nuevoElemento, setNuevoElemento] = useState<IElemento>({
+    ...elementoVacio,
+    IdUsuario: localStorage.getItem("IdUsuario") || "",
+    IdApp: IdApp, IdMenu: IdMenu,
+  });
 
-  
-      useEffect(() => {
-        if (reloadData && movimiento === "Editar") {
-          setNuevoElemento(
-            {
-              ...reloadData,
-              IdUsuario: localStorage.getItem("IdUsuario") || "",
-        IdApp: IdApp, IdMenu:IdMenu
-            }
-          )
+
+  useEffect(() => {
+    if (reloadData && movimiento === "Editar") {
+      setNuevoElemento(
+        {
+          ...reloadData,
+          IdUsuario: localStorage.getItem("IdUsuario") || "",
+          IdApp: IdApp, IdMenu: IdMenu
         }
-      }, []);
+      )
+    }
+  }, []);
 
-      function sendRequest() {
-        
-        switch (movimiento) {
-            case "Editar":
-            editarPermiso(nuevoElemento, closeDialog);
-            break;
-            case "Agregar":
-            createAdminPermiso(nuevoElemento, closeDialog);
-            break;
-           default:
-            alertaError();
-        }
-      }
+  function sendRequest() {
+
+    switch (movimiento) {
+      case "Editar":
+        editarPermiso(nuevoElemento, closeDialog);
+        break;
+      case "Agregar":
+        createAdminPermiso(nuevoElemento, closeDialog);
+        break;
+      default:
+        alertaError();
+    }
+  }
 
 
-    return(
+  return (
 
-<Dialog
+    <Dialog
       open={open}
       onClose={() => {
         closeDialog(false);
       }}
       fullWidth
       maxWidth={"sm"}
->
+    >
 
-<DialogContent
+      <DialogContent
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -97,7 +97,7 @@ export const DialogAdminPermisos = (
       >
         <TextField
           sx={{ mt: 3, width: "100%" }}
-          inputProps={{maxlength:200}}
+          inputProps={{ maxlength: 200 }}
           title="Permiso"
           label="Nombre de Permiso"
           placeholder="Nombre de Permiso"
@@ -112,7 +112,7 @@ export const DialogAdminPermisos = (
         <TextField
           multiline
           sx={{ mt: 3, width: "100%" }}
-          inputProps={{maxlength:200}}
+          inputProps={{ maxlength: 200 }}
           title="Descripción"
           label="Descripción"
           placeholder="Descripción"
@@ -129,7 +129,7 @@ export const DialogAdminPermisos = (
         <TextField
           multiline
           sx={{ mt: 3, width: "100%" }}
-          inputProps={{maxlength:50}}
+          inputProps={{ maxlength: 50 }}
           title="Control Interno"
           label="Control Interno"
           placeholder="Control Interno"
@@ -168,7 +168,7 @@ export const DialogAdminPermisos = (
         </Button>
       </DialogActions>
 
-</Dialog>
+    </Dialog>
 
-    );
+  );
 }

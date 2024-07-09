@@ -11,6 +11,7 @@ import Users from "./screens/Users/Users";
 import { Documentos } from "./screens/ValidadorDE/Documentos";
 import Solicitudes from "./screens/solicitudes/Solicitudes";
 import Ayuda from "./screens/Ayuda/Ayuda";
+import { DialogMantenimiento } from "./components/dialogMantenimiento/DialogMantenimiento";
 
 
 const App = () => {
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/validador" element={<Documentos />} />
         <Route path="/catalogos" element={<Catalogos />} />
         <Route path="/ayuda" element={<Ayuda/>} />
+        
         <Route
           path="/generarSolicitud"
           element={
