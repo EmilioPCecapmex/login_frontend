@@ -20,10 +20,12 @@ const styles = {
 
 export const DialogMantenimiento = (
     {
+        app,
         open, 
         handleClose
     }:
     {
+        app:string,
         open:boolean,
         handleClose:Function
     }) => {
@@ -51,7 +53,7 @@ export const DialogMantenimiento = (
                         marginBottom: "16px",
                     }}
                 >
-                    La aplicación está en mantenimiento
+                    La aplicación {app} está en mantenimiento
                 </Typography>
 
                 <Typography

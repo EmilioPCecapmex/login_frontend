@@ -224,9 +224,15 @@ export const Login = () => {
     }
   };
   const[openDialogMantenimiento,setOpenDialogMantenimiento]=useState(false)
+  const[nombreApp,setNombreApp]=useState('')
 
   const handleCloseDialogMantenimiento=()=>{
     setOpenDialogMantenimiento(false)
+  }
+
+  const handlOpenDialogMantenimiento=(nombreApp:string)=>{
+    setOpenDialogMantenimiento(true);
+    setNombreApp(nombreApp);
   }
 
   const validateCredentials = () => {
@@ -272,8 +278,9 @@ export const Login = () => {
                   "&IdApp=" +
                   arrayApps[0].IdApp
                 );
-              else
-                setOpenDialogMantenimiento(true)
+              else{
+                console.log('arrayApps[0].Nombre',arrayApps[0])
+              handlOpenDialogMantenimiento(arrayApps[0].Nombre);}
             } else {
               localStorage.setItem("IdApp", arrayApps[0].IdApp)
               IdUsuario = r.data.IdUsuario;
@@ -559,7 +566,7 @@ export const Login = () => {
 
             </Grid>
           </div>
-          <DialogMantenimiento open={openDialogMantenimiento} handleClose={handleCloseDialogMantenimiento}/>
+          <DialogMantenimiento app={nombreApp}  open={openDialogMantenimiento} handleClose={handleCloseDialogMantenimiento}/>
         </>
       )}
     </>
