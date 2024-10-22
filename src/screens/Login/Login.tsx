@@ -20,12 +20,14 @@ import { SolicitudUsuario } from "../SolicitudDeUsuarios/SolicitudUsuario";
 import { ls } from "./strings/st";
 import "./style/Fonts.css";
 import { lstLg, lstMd, lstSm, lstXl, lstXs } from "./style/lst";
+import { DialogMantenimiento } from "../../components/dialogMantenimiento/DialogMantenimiento";
 
 interface IApps {
   IdApp: string;
   Nombre: string;
   Path: string;
   Descripcion: string;
+  EstaActivo:number;
 }
 
 export const getUserDetail = (idUsuario: string, idApp: string) => {
@@ -90,6 +92,7 @@ export const Login = () => {
       Nombre: "",
       Path: "",
       Descripcion: "",
+      EstaActivo:0,
     },
   ]);
 
@@ -159,37 +162,37 @@ export const Login = () => {
     handleOpenAppsModal();
   };
 
-  const checkApps = () => {
-    axios
-      .post(
-        process.env.REACT_APP_APPLICATION_DEV + "/api/user-apps",
-        {
-          IdUsuario: localStorage.getItem("IdUsuario"),
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            authorization: opensolicitudModal && jwt ? jwt : JWT_Token,
-          },
-        }
-      )
-      .then((r) => {
-        if (r.status === 200) {
-          const IdApps = r.data.data;
+  // const checkApps = () => {
+  //   axios
+  //     .post(
+  //       process.env.REACT_APP_APPLICATION_DEV + "/api/user-apps",
+  //       {
+  //         IdUsuario: localStorage.getItem("IdUsuario"),
+  //       },
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           authorization: opensolicitudModal && jwt ? jwt : JWT_Token,
+  //         },
+  //       }
+  //     )
+  //     .then((r) => {
+  //       if (r.status === 200) {
+  //         const IdApps = r.data.data;
 
-          setAppsList(IdApps);
-          openAppModal(
-            "success",
-            "tu usuario cuenta con acceso a las siguientes plataformas."
-          );
-        }
-      })
-      .catch((error) => {
-        if (error.response.status === 401) {
-          openDialogModal("error", error.response.data.msg);
-        }
-      });
-  };
+  //         setAppsList(IdApps);
+  //         openAppModal(
+  //           "success",
+  //           "tu usuario cuenta con acceso a las siguientes plataformas."
+  //         );
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       if (error.response.status === 401) {
+  //         openDialogModal("error", error.response.data.msg);
+  //       }
+  //     });
+  // };
 
   const verifyToken = () => {
     if (jwt) {
@@ -220,6 +223,11 @@ export const Login = () => {
       });
     }
   };
+  const[openDialogMantenimiento,setOpenDialogMantenimiento]=useState(false)
+
+  const handleCloseDialogMantenimiento=()=>{
+    setOpenDialogMantenimiento(false)
+  }
 
   const validateCredentials = () => {
     axios
@@ -254,15 +262,18 @@ export const Login = () => {
 
           if (arrayApps.length === 1) {
             if (arrayApps[0].Path !== "./admin") {
-              window.location.replace(
-                arrayApps[0].Path +
-                "?jwt=" +
-                localStorage.getItem("jwtToken") +
-                "&rf=" +
-                localStorage.getItem("refreshToken") +
-                "&IdApp=" +
-                arrayApps[0].IdApp
-              );
+              if(arrayApps[0].EstaActivo == 1)
+                window.location.replace(
+                  arrayApps[0].Path +
+                  "?jwt=" +
+                  localStorage.getItem("jwtToken") +
+                  "&rf=" +
+                  localStorage.getItem("refreshToken") +
+                  "&IdApp=" +
+                  arrayApps[0].IdApp
+                );
+              else
+                setOpenDialogMantenimiento(true)
             } else {
               localStorage.setItem("IdApp", arrayApps[0].IdApp)
               IdUsuario = r.data.IdUsuario;
@@ -548,7 +559,7 @@ export const Login = () => {
 
             </Grid>
           </div>
-
+          <DialogMantenimiento open={openDialogMantenimiento} handleClose={handleCloseDialogMantenimiento}/>
         </>
       )}
     </>
