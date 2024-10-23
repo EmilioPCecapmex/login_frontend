@@ -1,15 +1,15 @@
-import { Close as CloseIcon } from "@mui/icons-material";
+import { Close, Margin } from "@mui/icons-material";
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControlLabel,
-  FormGroup,
   Grid,
   IconButton,
-  Switch,
+  Tooltip,
+  Typography,
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -20,16 +20,17 @@ export interface AppsDialogProps {
   appsDialogOpen: boolean;
   handleAppsDialogClose: Function;
   usuario: Usuario | any;
+  setIdApp: Function;
 }
 
 export const AppsDialog = (props: AppsDialogProps) => {
   const [apps, setApps] = useState([]);
 
-  const getAllApps = (appsUser: any) => {
+   const getAllApps = (appsUser: any) => {
     axios({
       method: "get",
       url: process.env.REACT_APP_APPLICATION_DEV + "/api/apps",
-      params: {IdUsuario: localStorage.getItem("IdUsuario")},
+      params: { IdUsuario: localStorage.getItem("IdUsuario") },
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",
@@ -115,7 +116,7 @@ export const AppsDialog = (props: AppsDialogProps) => {
       data: data,
     })
       .then(function (response) {
-        props.handleAppsDialogClose(true);
+        props.handleAppsDialogClose();
       })
       .catch(function (error) {
         Swal.fire({
@@ -131,7 +132,7 @@ export const AppsDialog = (props: AppsDialogProps) => {
       open={props.appsDialogOpen}
       onClose={() => props.handleAppsDialogClose()}
       fullWidth={true}
-      maxWidth="md"
+      maxWidth="lg"
       aria-labelledby="edit-dialog-title"
       aria-describedby="edit-dialog-description"
     >
@@ -139,64 +140,107 @@ export const AppsDialog = (props: AppsDialogProps) => {
         id="edit-dialog-title"
         sx={{ fontFamily: "MontserratSemiBold" }}
       >
-        Acceso a plataformas: {props.usuario.NombreUsuario}
-        <IconButton
-          aria-label="close"
-          onClick={() => props.handleAppsDialogClose()}
-          sx={{
-            position: "absolute",
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
+        <Grid container sx={{ width: "100%" }}>
+          <Grid item xl={11}
+            xs={11}
+            lg={11}
+            md={11}
+            sm={11}>
+            <Typography fontFamily={"'Montserrat', sans-serif"}
+                    sx={{
+                      // whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      textAlign: "center",
+                      fontSize: [15, 15, 15, 20, 20], // Tamaños de fuente para diferentes breakpoints
+                      padding: "1rem"
+                    }}>Aplicaciones a las que tiene acceso {props.usuario.NombreUsuario}</Typography>
+          </Grid>
+          <Grid item xl={1}
+            xs={1}
+            lg={1}
+            md={1}
+            sm={1}
+            sx={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+            <Tooltip title="Salir">
+            <IconButton  onClick={() => props.handleAppsDialogClose()}>
+              <Close sx={{
+                fontSize: '24px', // Tamaño predeterminado del icono
+                '@media (max-width: 600px)': {
+                  fontSize: 25, // Pantalla extra pequeña (xs y sm)
+                },
+                '@media (min-width: 601px) and (max-width: 960px)': {
+                  fontSize: 25, // Pantalla pequeña (md)
+                },
+                '@media (min-width: 961px) and (max-width: 1280px)': {
+                  fontSize: 30, // Pantalla mediana (lg)
+                },
+                '@media (min-width: 1281px)': {
+                  fontSize: 30, // Pantalla grande (xl)
+                },
+              }} />
+            </IconButton>
+            </Tooltip>
+          </Grid>
+        </Grid>
+
+
       </DialogTitle>
+
       <DialogContent dividers>
-        <Grid container direction={"row"}>
-          {apps.map((app: any) => (
-            app.active?
-            <Grid
-              item
-              xs={6}
-              md={3}
-              key={app.Id}
-              justifyContent="center"
-              display="flex"
-            >
-              <FormGroup sx={{ width: '10vw'}}>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      
-                      defaultChecked={app.active}
-                      checked={app.active}
-                      // onChange={(v) => handleCheck(v.target.checked, app.Id)}
-                    />
-                  }
-                  label={app.Nombre}
-                />
-              </FormGroup>
-            </Grid>:null
-          ))}
+        <Grid container direction={"column"} justifyContent={"center"} >
+          {apps.map((app: any) =>
+            app.active ? (
+              <Grid
+                item container
+                xs={10}
+                md={10}
+                key={app.Id}
+                justifyContent={"center"}
+                alignItems={"center"}
+                display={"flex"}
+              >
+
+                <Grid
+                  item
+                  xl={10}
+                  xs={10}
+                  lg={10}
+                  md={10}
+                  sm={10}
+                  onClick={(v) => {
+                    props.handleAppsDialogClose();
+                    props.setIdApp(app.Id);
+                  }}
+                  component="button"
+                  className="aceptar"
+                  sx={{
+                    display: "flex",
+                    borderRadius: "5px",
+                    border: "solid 1px",
+                    cursor: "pointer",
+                    textAlign: "center",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mb: "2vh",
+                  }}
+                >
+                  <Typography fontFamily={"'Montserrat', sans-serif"}
+                    sx={{
+                      // whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      textAlign: "center",
+                      fontSize: [12, 12, 12, 15, 15], // Tamaños de fuente para diferentes breakpoints
+                      padding: "1rem"
+                    }}> {app.Nombre} </Typography>
+                </Grid>
+              </Grid>
+            ) : null
+          )}
         </Grid>
       </DialogContent>
-      <DialogActions>
-        <Button
-          color="error"
-          onClick={() => props.handleAppsDialogClose()}
-          sx={{ fontFamily: "MontserratRegular" }}
-        >
-          Cerrar
-        </Button>
-        {/* <Button
-          onClick={() => handleUpdateBtn()}
-          sx={{ fontFamily: "MontserratRegular" }}
-        >
-          Actualizar
-        </Button> */}
-      </DialogActions>
+
     </Dialog>
   );
 };

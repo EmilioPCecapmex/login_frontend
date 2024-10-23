@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { continueSession, logout } from "../../funcs/validation";
+import { Box } from "@mui/material";
 
 export const TimerCounter = () => {
   const [actualDate, setActualDate] = useState(new Date());
@@ -20,7 +21,7 @@ export const TimerCounter = () => {
       "sessionT",
       (session.getTime() - actualDate.getTime()).toString()
     );
-    if ((rest<=0)) {
+    if ((rest<5)) {
       logout();
     }
   }, 1000);
@@ -74,8 +75,9 @@ export const TimerCounter = () => {
       )}, el tiempo de tu sesión esta a punto de expirar. ¿Deseas renovar el tiempo de sesión?`,
       icon: "question",
       showCancelButton: true,
-      confirmButtonColor: "#000E4E",
-      cancelButtonColor: "#A40000",
+      
+      confirmButtonColor: "#15212f",
+      cancelButtonColor: "#af8c55",
       confirmButtonText: "Renovar",
       cancelButtonText: "Salir",
       allowOutsideClick: false,
@@ -93,9 +95,9 @@ export const TimerCounter = () => {
     // <Box
     //   sx={{
     //     fontFamily: "MontserratMedium",
-    //     fontSize: ".8vw",
-    //     width: "20vw",
-    //     height: "100%",
+    //     fontSize: "10px",
+    //     width: "100%",
+    //     height: "10%",
     //     display: "flex",
     //     alignItems: "center",
     //     justifyContent: "center",

@@ -1,24 +1,42 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { Box, Card, CardContent, IconButton, Tooltip, Button, Typography, FormGroup, FormControlLabel, Switch, Grid, } from "@mui/material";
 import {
-  AccountTree as AccountTreeIcon,
   Edit as EditIcon,
   PersonAdd as PersonAddIcon,
 } from "@mui/icons-material";
-import MUIXDataGrid from "../../components/MUIXDataGrid";
-import "./style/Fonts.css";
-import { EditDialog } from "../../components/editDialog";
-import { NewDialog } from "../../components/newDialog";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import ForwardToInboxIcon from "@mui/icons-material/ForwardToInbox";
+import {
+  Box,
+  Button,
+  CardContent,
+  FormControlLabel,
+  FormGroup,
+  Grid,
+  IconButton,
+  InputLabel,
+  Switch,
+  Tooltip,
+  Typography,
+  FormControl,
+  Select,
+  MenuItem,
+  Hidden,
+} from "@mui/material";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { AppsDialog } from "../../components/appsDialog";
-import { useNavigate } from "react-router-dom";
-import { isAdmin, sessionValid } from "../../funcs/validation";
 import { Header } from "../../components/header";
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import { TimerCounter } from "../../components/timer/timer";
+import { NewDialog } from "../../components/newDialog";
+import { isAdmin, sessionValid } from "../../funcs/validation";
+import "./style/Fonts.css";
+import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
+import { alertaExito, alertaInformativa } from "../../components/alertas/toast";
+import { IApps } from "../SolicitudDeUsuarios/SolicitudUsuario";
+import SyncIcon from "@mui/icons-material/Sync";
 
+// ...
 
 export interface Usuario {
   EstaActivoLabel: string;
@@ -43,6 +61,14 @@ export interface Usuario {
 
 export default function Users() {
   const navigate = useNavigate();
+  const camposCsv = [
+    "Nombre",
+    "ApellidoPaterno",
+    "ApellidoMaterno",
+    "NombreUsuario",
+    "CorreoElectronico",
+    "EstaActivoLabel",
+  ];
 
   const Toast = Swal.mixin({
     toast: true,
@@ -56,81 +82,87 @@ export default function Users() {
     },
   });
   const [rows, setRows] = useState<Array<IUsuarios>>([]);
-  const [showAllUsers, setShowAllUsers] = useState(false)
+
+  const [showAllUsers, setShowAllUsers] = useState(false);
 
   const [newDialogOpen, setNewDialogOpen] = useState(false);
-  const handleNewDialogOpen = () => setNewDialogOpen(true);
+
   const handleNewDialogClose = (changed: boolean) => {
     if (changed === true) {
       Toast.fire({
         icon: "success",
-        title: "Usuario Creado Exitosamente",
+        title: "¡Usuario Creado!",
+        iconColor: "#af8c55",
+        color: "#af8c55",
       });
       getAllUsers();
     }
     setNewDialogOpen(false);
   };
-  const handleNewBtnClick = (event: any) => {
-    handleNewDialogOpen();
-  };
 
-  const [editDialogOpen, setEditDialogOpen] = useState(false);
-  const [editDialogUsuario, setEditDialogUsuario] = useState<Usuario>();
-  const handleEditDialogOpen = () => setEditDialogOpen(true);
-  const handleEditDialogClose = (changed: boolean) => {
-    if (changed === true) {
-      Toast.fire({
-        icon: "success",
-        title: "Cambios realizados exitosamente",
-      });
-      getAllUsers();
-    }
-    setEditDialogOpen(false);
-  };
-  const handleEditBtnClick = (event: any, cellValues: any) => {
-    setEditDialogUsuario(cellValues.row);
-    handleEditDialogOpen();
-  };
-
-
-
-
-
-  const getDatosDocumento = (nombreUsuario: any) => {
+  const getDatosDocumento = (nombreUsuario = "", nombre = "") => {
     axios
       .get(process.env.REACT_APP_APPLICATION_DEV + "/api/docSolicitudUsuario", {
         params: {
-          NombreUsuario: nombreUsuario
+          NombreUsuario: nombreUsuario,
         },
         headers: {
           Authorization: localStorage.getItem("jwtToken") || "",
         },
+        responseType: "blob",
       })
-      .then((r) => {
-        if (r.status === 200 && r.data.result[0].length !== 0) {
-          imprimirSolicitud(r.data.result[0][0]);
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201) {
+          alertaInformativa("No se encontro información.");
         } else {
-          Toast.fire({
-            icon: "error",
-            title: "No se encontro solicitud!",
-          });
+          // Obtén el nombre del archivo del servidor
+          const contentDisposition = response.headers["content-disposition"];
+          const matches =
+            contentDisposition && contentDisposition.match(/filename="(.+)"/);
+          const nombreArchivo = matches
+            ? matches[1]
+            : `${nombre.toUpperCase()}.pdf`;
+
+          // Crea un enlace temporal y simula un clic para descargar el archivo
+          const url = window.URL.createObjectURL(
+            new Blob([response.data], { type: "application/pdf" })
+          );
+          const link = document.createElement("a");
+          link.setAttribute("download", nombreArchivo);
+          link.setAttribute("href", url);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
         }
+      })
+      .catch((error) => {
+        alertaInformativa("No se encontro información.");
       });
-  }
+  };
+
+  const sendCredentials = (NombreUsuario: string, Correo: string) => {
+    axios
+      .post(
+        process.env.REACT_APP_APPLICATION_DEV + "/api/reesend-credentials",
+        { NombreUsuario: NombreUsuario, Correo: Correo },
+        {
+          headers: {
+            Authorization: localStorage.getItem("jwtToken") || "",
+          },
+        }
+      )
+      .then((r) => {
+        alertaExito(() => {}, "Se envio el correo.");
+      });
+  };
 
   const [appsDialogOpen, setAppsDialogOpen] = useState(false);
   const [appsDialogUsuario, setAppsDialogUsuario] = useState<Usuario>();
+  const [idApp, setIdApp] = useState("");
+  const [selectedAppId, setSelectedAppId] = useState("");
+
   const handleAppsDialogOpen = () => setAppsDialogOpen(true);
-  const handleAppsDialogClose = (changed: boolean) => {
-    if (changed === true) {
-      Toast.fire({
-        icon: "success",
-        title: "Plataformas de usuario actualizadas exitosamente",
-      });
-      getAllUsers();
-    }
-    setAppsDialogOpen(false);
-  };
+
   const handleAppsBtnClick = (event: any, cellValues: any) => {
     setAppsDialogUsuario(cellValues.row);
     handleAppsDialogOpen();
@@ -155,11 +187,16 @@ export default function Users() {
     // eslint-disable-next-line
   }, []);
 
-  const getAllUsers = () => {
+  const [apps, setApps] = useState<Array<IApps>>([]);
+
+  const getAllUsers = (idApp?: string) => {
     axios({
       method: "get",
       url: process.env.REACT_APP_APPLICATION_DEV + "/api/users",
-      params: { IdUsuario: localStorage.getItem("IdUsuario") },
+      params: {
+        IdUsuario: localStorage.getItem("IdUsuario"),
+        IdApp: idApp || "",
+      },
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwtToken") || "",
@@ -169,36 +206,61 @@ export default function Users() {
         let rows = response.data.data.map((row: any) => {
           const estaActivoLabel = row.EstaActivo ? "Activo" : "Inactivo";
           const rowTemp = { EstaActivoLabel: estaActivoLabel, ...row };
-          return rowTemp
+          return rowTemp;
         });
 
         if (!showAllUsers) {
-          rows = rows?.filter((x: { EstaActivoLabel: string | string[]; }) => x.EstaActivoLabel.includes('Activo'));
+          rows = rows?.filter((x: { EstaActivoLabel: string | string[] }) =>
+            x.EstaActivoLabel.includes("Activo")
+          );
         }
-
-        setRows(rows);
-        setTimeout(() => {
-          getAllUsers();
-        }, 60000);
-
+        if (idApp !== "") {
+          setRows(rows);
+        } else {
+          setRows(rows);
+        }
       })
       .catch(function (error) {
         Swal.fire({
           icon: "error",
           title: "Mensaje",
           text:
-            "(" + error.response.status + ") " + error.response.data.message,
+            "(" +
+            error?.response?.status +
+            ") " +
+            error?.response?.data?.message,
         }).then((r) => navigate("../"));
+      });
+  };
+
+  const getAllApps = () => {
+    axios
+      .get(process.env.REACT_APP_APPLICATION_DEV + "/api/apps", {
+        params: { IdUsuario: localStorage.getItem("IdUsuario") },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("jwtToken") || "",
+        },
+      })
+      .then((response) => {
+        setApps(response.data.data);
+      })
+      .catch(function (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Mensaje",
+          text: "(" + error.response.status + ") " + error.response.data.msg,
+        });
       });
   };
 
   useEffect(() => {
     getAllUsers();
+    getAllApps();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showAllUsers]);
 
-
-
-
+  const [idUsuario, setIdUsuario] = useState("");
 
   const columns = [
     {
@@ -206,16 +268,25 @@ export default function Users() {
       headerName: "Acciones",
       width: 150,
       headerAlign: "center",
+      align: "center",
       renderCell: (cellValues: any) => {
         return (
           <Box>
-            <Tooltip title={"Descargar solicitud - " + cellValues.row.NombreUsuario}>
+            <Tooltip
+              title={"Descargar solicitud - " + cellValues.row.NombreUsuario}
+            >
               <IconButton
-                color="info"
+                sx={{ color: "black" }}
                 onClick={(event) => {
-                  getDatosDocumento(cellValues.row.NombreUsuario);
-                  //imprimirDocumento(event, cellValues);
-                  // handleAppsBtnClick(event, cellValues);
+                  alertaInformativa("Obteniendo información.");
+                  getDatosDocumento(
+                    cellValues.row.NombreUsuario,
+                    cellValues.row.Nombre +
+                      " " +
+                      cellValues.row.ApellidoPaterno +
+                      " " +
+                      cellValues.row.ApellidoMaterno
+                  );
                 }}
               >
                 <FileDownloadIcon />
@@ -224,26 +295,63 @@ export default function Users() {
 
             <Tooltip title={"Editar - " + cellValues.row.NombreUsuario}>
               <IconButton
-                color="warning"
+                sx={{ color: "black" }}
                 onClick={(event) => {
-                  handleEditBtnClick(event, cellValues);
+                  setIdApp("");
+                  handleAppsBtnClick(event, cellValues);
+                  setIdUsuario(cellValues.row.Id);
                 }}
               >
                 <EditIcon />
               </IconButton>
             </Tooltip>
-
-            <Tooltip title={"Visualizar acceso a plataformas"}>
+            <Tooltip
+              title={
+                "enviar correo de acceso a " + cellValues.row.NombreUsuario
+              }
+            >
               <IconButton
-                color="info"
+                sx={{ color: "black" }}
                 onClick={(event) => {
-                  handleAppsBtnClick(event, cellValues);
+                  Swal.fire({
+                    icon: "info",
+                    title: "Mensaje",
+                    iconColor: "#af8c55",
+                    // color: "#af8c55",
+                    html: `
+        <div>
+          <p>¿Está seguro de que desea reenviar las credenciales de 
+              ${cellValues?.row?.Nombre} ${cellValues?.row?.ApellidoPaterno} ${cellValues?.row?.ApellidoMaterno}?
+          </p>
+          <p>
+            <span style="color: red;">
+              Esta acción generará una nueva contraseña que se enviará al usuario.
+            </span>
+          </p>
+          
+        </div>
+      `,
+                    showCloseButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: "Aceptar",
+                    confirmButtonColor: "#15212f",
+                    cancelButtonText: "Cancelar",
+                    cancelButtonColor: "#AF8C55",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      sendCredentials(
+                        cellValues?.row?.NombreUsuario,
+                        cellValues?.row?.CorreoElectronico
+                      );
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                      // Código para la lógica cuando el usuario hace clic en Cancelar
+                    }
+                  });
                 }}
               >
-                <AccountTreeIcon />
+                <ForwardToInboxIcon />
               </IconButton>
             </Tooltip>
-
           </Box>
         );
       },
@@ -251,27 +359,31 @@ export default function Users() {
     {
       field: "Nombre",
       headerName: "Nombre",
-      width: 150,
+      width: 200,
       hideable: false,
       headerAlign: "center",
+      align: "center",
     },
     {
       field: "ApellidoPaterno",
       headerName: "Apellido Paterno",
-      width: 130,
+      width: 200,
       headerAlign: "center",
+      align: "center",
     },
     {
       field: "ApellidoMaterno",
       headerName: "Apellido Materno",
-      width: 140,
+      width: 200,
       headerAlign: "center",
+      align: "center",
     },
     {
       field: "NombreUsuario",
       headerName: "Nombre Usuario",
-      width: 130,
+      width: 200,
       headerAlign: "center",
+      align: "center",
     },
     {
       field: "CorreoElectronico",
@@ -283,115 +395,328 @@ export default function Users() {
       headerName: "Creador",
       width: 150,
       headerAlign: "center",
+      align: "center",
     },
     {
       field: "NombreModificadoPor",
       headerName: "Actualizado Por",
       width: 150,
       headerAlign: "center",
+      align: "center",
     },
     {
       field: "EstaActivoLabel",
       headerName: "Estatus",
       width: 110,
       headerAlign: "center",
+      align: "center",
     },
   ];
 
+  useEffect(() => {
+    if (idApp !== "") {
+      setNewDialogOpen(true);
+    }
+  }, [idApp]);
+
+  const actualizar = () => {
+    setSelectedAppId("");
+    getAllUsers("");
+  };
+
   return (
-    <Box>
-      <Header />
-      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-        <TimerCounter />
-      </Box>
-      <Box
-        sx={{
-          height: "87vh",
-          width: "100vw",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Box>
-          <Card sx={{ height: "80vh", width: "80vw", boxShadow: 10 }}>
-            <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Grid container   justifyContent="space-between" >
-                <Grid container item xs={12} md={6}   direction="row" justifyContent="flex-start"  alignItems="flex-start" >
-                  <PeopleAltIcon  />
-                  < Typography  className="h6">
-                    Listado de usuarios con acceso a plataformas.
-                  </Typography>
-                </Grid>
-                <Grid item container  xs={12} md={6}  justifyContent="flex-end">
-                  <FormGroup>
-                    <FormControlLabel control={<Switch onChange={(v) => setShowAllUsers(v.target.checked)} />} label={
-                      <Typography className="h5">
-                        Usuarios Inactivos
-                      </Typography>
-                    } />
-                  </FormGroup>
-                </Grid>
+    <>
+      <Grid container sx={{ maxWidthwidth: "100vw", maxHeightheight: "100vh" }}>
+        <Grid item xl={12} xs={12} lg={12} md={12} sm={12}>
+          <Header menuActual="Usuarios" />
+        </Grid>
 
-              </Grid>
+        <Grid
+          item
+          container
+          xl={12}
+          lg={12}
+          md={12}
+          sm={12}
+          xs={12}
+          sx={{ height: "90vh" }}
+        >
+          {/* ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+          <Grid
+            item
+            container
+            xl={12}
+            lg={12}
+            md={12}
+            sm={12}
+            xs={12}
+            display={"flex"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+            sx={{ height: ["25%", "12%", "12%", "12%", "12%"] }}
+          >
+            <Hidden smDown>
+              <Grid
+                item
+                xl={2}
+                lg={2}
+                md={2}
+                sm={3}
+                xs={12}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <Tooltip title="Menu actual: Usuarios">
+                  <CardContent>
+                    <PeopleAltIcon
+                      sx={{ color: "#AF8C55", fontSize: [30, 30, 30, 40, 40] }}
+                    />
+                  </CardContent>
+                </Tooltip>
 
-
-
-            </Box>
-
-            <CardContent>
-              <Box display="flex" justifyContent="flex-end">
-                <Button
-                  className="registrar-usuario"
-                  variant="text"
-                  onClick={(event) => handleNewBtnClick(event)}
+                <Typography
+                  fontFamily={"'Montserrat', sans-serif"}
                   sx={{
-                    fontFamily: "MontserratBold",
-                    backgroundColor: "#DFA94F",
-                    color: "#000001",
-                    fontSize: "10px",
-                    mb: "1vh",
-                    boxShadow: 4,
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    textAlign: "center",
+                    fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
+                    color: "#AF8C55",
                   }}
-                  startIcon={<PersonAddIcon />}
                 >
-                  Registrar Usuario
-                </Button>
-              </Box>
-              <MUIXDataGrid
-                id={(row: any) => row.Id}
-                columns={columns}
-                rows={rows}
+                  Usuarios
+                </Typography>
+              </Grid>
+            </Hidden>
+            <Grid
+              item
+              container
+              xl={10}
+              lg={10}
+              md={10}
+              sm={9}
+              xs={12}
+              sx={{
+                display: "flex",
+                justifyContent: "space-around",
+              }}
+            >
+              <Grid
+                container
+                item
+                xl={12}
+                lg={12}
+                md={12}
+                sm={12}
+                xs={12}
+                sx={{
+                  justifyContent: "flex-end",
+                  display: "flex",
+                }}
+              >
+                <Grid
+                  item
+                  container
+                  xl={5}
+                  lg={5}
+                  md={5}
+                  sm={5}
+                  xs={12}
+                  sx={{ justifyContent: "center", alignItems: "center" }}
+                >
+                  <FormControl
+                    sx={{ width: ["95%", "90%", "80%", "80%", "80%"] }}
+                  >
+                    <InputLabel
+                      // variant="standard"
+                      sx={{
+                        fontFamily: "MontserratMedium",
+                        justifyContent: "flex-start",
+                      }}
+                    >
+                      Filtrar por Aplicación
+                    </InputLabel>
+                    <Select
+                      value={selectedAppId}
+                      label="Filtrar por Aplicación"
+                      onChange={(e) => {
+                        setSelectedAppId(e.target.value);
+                        getAllUsers(e.target.value);
+                      }}
+                    >
+                      <MenuItem key={1} value={""}>
+                        Todas las Aplicaciones
+                      </MenuItem>
+                      {apps.map((app) => (
+                        <MenuItem key={app.Id} value={app.Id}>
+                          {app.Nombre}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
 
-              />
-            </CardContent>
-          </Card>
-        </Box>
-        {newDialogOpen ? (
-          <NewDialog
-            newDialogOpen={newDialogOpen}
-            handleNewDialogClose={handleNewDialogClose}
-          />
-        ) : null}
-        {editDialogOpen ? (
-          <EditDialog
-            editDialogOpen={editDialogOpen}
-            handleEditDialogClose={handleEditDialogClose}
-            usuario={editDialogUsuario}
-          />
-        ) : null}
-        {appsDialogOpen ? (
-          <AppsDialog
-            appsDialogOpen={appsDialogOpen}
-            handleAppsDialogClose={handleAppsDialogClose}
-            usuario={appsDialogUsuario}
-          />
-        ) : null}
-      </Box>
-    </Box>
+                <Grid
+                  item
+                  container
+                  xl={5}
+                  lg={5}
+                  md={5}
+                  sm={7}
+                  xs={12}
+                  sx={{ justifyContent: "center", alignItems: "center" }}
+                >
+                  <Grid
+                    item
+                    container
+                    xl={3}
+                    lg={3}
+                    md={3}
+                    sm={6}
+                    xs={12}
+                    sx={{ justifyContent: "flex-end" }}
+                  >
+                    <FormGroup>
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            onChange={(v) => setShowAllUsers(v.target.checked)}
+                          />
+                        }
+                        label={
+                          <Typography
+                            sx={{
+                              fontSize: [
+                                ".7rem",
+                                ".7rem",
+                                ".7rem",
+                                "1rem",
+                                "1rem",
+                              ],
+                            }}
+                          >
+                            Usuarios Inactivos
+                          </Typography>
+                        }
+                      />
+                    </FormGroup>
+                  </Grid>
+
+                  <Grid
+                    item
+                    container
+                    xl={9}
+                    lg={9}
+                    md={9}
+                    sm={6}
+                    xs={12}
+                    sx={{ justifyContent: "flex-end" }}
+                  >
+                    <Button
+                      className="aceptar"
+                      variant="text"
+                      onClick={() => {
+                        actualizar();
+                      }}
+                      sx={{
+                        fontFamily: "MontserratBold",
+                        backgroundColor: "#DFA94F",
+                        color: "#000001",
+                        boxShadow: 4,
+                        mr: ["1vw", "1vw", "0vw", "1vw", "1vw"],
+                        width: ["auto", "90%", "auto", "auto", "auto"],
+                      }}
+                      startIcon={<SyncIcon />}
+                    >
+                      <Typography
+                        sx={{
+                          fontSize: [".7rem", ".7rem", ".7rem", "1rem", "1rem"],
+                        }}
+                      >
+                        Actualizar Usuarios
+                      </Typography>
+                    </Button>
+
+                    <Button
+                      className="aceptar"
+                      variant="text"
+                      onClick={() => {
+                        setIdApp("");
+                        setIdUsuario("");
+                        setNewDialogOpen(true);
+                      }}
+                      sx={{
+                        fontFamily: "MontserratBold",
+                        backgroundColor: "#DFA94F",
+                        color: "#000001",
+                        boxShadow: 4,
+                        mr: ["1vw", "1vw", "0vw", "1vw", "1vw"],
+                        width: ["auto", "90%", "auto", "auto", "auto"],
+                      }}
+                      startIcon={<PersonAddIcon />}
+                    >
+                      <Typography
+                        sx={{
+                          fontSize: [".7rem", ".7rem", ".7rem", "1rem", "1rem"],
+                        }}
+                      >
+                        Registrar Usuario
+                      </Typography>
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Grid>
+              {/* zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz */}
+            </Grid>
+            {/* zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz */}
+          </Grid>
+
+          {/* ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+
+          <Grid
+            item
+            xl={12}
+            xs={12}
+            lg={12}
+            md={12}
+            sm={12}
+            sx={{ height: ["75%", "88%", "88%", "88%", "88%"] }}
+          >
+            <MUIXDataGrid
+              id={(row: any) => row.Id}
+              columns={columns}
+              rows={rows}
+              camposCsv={camposCsv}
+              exportTitle={"Catálogo de Usuarios"}
+            />
+          </Grid>
+        </Grid>
+      </Grid>
+      {newDialogOpen ? (
+        <NewDialog
+          newDialogOpen={newDialogOpen}
+          handleNewDialogClose={handleNewDialogClose}
+          idUsuario={idUsuario}
+          idApp={idApp}
+        />
+      ) : null}
+
+      {appsDialogOpen ? (
+        <AppsDialog
+          appsDialogOpen={appsDialogOpen}
+          handleAppsDialogClose={() => {
+            setAppsDialogOpen(false);
+          }}
+          usuario={appsDialogUsuario}
+          setIdApp={setIdApp}
+        />
+      ) : null}
+    </>
   );
 }
-
 
 export interface IUsuarios {
   EstaActivoLabel: string;
@@ -407,31 +732,40 @@ export interface IUsuarios {
 }
 
 export const imprimirSolicitud = (datos: any) => {
-
-
-  const objeto = ({
-    "Fecha": datos?.Fecha,
-    "TipoDeMovimiento": datos?.TipoDeMovimiento,
-    "Nombre": datos?.Nombre,
-    "ApellidoPaterno": datos?.ApellidoPaterno,
-    "ApellidoMaterno": datos?.ApellidoMaterno,
-    "NombreUsuario": datos?.NombreUsuario,
-    "Correo": datos?.Correo,
-    "CURP": datos?.CURP,
-    "RFC": datos?.RFC,
-    "Telefono": datos?.Telefono,
-    "Extension": datos?.Extension,
-    "Celular": datos?.Celular,
-    "Tipo": datos?.TpoUsuario,
-    "Plataforma": datos?.AccesoApp,
-    "Puesto": datos?.Puesto,
-    "Estado": datos?.Estatus === 0 ? "PENDIENTE" : datos?.Estatus === 1 ? "ACEPTADA" : datos?.Estatus === 2 ? "RECHAZADA" : datos?.Estatus === 3 ? "SE SOLICITO MODIFICACIÓN" : "SE DESCONOCE",
-  })
+  const objeto = {
+    Fecha: datos?.Fecha,
+    TipoDeMovimiento: datos?.TipoDeMovimiento,
+    Nombre: datos?.Nombre,
+    ApellidoPaterno: datos?.ApellidoPaterno,
+    ApellidoMaterno: datos?.ApellidoMaterno,
+    NombreUsuario: datos?.NombreUsuario,
+    Correo: datos?.Correo,
+    CURP: datos?.CURP,
+    RFC: datos?.RFC,
+    Telefono: datos?.Telefono,
+    Extension: datos?.Extension,
+    Celular: datos?.Celular,
+    Tipo: datos?.TpoUsuario,
+    Plataforma: datos?.AccesoApp,
+    Puesto: datos?.Puesto,
+    Estado:
+      datos?.Estatus === 0
+        ? "PENDIENTE"
+        : datos?.Estatus === 1
+        ? "ACEPTADA"
+        : datos?.Estatus === 2
+        ? "RECHAZADA"
+        : datos?.Estatus === 3
+        ? "SE SOLICITO MODIFICACIÓN"
+        : "SE DESCONOCE",
+  };
   let dataArray = new FormData();
-  dataArray.append("data", JSON.stringify(objeto))
+  dataArray.append("data", JSON.stringify(objeto));
   axios
     .post(
-      process.env.REACT_APP_APPLICATION_GENERASOLICITUD + "/api/generasolicitud", dataArray,
+      process.env.REACT_APP_APPLICATION_GENERASOLICITUD +
+        "/api/generasolicitud",
+      dataArray,
       {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -448,11 +782,13 @@ export const imprimirSolicitud = (datos: any) => {
 
       let link = document.createElement("a");
 
-      link.setAttribute("download", `Solicitud ${datos?.TipoDeMovimiento}-${datos?.NombreUsuario}.pdf`);
+      link.setAttribute(
+        "download",
+        `Solicitud ${datos?.TipoDeMovimiento}-${datos?.NombreUsuario}.pdf`
+      );
       link.setAttribute("href", url);
       document.body.appendChild(link);
       link.click();
     })
-    .catch((r) => {
-    });
-}
+    .catch((r) => {});
+};
