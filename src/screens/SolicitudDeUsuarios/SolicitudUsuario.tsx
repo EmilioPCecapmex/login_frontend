@@ -1044,7 +1044,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
         </Grid>
       </Grid>
 
-      {/* <SliderProgress
+      <SliderProgress
         open={datosObtenidos}
         fnc={() => props.handleDialogClose(false)}
         texto="Obteniendo datos"
@@ -1079,7 +1079,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             Aceptar
           </Button>
         </DialogActions>
-      </Dialog> */}
+      </Dialog>
     </Grid>
     
     
