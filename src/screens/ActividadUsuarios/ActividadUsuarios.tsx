@@ -3,8 +3,12 @@ import SearchIcon from '@mui/icons-material/Search';
 import {
   Button,
   CardContent,
+  FormControl,
   Grid,
   Hidden,
+  InputLabel,
+  MenuItem,
+  Select,
   Tooltip,
   Typography
 } from "@mui/material";
@@ -18,6 +22,8 @@ import { Header } from "../../components/header";
 import { getActividadUsuarios } from "../../services/hisotoricoService";
 import MUIXDataGridGeneral from "../../components/dataGridGenerico/MUIXDataGrid";
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
+import { IApps } from "../SolicitudDeUsuarios/SolicitudUsuario";
+import { getAllApps } from "../Aplicaciones/AppServices";
 
 export const ActividadUsuarios = () => {
   const camposCsv = [
@@ -31,7 +37,9 @@ export const ActividadUsuarios = () => {
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs()); // Inicializar con el día de hoy
   const [selectedDateEnd, setSelectedDateEnd] = useState<Dayjs | null>(dayjs());
   // Estado de la fecha
-
+  const [apps, setApps] = useState<Array<IApps>>([]);
+  
+  const [selectedAppId, setSelectedAppId] = useState("");
   const columns = [
     {
       field: "NombreUsuario",
@@ -79,6 +87,7 @@ export const ActividadUsuarios = () => {
   };
   useEffect(() => {
     fetchActividadUsuarios();
+    getAllApps(setApps);
   }, []); // Llamar al endpoint cuando cambia la fecha seleccionada
 
   return (
@@ -104,9 +113,15 @@ export const ActividadUsuarios = () => {
               alignItems: "center",
               width: "100%"
             }}
-          > <Hidden smDown>
+          > <Hidden lgDown>
               <Grid
-                item
+                 item
+                 container
+                 xl={3}
+                 lg={3.5}
+                 md={3}
+                 sm={3}
+                 xs={12}
                 sx={{
                   display: "flex",
 
@@ -136,15 +151,57 @@ export const ActividadUsuarios = () => {
                 </Typography>
               </Grid>
             </Hidden>
+            <Grid
+                  item
+                  container
+                  xl={3}
+                  lg={3}
+                  md={6}
+                  sm={12}
+                  xs={12}
+                  sx={{ justifyContent: "center", alignItems: "center",mb:["2vh","1vh","1vh","0","0"] }}
+                >
+                  <FormControl
+                    sx={{ width: ["95%", "90%", "80%", "80%", "80%"] }}
+                  >
+                    <InputLabel
+                      // variant="standard"
+                      sx={{
+                        fontFamily: "MontserratMedium",
+                        justifyContent: "flex-start",
+                      }}
+                    >
+                      Filtrar por Aplicación
+                    </InputLabel>
+                    <Select
+                      value={selectedAppId}
+                      label="Filtrar por Aplicación"
+                      onChange={(e) => {
+                         setSelectedAppId(e.target.value);
+                      }}
+                    >
+                      <MenuItem key={1} value={""}>
+                        Todas las Aplicaciones
+                      </MenuItem>
+                      {apps.map((app) => (
+                        <MenuItem key={app.Id} value={app.Id}>
+                          {app.Nombre}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
             {/* Componente de selector de fecha */}
-            <Grid item xs={12}
+            <Grid item 
+              
               lg={5}
-              md={5}
-              sm={12} container sx={{ display: "flex", justifyContent: "space-around" }}>
+              md={6}
+              sm={12}
+              xs={12} container sx={{ display: "flex", justifyContent: "space-around" }}>
               <Grid
                 xs={5}
-                lg={3}
-                md={3}
+                lg={4}
+                md={4}
                 sm={5}>
                 <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
                   <DatePicker
@@ -157,8 +214,8 @@ export const ActividadUsuarios = () => {
               </Grid>
               <Grid
                 xs={5}
-                lg={3}
-                md={3}
+                lg={4}
+                md={4}
                 sm={5}>
                 <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
                   <DatePicker

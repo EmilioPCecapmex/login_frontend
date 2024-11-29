@@ -35,6 +35,7 @@ import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
 import { alertaExito, alertaInformativa } from "../../components/alertas/toast";
 import { IApps } from "../SolicitudDeUsuarios/SolicitudUsuario";
 import SyncIcon from "@mui/icons-material/Sync";
+import { getAllApps } from "../Aplicaciones/AppServices";
 
 // ...
 
@@ -233,30 +234,11 @@ export default function Users() {
       });
   };
 
-  const getAllApps = () => {
-    axios
-      .get(process.env.REACT_APP_APPLICATION_DEV + "/api/apps", {
-        params: { IdUsuario: localStorage.getItem("IdUsuario") },
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: localStorage.getItem("jwtToken") || "",
-        },
-      })
-      .then((response) => {
-        setApps(response.data.data);
-      })
-      .catch(function (error) {
-        Swal.fire({
-          icon: "error",
-          title: "Mensaje",
-          text: "(" + error.response.status + ") " + error.response.data.msg,
-        });
-      });
-  };
+  
 
   useEffect(() => {
     getAllUsers();
-    getAllApps();
+    getAllApps(setApps);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showAllUsers]);
 
