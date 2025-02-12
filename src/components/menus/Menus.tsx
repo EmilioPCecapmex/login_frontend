@@ -44,6 +44,13 @@ export function Menus({
   const camposCsv = ["Nombre", "Descripcion"];
   const columnsAsignados = [
     {
+      field: "Id",
+      headerName: "Identificador",
+      width: 300,
+      headerAlign: "center",
+      align: "center",
+      hide: true,
+    },{
       field: "Menu",
       headerName: "Menú",
       flex: 4,
@@ -114,6 +121,13 @@ export function Menus({
           </Box>
         );
       },
+    }, {
+      field: "Id",
+      headerName: "Identificador",
+      width: 300,
+      headerAlign: "center",
+      align: "center",
+      hide: true,
     }, {
       field: "Menu",
       headerName: "Menú",

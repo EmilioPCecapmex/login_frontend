@@ -187,7 +187,6 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     if (infoUsuario.Entidad.Nombre === "") {
       err.push(`Ingresa <strong style="color: red;">Entidad</strong>`);
     }
-
     if (err.length > 0) {
       Toast.fire({
         icon: "info",
@@ -272,10 +271,11 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             });
 
           if (res.data.data[0][0].Respuesta === "201") {
+            
             Swal.fire({
               icon: "success",
-              title: "Mensaje",
-              text: "¡Se creo la solicitud!",
+              title: "Mensaje xdxd",
+              text: "¡Se creo la solicitud!adadasd",
               confirmButtonText: "Aceptar",
                       confirmButtonColor: "#15212f",
               customClass: {
@@ -283,6 +283,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
               },
             }).then((result) => {
               if (result.isConfirmed) {
+                cleanData();
                 props.handleDialogClose(false);
               }
             });
@@ -358,6 +359,8 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       Ext: "",
       Roles: [],
       PuedeFirmar: false,
+      Entidad: { Id: "", Nombre: "" },
+      TipoUsuario: { Id: "", Nombre: "" },
     });
   };
 
@@ -546,6 +549,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             }).then((result) => {
               if (result.isConfirmed) {
                 // Aquí puedes agregar tu lógica personalizada para el botón "OK"
+                cleanData();
                 props.handleDialogClose(false);
               }
             });

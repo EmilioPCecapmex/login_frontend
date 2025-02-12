@@ -47,6 +47,14 @@ export function Permisos({ open, closeModal, menu, idApp, idRol }: { open: boole
 
     const columnsAsignados = [
         {
+            field: "Id",
+            headerName: "Identificador",
+            width: 300,
+            headerAlign: "center",
+            align: "center",
+            hide: true,
+        },
+        {
             field: "Permiso",
             headerName: "Permiso",
             flex: 4,
@@ -101,7 +109,14 @@ export function Permisos({ open, closeModal, menu, idApp, idRol }: { open: boole
                     </Box >
                 );
             },
-        },
+        },{
+            field: "Id",
+            headerName: "Identificador",
+            width: 300,
+            headerAlign: "center",
+            align: "center",
+            hide: true,
+          },
          {
             field: "Permiso",
             headerName: "Permiso",

@@ -125,6 +125,13 @@ export function Roles({
           </Box>
         );
       },
+    }, {
+      field: "Id",
+      headerName: "Identificador",
+      flex: .8,
+      headerAlign: "center",
+      align: "center",
+      hide: true,
     },
     {
       field: "Nombre",

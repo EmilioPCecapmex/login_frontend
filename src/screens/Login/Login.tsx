@@ -369,7 +369,7 @@ export const Login = () => {
         <>
           {opensolicitudModal ? (
             <SolicitudUsuario
-              handleDialogClose={setOpensolicitudModal}
+              handleDialogClose={()=>{}}
               modoModal={opensolicitudModal}
               token={String(jwt)}
               idUsuarioSolicitante={String(idUsuarioSolicitante)}

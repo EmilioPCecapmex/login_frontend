@@ -81,9 +81,9 @@ export default function CatApps() {
     {
       field: "acciones",
       headerName: "Acciones",
-      flex: 1,
+      flex: .8,
       headerAlign: "center",
-      hideable: false,
+
       renderCell: (cellValues: any) => {
         return (
           <Box>
@@ -194,20 +194,27 @@ export default function CatApps() {
           </Box>
         );
       },
+    }, {
+      field: "Id",
+      headerName: "Identificador",
+      flex: .8,
+      headerAlign: "center",
+      align: "center",
+      hide: true,
     },
     // segunda columna donde se mostrara el nombre
     {
       field: "Nombre",
       headerName: "Nombre",
-      flex: 2,
-      hideable: false,
+      flex: 1.5,
+
       headerAlign: "center",
     },
     {
       field: "Descripcion",
       headerName: "Descripción",
-      flex: 2,
-      hideable: false,
+      flex: 1.5,
+
       headerAlign: "center",
     },
     // Tercer columna donde se mostrara el path
@@ -215,7 +222,7 @@ export default function CatApps() {
       field: "Path",
       headerName: "Ruta",
       flex: 0.5,
-      hideable: false,
+
       headerAlign: "center",
     },
     // cuarta columna donde se mostrara si esta activo o no
@@ -421,11 +428,11 @@ export default function CatApps() {
                 display: "flex",
               }}
             >
-               <Button
+              <Button
                 className="aceptar"
                 onClick={(event) => setOpenAdminAvisosDialog(true)}
                 sx={{
-                  boxShadow: 4,mr:"1vw"
+                  boxShadow: 4, mr: "1vw"
                 }}
                 startIcon={<CampaignIcon />}
               >
@@ -512,7 +519,7 @@ export default function CatApps() {
           app={app}
         />
       )}
-      {openTrazabilidad && <HistoricoDialog st="Aplicaciones" Id={idApp} closeModal={()=>setOpenTrazabilidad(false)} />}
+      {openTrazabilidad && <HistoricoDialog st="Aplicaciones" Id={idApp} closeModal={() => setOpenTrazabilidad(false)} />}
       {openAdminAvisos && (
         <AdminAvisos
           open={openAdminAvisos}
@@ -522,7 +529,7 @@ export default function CatApps() {
         />
       )}
 
-      {openAdminAvisosDialog && <DialogAdminAvisos open={openAdminAvisosDialog} movimiento="Agregar"  IdApp="" App="" closeDialog={setOpenAdminAvisosDialog} reloadData={{}}/>}
+      {openAdminAvisosDialog && <DialogAdminAvisos open={openAdminAvisosDialog} movimiento="Agregar" IdApp="" App="" closeDialog={setOpenAdminAvisosDialog} reloadData={{}} />}
     </Grid>
   );
 }

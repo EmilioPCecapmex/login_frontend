@@ -1,6 +1,7 @@
 import {
   Edit as EditIcon,
   PersonAdd as PersonAddIcon,
+  Visibility,
 } from "@mui/icons-material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
@@ -339,10 +340,17 @@ export default function Users() {
       },
     },
     {
+      field: "Id",
+      headerName: "Identificador",
+      width: 300,
+      headerAlign: "center",
+      align: "center",
+      hide: true,
+    },
+    {
       field: "Nombre",
       headerName: "Nombre",
       width: 200,
-      hideable: false,
       headerAlign: "center",
       align: "center",
     },

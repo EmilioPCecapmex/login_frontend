@@ -143,6 +143,13 @@ export function AdminMenu({
           </Box>
         );
       },
+    }, {
+      field: "Id",
+      headerName: "Identificador",
+      width: 300,
+      headerAlign: "center",
+      align: "center",
+      hide: true,
     },
     {
       field: "Menu",
