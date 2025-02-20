@@ -274,8 +274,8 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
             
             Swal.fire({
               icon: "success",
-              title: "Mensaje xdxd",
-              text: "¡Se creo la solicitud!adadasd",
+              title: "Mensaje",
+              text: "¡Se creo la solicitud!",
               confirmButtonText: "Aceptar",
                       confirmButtonColor: "#15212f",
               customClass: {
