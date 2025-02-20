@@ -294,8 +294,8 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
           Swal.fire({
             icon: "info",
             title: "Mensaje",
-            iconColor: "#af8c55",
-            color: "#af8c55",
+            // iconColor: "#af8c55",
+            // color: "#af8c55",
             text: ` Sucedio un error ${res.data.error}`,
             confirmButtonText: "Aceptar",
             confirmButtonColor: "#15212f",
