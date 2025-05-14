@@ -445,15 +445,24 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
   };
 
   const [datosObtenidos, setDatosObtenidos] = useState(true);
+useEffect(() => {
+  const datosCargados =
+    infoUsuario?.Entidad?.Nombre?.trim() !== "" &&
+    infoUsuario?.NombreUsuario?.trim() !== "";
 
-  useEffect(() => {
-    if (
-      (infoUsuario.Entidad.Nombre !== "" && infoUsuario.NombreUsuario) ||
-      !props.idApp ||
-      !localStorage.getItem("IdApp")!
-    )
-      setDatosObtenidos(false);
-  }, [infoUsuario.Entidad.Nombre]);
+  if (datosCargados) {
+    setDatosObtenidos(false);
+  }
+}, [infoUsuario]);
+
+  // useEffect(() => {
+  //   if (
+  //     (infoUsuario.Entidad.Nombre !== "" && infoUsuario.NombreUsuario) ||
+  //     !props.idApp ||
+  //     !localStorage.getItem("IdApp")!
+  //   )
+  //     setDatosObtenidos(false);
+  // }, [infoUsuario.Entidad.Nombre]);
 
   useEffect(() => {
     if (apps.length > 0) {
