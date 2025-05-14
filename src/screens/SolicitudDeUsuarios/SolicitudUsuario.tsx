@@ -444,7 +444,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     }
   };
 
-  const [datosObtenidos, setDatosObtenidos] = useState(true);
+  const [datosObtenidos, setDatosObtenidos] = useState(props.idUsuarioModificado || query.get("idUsuarioModificado")?false:true);
 useEffect(() => {
   const datosCargados =
     infoUsuario?.Entidad?.Nombre?.trim() !== "" &&
