@@ -27,7 +27,7 @@ interface IApps {
   Nombre: string;
   Path: string;
   Descripcion: string;
-  EstaActivo:number;
+  EstaActivo: number;
 }
 
 export const getUserDetail = (idUsuario: string, idApp: string) => {
@@ -92,7 +92,7 @@ export const Login = () => {
       Nombre: "",
       Path: "",
       Descripcion: "",
-      EstaActivo:0,
+      EstaActivo: 0,
     },
   ]);
 
@@ -199,219 +199,216 @@ export const Login = () => {
       // setOpenSlider(true);
       UserServices.verify({}, String(jwt)).then((res) => {
         if (res.status === 200) {
-          let data = {
-            IdUsuario: res.data.data.IdUsuario,
-          };
-          UserServices.userDetail(data, String(jwt)).then((resuserDetail) => {
-            if (resuserDetail.status === 200) {
-              if ((res.data.data.exp - Date.now() / 1000) / 60 > 5) {
-                setOpensolicitudModal(true);
-                setIdUsuarioSolicitante(res?.data?.data?.IdUsuario);
-                setOpenSlider(false);
-                if (!existenParams) {
-                  setExistenParams(false);
-                }
-              } else {
-                setOpensolicitudModal(false);
-                setMensajeSlider(
-                  "¡El Token ha expirado. Vuelva a iniciar sesión!"
-                );
-              }
+
+          if ((res.data.data.exp - Date.now() / 1000) / 60 > 5) {
+            setOpensolicitudModal(true);
+            setIdUsuarioSolicitante(res?.data?.data?.IdUsuario);
+            setOpenSlider(false);
+            if (!existenParams) {
+              setExistenParams(false);
             }
-          });
-        }
-      });
-    }
-  };
-  const[openDialogMantenimiento,setOpenDialogMantenimiento]=useState(false)
-  const[nombreApp,setNombreApp]=useState('')
-
-  const handleCloseDialogMantenimiento=()=>{
-    setOpenDialogMantenimiento(false)
-  }
-
-  const handlOpenDialogMantenimiento=(nombreApp:string)=>{
-    setOpenDialogMantenimiento(true);
-    setNombreApp(nombreApp);
-  }
-
-  const validateCredentials = () => {
-    axios
-      .post(
-        process.env.REACT_APP_APPLICATION_DEV + "/api/login",
-        {
-          NombreUsuario: usuario,
-          Contrasena: contrasena,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((r) => {
-        if (r.status === 200) {
-          localStorage.setItem("IdUsuario", r.data.IdUsuario);
-          localStorage.setItem("jwtToken", r.data.token);
-          localStorage.setItem("refreshToken", r.data.refreshToken);
-          document.cookie = "jwt=" + r.data.token;
-          let arrayApps: Array<IApps> = r.data.AppIds;
-          setAppsList(arrayApps);
-          userDetail();
-          if (arrayApps.length > 1) {
-            openAppModal(
-              "success",
-              r.data.AppIds[0].Msg ||
-              "tu usuario cuenta con acceso a las siguientes plataformas."
+          } else {
+            setOpensolicitudModal(false);
+            setMensajeSlider(
+              "¡El Token ha expirado. Vuelva a iniciar sesión!"
             );
           }
-
-          if (arrayApps.length === 1) {
-            if (arrayApps[0].Path !== "./admin") {
-              if(arrayApps[0].EstaActivo == 1)
-                window.location.replace(
-                  arrayApps[0].Path +
-                  "?jwt=" +
-                  localStorage.getItem("jwtToken") +
-                  "&rf=" +
-                  localStorage.getItem("refreshToken") +
-                  "&IdApp=" +
-                  arrayApps[0].IdApp
-                );
-              else{
-                console.log('arrayApps[0].Nombre',arrayApps[0])
-              handlOpenDialogMantenimiento(arrayApps[0].Nombre);}
-            } else {
-              localStorage.setItem("IdApp", arrayApps[0].IdApp)
-              IdUsuario = r.data.IdUsuario;
-              getUserDetail(r.data.IdUsuario, arrayApps[0].IdApp);
-              navigate("./admin");
-            }
-          }
         }
-      })
-      .catch((error) => {
-        if (error.response.status === 401) {
-          openDialogModal("error", error.response.data.msg);
-        }else{
-          openDialogModal("error", "Por favor, intenta iniciar sesión de nuevo en unos minutos. Si el problema persiste, no dudes en ponerte en contacto con nuestro equipo de soporte técnico.");
-        }
-      });
-  };
 
-  const userDetail = () => {
-    axios
-      .post(
-        process.env.REACT_APP_APPLICATION_DEV + "/api/user-detail",
-        {
-          IdUsuario: localStorage.getItem("IdUsuario"),
+      }
+      );
+  }
+};
+const [openDialogMantenimiento, setOpenDialogMantenimiento] = useState(false)
+const [nombreApp, setNombreApp] = useState('')
+
+const handleCloseDialogMantenimiento = () => {
+  setOpenDialogMantenimiento(false)
+}
+
+const handlOpenDialogMantenimiento = (nombreApp: string) => {
+  setOpenDialogMantenimiento(true);
+  setNombreApp(nombreApp);
+}
+
+const validateCredentials = () => {
+  axios
+    .post(
+      process.env.REACT_APP_APPLICATION_DEV + "/api/login",
+      {
+        NombreUsuario: usuario,
+        Contrasena: contrasena,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
         },
-        {
-          headers: {
-            Authorization: localStorage.getItem("jwtToken") as string,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((r) => {
-        if (r.status === 200) {
-          localStorage.setItem(
-            "NombreUsuario",
-            r.data.data.Nombre + " " + r.data.data.ApellidoPaterno
+      }
+    )
+    .then((r) => {
+      if (r.status === 200) {
+        localStorage.setItem("IdUsuario", r.data.IdUsuario);
+        localStorage.setItem("jwtToken", r.data.token);
+        localStorage.setItem("refreshToken", r.data.refreshToken);
+        document.cookie = "jwt=" + r.data.token;
+        let arrayApps: Array<IApps> = r.data.AppIds;
+        setAppsList(arrayApps);
+        userDetail();
+        if (arrayApps.length > 1) {
+          openAppModal(
+            "success",
+            r.data.AppIds[0].Msg ||
+            "tu usuario cuenta con acceso a las siguientes plataformas."
           );
         }
-      });
-  };
 
-  const signIn = () => {
-    if (usuario === "" && contrasena === "") {
-      openDialogModal("error", "Ingresa tu nombre de usuario y/o contraseña.");
-    } else {
-      validateCredentials();
-    }
-  };
-  useEffect(() => {
-    // setOpenSlider(true)
-    if (jwt && idAppSolicitante) {
-      setExistenParams(true);
-      setOpenSlider(true);
-      verifyToken();
-    } else {
-      setExistenParams(false);
-      setOpenSlider(false);
-    }
+        if (arrayApps.length === 1) {
+          if (arrayApps[0].Path !== "./admin") {
+            if (arrayApps[0].EstaActivo == 1)
+              window.location.replace(
+                arrayApps[0].Path +
+                "?jwt=" +
+                localStorage.getItem("jwtToken") +
+                "&rf=" +
+                localStorage.getItem("refreshToken") +
+                "&IdApp=" +
+                arrayApps[0].IdApp
+              );
+            else {
+              console.log('arrayApps[0].Nombre', arrayApps[0])
+              handlOpenDialogMantenimiento(arrayApps[0].Nombre);
+            }
+          } else {
+            localStorage.setItem("IdApp", arrayApps[0].IdApp)
+            IdUsuario = r.data.IdUsuario;
+            getUserDetail(r.data.IdUsuario, arrayApps[0].IdApp);
+            navigate("./admin");
+          }
+        }
+      }
+    })
+    .catch((error) => {
+      if (error.response.status === 401) {
+        openDialogModal("error", error.response.data.msg);
+      } else {
+        openDialogModal("error", "Por favor, intenta iniciar sesión de nuevo en unos minutos. Si el problema persiste, no dudes en ponerte en contacto con nuestro equipo de soporte técnico.");
+      }
+    });
+};
 
-    // if (localStorage.getItem("jwtToken")) {
-    //   sessionValid().then((r) => {
-    //     if (localStorage.getItem("validation") === "true") checkApps();
-    //   });
-    // }
-  }, []);
-  useEffect(() => {
-    if(!(jwt && idAppSolicitante)){
-      localStorage.clear();
-    }else{
-      handleCloseAppsModal();
-    }
-    // // setTimeout(() => {
-    // localStorage.clear();
-    // handleCloseAppsModal();
-    // // }, 100);
+const userDetail = () => {
+  axios
+    .post(
+      process.env.REACT_APP_APPLICATION_DEV + "/api/user-detail",
+      {
+        IdUsuario: localStorage.getItem("IdUsuario"),
+      },
+      {
+        headers: {
+          Authorization: localStorage.getItem("jwtToken") as string,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+    .then((r) => {
+      if (r.status === 200) {
+        localStorage.setItem(
+          "NombreUsuario",
+          r.data.data.Nombre + " " + r.data.data.ApellidoPaterno
+        );
+      }
+    });
+};
 
-    // if (localStorage.getItem("jwtToken") !== null) {
-    //   localStorage.clear();
-    // }
-  }, []);
+const signIn = () => {
+  if (usuario === "" && contrasena === "") {
+    openDialogModal("error", "Ingresa tu nombre de usuario y/o contraseña.");
+  } else {
+    validateCredentials();
+  }
+};
+useEffect(() => {
+  // setOpenSlider(true)
+  if (jwt && idAppSolicitante) {
+    setExistenParams(true);
+    setOpenSlider(true);
+    verifyToken();
+  } else {
+    setExistenParams(false);
+    setOpenSlider(false);
+  }
 
-  return (
-    <>
-      {jwt && idAppSolicitante ? (
-        <>
-          {opensolicitudModal ? (
-            <SolicitudUsuario
-              handleDialogClose={()=>{}}
-              modoModal={opensolicitudModal}
-              token={String(jwt)}
-              idUsuarioSolicitante={String(idUsuarioSolicitante)}
-              idUsuarioModificado={""}
-              idApp={String(idAppSolicitante)}
-            />
-          ) : (
-            <SliderProgress open={openSlider} texto={mensajeSlider} />
-          )}
-        </>
-      ) : (
-        <>
+  // if (localStorage.getItem("jwtToken")) {
+  //   sessionValid().then((r) => {
+  //     if (localStorage.getItem("validation") === "true") checkApps();
+  //   });
+  // }
+}, []);
+useEffect(() => {
+  if (!(jwt && idAppSolicitante)) {
+    localStorage.clear();
+  } else {
+    handleCloseAppsModal();
+  }
+  // // setTimeout(() => {
+  // localStorage.clear();
+  // handleCloseAppsModal();
+  // // }, 100);
+
+  // if (localStorage.getItem("jwtToken") !== null) {
+  //   localStorage.clear();
+  // }
+}, []);
+
+return (
+  <>
+    {jwt && idAppSolicitante ? (
+      <>
+        {opensolicitudModal ? (
+          <SolicitudUsuario
+            handleDialogClose={() => { }}
+            modoModal={opensolicitudModal}
+            token={String(jwt)}
+            idUsuarioSolicitante={String(idUsuarioSolicitante)}
+            idUsuarioModificado={""}
+            idApp={String(idAppSolicitante)}
+          />
+        ) : (
           <SliderProgress open={openSlider} texto={mensajeSlider} />
-          <div className="ContentLogin">
-            <Grid item sx={{ ...st.parentBox, flexDirection: "column" }}>
-              <Grid sx={{ width: "100vw", height: "94vh",alignItems:"center",display:"flex",flexDirection:"column" }}>
-                <Box sx={{top: 10, left: 10,width:"100vw",height:"5vh" }}>
-                  <Typography
-                    sx={{ fontFamily: "MontserratBold", color: "#ccc" }}
-                  >
-                    {process.env.REACT_APP_APPLICATION_ENVIRONMENT}
-                  </Typography>
-                  {/* <Typography sx={{ fontFamily: 'MontserratBold', color: '#ccc' }}>{jwt}</Typography> */}
-                </Box>
-                {openAppsModal ? (
-                  <AppsModal
-                    openM={openAppsModal}
-                    closeM={handleCloseAppsModal}
-                    type={modalType}
-                    text={modalText}
-                    apps={appsList}
-                    idUsuario={IdUsuario}
-                  />
-                ) : null}
-                <AlertModal
-                  openM={openModal}
-                  closeM={handleCloseModal}
+        )}
+      </>
+    ) : (
+      <>
+        <SliderProgress open={openSlider} texto={mensajeSlider} />
+        <div className="ContentLogin">
+          <Grid item sx={{ ...st.parentBox, flexDirection: "column" }}>
+            <Grid sx={{ width: "100vw", height: "94vh", alignItems: "center", display: "flex", flexDirection: "column" }}>
+              <Box sx={{ top: 10, left: 10, width: "100vw", height: "5vh" }}>
+                <Typography
+                  sx={{ fontFamily: "MontserratBold", color: "#ccc" }}
+                >
+                  {process.env.REACT_APP_APPLICATION_ENVIRONMENT}
+                </Typography>
+                {/* <Typography sx={{ fontFamily: 'MontserratBold', color: '#ccc' }}>{jwt}</Typography> */}
+              </Box>
+              {openAppsModal ? (
+                <AppsModal
+                  openM={openAppsModal}
+                  closeM={handleCloseAppsModal}
                   type={modalType}
                   text={modalText}
+                  apps={appsList}
+                  idUsuario={IdUsuario}
                 />
-                <Box sx={{width:"100%",height:"89vh",display:"flex",alignItems:"center"}}>
-                  <Box sx={{ ...st.horizontalBox }}>
+              ) : null}
+              <AlertModal
+                openM={openModal}
+                closeM={handleCloseModal}
+                type={modalType}
+                text={modalText}
+              />
+              <Box sx={{ width: "100%", height: "89vh", display: "flex", alignItems: "center" }}>
+                <Box sx={{ ...st.horizontalBox }}>
                   <Box sx={st.centerBox}>
                     <Box sx={st.loginBox}>
                       <Grid container>
@@ -504,71 +501,71 @@ export const Login = () => {
                     </Box>
                   </Box>
                 </Box>
-                </Box>
-                
-
-              </Grid>
-              <Grid sx={{ width: "100vw", height: "7vh"}}>
-
-                
-                  <Grid
-                    paddingTop={2}
-                    container
-                    direction="row"
-                    justifyContent="center"
-                    sx={{bgcolor:"#f3f6f9"}}
-                    height={"100%"}
-                  >
-                    <Grid item container xs={10} justifyContent="center">
-                      <Grid
-                        container
-                        xs={3}
-                        sm={4}
-                        md={3}
-                        paddingRight={2}
-                        justifyContent="flex-end"
-                      ><Typography sx={{ fontFamily: "MontserratBold", color: "#808080", }} >
-                        {actualYear()}
-                      </Typography>
-                        
-                      </Grid>
-                      <Grid
-                        container
-                        item
-                        xs={6}
-                        sm={4}
-                        md={3}
-                        justifyContent="center"
-                      ><Typography sx={{ fontFamily: "MontserratBold", cursor: "pointer",color: "#808080", }} onClick={() => window.open(process.env.REACT_APP_APPLICATION_AVISOPRIVACIDAD, '_blank')}>
-                          {ls.footerSecondText}
-                        </Typography>
-
-                      </Grid>
-                      <Grid item xs={3} sm={4} md={3}>
-                        {/* {ls.footerThirdText} */}
-                      </Grid>
-                    </Grid>
-                    <Box sx={{right: 5, bottom: 5 }}>
-                      <Typography
-                        sx={{
-                          fontFamily: "MontserratBold",
-                          fontSize: "10px",
-                          color: "#808080",
-                        }}
-                      > 
-                        v.{process.env.REACT_APP_APPLICATION_VERSION}
-                      </Typography>
-                    </Box>
-                  </Grid>
-                
-              </Grid>
+              </Box>
 
 
             </Grid>
-          </div>
-          <DialogMantenimiento app={nombreApp}  open={openDialogMantenimiento} handleClose={handleCloseDialogMantenimiento}/>
-        </>
-      )}
-    </>
-  );
+            <Grid sx={{ width: "100vw", height: "7vh" }}>
+
+
+              <Grid
+                paddingTop={2}
+                container
+                direction="row"
+                justifyContent="center"
+                sx={{ bgcolor: "#f3f6f9" }}
+                height={"100%"}
+              >
+                <Grid item container xs={10} justifyContent="center">
+                  <Grid
+                    container
+                    xs={3}
+                    sm={4}
+                    md={3}
+                    paddingRight={2}
+                    justifyContent="flex-end"
+                  ><Typography sx={{ fontFamily: "MontserratBold", color: "#808080", }} >
+                      {actualYear()}
+                    </Typography>
+
+                  </Grid>
+                  <Grid
+                    container
+                    item
+                    xs={6}
+                    sm={4}
+                    md={3}
+                    justifyContent="center"
+                  ><Typography sx={{ fontFamily: "MontserratBold", cursor: "pointer", color: "#808080", }} onClick={() => window.open(process.env.REACT_APP_APPLICATION_AVISOPRIVACIDAD, '_blank')}>
+                      {ls.footerSecondText}
+                    </Typography>
+
+                  </Grid>
+                  <Grid item xs={3} sm={4} md={3}>
+                    {/* {ls.footerThirdText} */}
+                  </Grid>
+                </Grid>
+                <Box sx={{ right: 5, bottom: 5 }}>
+                  <Typography
+                    sx={{
+                      fontFamily: "MontserratBold",
+                      fontSize: "10px",
+                      color: "#808080",
+                    }}
+                  >
+                    v.{process.env.REACT_APP_APPLICATION_VERSION}
+                  </Typography>
+                </Box>
+              </Grid>
+
+            </Grid>
+
+
+          </Grid>
+        </div>
+        <DialogMantenimiento app={nombreApp} open={openDialogMantenimiento} handleClose={handleCloseDialogMantenimiento} />
+      </>
+    )}
+  </>
+);
 };
