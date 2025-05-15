@@ -445,6 +445,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
   };
 
   const [datosObtenidos, setDatosObtenidos] = useState(true);
+  
 useEffect(() => {
   const datosCargados =
     infoUsuario?.Entidad?.Nombre?.trim() !== "" &&
@@ -566,6 +567,8 @@ useEffect(() => {
             });
           }
         });
+    }else{
+      setDatosObtenidos(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
