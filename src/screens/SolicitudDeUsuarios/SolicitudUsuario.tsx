@@ -444,7 +444,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     }
   };
 
-  const [datosObtenidos, setDatosObtenidos] = useState(props.idUsuarioModificado || query.get("idUsuarioModificado")?false:true);
+  const [datosObtenidos, setDatosObtenidos] = useState(true);
 useEffect(() => {
   const datosCargados =
     infoUsuario?.Entidad?.Nombre?.trim() !== "" &&
@@ -453,6 +453,8 @@ useEffect(() => {
   if (datosCargados) {
     setDatosObtenidos(false);
   }
+  if(IdUsuario)
+    setDatosObtenidos(false);
 }, [infoUsuario]);
 
   // useEffect(() => {
