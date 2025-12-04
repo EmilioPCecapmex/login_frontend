@@ -24,16 +24,84 @@ export default function MUIXDataGridGeneral(props: any) {
           {...props.rows}
           columns={props.columns}
           rows={props.rows}
-          density="compact"
+          density="comfortable"
           autoHeight={false}
           stickyHeader
           onPageSizeChange={(v) => changePageSize(v)}
-          rowsPerPageOptions={[10, 25, 50]}
+          rowsPerPageOptions={[10, 25, 50, 100]}
           disableRowSelectionOnClick
           getRowId={(row) => (row.Id ? row.Id : row.id)}
-          rowHeight={255}
+          rowHeight={60}
           pageSize={pageSize}
-          getRowHeight={() => "auto"}
+          sx={{
+            '& .MuiDataGrid-root': {
+              border: 'none',
+            },
+            '& .MuiDataGrid-columnHeaders': {
+              backgroundColor: '#f8f9fa',
+              borderBottom: '2px solid #AF8C55',
+              borderRadius: '8px 8px 0 0',
+            },
+            '& .MuiDataGrid-columnHeader': {
+              backgroundColor: '#f8f9fa',
+              '&:hover': {
+                backgroundColor: '#e9ecef',
+              },
+            },
+            '& .MuiDataGrid-row': {
+              '&:nth-of-type(even)': {
+                backgroundColor: '#fafafa',
+              },
+              '&:hover': {
+                backgroundColor: '#f0f4f8',
+                transform: 'scale(1.001)',
+                transition: 'all 0.2s ease-in-out',
+              },
+            },
+            '& .MuiDataGrid-cell': {
+              borderBottom: '1px solid #e0e0e0',
+              padding: '8px 16px',
+              '&:focus': {
+                outline: 'none',
+              },
+            },
+            '& .user-cell': {
+              fontWeight: '600',
+              color: '#15212f',
+            },
+            '& .app-cell': {
+              color: '#424242',
+              fontSize: '0.875rem',
+            },
+            '& .action-cell': {
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            },
+            '& .date-cell, & .time-cell': {
+              fontFamily: 'monospace',
+              fontSize: '0.875rem',
+              color: '#666',
+            },
+            '& .MuiDataGrid-footerContainer': {
+              backgroundColor: '#f8f9fa',
+              borderTop: '2px solid #AF8C55',
+            },
+            '& .MuiDataGrid-toolbarContainer': {
+              backgroundColor: '#ffffff',
+              borderBottom: '1px solid #e0e0e0',
+              padding: '16px',
+              '& .MuiButton-root': {
+                color: '#AF8C55',
+                '&:hover': {
+                  backgroundColor: 'rgba(175, 140, 85, 0.08)',
+                },
+              },
+            },
+            borderRadius: '12px',
+            overflow: 'hidden',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+          }}
           
           components={{ Toolbar: GridToolbar }}
           componentsProps={{

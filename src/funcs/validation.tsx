@@ -57,7 +57,30 @@ export const continueSession = () => {
 
 export const logout = () => {
   localStorage.clear();
-  window.location.assign(process.env.REACT_APP_APPLICATION_FRONT|| "");
+  window.location.assign(process.env.REACT_APP_APPLICATION_FRONT || "");
+};
+
+export const logoutToAppSelector = () => {
+  const jwt = localStorage.getItem("jwtToken");
+  const refreshToken = localStorage.getItem("refreshToken");
+  const idUsuario = localStorage.getItem("IdUsuario");
+  const nombreUsuario = localStorage.getItem("NombreUsuario");
+  const appsCache = localStorage.getItem("appsList");
+
+  localStorage.clear();
+
+  if (jwt) localStorage.setItem("jwtToken", jwt);
+  if (refreshToken) localStorage.setItem("refreshToken", refreshToken);
+  if (idUsuario) localStorage.setItem("IdUsuario", idUsuario);
+  if (nombreUsuario) localStorage.setItem("NombreUsuario", nombreUsuario);
+  if (appsCache) localStorage.setItem("appsList", appsCache);
+
+  localStorage.setItem("returnToApps", "true");
+
+  const baseUrl = process.env.REACT_APP_APPLICATION_FRONT || "/";
+  const redirectUrl = new URL(baseUrl, window.location.origin);
+  redirectUrl.searchParams.set("returnToApps", "true");
+  window.location.assign(redirectUrl.toString());
 };
 
 export const isAdmin = () => {

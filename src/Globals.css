@@ -31,7 +31,6 @@
   align-items: center;
   align-content: center;
   justify-content: center;
-  justify-content: center;
   /* background: #793434; */
   overflow: scroll;
   width: 100%;
@@ -110,7 +109,6 @@ h5 {
   font-weight: bold;
   color: rgb(21, 33, 47);
   margin-right: 2rem;
-  margin-right: 2rem;
 }
 
 
@@ -183,7 +181,7 @@ label.Typography {
   color: rgb(7, 7, 7);
   margin-right: 2rem;
   /* mr: "2rem" */
-  font-family: "MontserratSemiBold";
+  font-family: "MontserratSemiBold", sans-serif;
   font-size: 350px;
   width: "32.5%";
 }
@@ -362,7 +360,7 @@ div.FooterLogin {
   /* top:  50px; */
   /* left: 50px; */
   background-color: #f3f6f9;
-  font-family: "MontserratSemiBold2";
+  font-family: "MontserratSemiBold2", sans-serif;
   color: #808080;
   justify-content: center;
   
@@ -378,7 +376,7 @@ div.ContentLogin {
   bottom: 0%;
   color: #fff;
   background-color: #fff;
-  font-family: "MontserratSemiBold2";
+  font-family: "MontserratSemiBold2", sans-serif;
   justify-content: center;
 
 }
@@ -393,7 +391,7 @@ div.logoLogin {
   bottom: 0%;
   color: #fff;
   background-color: #fff;
-  font-family: "MontserratSemiBold2";
+  font-family: "MontserratSemiBold2", sans-serif;
   justify-content: center;
 
 }
@@ -406,7 +404,7 @@ div.ApssLoginElementos {
   /* left: 50px; */
   color: #fff;
   background-color: #EEEEEE;
-  font-family: "MontserratSemiBold2";
+  font-family: "MontserratSemiBold2", sans-serif;
 
 }
 
@@ -543,3 +541,35 @@ div.RowsUsers {
 }
 
 .ql-editor img {   max-width: 100%;   height: auto; }
+
+/* Estilos adicionales para mejorar la tabla de actividad */
+.MuiDataGrid-root {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+.MuiDataGrid-columnHeaderTitle {
+  font-weight: 600 !important;
+  font-size: 0.95rem !important;
+}
+
+.MuiDataGrid-cell {
+  font-size: 0.875rem !important;
+}
+
+.MuiDataGrid-row:hover .MuiDataGrid-cell {
+  color: #15212f !important;
+}
+
+/* Animación suave para las filas */
+.MuiDataGrid-row {
+  transition: all 0.2s ease-in-out !important;
+}
+
+/* Mejorar el toolbar */
+.MuiDataGrid-toolbarContainer .MuiInputBase-root {
+  border-radius: 8px !important;
+}
+
+.MuiDataGrid-toolbarContainer .MuiButton-startIcon {
+  color: #AF8C55 !important;
+}

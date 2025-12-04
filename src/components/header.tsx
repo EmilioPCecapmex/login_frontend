@@ -15,6 +15,7 @@ import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import AppsIcon from "@mui/icons-material/Apps";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import { TimerCounter } from "./timer/timer";
+import { logoutToAppSelector } from "../funcs/validation";
 import MenuIcon from '@mui/icons-material/Menu';
 import BusinessIcon from '@mui/icons-material/Business';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -83,10 +84,7 @@ export const Header = (
 ) => {
   const navigate = useNavigate();
   const logoutFnc = () => {
-    localStorage.clear();
-    window.location.assign(
-      process.env.REACT_APP_APPLICATION_FRONT || "https:google.com"
-    );
+    logoutToAppSelector();
   };
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

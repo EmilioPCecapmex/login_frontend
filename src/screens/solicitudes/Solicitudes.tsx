@@ -408,32 +408,26 @@ export const Solicitudes = () => {
           item
           container
           xs={12}
-          sm={12}
-          md={12}
-          xl={12}
-          lg={12}
           sx={{
-            // bgcolor:"blueviolet",
             display: "flex",
             justifyContent: "center",
             alignContent: "space-around",
+            padding: { xs: 1, sm: 2 },
           }}
-          // bgcolor={"blueviolet"}
         >
           <Grid
             item
-            xs={11}
-            sm={11}
-            md={11}
-            xl={11}
-            lg={11}
-            sx={{ display: "flex" }}
+            xs={12}
+            sx={{ 
+              display: "flex",
+              marginBottom: { xs: 1, sm: 2 },
+            }}
           >
             <FormControl
               sx={{
                 width: "100%",
                 bgcolor: "#fff",
-                borderRadius: ".4vw",
+                borderRadius: { xs: "8px", sm: ".4vw" },
               }}
             >
               <InputLabel>
@@ -470,23 +464,19 @@ export const Solicitudes = () => {
           </Grid>
           <Grid
             item
-            xs={11}
-            sm={11}
-            md={11}
-            xl={11}
-            lg={11}
+            xs={12}
             sx={{
               width: "100%",
-              height: "75vh",
+              height: { xs: "60vh", md: "75vh" },
               alignItems: "center",
               bgcolor: "#fff",
               boxShadow: "15",
               borderRight: "solid 1px",
-              overflow: "scroll ",
-              borderRadius: "15px",
+              overflow: "auto",
+              borderRadius: { xs: "8px", sm: "15px" },
               borderColor: "#fff",
               "&::-webkit-scrollbar": {
-                width: ".3vw",
+                width: { xs: "4px", sm: "6px" },
               },
               "&::-webkit-scrollbar-thumb": {
                 backgroundColor: "rgba(0,0,0,.5)",
@@ -495,8 +485,14 @@ export const Solicitudes = () => {
               },
             }}
           >
-            <List component="nav" aria-label="main mailbox folders">
-              <Divider />
+            <List 
+              component="nav" 
+              aria-label="main mailbox folders"
+              sx={{ 
+                padding: { xs: "8px", sm: "12px", md: "16px" },
+                backgroundColor: "transparent",
+              }}
+            >
               {solicitudesFiltered?.map((item, x) => {
                 if (
                   !(
@@ -508,90 +504,190 @@ export const Solicitudes = () => {
                       solicitudesFiltered[x].Estatus === 3)
                   )
                 ) {
+                  // Definir colores pasteles según el tipo de solicitud
+                  const getColorByType = (tipo: string) => {
+                    switch (tipo?.toUpperCase()) {
+                      case "ALTA":
+                        return "#a8e6a3"; // Verde pastel
+                      case "VINCULACIÓN":
+                      case "VINCULACION":
+                        return "#ffcc80"; // Naranja pastel
+                      case "MODIFICACIÓN":
+                      case "MODIFICACION":
+                        return "#fff59d"; // Amarillo pastel
+                      case "BAJA":
+                        return "#e0e0e0"; // Gris pastel
+                      default:
+                        return "#e3f2fd"; // Azul pastel por defecto
+                    }
+                  };
+
+                  const getBackgroundByType = (tipo: string) => {
+                    switch (tipo?.toUpperCase()) {
+                      case "ALTA":
+                        return "#f1f8e9"; // Fondo verde muy claro
+                      case "VINCULACIÓN":
+                      case "VINCULACION":
+                        return "#fff3e0"; // Fondo naranja muy claro
+                      case "MODIFICACIÓN":
+                      case "MODIFICACION":
+                        return "#fffde7"; // Fondo amarillo muy claro
+                      case "BAJA":
+                        return "#fafafa"; // Fondo gris muy claro
+                      default:
+                        return "#f8f9fa"; // Fondo neutral
+                    }
+                  };
+
                   return (
-                    <Grid key={x}>
+                    <Grid key={x} sx={{ mb: { xs: 0.5, sm: 1 } }}>
                       <ListItemButton
                         key={x}
                         onClick={() => {
                           itemSelected(x, item.Id);
                         }}
                         sx={{
-                          pl: 2,
-                          "&.Mui-selected ": {
-                            backgroundColor: "#c4a57b",
+                          padding: 0,
+                          borderRadius: { xs: "8px", sm: "12px" },
+                          overflow: "hidden",
+                          backgroundColor: getBackgroundByType(item?.tipoSoli),
+                          border: selectedIndex === x ? "2px solid #AF8C55" : "1px solid #e0e0e0",
+                          boxShadow: selectedIndex === x 
+                            ? "0 4px 12px rgba(175, 140, 85, 0.2)" 
+                            : { xs: "0 1px 4px rgba(0, 0, 0, 0.1)", sm: "0 2px 8px rgba(0, 0, 0, 0.1)" },
+                          transition: "all 0.2s ease-in-out",
+                          minHeight: { xs: "70px", sm: "80px" },
+                          "&:hover": {
+                            backgroundColor: getBackgroundByType(item?.tipoSoli),
+                            boxShadow: { 
+                              xs: "0 2px 8px rgba(0, 0, 0, 0.15)", 
+                              sm: "0 4px 16px rgba(0, 0, 0, 0.15)" 
+                            },
+                            transform: { xs: "translateY(-1px)", sm: "translateY(-2px)" },
                           },
-                          "&.Mui-selected:hover": {
-                            backgroundColor: "#cbcbcb",
+                          "&.Mui-selected": {
+                            backgroundColor: getBackgroundByType(item?.tipoSoli),
                           },
-                          backgroundColor:
-                            item?.tipoSoli.toUpperCase() === "ALTA"
-                              ? "#fbffae8a"
-                              : item?.tipoSoli.toUpperCase() === "BAJA"
-                              ? "#ffbcbc6e"
-                              : item?.tipoSoli.toUpperCase() === "MODIFICACION"
-                              ? "#c3e3ffa8"
-                              : "#dcffc8a1",
                         }}
                         selected={selectedIndex === x ? true : false}
                       >
-                        <Grid
-                          container
-                          direction="column"
-                          justifyContent="center"
-                          alignItems="center"
-                          sx={{}}
-                        >
-                          <Grid item container xs={12}>
-                            <Grid item xs={12} md={6}>
-                              <Typography className="h6" color="text.primary">
-                                {"NOMBRE: "}
-                                <label className="textoNormal">
-                                  {item.NombreUsuario.toUpperCase()}
-                                </label>
+                        {/* Barra de color lateral */}
+                        <Box
+                          sx={{
+                            width: { xs: "4px", sm: "6px" },
+                            height: "100%",
+                            backgroundColor: getColorByType(item?.tipoSoli),
+                            minHeight: { xs: "70px", sm: "80px" },
+                            flexShrink: 0,
+                          }}
+                        />
+                        
+                        {/* Contenido de la tarjeta */}
+                        <Box sx={{ 
+                          padding: { xs: "12px", sm: "16px" }, 
+                          width: "100%",
+                          minHeight: { xs: "70px", sm: "80px" },
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "space-between",
+                        }}>
+                          {/* Primera fila: Nombre y Fecha */}
+                          <Grid container spacing={{ xs: 0.5, sm: 1 }} sx={{ mb: { xs: 0.5, sm: 1 } }}>
+                            <Grid item xs={12} sm={8} md={7}>
+                              <Typography 
+                                variant="subtitle2"
+                                sx={{ 
+                                  fontWeight: 600,
+                                  color: "#2c3e50",
+                                  fontSize: { xs: '0.8rem', sm: '0.9rem', md: '0.95rem' },
+                                  lineHeight: { xs: 1.1, sm: 1.2 },
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                  whiteSpace: { xs: "nowrap", sm: "normal" },
+                                }}
+                              >
+                                {item.NombreUsuario.toUpperCase()}
                               </Typography>
                             </Grid>
-
-                            <Grid item xs={12} md={6}>
-                              <Typography className="h6" color="text.primary">
-                                {"FECHA: "}
-                                <label className="textoNormal">
-                                  {moment(item.FechaDeCreacion, moment.ISO_8601)
-                                    .format("DD/MM/YYYY HH:mm:SS")
-                                    .toString()}
-                                </label>
+                            <Grid item xs={12} sm={4} md={5} sx={{ 
+                              textAlign: { xs: 'left', sm: 'right' },
+                              mt: { xs: 0, sm: 0 },
+                            }}>
+                              <Typography 
+                                variant="caption"
+                                sx={{ 
+                                  color: "#666",
+                                  fontSize: { xs: '0.7rem', sm: '0.75rem' },
+                                  backgroundColor: "transparent",
+                                  padding: { xs: "1px 4px", sm: "2px 6px" },
+                                  borderRadius: "4px",
+                                  display: "inline-block",
+                                }}
+                              >
+                                {moment(item.FechaDeCreacion, moment.ISO_8601)
+                                  .format("DD/MM/YYYY HH:mm")
+                                  .toString()}
                               </Typography>
                             </Grid>
                           </Grid>
 
-                          <Grid container item xs={12} md={6}>
-                            <Typography className="h6" color="text.primary">
-                              {"APLICACIÓN: "}
-                              <label className="textoNormal">
-                                {item.AppNombre.toUpperCase()}
-                              </label>
-                            </Typography>
-                          </Grid>
+                          {/* Segunda fila: Aplicación */}
+                          <Typography 
+                            variant="body2"
+                            sx={{ 
+                              color: "#34495e",
+                              fontSize: { xs: '0.75rem', sm: '0.8rem' },
+                              mb: { xs: 0.5, sm: 1 },
+                              lineHeight: 1.3,
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: { xs: "nowrap", sm: "normal" },
+                            }}
+                          >
+                            <Box component="span" sx={{ fontWeight: 600 }}>APP:</Box> {item.AppNombre}
+                          </Typography>
 
-                          <Grid container item xs={12} md={6}>
-                            <Typography className="h6" color="text.primary">
-                              {"SOLICITANTE: "}
-                              <label className="textoNormal">
-                                {item.NombreSolicitante.toUpperCase()}
-                              </label>
-                            </Typography>
-                          </Grid>
-
-                          <Grid container item xs={12} md={6}>
-                            <Typography className="h6" color="text.primary">
-                              {"TIPO DE SOLICITUD: "}
-                              <label className="textoNormal">
+                          {/* Tercera fila: Solicitante y Tipo */}
+                          <Grid container spacing={{ xs: 0.5, sm: 1 }} alignItems="center">
+                            <Grid item xs={12} sm={7} md={6}>
+                              <Typography 
+                                variant="caption"
+                                sx={{ 
+                                  color: "#7f8c8d",
+                                  fontSize: { xs: '0.7rem', sm: '0.75rem' },
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                  whiteSpace: { xs: "nowrap", sm: "normal" },
+                                }}
+                              >
+                                <Box component="span" sx={{ fontWeight: 600 }}>SOLICITANTE:</Box> {item.NombreSolicitante}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={12} sm={5} md={6} sx={{ 
+                              textAlign: { xs: 'left', sm: 'right' },
+                              mt: { xs: 0.5, sm: 0 },
+                            }}>
+                              <Typography 
+                                variant="caption"
+                                sx={{ 
+                                  color: getColorByType(item?.tipoSoli),
+                                  fontSize: { xs: '0.7rem', sm: '0.75rem' },
+                                  fontWeight: 600,
+                                  backgroundColor: "rgba(255, 255, 255, 0.8)",
+                                  padding: { xs: "2px 6px", sm: "2px 8px" },
+                                  borderRadius: { xs: "6px", sm: "8px" },
+                                  border: `1px solid ${getColorByType(item?.tipoSoli)}`,
+                                  display: "inline-block",
+                                  textAlign: "center",
+                                  minWidth: { xs: "60px", sm: "auto" },
+                                }}
+                              >
                                 {item?.tipoSoli.toUpperCase()}
-                              </label>
-                            </Typography>
+                              </Typography>
+                            </Grid>
                           </Grid>
-                        </Grid>
+                        </Box>
                       </ListItemButton>
-                      <Divider />
                     </Grid>
                   );
                 }
@@ -610,13 +706,10 @@ export const Solicitudes = () => {
           container
           item
           xs={12}
-          sm={12}
-          md={12}
-          xl={12}
-          lg={12}
           justifyContent="center"
           alignItems="center"
-          height={"90vh"}
+          height={{ xs: "auto", md: "90vh" }}
+          sx={{ padding: { xs: 1, sm: 2 } }}
         >
           {solicitudes.length !== 0 ? (
             <Grid
@@ -625,16 +718,17 @@ export const Solicitudes = () => {
               justifyContent="center"
               alignItems="center"
               sx={{
-                width: "98%",
-                height: "95%",
+                width: { xs: "100%", sm: "98%" },
+                height: { xs: "auto", md: "95%" },
+                minHeight: { xs: "70vh", md: "auto" },
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 border: "1px solid #b3afaf",
-                borderRadius: "15px",
+                borderRadius: { xs: "8px", sm: "15px" },
                 boxShadow: "15",
                 bgcolor: COLOR.blanco,
-                // overflow:"auto",
+                overflow: "auto",
               }}
             >
               {selectedIndex < 0 ? (
@@ -717,25 +811,29 @@ export const Solicitudes = () => {
                     justifyContent="center"
                     flexDirection={"column"}
                     alignItems={"center"}
+                    spacing={{ xs: 2, sm: 1 }}
                   >
                     <Grid
                       item
                       container
-                      xl={10}
-                      xs={10}
-                      lg={10}
-                      md={10}
+                      xs={12}
                       sm={10}
+                      md={10}
+                      lg={10}
+                      xl={10}
                       sx={{
                         display: "flex",
                         justifyContent: "space-around",
                         alignItems: "center",
+                        flexDirection: { xs: "column", sm: "row" },
+                        gap: { xs: 2, sm: 0 },
                       }}
                     >
-                      <Grid item>
+                      <Grid item xs={12} sm="auto">
                         <Button
                           className="aceptar"
                           variant="contained"
+                          fullWidth={window.innerWidth < 600}
                           onClick={() => {
                             setOpenDialogAceptar(true);
                           }}
@@ -743,10 +841,11 @@ export const Solicitudes = () => {
                           Aceptar
                         </Button>
                       </Grid>
-                      <Grid item>
+                      <Grid item xs={12} sm="auto">
                         <Button
                           className="cancelar"
                           variant="contained"
+                          fullWidth={window.innerWidth < 600}
                           onClick={() => {
                             setOpenDialogRechazar(true);
                           }}
@@ -755,7 +854,16 @@ export const Solicitudes = () => {
                         </Button>
                       </Grid>
                     </Grid>
-                    <Grid justifyContent={"center"}>
+                    <Grid 
+                      item 
+                      xs={12}
+                      sx={{ 
+                        justifyContent: "center",
+                        display: "flex",
+                        gap: 1,
+                        mt: { xs: 1, sm: 0 }
+                      }}
+                    >
                       <Tooltip title="Visualizar solicitud anterior">
                         <IconButton
                           onClick={() => {
@@ -855,10 +963,12 @@ export const Solicitudes = () => {
   height={"90vh"}
   overflow={"auto"}
   alignItems={'center'}
-  sx={{ display: "flex", }}
-  // bgcolor={"red"}
+  sx={{ 
+    display: "flex",
+    padding: { xs: 1, sm: 2 },
+  }}
 >
-  <Grid item md={4} xs={12}>
+  <Grid item lg={4} md={5} xs={12} sx={{ height: { xs: 'auto', md: '100%' } }}>
     <Hidden mdDown implementation="css">
       {listadoSolicitudes()}
     </Hidden>
@@ -867,7 +977,7 @@ export const Solicitudes = () => {
     </Hidden>
   </Grid>
 
-  <Grid item md={8} xs={12}>
+  <Grid item lg={8} md={7} xs={12} sx={{ height: { xs: 'auto', md: '100%' } }}>
     <Hidden mdDown implementation="css">
       {informacionSolicitud()}
     </Hidden>
@@ -877,7 +987,18 @@ export const Solicitudes = () => {
 
       <Dialog
         open={openDialogRechazar}
-        onClose={() => setOpenDialogRechazar(false)}
+        onClose={() => {
+          setOpenDialogRechazar(false);
+          setComentario("");
+        }}
+        maxWidth="sm"
+        fullWidth
+        sx={{
+          '& .MuiDialog-paper': {
+            margin: { xs: 2, sm: 3 },
+            width: { xs: 'calc(100% - 32px)', sm: 'auto' },
+          }
+        }}
       >
         <DialogTitle>Confirmación</DialogTitle>
         <DialogContent>
@@ -888,12 +1009,28 @@ export const Solicitudes = () => {
             ?
           </DialogContentText>
           <TextField
-            sx={{ width: "100%" }}
-            label="Agregar comentario"
+            sx={{ width: "100%", mt: 2 }}
+            label="Agregar comentario *"
             placeholder="Agregue el motivo por el que se rechaza la solicitud"
             variant="filled"
             multiline
             rows={3}
+            value={comentario}
+            error={comentario.length > 0 && comentario.length < 10}
+            helperText={
+              <span>
+                {comentario.length < 10 ? (
+                  <span style={{ color: 'red' }}>
+                    Es obligatorio agregar un comentario (mínimo 10 caracteres)
+                  </span>
+                ) : (
+                  <span style={{ color: 'green' }}>Comentario válido</span>
+                )}
+                <span style={{ float: 'right', color: comentario.length < 10 ? 'red' : 'green' }}>
+                  {comentario.length}/10
+                </span>
+              </span>
+            }
             onChange={(c) => {
               setComentario(c.target.value);
             }}
@@ -905,15 +1042,29 @@ export const Solicitudes = () => {
             className="cancelar"
             onClick={() => {
               setOpenDialogRechazar(false);
+              setComentario("");
             }}
           >
             Cancelar
           </Button>
           <Button
-            className="aceptar"
-            disabled={comentario.length >= 10 ? false : true}
+            disabled={comentario.length < 10}
             variant="contained"
-            color="primary"
+            sx={{
+              fontFamily: 'Montserrat, sans-serif',
+              textTransform: 'none',
+              fontSize: '14px',
+              backgroundColor: comentario.length < 10 ? '#9e9e9e !important' : '#15212f !important',
+              color: '#fff !important',
+              '&:hover': {
+                backgroundColor: comentario.length < 10 ? '#757575 !important' : 'rgba(47, 47, 47, 0.2) !important',
+                color: comentario.length < 10 ? '#fff !important' : '#000 !important',
+              },
+              '&:disabled': {
+                backgroundColor: '#9e9e9e !important',
+                color: '#fff !important',
+              }
+            }}
             onClick={() => {
               setIdSolicitud(solicitudSeleccionada);
               setOpenDialogImpDoc(true);
@@ -922,6 +1073,7 @@ export const Solicitudes = () => {
                 solicitudesFiltered[selectedIndex]?.tipoSoli
               );
               setOpenDialogRechazar(false);
+              setComentario("");
             }}
           >
             Aceptar
@@ -989,6 +1141,14 @@ export const Solicitudes = () => {
       <Dialog
         open={openDialogAceptar}
         onClose={() => setOpenDialogAceptar(false)}
+        maxWidth="sm"
+        fullWidth
+        sx={{
+          '& .MuiDialog-paper': {
+            margin: { xs: 2, sm: 3 },
+            width: { xs: 'calc(100% - 32px)', sm: 'auto' },
+          }
+        }}
       >
         <DialogTitle>Confirmación</DialogTitle>
         <DialogContent>
@@ -1030,6 +1190,14 @@ export const Solicitudes = () => {
       <Dialog
         open={openDialogImpDoc}
         onClose={() => setOpenDialogImpDoc(false)}
+        maxWidth="sm"
+        fullWidth
+        sx={{
+          '& .MuiDialog-paper': {
+            margin: { xs: 2, sm: 3 },
+            width: { xs: 'calc(100% - 32px)', sm: 'auto' },
+          }
+        }}
       >
         <DialogTitle>Descargar Documento</DialogTitle>
         <DialogContent>

@@ -46,6 +46,15 @@ export class UserServices {
 export const userDetail = (data: any) => {
   axios
     .post(process.env.REACT_APP_APPLICATION_DEV + "/api/userapp-detail", data)
-    .then()
+    .then((r) => {
+      // Guardar los menús en localStorage
+      if (r.data.menus && r.data.menus.length > 0) {
+        localStorage.setItem('Menus', JSON.stringify(r.data.menus[0]))
+      }
+      // Guardar los permisos en localStorage
+      if (r.data.permisos && r.data.permisos.length > 0) {
+        localStorage.setItem('permisos', JSON.stringify(r.data.permisos[0]))
+      }
+    })
     .catch();
 };

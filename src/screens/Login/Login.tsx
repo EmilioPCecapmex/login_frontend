@@ -28,6 +28,7 @@ interface IApps {
   Path: string;
   Descripcion: string;
   EstaActivo: number;
+  Msg?: string;
 }
 
 export const getUserDetail = (idUsuario: string, idApp: string) => {
@@ -43,16 +44,21 @@ export const getUserDetail = (idUsuario: string, idApp: string) => {
     }
   ).then((r) => {
     localStorage.setItem('Menus', JSON.stringify(r.data.menus[0]))
-
+    // Guardar los permisos en localStorage
+    if (r.data.permisos && r.data.permisos.length > 0) {
+      localStorage.setItem('permisos', JSON.stringify(r.data.permisos[0]))
+    }
+  }).catch((error) => {
+    console.error('Error al obtener detalles del usuario:', error);
   });
 }
 
 export const Login = () => {
-  let IdUsuario = "";
   const urlParams = window.location.search;
   const query = new URLSearchParams(urlParams);
   const jwt = query.get("jwt");
   const idAppSolicitante = query.get("IdApp");
+  const returnToAppsParam = query.get("returnToApps");
 
   const navigate = useNavigate();
   const theme = useTheme();
@@ -162,37 +168,86 @@ export const Login = () => {
     handleOpenAppsModal();
   };
 
-  // const checkApps = () => {
-  //   axios
-  //     .post(
-  //       process.env.REACT_APP_APPLICATION_DEV + "/api/user-apps",
-  //       {
-  //         IdUsuario: localStorage.getItem("IdUsuario"),
-  //       },
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           authorization: opensolicitudModal && jwt ? jwt : JWT_Token,
-  //         },
-  //       }
-  //     )
-  //     .then((r) => {
-  //       if (r.status === 200) {
-  //         const IdApps = r.data.data;
+  const checkApps = (showMessage = true, forceModal = false) => {
+    const token = localStorage.getItem("jwtToken") || "";
+    const idUsuarioLocal = localStorage.getItem("IdUsuario") || "";
 
-  //         setAppsList(IdApps);
-  //         openAppModal(
-  //           "success",
-  //           "tu usuario cuenta con acceso a las siguientes plataformas."
-  //         );
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       if (error.response.status === 401) {
-  //         openDialogModal("error", error.response.data.msg);
-  //       }
-  //     });
-  // };
+    if (!token || !idUsuarioLocal) {
+      localStorage.removeItem("returnToApps");
+      setOpenSlider(false);
+      return;
+    }
+
+    setOpenSlider(true);
+    axios
+      .post(
+        process.env.REACT_APP_APPLICATION_DEV + "/api/user-apps",
+        {
+          IdUsuario: idUsuarioLocal,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: token,
+          },
+        }
+      )
+      .then((r) => {
+        if (r.status === 200) {
+          const idApps: Array<IApps> = r.data.data;
+          setAppsList(idApps);
+          localStorage.setItem("appsList", JSON.stringify(idApps));
+
+          if (idApps.length > 1) {
+            if (showMessage) {
+              openAppModal(
+                "success",
+                idApps[0]?.Msg ||
+                  "Tu usuario cuenta con acceso a las siguientes plataformas."
+              );
+            } else {
+              handleOpenAppsModal();
+            }
+            setOpenSlider(false);
+          } else if (idApps.length === 1) {
+            if (forceModal) {
+              if (showMessage) {
+                openAppModal("success", "Selecciona la plataforma a la que deseas ingresar.");
+              } else {
+                handleOpenAppsModal();
+              }
+              setOpenSlider(false);
+            } else {
+              redirectToApp(idApps[0], idUsuarioLocal);
+            }
+          } else {
+            openDialogModal(
+              "error",
+              "No se encontraron aplicaciones disponibles para tu usuario."
+            );
+            setOpenSlider(false);
+          }
+        }
+      })
+      .catch((error) => {
+        if (error?.response?.status === 401) {
+          localStorage.clear();
+        }
+        openDialogModal(
+          "error",
+          "No fue posible recuperar tus aplicaciones. Por favor inicia sesión nuevamente."
+        );
+        setOpenSlider(false);
+      })
+      .finally(() => {
+        localStorage.removeItem("returnToApps");
+        const currentUrl = new URL(window.location.href);
+        if (currentUrl.searchParams.has("returnToApps")) {
+          currentUrl.searchParams.delete("returnToApps");
+          window.history.replaceState(null, "", currentUrl.toString());
+        }
+      });
+  };
 
   const verifyToken = () => {
     if (jwt) {
@@ -231,6 +286,31 @@ const handlOpenDialogMantenimiento = (nombreApp: string) => {
   setNombreApp(nombreApp);
 }
 
+const redirectToApp = (app: IApps, userId: string) => {
+  setOpenSlider(false);
+  if (app.Path !== "./admin") {
+    if (app.EstaActivo === 1) {
+      window.location.replace(
+        app.Path +
+          "?jwt=" +
+          (localStorage.getItem("jwtToken") || "") +
+          "&rf=" +
+          (localStorage.getItem("refreshToken") || "") +
+          "&IdApp=" +
+          app.IdApp
+      );
+    } else {
+      handlOpenDialogMantenimiento(app.Nombre);
+    }
+  } else {
+    if (userId) {
+      getUserDetail(userId, app.IdApp);
+    }
+    localStorage.setItem("IdApp", app.IdApp);
+    navigate("./admin");
+  }
+};
+
 const validateCredentials = () => {
   axios
     .post(
@@ -253,6 +333,7 @@ const validateCredentials = () => {
         document.cookie = "jwt=" + r.data.token;
         let arrayApps: Array<IApps> = r.data.AppIds;
         setAppsList(arrayApps);
+        localStorage.setItem("appsList", JSON.stringify(arrayApps));
         userDetail();
         if (arrayApps.length > 1) {
           openAppModal(
@@ -263,27 +344,7 @@ const validateCredentials = () => {
         }
 
         if (arrayApps.length === 1) {
-          if (arrayApps[0].Path !== "./admin") {
-            if (arrayApps[0].EstaActivo == 1)
-              window.location.replace(
-                arrayApps[0].Path +
-                "?jwt=" +
-                localStorage.getItem("jwtToken") +
-                "&rf=" +
-                localStorage.getItem("refreshToken") +
-                "&IdApp=" +
-                arrayApps[0].IdApp
-              );
-            else {
-              console.log('arrayApps[0].Nombre', arrayApps[0])
-              handlOpenDialogMantenimiento(arrayApps[0].Nombre);
-            }
-          } else {
-            localStorage.setItem("IdApp", arrayApps[0].IdApp)
-            IdUsuario = r.data.IdUsuario;
-            getUserDetail(r.data.IdUsuario, arrayApps[0].IdApp);
-            navigate("./admin");
-          }
+          redirectToApp(arrayApps[0], r.data.IdUsuario);
         }
       }
     })
@@ -344,20 +405,21 @@ useEffect(() => {
   //   });
   // }
 }, []);
+
 useEffect(() => {
+  const returningToApps =
+    localStorage.getItem("returnToApps") === "true" ||
+    returnToAppsParam === "true";
+
   if (!(jwt && idAppSolicitante)) {
-    localStorage.clear();
+    if (returningToApps) {
+      checkApps(true, true);
+    } else {
+      localStorage.clear();
+    }
   } else {
     handleCloseAppsModal();
   }
-  // // setTimeout(() => {
-  // localStorage.clear();
-  // handleCloseAppsModal();
-  // // }, 100);
-
-  // if (localStorage.getItem("jwtToken") !== null) {
-  //   localStorage.clear();
-  // }
 }, []);
 
 return (
@@ -398,7 +460,7 @@ return (
                   type={modalType}
                   text={modalText}
                   apps={appsList}
-                  idUsuario={IdUsuario}
+                  idUsuario={localStorage.getItem("IdUsuario") || ""}
                 />
               ) : null}
               <AlertModal

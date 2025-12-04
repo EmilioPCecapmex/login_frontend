@@ -151,7 +151,7 @@ export const DialogAdminMenu = (
           title="Nivel"
           label="Nivel"
           placeholder="Nivel"
-          value={nuevoElemento.Nivel || ""}
+          value={nuevoElemento.Nivel !== undefined ? nuevoElemento.Nivel.toString() : ""}
           onChange={(v) => {
             setNuevoElemento({
               ...nuevoElemento,
@@ -166,7 +166,7 @@ export const DialogAdminMenu = (
           title="Orden"
           label="Orden"
           placeholder="Orden"
-          value={nuevoElemento.Orden || ""}
+          value={nuevoElemento.Orden !== undefined ? nuevoElemento.Orden.toString() : ""}
           onChange={(v) => {
             setNuevoElemento({
               ...nuevoElemento,

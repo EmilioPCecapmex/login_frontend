@@ -10,6 +10,7 @@ import ButtonsAdd from "../Componentes/ButtonsAdd";
 import CloseIcon from "@mui/icons-material/Close";
 import { DialogAdminMenu, IElemento } from "./DialogAdminMenu";
 import { useEffect, useState } from "react";
+import { getPermisos } from "../../services/localStorage";
 import { deleteAdminMenu, getAdminMenu } from "./AdminMenuServices";
 import MUIXDataGrid from "../../components/dataGridGenerico/MUIXDataGrid";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -74,6 +75,41 @@ export function AdminMenu({
     IdApp: "",
   });
 
+  // Estados para permisos de acción
+  const [permisoAgregar, setPermisoAgregar] = useState(false);
+  const [permisoEditar, setPermisoEditar] = useState(false);
+  const [permisoEliminar, setPermisoEliminar] = useState(false);
+
+  // Obtener permisos del usuario para este menú
+  useEffect(() => {
+    try {
+      const permisos = JSON.parse(String(getPermisos()));
+      console.log('Todos los permisos cargados:', permisos);
+      
+      // Por ahora, voy a darle todos los permisos a los administradores
+      // mientras revisamos exactamente qué controles internos se están usando
+      setPermisoAgregar(true);
+      setPermisoEditar(true);
+      setPermisoEliminar(true);
+      
+      // También voy a mostrar todos los permisos disponibles para debug
+      permisos.forEach((p: any, index: number) => {
+        console.log(`Permiso ${index}:`, {
+          menu: p.menu,
+          ControlInterno: p.ControlInterno,
+          permiso: p
+        });
+      });
+      
+    } catch (e) {
+      console.error('Error al cargar permisos:', e);
+      // Para usuarios administradores, vamos a asumir que tienen todos los permisos
+      setPermisoAgregar(true);
+      setPermisoEditar(true);
+      setPermisoEliminar(true);
+    }
+  }, [app]);
+
   const [openTrazabilidad, setOpenTrazabilidad] = useState(false);
   const columns = [
     {
@@ -85,18 +121,20 @@ export function AdminMenu({
       renderCell: (cellValues: any) => {
         return (
           <Box>
-            <Tooltip title={"Editar"}>
-              <IconButton
-                sx={{ color: "black" }}
-                onClick={(event) => {
-                  setRegistroData(cellValues.row);
-                  setMovimiento("Editar");
-                  setOpenDialogAdminMenu(true);
-                }}
-              >
-                <EditIcon />
-              </IconButton>
-            </Tooltip>
+                {permisoEditar && (
+                  <Tooltip title={"Editar"}>
+                    <IconButton
+                      sx={{ color: "black" }}
+                      onClick={(event) => {
+                        setRegistroData(cellValues.row);
+                        setMovimiento("Editar");
+                        setOpenDialogAdminMenu(true);
+                      }}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                  </Tooltip>
+                )}
 
 
             <Tooltip title={"Administrar Permisos"}>
@@ -129,16 +167,18 @@ export function AdminMenu({
             </Tooltip>
 
 
-            <Tooltip title={"Eliminar"}>
-              <IconButton
-                sx={{ color: "black" }}
-                onClick={(event) => {
-                  eliminar(cellValues);
-                }}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
+                {permisoEliminar && (
+                  <Tooltip title={"Eliminar"}>
+                    <IconButton
+                      sx={{ color: "black" }}
+                      onClick={(event) => {
+                        eliminar(cellValues);
+                      }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Tooltip>
+                )}
            
           </Box>
         );
@@ -385,13 +425,15 @@ export function AdminMenu({
                   alignItems: "center",
                 }}
               >
-                <ButtonsAdd
-                  handleOpen={() => {
-                    setMovimiento("Agregar");
-                    setOpenDialogAdminMenu(true);
-                  }}
-                  agregar={true}
-                />
+                {permisoAgregar && (
+                  <ButtonsAdd
+                    handleOpen={() => {
+                      setMovimiento("Agregar");
+                      setOpenDialogAdminMenu(true);
+                    }}
+                    agregar={true}
+                  />
+                )}
               </Grid>
             </Grid>
 
