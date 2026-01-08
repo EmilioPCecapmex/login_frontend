@@ -37,6 +37,7 @@ import { COLOR } from "../styles/colors";
 import { IApps } from "./IApps";
 import { IDetalleSolicitud, ISolicitud, iOnChangeInfo } from "./ISolicitud";
 import VerSolicitudesModal from "./VerSolicitudesModal";
+import { generarPDFSolicitud } from "../../utils/pdfGenerator";
 export const Solicitudes = () => {
   const [solicitudes, setSolicitudes] = useState<Array<ISolicitud>>([]);
 
@@ -210,54 +211,37 @@ export const Solicitudes = () => {
       });
   };
 
-  const getDatosDocumento = () => {
-    axios
-      .get(
-        process.env.REACT_APP_APPLICATION_DEV +
-          "/api/docSolicitudActualUsuario",
-        {
-          params: {
-            IdSolicitud: IdSolicitud,
-          },
-          headers: {
-            Authorization: localStorage.getItem("jwtToken") || "",
-          },
-          responseType: "blob",
-        }
-      )
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
-          alertaInformativa("No se encontro información.");
-        } else {
-          // Obtén el nombre del archivo del servidor
-          const contentDisposition = response.headers["content-disposition"];
-          const matches =
-            contentDisposition && contentDisposition.match(/filename="(.+)"/);
-          const nombreArchivo = matches
-            ? matches[1]
-            : `${
-                detalleSolicitud?.Nombre +
-                " " +
-                detalleSolicitud?.ApellidoPaterno +
-                " " +
-                detalleSolicitud?.ApellidoMaterno.toUpperCase()
-              }.pdf`;
+  const generarPDFLocal = async () => {
+    try {
+      // Preparar datos para el template
+      const datosParaPDF = {
+        Fecha: moment(detalleSolicitud?.FechaDeCreacion).format('DD/MM/YYYY'),
+        TipoDeMovimiento: solicitudesFiltered[selectedIndex]?.tipoSoli || '',
+        Nombre: detalleSolicitud?.Nombre || '',
+        ApellidoPaterno: detalleSolicitud?.ApellidoPaterno || '',
+        ApellidoMaterno: detalleSolicitud?.ApellidoMaterno || '',
+        Puesto: detalleSolicitud?.Puesto || '',
+        AccesoApp: detalleSolicitud?.NombreApp || '',
+        NombreUsuario: detalleSolicitud?.NombreUsuario || '',
+        Correo: detalleSolicitud?.CorreoElectronico || '',
+        CURP: detalleSolicitud?.Curp || '',
+        RFC: detalleSolicitud?.Rfc || '',
+        Telefono: detalleSolicitud?.Telefono || '',
+        Extension: detalleSolicitud?.Ext || '',
+        Celular: detalleSolicitud?.Celular || '',
+        TpoUsuario: detalleSolicitud?.TpoUsuario || '',
+        Estatus: detalleSolicitud?.Estatus === 1 ? 'Aceptado' : detalleSolicitud?.Estatus === 2 ? 'Rechazado' : 'Pendiente',
+        PlataformaSolicitada: detalleSolicitud?.NombreApp || '', // <-- Agregado para cumplir con DatosSolicitudPDF
+      };
 
-          // Crea un enlace temporal y simula un clic para descargar el archivo
-          const url = window.URL.createObjectURL(
-            new Blob([response.data], { type: "application/pdf" })
-          );
-          const link = document.createElement("a");
-          link.setAttribute("download", nombreArchivo);
-          link.setAttribute("href", url);
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        }
-      })
-      .catch((error) => {
-        alertaInformativa("No se encontro información.");
-      });
+      const nombreArchivo = `${detalleSolicitud?.Nombre} ${detalleSolicitud?.ApellidoPaterno} ${detalleSolicitud?.ApellidoMaterno} - Solicitud.pdf`;
+      
+      await generarPDFSolicitud(datosParaPDF, nombreArchivo);
+      alertaInformativa("PDF generado exitosamente");
+    } catch (error) {
+      console.error('Error al generar PDF:', error);
+      alertaInformativa("Error al generar el PDF");
+    }
   };
   const [IdSolicitud, setIdSolicitud] = useState("");
 
@@ -1222,7 +1206,7 @@ export const Solicitudes = () => {
             variant="contained"
             className="aceptar"
             onClick={() => {
-              getDatosDocumento();
+              generarPDFLocal();
               setOpenDialogImpDoc(false);
             }}
           >

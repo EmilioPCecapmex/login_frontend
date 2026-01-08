@@ -15,6 +15,7 @@ import { ActividadUsuarios } from "./screens/ActividadUsuarios/ActividadUsuarios
 import { DialogMantenimiento } from "./components/dialogMantenimiento/DialogMantenimiento";
 
 
+
 const App = () => {
   return (
     <HashRouter basename={"/"}>
