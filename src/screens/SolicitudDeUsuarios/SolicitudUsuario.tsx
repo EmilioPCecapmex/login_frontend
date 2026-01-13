@@ -165,7 +165,7 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
     if (infoUsuario.RFC === "") {
       err.push(`Ingresa <strong style="color: red;">RFC</strong>`);
     }
-    if (infoUsuario.Celular.length < 10) {
+    if (infoUsuario.Celular.length > 0 && infoUsuario.Celular.length < 10) {
       err.push(
         `Ingresa número de <strong style="color: red;">Celular</strong> válido`
       );
@@ -174,6 +174,9 @@ export const SolicitudUsuario = (props: NewDialogProps) => {
       err.push(
         `Ingresa número de <strong style="color: red;">Teléfono</strong> válido`
       );
+    }
+    if (infoUsuario.Ext === "") {
+      err.push(`Ingresa <strong style="color: red;">Extensión</strong>`);
     }
     if (infoUsuario.Aplicacion.Id === "") {
       err.push(`Ingresa <strong style="color: red;">Aplicación</strong>`);
@@ -748,7 +751,7 @@ useEffect(() => {
           disabled={existeCorreo}
           fullWidth
           sx={{ mr: 4 }}
-          label="Teléfono Móvil "
+          label="Teléfono Móvil (Opcional)"
           value={infoUsuario.Celular}
           inputProps={{ maxLength: 10 }}
           variant="standard"

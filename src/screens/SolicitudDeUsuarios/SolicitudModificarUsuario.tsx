@@ -894,9 +894,9 @@ export const SolicitudModificarUsuario = (props: NewDialogProps) => {
               sx={{ mr: 4 }}
               margin="dense"
               id="celular"
-              label="Celular"
+              label="Celular (Opcional)"
               value={celular === 0 ? "" : celular}
-              required
+              
               inputProps={{ maxLength: 10 }}
               variant="standard"
               error={errores.celular.valid}

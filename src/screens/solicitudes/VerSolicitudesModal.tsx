@@ -181,9 +181,9 @@ const VerSolicitudesModal = ({
               fontSize: "1.5vw",
               backgroundColor: onChangeInfo.Celular ? "#fde6a2" : null,
             }}
-            value={detalleSolicitud?.Celular || ""}
+            value={detalleSolicitud?.Celular || "Sin Dato"}
             variant="standard"
-            helperText={onChangeInfo.Celular ? detalleUsuario.Celular : null}
+            helperText={onChangeInfo.Celular ? (detalleUsuario.Celular || "Sin Dato") : null}
           />
         </Grid>
         <Grid item xl={3.5} lg={3.5} md={3.5} sm={3.5} xs={12}>

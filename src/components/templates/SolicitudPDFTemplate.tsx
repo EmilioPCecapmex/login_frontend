@@ -212,7 +212,7 @@ export const SolicitudPDFTemplate: React.FC<SolicitudPDFTemplateProps> = (props)
           </tr>
           <tr>
             <td style={styles.labelCell}>Celular:</td>
-            <td style={styles.valueCell}>{props.Celular}</td>
+            <td style={styles.valueCell}>{props.Celular || "Sin Dato"}</td>
           </tr>
           <tr>
             <td style={styles.labelCell}>Tipo de usuario:</td>
