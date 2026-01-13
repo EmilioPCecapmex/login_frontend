@@ -1,0 +1,282 @@
+import AppsIcon from "@mui/icons-material/Apps";
+import SearchIcon from '@mui/icons-material/Search';
+import {
+  Button,
+  CardContent,
+  FormControl,
+  Grid,
+  Hidden,
+  InputLabel,
+  MenuItem,
+  Select,
+  Tooltip,
+  Typography
+} from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs, { Dayjs } from "dayjs"; // Importar dayjs
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Header } from "../../components/header";
+import { getActividadUsuarios } from "../../services/hisotoricoService";
+import MUIXDataGridGeneral from "../../components/dataGridGenerico/MUIXDataGrid";
+import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
+import { IApps } from "../SolicitudDeUsuarios/SolicitudUsuario";
+import { getAllApps } from "../Aplicaciones/AppServices";
+
+export const ActividadUsuarios = () => {
+  const camposCsv = [
+    "NombreUsuario",
+    "App",
+    "Movimiento",
+    "Fecha",
+    "Hora",
+  ];
+  const [rows, setRows] = useState([]);
+  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs()); // Inicializar con el día de hoy
+  const [selectedDateEnd, setSelectedDateEnd] = useState<Dayjs | null>(dayjs());
+  // Estado de la fecha
+  const [apps, setApps] = useState<Array<IApps>>([]);
+  
+  const [selectedAppId, setSelectedAppId] = useState("");
+  const columns = [
+    {
+      field: "NombreUsuario",
+      headerName: "Nombre Usuario",
+      width: 280,
+      hideable: false,
+      headerAlign: "center",
+      align: "left",
+      cellClassName: 'user-cell',
+    },
+    {
+      field: "App",
+      headerName: "Aplicación",
+      width: 400,
+      headerAlign: "center",
+      align: "left",
+      cellClassName: 'app-cell',
+    },
+    {
+      field: "Accion",
+      headerName: "Movimiento",
+      width: 200,
+      headerAlign: "center",
+      align: "center",
+      cellClassName: 'action-cell',
+    },
+    {
+      field: "Fecha",
+      headerName: "Fecha",
+      width: 150,
+      headerAlign: "center",
+      align: "center",
+      cellClassName: 'date-cell',
+    },
+    {
+      field: "Hora",
+      headerName: "Hora",
+      width: 150,
+      headerAlign: "center",
+      align: "center",
+      cellClassName: 'time-cell',
+    },
+  ];
+
+  // Aquí es el consumo del endpoint para obtener el listado de apps de la base de datos
+
+  const fetchActividadUsuarios = async () => {
+    const data = await getActividadUsuarios(selectedDate, selectedDateEnd); // Llamar a la función asíncrona
+    setRows(data); // Actualizar el estado con los datos obtenidos
+  };
+  useEffect(() => {
+    fetchActividadUsuarios();
+    getAllApps(setApps);
+  }, []); // Llamar al endpoint cuando cambia la fecha seleccionada
+
+  return (
+    <Grid container sx={{ width: "100vw", height: "100vh" }}>
+      <Header menuActual={"Actividad de Usuarios"} />
+
+      {/* Esta configuración es del box que va a contener el card principal */}
+      <Grid
+        sx={{
+          height: "90%",
+          width: "100vw",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Grid container sx={{ height: "84vh", width: "100vw" }}>
+          <Grid
+            item container
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              width: "100%"
+            }}
+          > <Hidden lgDown>
+              <Grid
+                 item
+                 container
+                 xl={3}
+                 lg={3.5}
+                 md={3}
+                 sm={3}
+                 xs={12}
+                sx={{
+                  display: "flex",
+
+                  alignItems: "center",
+                }}
+              >
+                <Tooltip title="Menu actual: Actividad de Usuarios">
+                  <CardContent>
+                    <SupervisedUserCircleIcon
+                      sx={{ color: "#AF8C55", fontSize: [30, 30, 30, 40, 40] }}
+                    />
+                  </CardContent>
+                </Tooltip>
+
+                <Typography
+                  fontFamily={"'Montserrat', sans-serif"}
+                  sx={{
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    textAlign: "center",
+                    fontSize: [30, 30, 30, 30, 40], // Tamaños de fuente para diferentes breakpoints
+                    color: "#AF8C55",
+                  }}
+                >
+                  Actividad de Usuarios
+                </Typography>
+              </Grid>
+            </Hidden>
+            <Grid
+                  item
+                  container
+                  xl={3}
+                  lg={3}
+                  md={6}
+                  sm={12}
+                  xs={12}
+                  sx={{ justifyContent: "center", alignItems: "center",mb:["2vh","1vh","1vh","0","0"] }}
+                >
+                  <FormControl
+                    sx={{ width: ["95%", "90%", "80%", "80%", "80%"] }}
+                  >
+                    <InputLabel
+                      // variant="standard"
+                      sx={{
+                        fontFamily: "MontserratMedium",
+                        justifyContent: "flex-start",
+                      }}
+                    >
+                      Filtrar por Aplicación
+                    </InputLabel>
+                    <Select
+                      value={selectedAppId}
+                      label="Filtrar por Aplicación"
+                      onChange={(e) => {
+                         setSelectedAppId(e.target.value);
+                      }}
+                    >
+                      <MenuItem key={1} value={""}>
+                        Todas las Aplicaciones
+                      </MenuItem>
+                      {apps.map((app) => (
+                        <MenuItem key={app.Id} value={app.Id}>
+                          {app.Nombre}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+            {/* Componente de selector de fecha */}
+            <Grid item 
+              
+              lg={5}
+              md={6}
+              sm={12}
+              xs={12} container sx={{ display: "flex", justifyContent: "space-around" }}>
+              <Grid
+                xs={5}
+                lg={4}
+                md={4}
+                sm={5}>
+                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
+                  <DatePicker
+                    label="Selecciona la fecha inicial"
+                    value={selectedDate}
+                    onChange={(newValue) => setSelectedDate(newValue)} // Actualizar el estado al seleccionar la fecha
+                    slotProps={{ textField: { fullWidth: true } }} // Utiliza slotProps para personalizar TextField
+                    />
+                </LocalizationProvider>
+              </Grid>
+              <Grid
+                xs={5}
+                lg={4}
+                md={4}
+                sm={5}>
+                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
+                  <DatePicker
+                    label="Selecciona la fecha final"
+                    value={selectedDateEnd}
+                    onChange={(newValue) => setSelectedDateEnd(newValue)} // Actualizar el estado al seleccionar la fecha
+                    minDate={selectedDate} // Restringir la fecha mínima a la fecha inicial
+                    slotProps={{ textField: { fullWidth: true } }} // Utiliza slotProps para personalizar TextField
+                  />
+                </LocalizationProvider>
+              </Grid>
+              <Grid
+                xs={11}
+                lg={2}
+                md={2}
+                sm={11} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Button
+                  className="aceptar"
+                  variant="text"
+                  onClick={() => {
+                    fetchActividadUsuarios();
+                  }}
+                  sx={{
+                    fontFamily: "MontserratBold",
+                    backgroundColor: "#DFA94F",
+                    color: "#000001",
+                    boxShadow: 4,
+                    padding: ["1vw", "1vw", "1vw", ".8vw", ".8vw"],
+                    width: ["100%", "90%", "auto", "auto", "auto"],
+                    mt: ["1vh", "0vh", "0vh", "0vh", "0vh"]
+                  }}
+                  startIcon={<SearchIcon />}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: [".7rem", ".7rem", ".7rem", "1rem", "1rem"],
+                    }}
+                  >
+                    Buscar
+                  </Typography>
+                </Button>
+              </Grid>
+
+            </Grid>
+          </Grid>
+
+          <Grid item sx={{ width: "100vw", height: "79vh" }}>
+            <MUIXDataGridGeneral
+              columns={columns}
+              rows={rows}
+              camposCsv={camposCsv}
+              exportTitle={"Catálogo de Aplicaciones"}
+            />
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
+  );
+};

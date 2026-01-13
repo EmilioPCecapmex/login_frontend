@@ -1,0 +1,39 @@
+{
+    "apps": [
+        {
+            "name": "login_frontend",
+            "script": "./index.js",
+            "instances": 2,
+            "env": {
+                "REACT_APP_APPLICATION_DEV": "http://10.200.4.105:5000",
+                "REACT_APP_APPLICATION_FRONT": "http://10.200.4.105:3000",
+                "REACT_APP_APPLICATION_FIRMA": "http://10.210.0.27",
+                "REACT_APP_APPLICATION_GENERASOLICITUD": "http://10.200.4.105:8002",
+                "REACT_APP_APPLICATION_ENVIRONMENT": "LOCAL",
+                "REACT_APP_APPLICATION_FILES":"http://10.200.4.105:90",
+                "REACT_APP_DOC_ROUTE":"/PAUA_DEV",
+                "REACT_APP_APPLICATION_VERSION ": "1.4"
+            },
+            "env_dev": {
+                "REACT_APP_APPLICATION_DEV": "http://10.200.4.105:5000",
+                "REACT_APP_APPLICATION_FRONT": "http://10.200.4.105:3000",
+                "REACT_APP_APPLICATION_FIRMA": "http://10.210.0.27",
+                "REACT_APP_APPLICATION_GENERASOLICITUD": "http://10.200.4.105:8002",
+                "REACT_APP_APPLICATION_ENVIRONMENT": "LOCAL",
+                "REACT_APP_APPLICATION_FILES":"http://10.200.4.105:90",
+                "REACT_APP_DOC_ROUTE":"/PAUA_DEV",
+                "REACT_APP_APPLICATION_VERSION ": "1.4"
+            },
+            "env_qa": {
+                "REACT_APP_APPLICATION_DEV": "http://10.200.4.164:5000",
+                "REACT_APP_APPLICATION_FRONT": "http://10.200.4.164:3000",
+                "REACT_APP_APPLICATION_FIRMA": "http://10.210.0.27",
+                "REACT_APP_APPLICATION_GENERASOLICITUD": "http://10.200.4.164:8002",
+                "REACT_APP_APPLICATION_ENVIRONMENT": "LOCAL",
+                "REACT_APP_APPLICATION_FILES" : "http://10.200.4.105:90",
+                "REACT_APP_DOC_ROUTE":"/PAUA_QA",
+                "REACT_APP_APPLICATION_VERSION ": "1.4"
+            }
+        }
+    ]
+}

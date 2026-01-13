@@ -129,7 +129,7 @@ export const Validador = ({ id }: { id: string }) => {
                 id del documento firmado
               </Typography>
             }
-            sx={{ width: "100%", ":read-only": "true" }}
+            sx={{ width: "100%", ":readOnly": "true" }}
             value={id || ""}
           ></TextField>
           <TextField
@@ -144,7 +144,7 @@ export const Validador = ({ id }: { id: string }) => {
                 Firmante
               </Typography>
             }
-            sx={{ width: "100%", ":read-only": "true" }}
+            sx={{ width: "100%", ":readOnly": "true" }}
             value={doc?.Nombre || ""}
           ></TextField>
           <TextField
@@ -159,7 +159,7 @@ export const Validador = ({ id }: { id: string }) => {
                 No. Oficio
               </Typography>
             }
-            sx={{ width: "100%", ":read-only": "true" }}
+            sx={{ width: "100%", ":readOnly": "true" }}
             value={doc?.NumeroOficio || ""}
           ></TextField>
           <TextField
@@ -174,7 +174,7 @@ export const Validador = ({ id }: { id: string }) => {
                 Nombre del archivo
               </Typography>
             }
-            sx={{ width: "100%", ":read-only": "true" }}
+            sx={{ width: "100%", ":readOnly": "true" }}
             value={doc?.nombre_archivo || ""}
           ></TextField>
           <TextField
@@ -189,7 +189,7 @@ export const Validador = ({ id }: { id: string }) => {
                 Fecha
               </Typography>
             }
-            sx={{ width: "100%", ":read-only": "true" }}
+            sx={{ width: "100%", ":readOnly": "true" }}
             value={doc?.FechaFirma || ""}
           ></TextField>
         </Box>
@@ -216,7 +216,7 @@ export const Validador = ({ id }: { id: string }) => {
                 Dato
               </Typography>
             }
-            sx={{ width: "100%", ":read-only": "true" }}
+            sx={{ width: "100%", ":readOnly": "true" }}
             value={""}
           ></TextField>
           <TextField
@@ -231,7 +231,7 @@ export const Validador = ({ id }: { id: string }) => {
                 Serie Respondedor
               </Typography>
             }
-            sx={{ width: "100%", ":read-only": "true" }}
+            sx={{ width: "100%", ":readOnly": "true" }}
             value={""}
           ></TextField>
           <TextField
@@ -246,7 +246,7 @@ export const Validador = ({ id }: { id: string }) => {
                 Respondedor
               </Typography>
             }
-            sx={{ width: "100%", ":read-only": "true" }}
+            sx={{ width: "100%", ":readOnly": "true" }}
             value={""}
           ></TextField>
           <TextField
@@ -261,7 +261,7 @@ export const Validador = ({ id }: { id: string }) => {
                 Emisor
               </Typography>
             }
-            sx={{ width: "100%", ":read-only": "true" }}
+            sx={{ width: "100%", ":readOnly": "true" }}
             value={""}
           ></TextField>
         </Box>

@@ -1,0 +1,5 @@
+{
+  "typescript.tsserver.excludeDirectories": [
+    "node_modules/html2canvas"
+  ]
+}
